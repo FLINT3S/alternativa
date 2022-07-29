@@ -29,6 +29,6 @@ obj
 **/bin/x64/Debug/netcoreapp3.1/pt-BR/
 **/bin/x64/Debug/netcoreapp3.1/pl/
 **/bin/x64/Debug/netcoreapp3.1/ko/
-**/bin/x64/Debug/netcoreapp3.1/resourceManager.pdb
-**/bin/x64/Debug/netcoreapp3.1/resourceManager.deps.json
 **/bin/x64/Debug/netcoreapp3.1/xxHash.dll
+**/bin/x64/Debug/netcoreapp3.1/**.pdb
+**/bin/x64/Debug/netcoreapp3.1/**.deps.json

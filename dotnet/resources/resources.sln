@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testResource", "testResource\testResource.csproj", "{D641A7B8-B262-4B0A-BB32-44B65BC0298F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "newResource", "newResource\newResource.csproj", "{A3EDC06B-83B8-41BB-98B3-8D402D52A42D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3EDC06B-83B8-41BB-98B3-8D402D52A42D}.Debug|x64.ActiveCfg = Debug|x64
+		{A3EDC06B-83B8-41BB-98B3-8D402D52A42D}.Debug|x64.Build.0 = Debug|x64
+		{D641A7B8-B262-4B0A-BB32-44B65BC0298F}.Debug|x64.ActiveCfg = Debug|x64
+		{D641A7B8-B262-4B0A-BB32-44B65BC0298F}.Debug|x64.Build.0 = Debug|x64
+	EndGlobalSection
+EndGlobal
