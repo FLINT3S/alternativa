@@ -1,4 +1,4 @@
 ﻿<meta>
     <info name="testResource" type="script"/>
-    <script src="newResource/bin/x64/Debug/netcoreapp3.1/testResource.dll"/>
+    <script src="bin/x64/Debug/netcoreapp3.1/testResource.dll"/>
 </meta>

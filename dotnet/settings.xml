@@ -5,4 +5,5 @@
   <log_chat>true</log_chat>
   <resource src="newResource"/>
   <resource src="testResource"/>
+  <resource src="myResource"/>
 </config>
