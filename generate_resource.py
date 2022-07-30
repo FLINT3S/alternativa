@@ -1,4 +1,5 @@
 import os
+import xml
 
 import xml.etree.ElementTree as ET
 
@@ -53,7 +54,12 @@ with open(f"resources/{resource_name}/meta.xml", "w+") as f:
 tree = ET.parse("dotnet/settings.xml")
 root = tree.getroot()
 
-resource = root.find("resource")
+try:
+    root.remove(root.find("resource"))
+except Exception as e:
+    print(e)
+resource = ET.Element("resource")
 resource.set("src", resource_name)
+root.append(resource)
 
 tree.write("dotnet/settings.xml")
