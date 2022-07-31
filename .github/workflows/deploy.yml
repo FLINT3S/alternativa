@@ -21,6 +21,4 @@ jobs:
             cd ${{secrets.ROOT_PATH}}/dotnet/resources &&
             dotnet build &&
             cd ${{secrets.ROOT_PATH}}/dotnet/resources/Database &&
-            /root/.dotnet/tools/dotnet-ef database update &&
-            cd ${{secrets.ROOT_PATH}} &&
-            ./restart-server.sh
+            /root/.dotnet/tools/dotnet-ef database update
