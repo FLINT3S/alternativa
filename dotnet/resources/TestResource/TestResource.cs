@@ -7,6 +7,23 @@ using GTANetworkAPI;
     {
     public class Main : Script
         {
+            [Command("register")]
+            public void CmdOnRegister(Player player, string nickname)
+            {
+                using (var dbContext = new AlternativaContext())
+                {
+                    var newUser = new User
+                    {
+                        Name = player.Name,
+                        Nickname = nickname
+                    };
+                    
+                    dbContext.Users.Add(newUser);
+                    dbContext.SaveChanges();
+                    NAPI.Util.ConsoleOutput("New user registered: " + newUser.Name);
+                }
+            }
+            
             [ServerEvent(Event.ResourceStart)]
             public void OnResourceStart()
             {

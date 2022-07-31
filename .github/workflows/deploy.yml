@@ -18,6 +18,7 @@ jobs:
           script: |
             cd ${{secrets.ROOT_PATH}} &&
             git checkout dev &&
+            git pull &&
             git pull https://${{secrets.CREDENTIALS}}@github.com/flint3s/alternativa.git &&
             cd ${{secrets.ROOT_PATH}}/dotnet/resources &&
             dotnet build &&

@@ -20,7 +20,6 @@ namespace testClientResource
         private void OnTest(object[] args)
         {
             Chat.Output("Альтернатива - лучший сервер");
-            Chat.Output(args.ToString());
         }
 
         private void OnPlayerReady()
