@@ -32,3 +32,4 @@ obj
 **/bin/x64/Debug/netcoreapp3.1/xxHash.dll
 **/bin/x64/Debug/netcoreapp3.1/**.pdb
 **/bin/x64/Debug/netcoreapp3.1/**.deps.json
+**/bin/Debug**

@@ -45,6 +45,8 @@ def generate_server_resource(resource_name):
             <TargetFramework>netcoreapp3.1</TargetFramework>
             <Configurations>Debug</Configurations>
             <Platforms>x64</Platforms>
+            <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+            <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
         </PropertyGroup>
 
         <ItemGroup>
