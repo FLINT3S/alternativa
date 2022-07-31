@@ -7,7 +7,7 @@ namespace Database
 {
     public class AlternativaContext : DbContext
     {
-        private string _connectionString = "Host=127.0.0.1;Port=5432;Database=alt;Uid=postgres;Password=1804;";
+        private string _connectionString = "Host=85.193.89.172;Port=5432;Database=alt;Uid=postgres;Password=postgres;";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
