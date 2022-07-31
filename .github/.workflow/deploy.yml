@@ -2,10 +2,10 @@
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ "dev" ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,6 +17,8 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             git pull https://${{secrets.CREDENTIALS}}@github.com/flint3s/alternativa.git &&
+            cd ${{secrets.ROOT_PATH}} &&
+            dotnet build &&
             cd ${{secrets.ROOT_PATH}}/dotnet/resources/Database &&
             /root/.dotnet/tools/dotnet-ef database update &&
             pm2 restart alternativa
