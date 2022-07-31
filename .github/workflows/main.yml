@@ -1,0 +1,24 @@
+name: Alternativa CI depliy to test server
+
+on:
+  push:
+    branches: [ "dev", "master" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            git pull https://${{secrets.CREDENTIALS}}@github.com/flint3s/alternativa.git &&
+            cd ${{secrets.ROOT_PATH}} &&
+            dotnet build &&
+            cd ${{secrets.ROOT_PATH}}/dotnet/resources/Database &&
+            /root/.dotnet/tools/dotnet-ef database update &&
+            pm2 restart alternativa
