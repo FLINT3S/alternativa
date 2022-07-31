@@ -22,4 +22,4 @@ jobs:
             dotnet build &&
             cd ${{secrets.ROOT_PATH}}/dotnet/resources/Database &&
             /root/.dotnet/tools/dotnet-ef database update &&
-            pm2 restart alternativa
+            /root/.nvm/versions/node/v16.15.1/lib/node_modules/pm2/bin/pm2 restart alternativa
