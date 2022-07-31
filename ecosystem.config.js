@@ -2,9 +2,10 @@
     apps: [{
         script: "./ragemp-server",
         name: "alternativa",
-        watch: ["dotnet", "client_packages"],
-        watch_delay: 10000,
-        ignore_watch : ["node_modules", "client/img"],
-        max_memory_restart: '500M'
+        watch: true,
+        watch_delay: 5000,
+        max_memory_restart: '500M',
+        max_restarts: 100,
+        cwd: "/var/www/alternativa/"
     }]
 }
