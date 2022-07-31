@@ -20,7 +20,7 @@ using GTANetworkAPI;
                     
                     dbContext.Users.Add(newUser);
                     dbContext.SaveChanges();
-                    NAPI.Util.ConsoleOutput("New user registered: " + newUser.Name + " with nickname: " + newUser.Nickname);
+                    NAPI.Util.ConsoleOutput("New user registered: " + newUser.Name + " with this nickname: " + newUser.Nickname);
                 }
             }
             
