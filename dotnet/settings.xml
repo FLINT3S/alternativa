@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <acl_enabled>false</acl_enabled>
-  <log_console>true</log_console>
-  <log_chat>true</log_chat>
-  <resource src="newResource"/>
-  <resource src="testResource"/>
-  <resource src="myResource"/>
-</config>
+<config>
+    <acl_enabled>false</acl_enabled>
+    <log_console>true</log_console>
+    <log_chat>true</log_chat>
+    <resource src="newResource" />
+    <resource src="myResource" />
+    <resource src="databaseService" />
+    <resource src="testResource" />
+<resource src="database" /><resource src="Database" /><resource src="TestResource" /></config>

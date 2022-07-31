@@ -1,21 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "testResource", "testResource\testResource.csproj", "{D641A7B8-B262-4B0A-BB32-44B65BC0298F}"
+Project("{C904A3D1-27FE-4003-B111-1FC35ADFA0B4}") = "Database", "Database\Database.csproj", "{1310152D-B071-466A-AD3A-B1A636AD64C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "newResource", "newResource\newResource.csproj", "{A3EDC06B-83B8-41BB-98B3-8D402D52A42D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myResource", "myResource\myResource.csproj", "{C44E4373-A649-4767-BF4F-A52771BF66D6}"
+Project("{13F51BCA-6206-4B31-B848-8939C87D1580}") = "TestResource", "TestResource\TestResource.csproj", "{21272F12-8AB8-4053-BBA7-04306973CD99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A3EDC06B-83B8-41BB-98B3-8D402D52A42D}.Debug|x64.ActiveCfg = Debug|x64
-		{A3EDC06B-83B8-41BB-98B3-8D402D52A42D}.Debug|x64.Build.0 = Debug|x64
-		{D641A7B8-B262-4B0A-BB32-44B65BC0298F}.Debug|x64.ActiveCfg = Debug|x64
-		{D641A7B8-B262-4B0A-BB32-44B65BC0298F}.Debug|x64.Build.0 = Debug|x64
-		{C44E4373-A649-4767-BF4F-A52771BF66D6}.Debug|x64.ActiveCfg = Debug|x64
-		{C44E4373-A649-4767-BF4F-A52771BF66D6}.Debug|x64.Build.0 = Debug|x64
+					{1310152D-B071-466A-AD3A-B1A636AD64C7}.Debug|x64.ActiveCfg = Debug|x64
+								{1310152D-B071-466A-AD3A-B1A636AD64C7}.Debug|x64.Build.0 = Debug|x64
+		{1310152D-B071-466A-AD3A-B1A636AD64C7}.Release|x64.ActiveCfg = Release|x64
+		{1310152D-B071-466A-AD3A-B1A636AD64C7}.Release|x64.Build.0 = Release|x64
+					{21272F12-8AB8-4053-BBA7-04306973CD99}.Debug|x64.ActiveCfg = Debug|x64
+								{21272F12-8AB8-4053-BBA7-04306973CD99}.Debug|x64.Build.0 = Debug|x64
+		{21272F12-8AB8-4053-BBA7-04306973CD99}.Release|x64.ActiveCfg = Release|x64
+		{21272F12-8AB8-4053-BBA7-04306973CD99}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 EndGlobal

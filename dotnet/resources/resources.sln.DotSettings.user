@@ -1,5 +1,13 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProjects_005Calternativa_005Cdotnet_005Cresources_005CdatabaseService_005CDependencies_005CMicrosoft_002EEntityFrameworkCore_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProjects_005Calternativa_005Cdotnet_005Cresources_005CdatabaseService_005CDependencies_005CNewtonsoft_002EJson_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProjects_005Calternativa_005Cdotnet_005Cresources_005CdatabaseService_005CDependencies_005CNpgsql_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProjects_005Calternativa_005Cdotnet_005Cresources_005CdatabaseService_005CDependencies_005CNpgsql_002EEntityFrameworkCore_002EPostgreSQL_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProjects_005Calternativa_005Cdotnet_005Cruntime_005CBootstrapper_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProjects_005Calternativa_005Cdotnet_005Cruntime_005CSystem_002EDiagnostics_002EDiagnosticSource_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Projects\alternativa\dotnet\runtime\Bootstrapper.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\mongodb.driver\2.17.1\lib\netstandard2.1\MongoDB.Driver.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\npgsql.entityframeworkcore.postgresql\5.0.10\lib\netstandard2.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\microsoft.entityframeworkcore\5.0.17\lib\netstandard2.1\Microsoft.EntityFrameworkCore.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
