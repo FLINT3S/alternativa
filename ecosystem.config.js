@@ -9,5 +9,6 @@
         cwd: "/var/www/alternativa/",
         error_file: "/var/www/alternativa/logs/error.log",
         out_file: "/var/www/alternativa/logs/out.log",
+        cron_restart: '0 */5 * * *'
     }]
 }
