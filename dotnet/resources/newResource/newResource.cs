@@ -2,7 +2,7 @@
 
 namespace newResource
 {
-    public class Main
+    public class Main: Script
     {
         [Command("newres")]
         public static void CmdNewRes(Player player)
