@@ -16,6 +16,12 @@ using GTANetworkAPI;
                     NAPI.Util.ConsoleOutput("Total players in the database: " + playerCount);
                 }
             }
+
+            [Command("spawncar")]
+            public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
+            {
+                NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
+            }
             
             [ServerEvent(Event.PlayerConnected)]
             public void OnPlayerConnected(Player player)
