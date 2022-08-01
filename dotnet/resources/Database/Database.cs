@@ -12,6 +12,7 @@ using GTANetworkAPI;
             {
                 OnRegisterAccount(player, username, password);
                 NAPI.Chat.SendChatMessageToPlayer(player, "~g~Registration successful!");
+                NAPI.Util.ConsoleOutput("New user registered: " + newUser.Name + " with this nickname: " + newUser.Nickname);
             }
 
             private void OnRegisterAccount(Player player, string username, string password)
