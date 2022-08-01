@@ -20,3 +20,7 @@ jobs:
             git checkout dev &&
             git pull &&
             git pull https://${{secrets.CREDENTIALS}}@github.com/flint3s/alternativa.git
+            cd ${{secrets.ROOT_PATH}}/dotnet/resources &&
+            dotnet build &&
+            cd ${{secrets.ROOT_PATH}}/dotnet/resources/Database &&
+            /root/.dotnet/tools/dotnet-ef database update
