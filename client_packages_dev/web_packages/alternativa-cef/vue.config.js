@@ -1,3 +1,6 @@
+const path = require("path");
+
+
 module.exports = {
     publicPath: process.env.NODE_ENV === "production" ? "./" : "/",
     pages: {
@@ -14,4 +17,5 @@ module.exports = {
             template: "public/index.html"
         }
     },
+    outputDir: path.resolve(__dirname, "..", "..", "..", "client_packages", "web_packages"),
 }
