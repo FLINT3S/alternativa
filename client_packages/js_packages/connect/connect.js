@@ -1,0 +1,1 @@
+mp.events.add("CEF:CLIENT:Global:Echo",((...a)=>{console.log("CEF:CLIENT:Global:Echo",...a),mp.gui.chat.push("CEF:CLIENT:Global:Echo")})),mp.events.add("playerJoin",(a=>{mp.gui.chat.push(`${a.name} has joined the server!`)})),mp.events.add("playerCommand",(a=>{mp.gui.chat.push(`${a}`)}));
