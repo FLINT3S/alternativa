@@ -1,67 +1,17 @@
 import {AltEventType} from "@/connect/events/altEventType";
-import {altDefaultEventRegexp, altRPCEventRegexp} from "@/connect/events/utils/regExps";
 import {altLog} from "@/connect/logs/altLogger";
+import {EventString} from "@/connect/events/eventString";
 
 export class AltEvent {
-  eventString: string
-  name: string
-  isRPC: boolean
-  from: string
-  to: string
-  module: string
+  eventString: EventString
   type: AltEventType
-  data: any
+  data?: object
 
 
-  /**
-   * [eventString, ...data]
-   * [RPCEventString, ...data]
-   * [eventName, eventModule, isRPC, eventType, ...data]
-   * */
-  constructor(...args: [string, ...any] | [string, string, AltEventType, boolean, ...any] | [string, string, AltEventType, ...any]) {
-    const _processReceivedEvent = () => {
-      this.eventString = args[0]
-      this.name = this.eventString.split(":")[2]
-      this.module = this.eventString.split(":")[1]
-      this.type = AltEventType.RECEIVE
-      this.data = args.slice(1)
-    }
-
-    if (args[0].match(altRPCEventRegexp)) {
-      this.isRPC = true
-      _processReceivedEvent()
-    } else if (args[0].match(altDefaultEventRegexp)) {
-      this.isRPC = false
-      _processReceivedEvent()
-    } else {
-      this.name = args[0]
-      this.from = "CEF"
-      this.to = "SERVER"
-      if (typeof args[1] === "string") this.module = args[1]
-      else this.module = "Global"
-
-      if (typeof args[2] === "number") this.type = args[2]
-      else throw new Error("Event type is not defined")
-
-      if (typeof args[3] === "boolean") {
-        this.isRPC = args[3]
-        this.data = args.slice(4)
-      } else {
-        this.isRPC = false
-        this.data = args.slice(3)
-      }
-
-      if (this.type === AltEventType.REGISTER_LISTENER) {
-        this.eventString = `[REGISTERED] CLIENT:CEF:${this.module}:${this.name}`
-      } else {
-        this.eventString = ""
-        if (this.isRPC) {
-          this.eventString += "RPC::"
-        }
-
-        this.eventString += `${this.from}:${this.to}:${this.module}:${this.name}`
-      }
-    }
+  constructor(eventString: EventString, type: AltEventType, data?: object) {
+    this.eventString = eventString
+    this.type = type
+    this.data = data
 
     altLog.event(this)
   }

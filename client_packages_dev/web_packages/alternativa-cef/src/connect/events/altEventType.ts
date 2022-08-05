@@ -1,8 +1,19 @@
+import {AltEvent} from "@/connect/events/altEvent";
+
 export enum AltEventType {
-  RECEIVE,
+  RECEIVED,
   SEND,
+  // Зарегистрирован слушатель обычных событий
+  REGISTER_LISTENER,
+  UNREGISTER_LISTENER,
+}
+
+export type AltEventCallback = (data: object) => void
+
+export enum AltRPCEventType {
+  RECEIVED,
+  // Вызвана сервкерная процедура
   CALL_SERVER,
-  CALL_SERVER_RESULT,
   // Зарегистрирован слушатель обычных событий
   REGISTER_LISTENER,
   UNREGISTER_LISTENER,

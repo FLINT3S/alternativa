@@ -1,5 +1,6 @@
 import {AltEvent} from "@/connect/events/altEvent";
-import {AltEventType} from "@/connect/events/altEventType";
+import {AltEventType, AltRPCEventType} from "@/connect/events/altEventType";
+import {AltRPCEvent} from "@/connect/events/rpc/altRPCEvent";
 
 export class altLog {
   static set logLevel(logLevel: string) {
@@ -46,21 +47,36 @@ export class altLog {
     console.error(...data)
   }
 
+  static universalEvent<T>(event: AltEvent | AltRPCEvent) {
+    console.groupCollapsed("Event string:", event.eventString.eventString)
+    console.log("Module:", event.eventString.module)
+    console.log("Name:", event.eventString.name)
+    console.log("From:", event.eventString.from)
+    console.log("To:", event.eventString.to)
+    if (event instanceof AltEvent) {
+      console.log("Type:", AltEventType[event.type])
+    } else {
+      console.log("Type:", AltRPCEventType[event.type])
+    }
+    console.groupEnd()
+
+    console.log(event.data)
+    console.groupEnd()
+  }
+
   static event(event: AltEvent) {
     if (altLog.logLevel === "event" || altLog.logLevel === "info") {
-      console.group(`${event.module}:${event.name}`, `(${AltEventType[event.type]})`)
+      console.groupCollapsed(`[EV ${AltEventType[event.type]}] ${event.eventString.module}:${event.eventString.name}`)
 
-      console.groupCollapsed("Event string:", event.eventString)
-      console.log("RPC:", event.isRPC)
-      console.log("Module:", event.module)
-      console.log("Name:", event.name)
-      console.log("From:", event.from)
-      console.log("To:", event.to)
-      console.log("Type:", event.type)
-      console.groupEnd()
+      altLog.universalEvent<AltEvent>(event)
+    }
+  }
 
-      console.log(...event.data)
-      console.groupEnd()
+  static rpcEvent(event: AltRPCEvent) {
+    if (altLog.logLevel === "event" || altLog.logLevel === "info") {
+      console.groupCollapsed(`[RPC ${AltRPCEventType[event.type]}] ${event.eventString.module}:${event.eventString.name}`)
+
+      altLog.universalEvent<AltRPCEvent>(event)
     }
   }
 }

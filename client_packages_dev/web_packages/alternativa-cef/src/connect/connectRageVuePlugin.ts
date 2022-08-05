@@ -1,13 +1,11 @@
 import {altMP} from "@/connect/events/altMP";
 import {App} from "vue";
-import {altRPC} from "@/connect/events/altRPC";
 import {altLog} from "@/connect/logs/altLogger";
+import {altRPC} from "@/connect/events/rpc/altRPC";
 
 export const connectRage = {
   install(app: App, options: {moduleName: string, moduleVersion: string}) {
     let altEnv: string;
-    // @ts-ignore
-    console.log(mp)
     // @ts-ignore
     if (mp?.isFake) {
       altEnv = "node"
