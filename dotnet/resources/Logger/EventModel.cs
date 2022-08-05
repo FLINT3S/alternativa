@@ -14,7 +14,7 @@ public abstract class EventModel
 
     private string Module { get; }
 
-    protected virtual string EventInstance => GetType().FullName!;
+    private string EventInstance => GetType().FullName!;
 
     private string EventName { get; }
 
