@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Database;
 using Database.Models;
@@ -20,7 +21,11 @@ using GTANetworkAPI;
             [Command("spawncar")]
             public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
             {
-                NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
+                NAPI.Util.ConsoleOutput(player.Heading.ToString());
+                double SpawnX = player.Position.X + 3 * Math.Sin(player.Heading);
+                double SpawnY = player.Position.Y + 3 * Math.Cos(player.Heading);
+                Vector3 spawnPos = new Vector3(SpawnX, SpawnY, player.Position.Z + 2);
+                NAPI.Vehicle.CreateVehicle(vehicleId, spawnPos, player.Heading, 131, 131);
             }
             
             [ServerEvent(Event.PlayerConnected)]
