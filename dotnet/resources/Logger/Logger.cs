@@ -1,5 +1,9 @@
 ﻿namespace Logger;
 
+/*
+ * Wiki: https://www.notion.so/Logger-736d00518e2f4599997fdfa501310ec9
+ */
+
 public abstract class Logger
 {
     public abstract Task Log(LogLevel level, EventModel serverEvent);
