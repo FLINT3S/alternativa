@@ -17,8 +17,14 @@ module.exports = {
     resolve: {
         extensions: [".ts"]
     },
+    experiments: {
+        cacheUnaffected: false,
+    },
+    watchOptions: {
+        ignored: "**/node_modules"
+    },
     output: {
         filename: "[name]/[name].js",
-        path: path.resolve(__dirname, "..", "client_packages", "js_packages"),
+        path: path.resolve(__dirname, "..", "..", "client_packages", "js_packages"),
     }
 };

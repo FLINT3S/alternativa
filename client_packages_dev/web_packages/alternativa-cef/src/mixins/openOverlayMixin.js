@@ -7,12 +7,12 @@ export const openOverlayMixin = {
     };
   },
   methods: {
-    onOpenOverlay: function () {
-      console.log("Open overlay")
+    onOpenOverlay: function (data) {
+      console.log("Open overlay", data)
     }
   },
   created() {
-    this.$altMp.on("openOverlay", this.onOpenOverlay);
+    this.$altMp.on("onOpenOverlay", this.onOpenOverlay);
     console.log("openOverlayMixin created");
   }
 }

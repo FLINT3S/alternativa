@@ -9,7 +9,7 @@ export class altLog {
 
   static get logLevel(): string {
     // @ts-ignore
-    return window.altLogLevelGlobal || process.env.NODE_ENV === "development" ? "info" : "warning"
+    return window.altLogLevelGlobal || process.env.VUE_APP_ALT_LOG_LEVEL || process.env.NODE_ENV === "development" ? "info" : "warning"
   }
 
   /**
@@ -48,12 +48,14 @@ export class altLog {
 
   static event(event: AltEvent) {
     if (altLog.logLevel === "event" || altLog.logLevel === "info") {
-      console.group(event.name, `(${AltEventType[event.type]})`)
+      console.group(`${event.module}:${event.name}`, `(${AltEventType[event.type]})`)
 
-      console.group("Event string:", event.eventString)
+      console.groupCollapsed("Event string:", event.eventString)
+      console.log("RPC:", event.isRPC)
+      console.log("Module:", event.module)
+      console.log("Name:", event.name)
       console.log("From:", event.from)
       console.log("To:", event.to)
-      console.log("Module:", event.module)
       console.log("Type:", event.type)
       console.groupEnd()
 

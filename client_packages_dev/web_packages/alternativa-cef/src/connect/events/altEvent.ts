@@ -50,6 +50,17 @@ export class AltEvent {
         this.isRPC = false
         this.data = args.slice(3)
       }
+
+      if (this.type === AltEventType.REGISTER_LISTENER) {
+        this.eventString = `[REGISTERED] CLIENT:CEF:${this.module}:${this.name}`
+      } else {
+        this.eventString = ""
+        if (this.isRPC) {
+          this.eventString += "RPC::"
+        }
+
+        this.eventString += `${this.from}:${this.to}:${this.module}:${this.name}`
+      }
     }
 
     altLog.event(this)

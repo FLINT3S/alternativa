@@ -3,6 +3,7 @@
 	"name" : "Alternativa", 
 	"gamemode" : "freeroam", 
 	"stream-distance" : 500.0,
+	"allow-cef-debugging": true,
 	"announce" : false,
 	"csharp" : "enabled",
 	"port": 22005

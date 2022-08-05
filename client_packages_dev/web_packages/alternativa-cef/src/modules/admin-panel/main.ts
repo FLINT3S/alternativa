@@ -7,7 +7,7 @@ import "@/assets/style/bootstrap-reboot.min.css"
 import {connectRage} from "@/connect/connectRageVuePlugin";
 
 
-const moduleName = "SettingsPanel"
+const moduleName = "AltAdminPanel"
 const moduleVersion = "0.0.1"
 
 createApp(App).use(connectRage, {moduleName, moduleVersion}).use(store).use(router).mount('#app')

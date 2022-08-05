@@ -1,6 +1,7 @@
 <template>
   <main class="d-flex">
-    AdminPanel
+    AdminPanel123
+    <span class="material-icons-round" @click="check">account_circle</span>
     <router-view/>
   </main>
 </template>
@@ -18,6 +19,11 @@ export default defineComponent({
       isOpened: false
     };
   },
+  methods: {
+    check() {
+      window.altMP.call("CLIENT:CEF:AltAdminPanel:onOpenOverlay", {a: 213})
+    }
+  }
 });
 </script>
 
