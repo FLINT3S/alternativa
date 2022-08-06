@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Logger.EventModels;
 
 /*
@@ -10,6 +11,9 @@ namespace Logger
 {
     public abstract class AltLogger
     {
+        protected static string GetLogString(LogLevel level, AltAbstractEvent serverAltAbstractEvent) =>
+            $"{level.ToString().ToUpper()} [{DateTime.Now:dd.MM.yyyy HH:mm:ss}] {serverAltAbstractEvent}";
+        
         public abstract Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent);
 
         public async Task LogInfo(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Info, serverAltAbstractEvent);

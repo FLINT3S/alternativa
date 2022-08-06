@@ -10,7 +10,7 @@ namespace Logger
         public override async Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent)
         {
             await using var outputFile = new StreamWriter(serverAltAbstractEvent.Destination, true);
-            await outputFile.WriteLineAsync($"{level.ToString().ToUpper()} [{DateTime.Now}]{serverAltAbstractEvent.ToString()}");
+            await outputFile.WriteLineAsync(GetLogString(level, serverAltAbstractEvent));
         }
     }
 }

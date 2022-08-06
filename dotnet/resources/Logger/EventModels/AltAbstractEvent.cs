@@ -20,6 +20,6 @@
 
         private string EventDescription { get; }
 
-        public override string ToString() => $"{EventInstance}: {Module} > {EventName} - {EventDescription}";
+        public override string ToString() => $"<{EventInstance}>: {Module} > {EventName} - {EventDescription}";
     }
 }
