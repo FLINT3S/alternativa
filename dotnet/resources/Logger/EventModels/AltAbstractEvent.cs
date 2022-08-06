@@ -2,10 +2,10 @@
 {
     public abstract class AltAbstractEvent
     {
-        protected AltAbstractEvent(string destination, string module, string eventName, string eventDescription)
+        protected AltAbstractEvent(string destination, object module, string eventName, string eventDescription)
         {
             Destination = destination;
-            Module = module;
+            Module = module.GetType().FullName;
             EventName = eventName;
             EventDescription = eventDescription;
         }
@@ -14,7 +14,7 @@
 
         private string Module { get; }
 
-        private string EventInstance => GetType().FullName!;
+        private string EventInstance => GetType().Name!;
 
         private string EventName { get; }
 
