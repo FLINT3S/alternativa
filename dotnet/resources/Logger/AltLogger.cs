@@ -19,5 +19,7 @@ namespace Logger
         public async Task LogWarning(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Warning, serverAltAbstractEvent);
 
         public async Task LogCritical(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Critical, serverAltAbstractEvent);
+
+        public async Task LogEvent(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Event, serverAltAbstractEvent);
     }
 }

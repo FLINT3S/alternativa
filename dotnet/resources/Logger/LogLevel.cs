@@ -5,6 +5,7 @@
         Info,
         Development,
         Warning,
-        Critical
+        Critical,
+        Event
     }
 }
