@@ -18,3 +18,4 @@ restart-server.sh
 .listcache
 logs
 yarn.lock
+yarn-error.log
