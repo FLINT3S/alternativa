@@ -1,16 +1,18 @@
 ﻿using System;
 using Database.Models;
+using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Player = GTANetworkAPI.Player;
 
 namespace Database
 {
     public class AlternativaContext : DbContext
     {
-        private string _connectionString = "Host=85.193.89.172;Port=5432;Database=alt;Uid=postgres;Password=postgres;";
-
+        private string _connectionString = new DatabaseConfig().ConnectionString;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            NAPI.Util.ConsoleOutput(_connectionString);
             optionsBuilder.UseNpgsql(_connectionString);
         }
 

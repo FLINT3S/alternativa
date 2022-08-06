@@ -16,3 +16,5 @@ linux-files
 ragemp-server
 restart-server.sh
 .listcache
+logs
+yarn.lock
