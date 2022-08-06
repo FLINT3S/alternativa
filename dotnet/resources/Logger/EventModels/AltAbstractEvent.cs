@@ -1,8 +1,8 @@
-﻿namespace Logger
+﻿namespace Logger.EventModels
 {
-    public abstract class EventModel
+    public abstract class AltAbstractEvent
     {
-        protected EventModel(string destination, string module, string eventName, string eventDescription)
+        protected AltAbstractEvent(string destination, string module, string eventName, string eventDescription)
         {
             Destination = destination;
             Module = module;
