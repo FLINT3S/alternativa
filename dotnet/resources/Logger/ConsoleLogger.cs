@@ -1,7 +1,12 @@
-﻿namespace Logger;
+﻿using System;
+using System.Threading.Tasks;
 
-public class ConsoleLogger : Logger
+namespace Logger
 {
-    public override Task Log(LogLevel level, EventModel serverEvent) => 
-        Task.Factory.StartNew(() => Console.WriteLine($"{level.ToString().ToUpper()} [{DateTime.Now}]{serverEvent.ToString()}"));
+    public class ConsoleLogger : Logger
+    {
+        public override Task Log(LogLevel level, EventModel serverEvent) =>
+            Task.Factory.StartNew(() =>
+                Console.WriteLine($"{level.ToString().ToUpper()} [{DateTime.Now}]{serverEvent.ToString()}"));
+    }
 }

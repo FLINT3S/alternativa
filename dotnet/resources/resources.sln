@@ -4,7 +4,7 @@ Project("{C904A3D1-27FE-4003-B111-1FC35ADFA0B4}") = "Database", "Database\Databa
 EndProject
 Project("{13F51BCA-6206-4B31-B848-8939C87D1580}") = "TestResource", "TestResource\TestResource.csproj", "{21272F12-8AB8-4053-BBA7-04306973CD99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{0692278B-927E-41A0-A1E7-CDE7CDA3E36E}"
+Project("{53DF7AB9-C0A5-4971-9E6B-F5E5457B72E1}") = "Logger", "Logger\Logger.csproj", "{19231D48-AC98-4F94-9370-31D4E2EEB9A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,7 +15,7 @@ Global
 								{1310152D-B071-466A-AD3A-B1A636AD64C7}.Debug|x64.Build.0 = Debug|x64
 					{21272F12-8AB8-4053-BBA7-04306973CD99}.Debug|x64.ActiveCfg = Debug|x64
 								{21272F12-8AB8-4053-BBA7-04306973CD99}.Debug|x64.Build.0 = Debug|x64
-		{0692278B-927E-41A0-A1E7-CDE7CDA3E36E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0692278B-927E-41A0-A1E7-CDE7CDA3E36E}.Debug|x64.Build.0 = Debug|Any CPU
+					{19231D48-AC98-4F94-9370-31D4E2EEB9A5}.Debug|x64.ActiveCfg = Debug|x64
+								{19231D48-AC98-4F94-9370-31D4E2EEB9A5}.Debug|x64.Build.0 = Debug|x64
 	EndGlobalSection
 EndGlobal

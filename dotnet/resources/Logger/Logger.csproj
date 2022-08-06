@@ -1,9 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Configurations>Debug</Configurations>
+        <Platforms>x64</Platforms>
+        <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+        <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
-</Project>
+    <ItemGroup>
+        <Reference Include="Bootstrapper">
+            <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+</Project>    
+    
