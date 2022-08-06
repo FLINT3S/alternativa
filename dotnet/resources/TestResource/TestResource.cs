@@ -7,7 +7,7 @@ using Logger.EventModels;
 
 namespace TestResource
     {
-    public class Main : Script
+    public class TestResource : Script
         {            
             [ServerEvent(Event.ResourceStart)]
             public void OnResourceStart()
@@ -22,7 +22,7 @@ namespace TestResource
             [Command("spawncar")]
             public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
             {
-                AltPlayerEvent pev = new AltPlayerEvent(player.Name, GetType().Name, "OnSpawnCar", "");
+                AltPlayerEvent pev = new AltPlayerEvent(player.Name, this, "OnSpawnCar", "Sapawned car 123");
                 AltFileLogger altLogger = new AltFileLogger();
                 altLogger.Log(LogLevel.Info, pev);
                 NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
