@@ -23,8 +23,8 @@ namespace TestResource
             public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
             {
                 AltPlayerEvent pev = new AltPlayerEvent(player.Name, this, "OnSpawnCar", "Sapawned car 123");
-                AltFileLogger altLogger = new AltFileLogger();
-                altLogger.Log(LogLevel.Info, pev);
+                AltFileLogger altAbstractLogger = new AltFileLogger();
+                altAbstractLogger.Log(LogLevel.Info, pev);
                 NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
             }
             

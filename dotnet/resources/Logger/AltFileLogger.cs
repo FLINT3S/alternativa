@@ -5,7 +5,7 @@ using Logger.EventModels;
 
 namespace Logger
 {
-    public class AltFileLogger : AltLogger
+    internal class AltFileLogger : AltAbstractLogger
     {
         public override async Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent)
         {

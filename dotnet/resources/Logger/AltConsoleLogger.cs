@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Logger.EventModels;
 
-namespace Logger.Loggers
+namespace Logger
 {
-    public class AltConsoleLogger : AltLogger
+    internal class AltConsoleLogger : AltAbstractLogger
     {
         public override Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent) =>
             Task.Factory.StartNew(() =>

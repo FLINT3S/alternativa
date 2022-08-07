@@ -1,29 +1,54 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Logger.EventModels;
-
-/*
- * Wiki: https://www.notion.so/Logger-736d00518e2f4599997fdfa501310ec9
- */
-
 
 namespace Logger
 {
-    public abstract class AltLogger
+    public class AltLogger
     {
-        protected static string GetLogString(LogLevel level, AltAbstractEvent serverAltAbstractEvent) =>
-            $"{level.ToString().ToUpper()} [{DateTime.Now:dd.MM.yyyy HH:mm:ss}] {serverAltAbstractEvent}";
-        
-        public abstract Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent);
+        private static AltLogger _instance = null!;
 
-        public async Task LogInfo(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Info, serverAltAbstractEvent);
+        private readonly AltFileLogger fileLogger;
 
-        public async Task LogDevelopment(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Development, serverAltAbstractEvent);
+        private readonly AltConsoleLogger consoleLogger;
 
-        public async Task LogWarning(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Warning, serverAltAbstractEvent);
+        public static AltLogger Instance
+        {
+            get {
+                _instance ??= new AltLogger();
+                return _instance;
+            }
+        }
 
-        public async Task LogCritical(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Critical, serverAltAbstractEvent);
+        private AltLogger()
+        {
+            fileLogger = new AltFileLogger();
+            consoleLogger = new AltConsoleLogger();
+        }
 
-        public async Task LogEvent(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Event, serverAltAbstractEvent);
+        public async Task LogInfo(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.Log(LogLevel.Info, serverAltAbstractEvent);
+        }
+
+        public async Task LogDevelopment(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.Log(LogLevel.Development, serverAltAbstractEvent);
+        }
+
+        public async Task LogWarning(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.Log(LogLevel.Warning, serverAltAbstractEvent);
+            await consoleLogger.Log(LogLevel.Warning, serverAltAbstractEvent);
+        }
+
+        public async Task LogCritical(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.Log(LogLevel.Critical, serverAltAbstractEvent);
+            await consoleLogger.Log(LogLevel.Critical, serverAltAbstractEvent);
+        }
+        public async Task LogEvent(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.Log(LogLevel.Event, serverAltAbstractEvent);
+        }
     }
 }
