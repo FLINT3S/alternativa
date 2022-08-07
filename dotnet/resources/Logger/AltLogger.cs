@@ -27,28 +27,28 @@ namespace Logger
 
         public async Task LogInfo(AltAbstractEvent serverAltAbstractEvent)
         {
-            await fileLogger.Log(LogLevel.Info, serverAltAbstractEvent);
+            await fileLogger.LogInfo(serverAltAbstractEvent);
         }
 
         public async Task LogDevelopment(AltAbstractEvent serverAltAbstractEvent)
         {
-            await fileLogger.Log(LogLevel.Development, serverAltAbstractEvent);
+            await fileLogger.LogDevelopment(serverAltAbstractEvent);
         }
 
         public async Task LogWarning(AltAbstractEvent serverAltAbstractEvent)
         {
-            await fileLogger.Log(LogLevel.Warning, serverAltAbstractEvent);
-            await consoleLogger.Log(LogLevel.Warning, serverAltAbstractEvent);
+            await fileLogger.LogWarning(serverAltAbstractEvent);
+            await consoleLogger.LogWarning(serverAltAbstractEvent);
         }
 
         public async Task LogCritical(AltAbstractEvent serverAltAbstractEvent)
         {
-            await fileLogger.Log(LogLevel.Critical, serverAltAbstractEvent);
-            await consoleLogger.Log(LogLevel.Critical, serverAltAbstractEvent);
+            await fileLogger.LogCritical(serverAltAbstractEvent);
+            await consoleLogger.LogCritical(serverAltAbstractEvent);
         }
         public async Task LogEvent(AltAbstractEvent serverAltAbstractEvent)
         {
-            await fileLogger.Log(LogLevel.Event, serverAltAbstractEvent);
+            await fileLogger.LogEvent(serverAltAbstractEvent);
         }
     }
 }
