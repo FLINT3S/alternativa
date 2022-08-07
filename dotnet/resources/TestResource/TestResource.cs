@@ -1,9 +1,12 @@
+﻿using System;
 using System.Linq;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
+using GTANetworkMethods;
 using Logger;
 using Logger.EventModels;
+using Player = GTANetworkAPI.Player;
 
 namespace TestResource
     {
@@ -22,9 +25,9 @@ namespace TestResource
             [Command("spawncar")]
             public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
             {
-                AltPlayerEvent pev = new AltPlayerEvent(player.Name, this, "OnSpawnCar", "Sapawned car 123");
-                AltFileLogger altAbstractLogger = new AltFileLogger();
-                altAbstractLogger.Log(LogLevel.Info, pev);
+                var pev = new AltPlayerEvent(player.Name, this, "OnSpawnCar", "Sapawned car 123");
+                var altAbstractLogger = AltLogger.Instance;
+                altAbstractLogger.LogInfo(pev);
                 NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
             }
             
