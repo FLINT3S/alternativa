@@ -14,13 +14,7 @@
         </ItemGroup>
 
         <ItemGroup>
-          <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
-          <ProjectReference Include="..\Database\Database.csproj" />
           <ProjectReference Include="..\Logger\Logger.csproj" />
-        </ItemGroup>
-
-        <ItemGroup>
-          <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
         </ItemGroup>
     </Project>    
     

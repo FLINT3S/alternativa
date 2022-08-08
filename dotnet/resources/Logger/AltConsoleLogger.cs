@@ -8,6 +8,7 @@ namespace Logger
     {
         public override Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent) =>
             Task.Factory.StartNew(() =>
-                Console.WriteLine(GetLogString(level, serverAltAbstractEvent)));
+                Console.WriteLine(GetLogString(level, serverAltAbstractEvent))
+            );
     }
 }

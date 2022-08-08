@@ -6,6 +6,7 @@
         Development,
         Warning,
         Critical,
-        Event
+        Event,
+        Resource
     }
 }
