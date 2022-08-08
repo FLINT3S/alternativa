@@ -11,7 +11,7 @@ namespace Logger
                 {
                     SetConsoleColor(level);
                     Console.WriteLine(GetLogString(level, serverAltAbstractEvent));
-                    SetConsoleColor(LogLevel.Info);
+                    Console.ResetColor();
                 }
             );
 
