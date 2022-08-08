@@ -12,11 +12,9 @@ namespace TestResource
         [ServerEvent(Event.ResourceStart)]
         public void OnTestResourceStart()
         {
-            using (var dbContext = new AlternativaContext())
-            {
-                var playerCount = dbContext.Users.Count();
-                NAPI.Util.ConsoleOutput("Total players in the database: " + playerCount);
-            }
+            using var dbContext = new AlternativaContext();
+            int playerCount = dbContext.Users.Count();
+            NAPI.Util.ConsoleOutput("Total players in the database: " + playerCount);
         }
 
         [Command("spawncar")]
@@ -28,21 +26,19 @@ namespace TestResource
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Player player)
         {
-            using (var dbContext = new AlternativaContext())
+            using var dbContext = new AlternativaContext();
+            var connectedUser = dbContext.Users.FirstOrDefault(u => u.Name == player.Name);
+
+            var userConnected = new UserEvent
             {
-                var connectedUser = dbContext.Users.Where(u => u.Name == player.Name).FirstOrDefault();
+                Type = UserEventType.Connected,
+                User = connectedUser
+            };
 
-                var userConnected = new UserEvent
-                {
-                    Type = UserEventType.Connected,
-                    User = connectedUser
-                };
-
-                var connectionsCount = dbContext.UserEvents.Where(ue => ue.User == connectedUser).Count();
-                NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
-                dbContext.UserEvents.Add(userConnected);
-                dbContext.SaveChanges();
-            }
+            int connectionsCount = dbContext.UserEvents.Count(ue => ue.User == connectedUser);
+            NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
+            dbContext.UserEvents.Add(userConnected);
+            dbContext.SaveChanges();
         }
     }
 }

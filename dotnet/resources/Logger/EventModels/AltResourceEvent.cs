@@ -16,23 +16,14 @@
 
         private static string GetEventDescription(ResourceEventType eventType, object module)
         {
-            string eventDescription = "";
-            var resourceName = module.GetType().Name;
-
-            switch (eventType)
+            string resourceName = module.GetType().Name;
+            return eventType switch
             {
-                case ResourceEventType.Started:
-                    eventDescription = $"Resource {resourceName} has been started";
-                    break;
-                case ResourceEventType.Shutdown:
-                    eventDescription = $"Resource {resourceName} shutdown";
-                    break;
-                case ResourceEventType.Error:
-                    eventDescription = $"Error occured in resource {resourceName}";
-                    break;
-            }
-
-            return eventDescription;
+                ResourceEventType.Started => $"Resource {resourceName} has been started",
+                ResourceEventType.Shutdown => $"Resource {resourceName} shutdown",
+                ResourceEventType.Error => $"Error occured in resource {resourceName}",
+                _ => ""
+            };;
         }
     }
 }

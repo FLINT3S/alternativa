@@ -25,14 +25,11 @@ namespace Logger
                 Console.WriteLine(GetLogString(LogLevel.Warning,
                     new AltEvent(this, "Logger", "Logger initialized, logs folders not found")));
 
-                foreach (var logPath in _logPaths)
+                foreach (string logPath in _logPaths.Where(logPath => !Directory.Exists(logPath)))
                 {
-                    if (!Directory.Exists(logPath))
-                    {
-                        Directory.CreateDirectory(logPath);
-                        Console.WriteLine(GetLogString(LogLevel.Info,
-                            new AltEvent(this, "Logger", $"Logs folder '{logPath}' created")));
-                    }
+                    Directory.CreateDirectory(logPath);
+                    Console.WriteLine(GetLogString(LogLevel.Info,
+                        new AltEvent(this, "Logger", $"Logs folder '{logPath}' created")));
                 }
 
                 Console.WriteLine(GetLogString(LogLevel.Development,
