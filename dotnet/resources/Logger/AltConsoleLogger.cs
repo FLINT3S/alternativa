@@ -15,26 +15,16 @@ namespace Logger
                 }
             );
 
-        public void SetConsoleColor(LogLevel level)
+        public static void SetConsoleColor(LogLevel level)
         {
-            switch (level)
+            Console.ForegroundColor = level switch
             {
-                case LogLevel.Critical:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-                case LogLevel.Warning:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    break;
-                case LogLevel.Development:
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    break;
-                case LogLevel.Resource:
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    break;
-                default:
-                    Console.ForegroundColor = ConsoleColor.White;
-                    break;
-            }
+                LogLevel.Critical => ConsoleColor.Red,
+                LogLevel.Warning => ConsoleColor.Yellow,
+                LogLevel.Development => ConsoleColor.Blue,
+                LogLevel.Resource => ConsoleColor.Green,
+                _ => ConsoleColor.White
+            };
         }
     }
 }
