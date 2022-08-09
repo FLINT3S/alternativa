@@ -10,4 +10,5 @@
   &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\mongodb.driver\2.17.1\lib\netstandard2.1\MongoDB.Driver.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\npgsql.entityframeworkcore.postgresql\5.0.10\lib\netstandard2.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\microsoft.entityframeworkcore\5.0.17\lib\netstandard2.1\Microsoft.EntityFrameworkCore.dll" /&gt;&#xD;
-&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Alternativa/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

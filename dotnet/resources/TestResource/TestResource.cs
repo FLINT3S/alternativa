@@ -1,52 +1,48 @@
-using System.Linq;
+﻿using System.Linq;
+using AbstractResource;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
+using Player = GTANetworkAPI.Player;
 
 namespace TestResource
+{
+    public class TestResource : AltAbstractResource
     {
-    public class Main : Script
-        {            
-            [ServerEvent(Event.ResourceStart)]
-            public void OnResourceStart()
+        [ServerEvent(Event.ResourceStart)]
+        public void OnTestResourceStart()
+        {
+            using (var dbContext = new AlternativaContext())
             {
-                using (var dbContext = new AlternativaContext())
-                {
-                    var playerCount = dbContext.Users.Count();
-                    NAPI.Util.ConsoleOutput("Total players in the database: " + playerCount);
-                }
+                var playerCount = dbContext.Users.Count();
+                NAPI.Util.ConsoleOutput("Total players in the database: " + playerCount);
             }
+        }
 
-            [Command("spawncar")]
-            public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
+        [Command("spawncar")]
+        public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
+        {
+            NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
+        }
+
+        [ServerEvent(Event.PlayerConnected)]
+        public void OnPlayerConnected(Player player)
+        {
+            using (var dbContext = new AlternativaContext())
             {
-                AltPlayerEvent pev = new AltPlayerEvent(player.Name, GetType().Name, "OnSpawnCar", "");
-                AltFileLogger altLogger = new AltFileLogger();
-                altLogger.Log(LogLevel.Info, pev);
-                NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
-            }
-            
-            [ServerEvent(Event.PlayerConnected)]
-            public void OnPlayerConnected(Player player)
-            {
-                using (var dbContext = new AlternativaContext())
+                var connectedUser = dbContext.Users.Where(u => u.Name == player.Name).FirstOrDefault();
+
+                var userConnected = new UserEvent
                 {
-                    var connectedUser = dbContext.Users.Where(u => u.Name == player.Name).FirstOrDefault();
-                    
-                    var userConnected = new UserEvent
-                    {
-                        Type = UserEventType.Connected,
-                        User = connectedUser
-                    };
+                    Type = UserEventType.Connected,
+                    User = connectedUser
+                };
 
-                    var connectionsCount = dbContext.UserEvents.Where(ue => ue.User == connectedUser).Count();
-                    NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
-                    dbContext.UserEvents.Add(userConnected);
-                    dbContext.SaveChanges();
-                }
+                var connectionsCount = dbContext.UserEvents.Where(ue => ue.User == connectedUser).Count();
+                NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
+                dbContext.UserEvents.Add(userConnected);
+                dbContext.SaveChanges();
             }
         }
     }
-    
+}

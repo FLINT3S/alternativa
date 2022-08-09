@@ -1,25 +1,102 @@
 ﻿using System.Threading.Tasks;
+using GTANetworkAPI;
 using Logger.EventModels;
-
-/*
- * Wiki: https://www.notion.so/Logger-736d00518e2f4599997fdfa501310ec9
- */
-
 
 namespace Logger
 {
-    public abstract class AltLogger
+    public class AltLogger
     {
-        public abstract Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent);
+        private static AltLogger _instance = null!;
 
-        public async Task LogInfo(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Info, serverAltAbstractEvent);
+        private readonly AltFileLogger fileLogger;
 
-        public async Task LogDevelopment(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Development, serverAltAbstractEvent);
+        private readonly AltConsoleLogger consoleLogger;
 
-        public async Task LogWarning(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Warning, serverAltAbstractEvent);
+        public static AltLogger Instance
+        {
+            get
+            {
+                _instance ??= new AltLogger();
+                return _instance;
+            }
+        }
 
-        public async Task LogCritical(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Critical, serverAltAbstractEvent);
+        private AltLogger()
+        {
+            fileLogger = new AltFileLogger();
+            consoleLogger = new AltConsoleLogger();
+        }
 
-        public async Task LogEvent(AltAbstractEvent serverAltAbstractEvent) => await Log(LogLevel.Event, serverAltAbstractEvent);
+        #region AsyncLogging
+
+        public async Task LogInfoAsync(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.LogInfo(serverAltAbstractEvent);
+        }
+
+        public async Task LogDevelopmentAsync(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.LogDevelopment(serverAltAbstractEvent);
+            await consoleLogger.LogWarning(serverAltAbstractEvent);
+        }
+
+        public async Task LogWarningAsync(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.LogWarning(serverAltAbstractEvent);
+            await consoleLogger.LogWarning(serverAltAbstractEvent);
+        }
+
+        public async Task LogCriticalAsync(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.LogCritical(serverAltAbstractEvent);
+            await consoleLogger.LogCritical(serverAltAbstractEvent);
+        }
+
+        public async Task LogEventAsync(AltAbstractEvent serverAltAbstractEvent)
+        {
+            await fileLogger.LogEvent(serverAltAbstractEvent);
+        }
+
+        public async Task LogResourceAsync(AltResourceEvent resourceEvent)
+        {
+            await fileLogger.LogResource(resourceEvent);
+            await consoleLogger.LogResource(resourceEvent);
+        }
+
+        #endregion
+
+        #region SyncLogging
+
+        public void LogInfo(AltAbstractEvent serverAltAbstractEvent)
+        {
+            NAPI.Task.Run(async () => { await LogInfoAsync(serverAltAbstractEvent); });
+        }
+
+        public void LogDevelopment(AltAbstractEvent serverAltAbstractEvent)
+        {
+            NAPI.Task.Run(async () => { await LogDevelopmentAsync(serverAltAbstractEvent); });
+        }
+
+        public void LogWarning(AltAbstractEvent serverAltAbstractEvent)
+        {
+            NAPI.Task.Run(async () => { await LogWarningAsync(serverAltAbstractEvent); });
+        }
+
+        public void LogCritical(AltAbstractEvent serverAltAbstractEvent)
+        {
+            NAPI.Task.Run(async () => { await LogCriticalAsync(serverAltAbstractEvent); });
+        }
+
+        public void LogEvent(AltAbstractEvent serverAltAbstractEvent)
+        {
+            NAPI.Task.Run(async () => { await LogEventAsync(serverAltAbstractEvent); });
+        }
+
+        public void LogResource(AltResourceEvent resourceEvent)
+        {
+            NAPI.Task.Run(async () => { await LogResourceAsync(resourceEvent); });
+        }
+
+        #endregion
     }
 }

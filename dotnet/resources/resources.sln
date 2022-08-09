@@ -6,6 +6,8 @@ Project("{13F51BCA-6206-4B31-B848-8939C87D1580}") = "TestResource", "TestResourc
 EndProject
 Project("{53DF7AB9-C0A5-4971-9E6B-F5E5457B72E1}") = "Logger", "Logger\Logger.csproj", "{19231D48-AC98-4F94-9370-31D4E2EEB9A5}"
 EndProject
+Project("{D93B8CDE-A99A-4481-866E-82D2B81196F6}") = "AbstractResource", "AbstractResource\AbstractResource.csproj", "{43FD319B-4FEB-43D2-AB44-33B41E0EE27F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -17,5 +19,7 @@ Global
 								{21272F12-8AB8-4053-BBA7-04306973CD99}.Debug|x64.Build.0 = Debug|x64
 					{19231D48-AC98-4F94-9370-31D4E2EEB9A5}.Debug|x64.ActiveCfg = Debug|x64
 								{19231D48-AC98-4F94-9370-31D4E2EEB9A5}.Debug|x64.Build.0 = Debug|x64
-	EndGlobalSection
+	    {43FD319B-4FEB-43D2-AB44-33B41E0EE27F}.Debug|x64.ActiveCfg = Debug|x64
+        {43FD319B-4FEB-43D2-AB44-33B41E0EE27F}.Debug|x64.Build.0 = Debug|x64
+EndGlobalSection
 EndGlobal
