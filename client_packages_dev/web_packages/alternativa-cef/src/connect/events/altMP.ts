@@ -2,7 +2,7 @@
 // Проверка отключена из-за использования window.и mp в коде плагина
 
 import {AltEvent} from "@/connect/events/altEvent";
-import {ModuleDependent} from "@/connect/ModuleDependent";
+import {ModuleDependent} from "@/connect/moduleDependent";
 import {AltEventCallback, AltEventType} from "@/connect/events/altEventType";
 import {altLog} from "@/connect/logs/altLogger";
 import {EventString} from "@/connect/events/eventString";

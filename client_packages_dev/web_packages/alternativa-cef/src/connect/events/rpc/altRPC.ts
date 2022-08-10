@@ -1,6 +1,6 @@
-import rpc from "rage-rpc"
+import rpc, {callClient} from "rage-rpc"
 import {AltRPCEventType} from "@/connect/events/altEventType";
-import {ModuleDependent} from "@/connect/ModuleDependent";
+import {ModuleDependent} from "@/connect/moduleDependent";
 import {RPCEventSting} from "@/connect/events/rpc/rpcEventSting";
 import {AltRPCEvent} from "@/connect/events/rpc/altRPCEvent";
 
@@ -22,11 +22,11 @@ export class altRPC extends ModuleDependent {
     rpc.register(listenerName, cb)
   }
 
-  async callServer(eventName: string, ...data: any) {
+  async callServer(eventName: string, data: any) {
     const es = new RPCEventSting("CEF", "SERVER", this.moduleName, eventName)
     new AltRPCEvent(es, AltRPCEventType.CALL_SERVER, data)
 
-    return rpc.callServer(eventName, ...data).then((...data) => {
+    return rpc.callClient("RPC::CEF:SERVER", [eventName, data]).then((...data) => {
       new AltRPCEvent(es, AltRPCEventType.RECEIVED, data)
       return data
     })

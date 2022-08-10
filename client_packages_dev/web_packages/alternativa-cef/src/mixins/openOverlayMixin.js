@@ -1,18 +1,24 @@
-// import {altMp} from "@/utils/altMp";
-
 export const openOverlayMixin = {
-  data() {
-    return {
-      overlayTitle: "DefaultOverlayTitle",
-    };
-  },
-  methods: {
-    onOpenOverlay: function (data) {
-      console.log("Open overlay", data)
+    data() {
+        return {
+            overlayTitle: null,
+            isOverlayOpen: false,
+        };
+    },
+    methods: {
+        onOpenOverlay: function () {
+            this.isOverlayOpen = true;
+        },
+        onCloseOverlay: function () {
+            this.isOverlayOpen = false;
+        },
+        onToggleOverlay: function () {
+            this.isOverlayOpen = !this.isOverlayOpen;
+        }
+    },
+    created() {
+        this.$altMp.on("onOpenOverlay", this.onOpenOverlay);
+        this.$altMp.on("onCloseOverlay", this.onCloseOverlay);
+        this.$altMp.on("onToggleOverlay", this.onToggleOverlay);
     }
-  },
-  created() {
-    this.$altMp.on("onOpenOverlay", this.onOpenOverlay);
-    console.log("openOverlayMixin created");
-  }
 }
