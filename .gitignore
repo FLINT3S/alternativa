@@ -19,3 +19,5 @@ restart-server.sh
 logs
 yarn.lock
 yarn-error.log
+client_packages/web_packages
+package-lock.json
