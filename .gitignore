@@ -20,4 +20,5 @@ logs
 yarn.lock
 yarn-error.log
 client_packages/web_packages
+client_packages/js_packages
 package-lock.json

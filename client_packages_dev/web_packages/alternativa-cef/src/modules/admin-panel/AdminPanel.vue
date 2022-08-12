@@ -2,6 +2,7 @@
   <alt-overlay :is-overlay-open="isOverlayOpen">
     <section class="d-flex admin-panel-box">
       <h3>Alternativa AdminPanel</h3>
+      <button @click="randomDamage">Рандомный урон</button>
       <router-view/>
     </section>
   </alt-overlay>
@@ -22,6 +23,9 @@ export default defineComponent({
     };
   },
   methods: {
+    randomDamage() {
+      this.$altRPC.callServer("randomDamage");
+    }
   }
 });
 </script>

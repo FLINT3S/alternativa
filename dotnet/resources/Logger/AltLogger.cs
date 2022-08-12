@@ -37,7 +37,7 @@ namespace Logger
         public async Task LogDevelopmentAsync(AltAbstractEvent serverAltAbstractEvent)
         {
             await fileLogger.LogDevelopment(serverAltAbstractEvent);
-            await consoleLogger.LogWarning(serverAltAbstractEvent);
+            await consoleLogger.LogDevelopment(serverAltAbstractEvent);
         }
 
         public async Task LogWarningAsync(AltAbstractEvent serverAltAbstractEvent)
