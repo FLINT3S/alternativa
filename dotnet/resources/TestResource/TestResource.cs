@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AbstractResource;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
+using Logger;
+using Logger.EventModels;
 using Player = GTANetworkAPI.Player;
 
 namespace TestResource
@@ -39,6 +42,15 @@ namespace TestResource
             NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
             dbContext.UserEvents.Add(userConnected);
             dbContext.SaveChanges();
+        }
+
+        [RemoteProc("RPC::CEF:SERVER:AdminPanel:randomDamage")]
+        private string RemoteProcRandomDamage(Player player)
+        {
+            AltLogger.Instance.LogDevelopment(new AltEvent(this, "RemoteProcRandomDamage", ""));
+            NAPI.Task.WaitForMainThread(1000);
+            player.Health -= (int) Math.Round(new Random().NextDouble() * 20);
+            return "Байты получены";
         }
     }
 }

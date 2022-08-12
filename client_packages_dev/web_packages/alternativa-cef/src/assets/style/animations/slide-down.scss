@@ -1,0 +1,11 @@
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transform: translateY(0);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.slide-down-enter-from,
+.slide-down-leave-to {
+  transform: translateY(-10vh);
+  opacity: 0;
+}
