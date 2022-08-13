@@ -11,8 +11,8 @@ module.exports = {
         ]
     },
     entry: {
-        "connect": "./src/connect/index.ts",
-        "test": "./src/test/index.ts"
+        "AdminPanel": "./src/AdminPanel/index.ts",
+        "CursorManager": "./src/CursorManager/index.ts",
     },
     resolve: {
         extensions: [".ts"]
