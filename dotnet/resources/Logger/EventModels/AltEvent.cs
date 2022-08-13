@@ -8,6 +8,6 @@
         {
         }
 
-        public object LockObj => _LockObj;
+        public override object LockObj => _LockObj;
     }
 }

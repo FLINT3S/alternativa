@@ -22,6 +22,6 @@
 
         public override string ToString() => $"<{EventInstance}>: {Module} > {EventName} - {EventDescription}";
 
-        public object LockObj => new object();
+        public virtual object LockObj => new object();
     }
 }
