@@ -8,6 +8,8 @@ Project("{53DF7AB9-C0A5-4971-9E6B-F5E5457B72E1}") = "Logger", "Logger\Logger.csp
 EndProject
 Project("{D93B8CDE-A99A-4481-866E-82D2B81196F6}") = "AbstractResource", "AbstractResource\AbstractResource.csproj", "{43FD319B-4FEB-43D2-AB44-33B41E0EE27F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventString", "EventString\EventString.csproj", "{DE66C6FD-1A5E-448E-97D7-D56A0457B13C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,5 +23,7 @@ Global
 								{19231D48-AC98-4F94-9370-31D4E2EEB9A5}.Debug|x64.Build.0 = Debug|x64
 					{43FD319B-4FEB-43D2-AB44-33B41E0EE27F}.Debug|x64.ActiveCfg = Debug|x64
 								{43FD319B-4FEB-43D2-AB44-33B41E0EE27F}.Debug|x64.Build.0 = Debug|x64
+		{DE66C6FD-1A5E-448E-97D7-D56A0457B13C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DE66C6FD-1A5E-448E-97D7-D56A0457B13C}.Debug|x64.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
