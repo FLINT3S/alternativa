@@ -10,9 +10,7 @@ namespace Logger
 {
     internal class AltFileLogger : AltAbstractLogger
     {
-        private static readonly object lockObj = new object();
-        
-        private List<string> _logPaths = new List<string>
+        private readonly List<string> _logPaths = new List<string>
         {
             "logs",
             "logs/players",
