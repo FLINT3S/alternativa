@@ -1,36 +1,8 @@
+import {AltBrowser} from "./altBrowser";
+import {VirtualKey} from "../utils/virtualKeys";
+import {AltOverlayBrowser} from "./overlayBrowser";
+
 export const altBrowsers = {}
-
-type AltBrowserOptions = {
-  toggleCursor?: boolean,
-  overlayCloseTimeout?: number,
-}
-
-export class AltBrowser {
-  protected readonly instance: BrowserMp;
-  // name - название браузера, должно быть таким же как и название ресурса
-  public name: string;
-  public options: AltBrowserOptions = {toggleCursor: false, overlayCloseTimeout: 500}
-
-  constructor(url: string, name: string, options?: object) {
-    this.instance = mp.browsers.new(url)
-    this.instance.active = false
-    this.name = name
-    Object.assign(this.options, options)
-    altBrowsers[this.name] = this
-  }
-
-  get active(): boolean {
-    return this.instance.active
-  }
-
-  set active(value: boolean) {
-    this.instance.active = value
-  }
-
-  execEvent(event: string, data: object = {}) {
-    this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
-  }
-}
 
 // Ловит события с сервера и отправляет в нужный браузер
 // Негласное правило, что browserName = resourceName
@@ -41,3 +13,17 @@ mp.events.add("SERVER:CEF", (browserName: string, eventString: string, data: obj
 mp.events.add("CEF:SERVER", (eventString: string, data: object) => {
   mp.events.callRemote(eventString, data)
 })
+
+mp.keys.bind(VirtualKey.VK_ESCAPE, true, () => {
+  Object.values(altBrowsers).forEach((browser: AltBrowser) => {
+    if (browser instanceof AltOverlayBrowser) {
+      browser.closeOverlay()
+    }
+  })
+})
+
+export class BrowserManager {
+  static getBrowser(browserName: string): AltBrowser {
+    return altBrowsers[browserName]
+  }
+}

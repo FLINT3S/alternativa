@@ -1,4 +1,4 @@
-import {AltBrowser} from "./browserManager";
+import {AltBrowser} from "./altBrowser";
 
 export class AltOverlayBrowser extends AltBrowser {
   private isOverlayOpened: boolean = false;
@@ -33,7 +33,6 @@ export class AltOverlayBrowser extends AltBrowser {
   }
 
   toggleOverlay(overlayName?: string) {
-    mp.gui.chat.push(this.isOverlayOpened ? "Closing overlay" : "Opening overlay")
     this.isOverlayOpened ? this.closeOverlay(overlayName) : this.openOverlay(overlayName)
   }
 }

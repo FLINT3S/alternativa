@@ -30,38 +30,43 @@ def generate_server_resource(resource_name):
     with open(f"{CURRENT_RESOURCE_PATH}/{resource_name}.cs", "w+") as f:
         f.write("""using GTANetworkAPI;
 
-    namespace %s
+namespace %s
+{
+public class Main : AltAbstractResource
     {
-    public class Main : Script
-        {
 
-        }
     }
-    """ % resource_name)
+}
+""" % resource_name)
 
     with open(f"{CURRENT_RESOURCE_PATH}/{resource_name}.csproj", "w+") as f:
         f.write(r"""<Project Sdk="Microsoft.NET.Sdk">
-        <PropertyGroup>
-            <TargetFramework>netcoreapp3.1</TargetFramework>
-            <Configurations>Debug</Configurations>
-            <Platforms>x64</Platforms>
-            <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
-            <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
-        </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Configurations>Debug</Configurations>
+        <Platforms>x64</Platforms>
+        <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+        <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
 
-        <ItemGroup>
-          <Reference Include="Bootstrapper">
-            <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
-          </Reference>
-        </ItemGroup>
-    </Project>    
+    <ItemGroup>
+        <Reference Include="Bootstrapper">
+        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
+        <ProjectReference Include="..\EventString\EventString.csproj" />
+    </ItemGroup>
+</Project>    
     """)
 
     with open(f"{CURRENT_RESOURCE_PATH}/meta.xml", "w+") as f:
         f.write(r"""<meta>
-        <info name="%s" type="script" version="0.0.1"/>
-        <script src="bin/x64/Debug/netcoreapp3.1/%s.dll"/>
-    </meta>
+    <info name="%s" type="script" version="0.0.1"/>
+    <script src="bin/x64/Debug/netcoreapp3.1/%s.dll"/>
+</meta>
     """ % (resource_name, resource_name))
 
     # add new project to solution resources.sln
