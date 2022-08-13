@@ -25,6 +25,12 @@ namespace TestResource
         {
             NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
         }
+        
+        [Command("testbr")]
+        public void CMDOnTestBR(Player player)
+        {
+            NAPI.ClientEvent.TriggerClientEvent(player, "SERVER:CEF", "AdminPanel", "EventName", NAPI.Util.ToJson(new {test = "test"}));
+        }
 
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Player player)

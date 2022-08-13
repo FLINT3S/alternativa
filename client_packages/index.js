@@ -1,2 +1,2 @@
-require("js_packages/connect/connect.js")
-require("js_packages/test/test.js")
+require("js_packages/AdminPanel/AdminPanel.js")
+require("js_packages/CursorManager/CursorManager.js")

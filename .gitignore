@@ -21,4 +21,6 @@ yarn.lock
 yarn-error.log
 client_packages/web_packages
 client_packages/js_packages
+client_packages/_rage-console
+packages/_rage-console
 package-lock.json

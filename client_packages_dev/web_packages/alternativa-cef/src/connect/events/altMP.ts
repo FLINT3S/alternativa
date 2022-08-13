@@ -28,6 +28,13 @@ export class altMP extends ModuleDependent {
     mp.trigger(eventString, ...data)
   }
 
+  triggerServer(eventString: string, data: object) {
+    const es = new EventString("CEF", "SERVER", this.moduleName, eventString)
+    new AltEvent(es, AltEventType.SEND, data)
+
+    mp.trigger(eventString, ...data)
+  }
+
   /**
    * @method on
    *
