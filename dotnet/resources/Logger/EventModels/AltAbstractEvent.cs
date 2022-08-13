@@ -21,5 +21,7 @@
         private string EventDescription { get; }
 
         public override string ToString() => $"<{EventInstance}>: {Module} > {EventName} - {EventDescription}";
+
+        public object LockObj => new object();
     }
 }

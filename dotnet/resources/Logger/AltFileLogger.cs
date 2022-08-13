@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using GTANetworkAPI;
 using Logger.EventModels;
 
 namespace Logger
 {
     internal class AltFileLogger : AltAbstractLogger
     {
+        private static readonly object lockObj = new object();
+        
         private List<string> _logPaths = new List<string>
         {
             "logs",
@@ -42,10 +44,17 @@ namespace Logger
             }
         }
 
-        public override async Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent)
+        public override Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent)
         {
-            await using var outputFile = new StreamWriter(serverAltAbstractEvent.Destination, true);
-            await outputFile.WriteLineAsync(GetLogString(level, serverAltAbstractEvent));
+            lock (serverAltAbstractEvent.LockObj)
+                LogSync(level, serverAltAbstractEvent);
+            return Task.CompletedTask;
+        }
+
+        private static void LogSync(LogLevel level, AltAbstractEvent serverAltAbstractEvent)
+        {
+            using var outputFile = new StreamWriter(serverAltAbstractEvent.Destination, true);
+            outputFile.WriteLine(GetLogString(level, serverAltAbstractEvent));   
         }
     }
 }

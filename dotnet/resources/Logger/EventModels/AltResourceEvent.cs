@@ -8,9 +8,7 @@
         {
         }
 
-        public AltResourceEvent(object module, ResourceEventType eventType) :
-            base($"logs/resources/{module.GetType().Name.ToLower()}.log", module,
-                eventType.ToString(), GetEventDescription(eventType, module))
+        public AltResourceEvent(object module, ResourceEventType eventType) : this(module, eventType, GetEventDescription(eventType, module))
         {
         }
 
@@ -23,7 +21,7 @@
                 ResourceEventType.Shutdown => $"Resource {resourceName} shutdown",
                 ResourceEventType.Error => $"Error occured in resource {resourceName}",
                 _ => ""
-            };;
+            };
         }
     }
 }
