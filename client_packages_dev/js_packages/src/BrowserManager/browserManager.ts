@@ -37,3 +37,7 @@ export class AltBrowser {
 mp.events.add("SERVER:CEF", (browserName: string, eventString: string, data: object) => {
   altBrowsers[browserName].execEvent(eventString, data)
 })
+
+mp.events.add("CEF:SERVER", (eventString: string, data: object) => {
+  mp.events.callRemote(eventString, data)
+})

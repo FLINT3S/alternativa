@@ -2,7 +2,12 @@
   <alt-overlay :is-overlay-open="isOverlayOpen">
     <section class="d-flex admin-panel-box">
       <h3>Alternativa AdminPanel</h3>
+      <br>
       <button @click="randomDamage">Рандомный урон</button>
+      <div class="d-flex">
+        <input type="text" v-model="executeServerEvent">
+        <button @click="sendServerEvent">Отправить событие на сервер</button>
+      </div>
       <router-view/>
     </section>
   </alt-overlay>
@@ -21,11 +26,15 @@ export default defineComponent({
   data() {
     return {
       overlayTitle: "Admin Panel",
+      executeServerEvent: "CEF:SERVER:AdminPanel:randomDamage"
     };
   },
   methods: {
     randomDamage() {
-      this.$altRPC.callServer("randomDamage");
+      this.$altMp.triggerServer("randomDamage");
+    },
+    sendServerEvent() {
+      this.$altMp.triggerServerRawEvent(this.executeServerEvent);
     }
   },
   created() {
