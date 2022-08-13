@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +14,7 @@ namespace Logger
             "logs",
             "logs/players",
             "logs/resources",
-            "logs/events",
+            "logs/events"
         };
 
         public AltFileLogger()
@@ -45,14 +44,12 @@ namespace Logger
         public override Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent)
         {
             lock (serverAltAbstractEvent.LockObj)
-                LogSync(level, serverAltAbstractEvent);
-            return Task.CompletedTask;
-        }
+            {
+                using var outputFile = new StreamWriter(serverAltAbstractEvent.Destination, true);
+                outputFile.WriteLine(GetLogString(level, serverAltAbstractEvent));
+            }
 
-        private static void LogSync(LogLevel level, AltAbstractEvent serverAltAbstractEvent)
-        {
-            using var outputFile = new StreamWriter(serverAltAbstractEvent.Destination, true);
-            outputFile.WriteLine(GetLogString(level, serverAltAbstractEvent));   
+            return Task.CompletedTask;
         }
     }
 }

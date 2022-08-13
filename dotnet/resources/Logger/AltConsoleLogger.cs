@@ -8,14 +8,14 @@ namespace Logger
     {
         public override Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent) =>
             Task.Factory.StartNew(() =>
-                {
-                    SetConsoleColor(level);
-                    Console.WriteLine(GetLogString(level, serverAltAbstractEvent));
-                    Console.ResetColor();
-                }
-            );
+                    {
+                        SetConsoleColor(level);
+                        Console.WriteLine(GetLogString(level, serverAltAbstractEvent));
+                        Console.ResetColor();
+                    }
+                );
 
-        public static void SetConsoleColor(LogLevel level)
+        private static void SetConsoleColor(LogLevel level)
         {
             Console.ForegroundColor = level switch
             {
