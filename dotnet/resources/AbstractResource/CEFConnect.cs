@@ -1,4 +1,3 @@
-using AbstractResource;
 using GTANetworkAPI;
 
 namespace AbstractResource
