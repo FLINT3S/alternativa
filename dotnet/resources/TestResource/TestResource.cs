@@ -25,12 +25,6 @@ namespace TestResource
         {
             NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
         }
-        
-        [Command("testbr")]
-        public void CMDOnTestBR(Player player)
-        {
-            CefConnect.TriggerCef(player, "OnTest");
-        }
 
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Player player)

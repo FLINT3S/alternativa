@@ -14,5 +14,11 @@ namespace AdminPanel
             AltLogger.Instance.LogDevelopment(new AltEvent(this, "RemoteDamage", ""));
             player.Health -= (int) Math.Round(new Random().NextDouble() * 20);
         }
+        
+        [Command("testbr")]
+        public void CMDOnTestBR(Player player)
+        {
+            CefConnect.TriggerCefRaw(player, "CLIENT:CEF:AdminPanel:onOpenOverlay");
+        }
     }
 }

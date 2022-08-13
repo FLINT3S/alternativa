@@ -5,6 +5,7 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProjects_005Calternativa_005Cdotnet_005Cresources_005CdatabaseService_005CDependencies_005CNpgsql_002EEntityFrameworkCore_002EPostgreSQL_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProjects_005Calternativa_005Cdotnet_005Cruntime_005CBootstrapper_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CProjects_005Calternativa_005Cdotnet_005Cruntime_005CSystem_002EDiagnostics_002EDiagnosticSource_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ARemoteEventAttribute_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FUsers_003FIlya_003FAppData_003FRoaming_003FJetBrains_003FRider2022_002E1_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F333feb22afb84511a7ee44f408da516985200_003Fdc_003F760dfc6f_003FRemoteEventAttribute_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Projects\alternativa\dotnet\runtime\Bootstrapper.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\mongodb.driver\2.17.1\lib\netstandard2.1\MongoDB.Driver.dll" /&gt;&#xD;
