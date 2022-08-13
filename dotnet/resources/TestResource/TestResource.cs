@@ -29,7 +29,7 @@ namespace TestResource
         [Command("testbr")]
         public void CMDOnTestBR(Player player)
         {
-            NAPI.ClientEvent.TriggerClientEvent(player, "SERVER:CEF", "AdminPanel", "EventName", NAPI.Util.ToJson(new {test = "test"}));
+            CefConnect.TriggerCef(player, "OnTest");
         }
 
         [ServerEvent(Event.PlayerConnected)]

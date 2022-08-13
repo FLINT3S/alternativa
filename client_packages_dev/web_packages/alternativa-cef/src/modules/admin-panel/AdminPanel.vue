@@ -12,6 +12,7 @@
 import {defineComponent} from 'vue';
 import {openOverlayMixin} from "@/mixins/openOverlayMixin";
 import AltOverlay from "@/components/AltOverlay";
+import {altLog} from "@/connect/logs/altLogger";
 
 export default defineComponent({
   name: 'AdminPanel',
@@ -26,6 +27,11 @@ export default defineComponent({
     randomDamage() {
       this.$altRPC.callServer("randomDamage");
     }
+  },
+  created() {
+    this.$altMp.onServer("OnTest", () => {
+      altLog.warning("OnTest");
+    });
   }
 });
 </script>

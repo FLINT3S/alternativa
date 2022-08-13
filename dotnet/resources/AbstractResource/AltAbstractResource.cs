@@ -6,6 +6,13 @@ namespace AbstractResource
 {
     public abstract class AltAbstractResource : Script
     {
+        protected CefConnect CefConnect;
+
+        public AltAbstractResource()
+        {
+            CefConnect = new CefConnect(this);
+        }
+
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {

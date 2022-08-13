@@ -52,8 +52,22 @@ export class altMP extends ModuleDependent {
     }
   }
 
+  onServer(eventName: string, callback: (...data: any) => void) {
+    const es = new EventString("SERVER", "CEF", this.moduleName, eventName)
+    new AltEvent(es, AltEventType.REGISTER_LISTENER)
+
+    const currentListeners = window.altListeners.get(es.eventString)
+    if (!currentListeners) {
+      window.altListeners.set(es.eventString, [callback])
+    } else {
+      window.altListeners.set(es.eventString, [...currentListeners, callback])
+    }
+  }
+
   call(eventString: string, data: object) {
-    const es = new EventString("CLIENT", "CEF", this.moduleName, eventString)
+    altLog.warning(eventString)
+
+    const es = new EventString(eventString)
     new AltEvent(es, AltEventType.RECEIVED, data)
 
     const eventListeners: Array<AltEventCallback> = window.altListeners.get(eventString)
