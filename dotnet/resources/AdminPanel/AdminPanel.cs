@@ -1,17 +1,17 @@
 using System;
+using System.Reflection;
 using AbstractResource;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
 
 namespace AdminPanel
 {
     public class AdminPanel : AltAbstractResource
     {
-        [RemoteEvent("CEF:SERVER:AdminPanel:randomDamage")]
+        [RemoteEvent(AdminPanelEvents.RandomDamage)]
         private void ReRandomDamage(Player player)
         {
-            AltLogger.Instance.LogDevelopment(new AltEvent(this, "RemoteDamage", ""));
+            var es = GetEsFromAttr(MethodBase.GetCurrentMethod());
+            
             player.Health -= (int) Math.Round(new Random().NextDouble() * 20);
         }
         
