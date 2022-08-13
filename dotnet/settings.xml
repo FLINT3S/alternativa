@@ -6,4 +6,4 @@
     <resource src="AbstractResource" />
     <resource src="Database" />
     <resource src="TestResource" />
-<resource src="CEFConnect" /></config>
+<resource src="CEFConnect" /><resource src="AdminPanel" /></config>
