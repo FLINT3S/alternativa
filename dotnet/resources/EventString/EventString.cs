@@ -1,10 +1,15 @@
 ﻿using System.Linq;
 
+/*
+ * wiki: https://www.notion.so/EventString-873f558c7ae64d1986965dc24377c894
+ */
+
 namespace EventString
 {
     public class EventString
     {
         #region FromStringConstructor
+
         public EventString(string eventString)
         {
             String = eventString;
@@ -13,6 +18,7 @@ namespace EventString
             Module = eventString.Split(':')[2];
             Event = eventString.Split(':')[3..].Aggregate((s1, s2) => s1 + s2);
         }
+
         #endregion
 
         public string From { get; }
@@ -28,6 +34,7 @@ namespace EventString
         public override string ToString() => String;
 
         #region FromStringsCtors
+
         public EventString(string from, string to, string module, string @event)
         {
             From = from;
@@ -44,15 +51,17 @@ namespace EventString
         public EventString(string module, string @event) : this("SERVER", "CLIENT", module, @event)
         {
         }
+
         #endregion
 
         #region ByObjectCtors
+
         public EventString(string from, string to, object module, string @event) : this(
-                from,
-                to,
-                module.GetType().Name,
-                @event
-            )
+            from,
+            to,
+            module.GetType().Name,
+            @event
+        )
         {
         }
 
@@ -63,6 +72,7 @@ namespace EventString
         public EventString(object module, string @event) : this("SERVER", "CLIENT", module, @event)
         {
         }
+
         #endregion
     }
 }

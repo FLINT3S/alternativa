@@ -7,7 +7,7 @@ namespace AdminPanel
 {
     public class AdminPanel : AltAbstractResource
     {
-        [RemoteEvent(AdminPanelEvents.RandomDamage)]
+        [RemoteEvent(AdminPanelEvents.RandomDamageFromCef)]
         private void ReRandomDamage(Player player)
         {
             var es = GetEsFromAttr(MethodBase.GetCurrentMethod());
