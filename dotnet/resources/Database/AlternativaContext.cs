@@ -1,6 +1,7 @@
 ﻿using System;
 using Database.Models;
 using Database.Models.AccountEvents;
+using Database.ModelsConfigiration;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,12 +23,7 @@ namespace Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Account>(account =>
-            {
-                account.HasKey(a => a.SocialClubId);
-                account.HasMany(a => a.Characters).WithOne(c => c.Account);
-                account.HasMany(a => a.Connections).WithOne();
-            });
+            modelBuilder.ApplyConfiguration(new AccountConfiguration());
             modelBuilder.Entity<ConnectionEvent>(connectionEvent =>
             {
                 connectionEvent.HasKey(e => e.Id);
