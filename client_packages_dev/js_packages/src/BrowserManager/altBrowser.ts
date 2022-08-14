@@ -57,7 +57,7 @@ export class AltBrowser {
     }
   }
 
-  execEvent(event: string, data: object = {}) {
+  execEvent(event: string, ...data: Array<string|number>) {
     this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
   }
 }
@@ -74,7 +74,7 @@ export class AltOverlayBrowser extends AltBrowser {
     this.show()
 
     this.isOverlayOpened = true
-    this.execEvent(`CLIENT:CEF:${this.name}:onOpenOverlay`, {overlayName})
+    this.execEvent(`CLIENT:CEF:${this.name}:onOpenOverlay`, overlayName)
   }
 
   closeOverlay(overlayName?: string) {
@@ -83,7 +83,7 @@ export class AltOverlayBrowser extends AltBrowser {
     }
 
     this.isOverlayOpened = false
-    this.execEvent(`CLIENT:CEF:${this.name}:onCloseOverlay`, {overlayName})
+    this.execEvent(`CLIENT:CEF:${this.name}:onCloseOverlay`, overlayName)
 
     // FIXME: Не вызывается таймаут
     this.closeTimers.set(overlayName, setTimeout(() => {

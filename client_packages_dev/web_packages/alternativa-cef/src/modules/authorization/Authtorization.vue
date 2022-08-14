@@ -1,12 +1,18 @@
 <template>
   <main class="d-flex justify-content-center align-items-center" style="height: 100vh; background: var(--overlay-backdrop)">
     <div class="bg-black">
-      <h1>Авторизация</h1>
-      <div class="d-flex">
-        <input type="text" v-model="login" placeholder="Логин">
-        <input type="password" v-model="password" placeholder="Пароль">
+      <div>
+
+        <h1>Авторизация</h1>
+        <div class="d-flex">
+          <input type="text" v-model="login" placeholder="Логин">
+          <input type="password" v-model="password" placeholder="Пароль">
+        </div>
+        <div v-if="loginState !== null" :class="loginState ? 'text-success' : 'text-danger'">
+          {{loginStateMessage}}
+        </div>
+        <button @click="submitLogin">Войти</button>
       </div>
-      <button @click="submitLogin">Войти</button>
 
       <h1>Регистрация</h1>
       <div class="d-flex">
@@ -29,23 +35,28 @@ export default defineComponent({
     return {
       login: "",
       password: "",
-      email: ""
+      email: "",
+      loginState: null,
+      loginStateMessage: ""
     };
   },
   methods: {
     submitLogin() {
-      this.$altMp.triggerServer("CEF:SERVER:Authorization:Login", {
-        login: this.login,
-        password: this.password
-      });
+      this.$altMp.triggerServer("LoginSubmit", this.login, this.password);
     },
     submitRegister() {
-      this.$altMp.triggerServer("CEF:SERVER:Authorization:Register", {
-        login: this.login,
-        password: this.password,
-        email: this.email
-      });
+      this.$altMp.triggerServer("RegisterSubmit", this.login, this.password, this.email);
     }
+  },
+  created() {
+    this.$altMp.onServer("LoginSuccess", () => {
+      this.loginState = true
+      this.loginStateMessage = "Успешный логин"
+    })
+    this.$altMp.onServer("LoginFailure", (failureReason) => {
+      this.loginState = false
+      this.loginStateMessage = failureReason
+    })
   }
 });
 </script>
