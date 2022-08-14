@@ -12,7 +12,6 @@ namespace Database
         private string _connectionString = DatabaseConfig.ConnectionString;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            NAPI.Util.ConsoleOutput(_connectionString);
             optionsBuilder.UseNpgsql(_connectionString);
         }
 

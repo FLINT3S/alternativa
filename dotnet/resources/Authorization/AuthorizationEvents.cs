@@ -8,6 +8,11 @@ namespace Authorization
 {
     public class AuthorizationEvents : AltAbstractResourceEvents
     {
-        public const string LoginAttemptFromCef = "CEF:SERVER:Authorization:LoginSubmit";
+        public const string LoginSubmitFromCef = "CEF:SERVER:Authorization:LoginSubmit";
+        public const string RegisterSubmitFromCef = "CEF:SERVER:Authorization:RegisterSubmit";
+        
+        public const string LoginSuccessToCef = "LoginSuccess";
+        public const string LoginFailureToCef = "LoginFailure";
+        
     }
 }

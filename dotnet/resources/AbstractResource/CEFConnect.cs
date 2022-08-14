@@ -15,22 +15,26 @@ namespace AbstractResource
             _moduleName = module.GetType().Name;
         }
 
-        public void TriggerCef(Player player, string eventName, object eventData = null)
+        public void TriggerCef(Player player, string eventName, params object[] args)
         {
             // moduleName - это имя браузера в который отправится событие.
             // По умолчанию браузер называется так же, как ресурс
-            TriggerCefRaw(player, $"SERVER:CEF:{_moduleName}:{eventName}", eventData);
+            TriggerCefRaw(player, $"SERVER:CEF:{_moduleName}:{eventName}", args);
         }
 
-        public void TriggerCef(Player player, EventString.EventString eventString, string eventData)
+        public void TriggerCef(Player player, EventString.EventString eventString, params object[] args)
         {
-            TriggerCefRaw(player, eventString.ToString(), eventData);
+            TriggerCefRaw(player, eventString.ToString(), args);
         }
 
-        public void TriggerCefRaw(Player player, string eventString, object eventData = null)
+        public void TriggerCefRaw(Player player, string eventString, params object[] args)
         {
-            NAPI.ClientEvent.TriggerClientEvent(player, "SERVER:CEF", _moduleName,
-                eventString, NAPI.Util.ToJson(eventData));
+            player.TriggerEvent("SERVER:CEF", _moduleName, eventString, args);
+        }
+        
+        public void TriggerCefRaw(Player player, string browserName, string eventString, params object[] args)
+        {
+            player.TriggerEvent("SERVER:CEF", browserName, eventString, args);
         }
     }
 }
