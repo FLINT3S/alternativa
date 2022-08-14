@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Database.ModelsConfiguration
 {
-    public class CharacterConfigurations : IEntityTypeConfiguration<Character>
+    internal class CharacterConfigurations : IEntityTypeConfiguration<Character>
     {
         public void Configure(EntityTypeBuilder<Character> builder)
         {

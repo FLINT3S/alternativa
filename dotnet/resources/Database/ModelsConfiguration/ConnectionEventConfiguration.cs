@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Database.ModelsConfiguration
 {
-    public class ConnectionEventConfiguration : IEntityTypeConfiguration<ConnectionEvent>
+    internal class ConnectionEventConfiguration : IEntityTypeConfiguration<ConnectionEvent>
     {
         public void Configure(EntityTypeBuilder<ConnectionEvent> builder)
         {
