@@ -17,8 +17,6 @@ namespace TestResource
         public void OnTestResourceStart()
         {
             using var dbContext = new AlternativaContext();
-            int playerCount = dbContext.Users.Count();
-            NAPI.Util.ConsoleOutput("Total players in the database: " + playerCount);
         }
 
         [Command("spawncar")]
@@ -31,18 +29,18 @@ namespace TestResource
         public void OnPlayerConnected(Player player)
         {
             using var dbContext = new AlternativaContext();
-            var connectedUser = dbContext.Users.FirstOrDefault(u => u.Name == player.Name);
-
-            var userConnected = new AccountEvent
-            {
-                Type = UserEventType.Connected,
-                Character = connectedUser
-            };
-
-            int connectionsCount = dbContext.UserEvents.Count(ue => ue.Character == connectedUser);
-            NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
-            dbContext.UserEvents.Add(userConnected);
-            dbContext.SaveChanges();
+            // var connectedUser = dbContext.Users.FirstOrDefault(u => u.Name == player.Name);
+            //
+            // var userConnected = new AccountEvent
+            // {
+            //     Type = UserEventType.Connected,
+            //     Character = connectedUser
+            // };
+            //
+            // int connectionsCount = dbContext.UserEvents.Count(ue => ue.Character == connectedUser);
+            // NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
+            // dbContext.UserEvents.Add(userConnected);
+            // dbContext.SaveChanges();
         }
 
         [RemoteProc("RPC::CEF:SERVER:AdminPanel:randomDamage")]

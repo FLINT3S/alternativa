@@ -16,6 +16,8 @@ namespace Database
         }
 
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<ConnectionEvent> ConnectionEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +27,14 @@ namespace Database
                 account.HasKey(a => a.SocialClubId);
                 account.HasMany(a => a.Characters).WithOne(c => c.Account);
                 account.HasMany(a => a.Connections).WithOne();
+            });
+            modelBuilder.Entity<ConnectionEvent>(connectionEvent =>
+            {
+                connectionEvent.HasKey(e => e.Id);
+            });
+            modelBuilder.Entity<Character>(character =>
+            {
+                character.HasKey(c => c.Id);
             });
         }
     }

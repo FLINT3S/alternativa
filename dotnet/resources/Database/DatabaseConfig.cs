@@ -8,7 +8,7 @@
 
         private static string User => "postgres";
 
-        private static string Password => "ebalay228";
+        private static string Password => "1804";
 
         private static string Database => "alt";
 
