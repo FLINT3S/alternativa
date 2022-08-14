@@ -1,29 +1,29 @@
 import {AltBrowser} from "./altBrowser";
-import {VirtualKey} from "../utils/virtualKeys";
-import {AltOverlayBrowser} from "./overlayBrowser";
 
-export const altBrowsers = {}
-
-// Ловит события с сервера и отправляет в нужный браузер
-// Негласное правило, что browserName = resourceName
-mp.events.add("SERVER:CEF", (browserName: string, eventString: string, data: object) => {
-  altBrowsers[browserName].execEvent(eventString, data)
-})
-
-mp.events.add("CEF:SERVER", (eventString: string, data: object) => {
-  mp.events.callRemote(eventString, data)
-})
-
-mp.keys.bind(VirtualKey.VK_ESCAPE, true, () => {
-  Object.values(altBrowsers).forEach((browser: AltBrowser) => {
-    if (browser instanceof AltOverlayBrowser) {
-      browser.closeOverlay()
-    }
-  })
-})
-
-export class BrowserManager {
+export class browserManager {
   static getBrowser(browserName: string): AltBrowser {
-    return altBrowsers[browserName]
+    if (global.altBrowsers === undefined) {
+      global.altBrowsers = {}
+      return
+    }
+
+    return global.altBrowsers[browserName]
+  }
+
+  static addBrowser(browser: AltBrowser): void {
+    if (global.altBrowsers === undefined) {
+      global.altBrowsers = {}
+    }
+
+    global.altBrowsers[browser.name] = browser
+  }
+
+  static getAllBrowsers(): AltBrowser[] {
+    if (global.altBrowsers === undefined) {
+      global.altBrowsers = {}
+      return []
+    }
+
+    return Object.values(global.altBrowsers)
   }
 }
