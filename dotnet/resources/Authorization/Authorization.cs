@@ -1,9 +1,9 @@
-using GTANetworkAPI;
+using AbstractResource;
 
 namespace Authorization
 {
-public class Main : AltAbstractResource
+    public class Main : AltAbstractResource
     {
-
+        
     }
 }
