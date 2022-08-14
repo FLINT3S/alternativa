@@ -15,7 +15,22 @@ namespace Authorization
         [ServerEvent(Event.PlayerConnected)]
         private void OnPlayerConnected(Player player)
         {
-            AltLogger.Instance.LogInfo(new AltPlayerEvent(player.Name, this, "Player connected", $"Player {player.Name}[{player.SocialClubId}] connected"));
+            var account = GetAccountFromPlayer(player);
+            
+            if (account != null)
+            {
+                account.OnConnect(player.Address, player.Serial);
+                // TODO: Проверить заработает ли дата
+                player.SetData("account", account);
+            }
+            else
+            {
+                AltLogger.Instance.LogInfo(new AltPlayerEvent("_newPlayers", this, "OnPlayerConnected",
+                    player.GetPlayerDataString()));
+                // TODO: Отправка события на клиент о первом подключении игрока
+            }
+            
+            // TODO: Проверка на player.Serial == account.LastHWID
         }
     }
 }

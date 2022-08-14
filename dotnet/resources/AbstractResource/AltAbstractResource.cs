@@ -1,4 +1,7 @@
+using System.Linq;
 using System.Reflection;
+using Database;
+using Database.Models;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
@@ -37,6 +40,13 @@ namespace AbstractResource
             AltLogger.Instance.LogDevelopment(new AltEvent(this, es.Event, es.ToString()));
 
             return es;
+        }
+        
+        public Account GetAccountFromPlayer(Player player)
+        {
+            using var db = new AlternativaContext();
+
+            return db.Accounts.FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
         }
     }
 }
