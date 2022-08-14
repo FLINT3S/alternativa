@@ -1,7 +1,7 @@
 ﻿using System;
 using Database.Models;
 using Database.Models.AccountEvents;
-using Database.ModelsConfigiration;
+using Database.ModelsConfiguration;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,14 +24,9 @@ namespace Database
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
-            modelBuilder.Entity<ConnectionEvent>(connectionEvent =>
-            {
-                connectionEvent.HasKey(e => e.Id);
-            });
-            modelBuilder.Entity<Character>(character =>
-            {
-                character.HasKey(c => c.Id);
-            });
+            modelBuilder.ApplyConfiguration(new CharacterConfigurations());
+            modelBuilder.ApplyConfiguration(new ConnectionEventConfiguration());
+            
         }
     }
 }
