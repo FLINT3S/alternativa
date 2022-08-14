@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Database.ModelsConfigiration
+namespace Database.ModelsConfiguration
 {
-    public class AccountConfiguration : IEntityTypeConfiguration<Account>
+    internal class AccountConfiguration : IEntityTypeConfiguration<Account>
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
