@@ -3,6 +3,7 @@ using System.Linq;
 using AbstractResource;
 using Database;
 using Database.Models;
+using Database.Models.AccountEvents;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
@@ -32,13 +33,13 @@ namespace TestResource
             using var dbContext = new AlternativaContext();
             var connectedUser = dbContext.Users.FirstOrDefault(u => u.Name == player.Name);
 
-            var userConnected = new UserEvent
+            var userConnected = new AccountEvent
             {
                 Type = UserEventType.Connected,
-                User = connectedUser
+                Character = connectedUser
             };
 
-            int connectionsCount = dbContext.UserEvents.Count(ue => ue.User == connectedUser);
+            int connectionsCount = dbContext.UserEvents.Count(ue => ue.Character == connectedUser);
             NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
             dbContext.UserEvents.Add(userConnected);
             dbContext.SaveChanges();
