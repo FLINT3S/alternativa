@@ -8,9 +8,15 @@ namespace Logger
     {
         private static AltLogger _instance = null!;
 
+        private readonly AltConsoleLogger consoleLogger;
+
         private readonly AltFileLogger fileLogger;
 
-        private readonly AltConsoleLogger consoleLogger;
+        private AltLogger()
+        {
+            fileLogger = new AltFileLogger();
+            consoleLogger = new AltConsoleLogger();
+        }
 
         public static AltLogger Instance
         {
@@ -21,14 +27,7 @@ namespace Logger
             }
         }
 
-        private AltLogger()
-        {
-            fileLogger = new AltFileLogger();
-            consoleLogger = new AltConsoleLogger();
-        }
-
         #region AsyncLogging
-
         public async Task LogInfoAsync(AltAbstractEvent serverAltAbstractEvent)
         {
             await fileLogger.LogInfo(serverAltAbstractEvent);
@@ -62,11 +61,9 @@ namespace Logger
             await fileLogger.LogResource(resourceEvent);
             await consoleLogger.LogResource(resourceEvent);
         }
-
         #endregion
 
         #region SyncLogging
-
         public void LogInfo(AltAbstractEvent serverAltAbstractEvent)
         {
             NAPI.Task.Run(() => { LogInfoAsync(serverAltAbstractEvent); });
@@ -96,7 +93,6 @@ namespace Logger
         {
             NAPI.Task.Run(() => { LogResourceAsync(resourceEvent); });
         }
-
         #endregion
     }
 }

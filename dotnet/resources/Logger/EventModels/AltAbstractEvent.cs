@@ -20,8 +20,8 @@
 
         private string EventDescription { get; }
 
-        public override string ToString() => $"<{EventInstance}>: {Module} > {EventName} - {EventDescription}";
-
         public virtual object LockObj => new object();
+
+        public override string ToString() => $"<{EventInstance}>: {Module} > {EventName} - {EventDescription}";
     }
 }
