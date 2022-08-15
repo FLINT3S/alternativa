@@ -6,13 +6,14 @@ namespace Authorization
     {
         public static string GetPlayerDataString(this Player player)
         {
-            return $"New player connected:\n" +
-                   $"name: {player.Name}\n" +
-                   $"socialClubId: {player.SocialClubId}\n" +
-                   $"IP: {player.Address}\n" +
-                   $"HWID: {player.Serial}\n" +
-                   $"socialClubName: {player.SocialClubName}\n" +
-                   $"===========================================================";
+            string response = "New player connected:\n";
+            response += $"name: {player.Name}\n";
+            response += $"socialClubId: {player.SocialClubId}\n";
+            response += $"IP: {player.Address}";
+            response += $"HWID: {player.Serial}\n";
+            response += $"socialClubName: {player.SocialClubName}\n";
+            response += "===========================================================";
+            return response;
         }
     }
 }

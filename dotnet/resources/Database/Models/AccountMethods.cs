@@ -7,8 +7,6 @@ namespace Database.Models
 {
     public partial class Account
     {
-        // todo придумать систему логов действий с аккаунтом
-        
         private string ip = null!, hwid = null!;
         
         public void UpdateUsername(string newUsername)

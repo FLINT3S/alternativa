@@ -42,7 +42,7 @@ namespace AbstractResource
             return es;
         }
         
-        public Account GetAccountFromPlayer(Player player)
+        public static Account GetAccountFromPlayer(Player player)
         {
             using var db = new AlternativaContext();
 

@@ -6,7 +6,7 @@
 
 namespace Authorization
 {
-    public class AuthorizationEvents : AltAbstractResourceEvents
+    public abstract class AuthorizationEvents : AltAbstractResourceEvents
     {
         public const string LoginSubmitFromCef = "CEF:SERVER:Authorization:LoginSubmit";
         public const string RegisterSubmitFromCef = "CEF:SERVER:Authorization:RegisterSubmit";

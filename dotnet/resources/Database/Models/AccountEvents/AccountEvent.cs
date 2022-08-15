@@ -9,7 +9,7 @@ namespace Database.Models.AccountEvents
         {
         }
 
-        public AccountEvent(string ip, string hwid, string? description = null)
+        public AccountEvent(string ip, string hwid, string description = null)
         {
             Ip = ip;
             HWID = hwid;

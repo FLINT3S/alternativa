@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Linq;
 using AbstractResource;
 using Database;
@@ -21,21 +18,22 @@ namespace Authorization
         private void OnPlayerConnected(Player player)
         {
             var account = GetAccountFromPlayer(player);
-
-            if (account != null)
+            if (account == null)
+                NewPlayerActions(player);
+            else
             {
                 account.OnConnect(player.Address, player.Serial);
                 // TODO: Проверить заработает ли дата
                 player.SetData("account", account);
             }
-            else
-            {
-                AltLogger.Instance.LogInfo(new AltPlayerEvent("_newPlayers", this, "OnPlayerConnected",
-                    player.GetPlayerDataString()));
-                // TODO: Отправка события на клиент о первом подключении игрока
-            }
-
             // TODO: Проверка на player.Serial == account.LastHWID
+        }
+
+        private void NewPlayerActions(Player player)
+        {
+            AltLogger.Instance.LogInfo(new AltPlayerEvent("_newPlayers", this, "OnPlayerConnected",
+                player.GetPlayerDataString()));
+            // TODO: Отправка события на клиент о первом подключении игрока
         }
         
         [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
@@ -44,20 +42,27 @@ namespace Authorization
             using var db = new AlternativaContext();
             
             var account = db.Accounts.FirstOrDefault(a => a.Username == login);
-            
-            if (account == null)
-            {
-                AltLogger.Instance.LogDevelopment(new AltEvent(this, "OnLoginSubmitFromCef",
-                    $"Account not found: {login}"));
-                CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef, $"Пользователь {login} не найден");
-            }
+
+            if (account != null)
+                AccountFoundActions(player, account, password);
             else
-            {
-                if (account.Password == password) CefConnect.TriggerCef(player, AuthorizationEvents.LoginSuccessToCef);
-                else CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef, $"Неверный пароль для пользователя {login}");
-            }
+                AccountNotFoundActions(player, login);
         }
-        
+
+        private void AccountFoundActions(Player player, Account account, string password)
+        {
+            if (account.Password == password)
+                CefConnect.TriggerCef(player, AuthorizationEvents.LoginSuccessToCef);
+            else
+                CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef, $"Неверный пароль для пользователя {account.Username}");
+        }
+
+        private void AccountNotFoundActions(Player player, string login)
+        {
+            AltLogger.Instance.LogDevelopment(new AltEvent(this, "OnLoginSubmitFromCef", $"Account not found: {login}"));
+            CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef, $"Пользователь {login} не найден");
+        }
+
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
         public void OnRegisterSubmitFromCef(Player player, string login, string password, string email)
         {
