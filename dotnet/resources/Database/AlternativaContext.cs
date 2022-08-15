@@ -7,10 +7,9 @@ namespace Database
 {
     public class AlternativaContext : DbContext
     {
-        private string _connectionString = DatabaseConfig.ConnectionString;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_connectionString);
+            optionsBuilder.UseNpgsql(DatabaseConfig.ConnectionString);
         }
 
         public DbSet<Account> Accounts { get; set; }
