@@ -19,13 +19,14 @@ namespace Authorization
         {
             var account = GetAccountFromPlayer(player);
             if (account == null)
-                NewPlayerActions(player);
-            else
             {
-                account.OnConnect(player.Address, player.Serial);
-                // TODO: Проверить заработает ли дата
-                player.SetData("account", account);
+                NewPlayerActions(player);
+                return;
             }
+
+            account.OnConnect(player.Address, player.Serial);
+            // TODO: Проверить заработает ли дата
+            player.SetData("account", account);
             // TODO: Проверка на player.Serial == account.LastHWID
         }
 
@@ -33,7 +34,8 @@ namespace Authorization
         {
             AltLogger.Instance.LogInfo(new AltPlayerEvent("_newPlayers", this, "OnPlayerConnected",
                 player.GetPlayerDataString()));
-            // TODO: Отправка события на клиент о первом подключении игрока
+            CefConnect.TriggerCef(player, AuthorizationEvents.FirstConnectionToCef, $"Первое потключение от {player.Name}");
+            // TODO: Проверить правильность отправки события первого подключения
         }
         
         [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]

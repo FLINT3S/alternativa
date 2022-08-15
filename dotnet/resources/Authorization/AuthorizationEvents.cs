@@ -10,9 +10,10 @@ namespace Authorization
     {
         public const string LoginSubmitFromCef = "CEF:SERVER:Authorization:LoginSubmit";
         public const string RegisterSubmitFromCef = "CEF:SERVER:Authorization:RegisterSubmit";
-        
+
+        public const string FirstConnectionToCef = "FirstConnection";
+            
         public const string LoginSuccessToCef = "LoginSuccess";
         public const string LoginFailureToCef = "LoginFailure";
-        
     }
 }
