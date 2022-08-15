@@ -2,6 +2,7 @@
 using Database;
 using Database.Models;
 using GTANetworkAPI;
+using Microsoft.EntityFrameworkCore;
 
 namespace NAPIExtensions
 {
@@ -24,6 +25,25 @@ namespace NAPIExtensions
             using var db = new AlternativaContext();
 
             return db.Accounts.FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+        }
+        
+        public static Account GetAccountWithActiveCharacter(this Player player)
+        {
+            using var db = new AlternativaContext();
+
+            return db.Accounts.Include(a => a.ActiveCharacter).FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+        }
+        
+        public static Account GetAccountWithCharactersList(this Player player)
+        {
+            using var db = new AlternativaContext();
+
+            return db.Accounts.Include(a => a.Characters).FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+        }
+
+        public static Character GetActiveCharacter(this Player player)
+        {
+            return player.GetAccountWithActiveCharacter().ActiveCharacter;
         }
     }
 }

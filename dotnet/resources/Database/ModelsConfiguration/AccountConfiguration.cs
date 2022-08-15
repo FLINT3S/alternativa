@@ -9,6 +9,7 @@ namespace Database.ModelsConfiguration
         public void Configure(EntityTypeBuilder<Account> builder)
         {
             builder.HasKey(a => a.SocialClubId);
+            builder.HasOne(a => a.ActiveCharacter).WithOne(a => a.Account);
             builder.HasMany(a => a.Characters).WithOne(c => c.Account);
             builder.HasMany(a => a.Connections).WithOne();
         }
