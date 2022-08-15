@@ -17,7 +17,7 @@ namespace Authorization
         [ServerEvent(Event.PlayerConnected)]
         private void OnPlayerConnected(Player player)
         {
-            var account = GetAccountFromPlayer(player);
+            var account = player.GetAccount();
             if (account == null)
             {
                 NewPlayerActions(player);

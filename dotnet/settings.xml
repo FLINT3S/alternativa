@@ -7,4 +7,4 @@
     <resource src="Database" />
     <resource src="TestResource" />
     <resource src="AdminPanel" />
-<resource src="Authorization" /></config>
+<resource src="Authorization" /><resource src="NAPIExtensions" /></config>

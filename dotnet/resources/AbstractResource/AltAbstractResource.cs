@@ -41,12 +41,5 @@ namespace AbstractResource
 
             return es;
         }
-        
-        public static Account GetAccountFromPlayer(Player player)
-        {
-            using var db = new AlternativaContext();
-
-            return db.Accounts.FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
-        }
     }
 }

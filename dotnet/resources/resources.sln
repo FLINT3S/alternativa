@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventString", "EventString\
 EndProject
 Project("{E591E203-048B-45FF-A642-E840479F4F96}") = "Authorization", "Authorization\Authorization.csproj", "{888071C0-B783-46D1-A0F0-F7A3A750780B}"
 EndProject
+Project("{D257FFD4-A2A5-48B0-B7F4-279F02AE7E96}") = "NAPIExtensions", "NAPIExtensions\NAPIExtensions.csproj", "{7793D314-096A-4773-9182-187C7CF67B88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -33,5 +35,7 @@ Global
             		{DE66C6FD-1A5E-448E-97D7-D56A0457B13C}.Debug|x64.Build.0 = Debug|Any CPU
         {888071C0-B783-46D1-A0F0-F7A3A750780B}.Debug|x64.ActiveCfg = Debug|x64
         {888071C0-B783-46D1-A0F0-F7A3A750780B}.Debug|x64.Build.0 = Debug|x64
+    {7793D314-096A-4773-9182-187C7CF67B88}.Debug|x64.ActiveCfg = Debug|x64
+        {7793D314-096A-4773-9182-187C7CF67B88}.Debug|x64.Build.0 = Debug|x64
 EndGlobalSection
 EndGlobal
