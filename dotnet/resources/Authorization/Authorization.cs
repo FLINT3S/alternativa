@@ -5,6 +5,7 @@ using Database.Models;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
+using NAPIExtensions;
 
 /*
  * wiki: https://www.notion.so/Authorization-44a4b5377f2848c59d1772d89dde092d

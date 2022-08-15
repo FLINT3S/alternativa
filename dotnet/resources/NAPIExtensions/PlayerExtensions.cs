@@ -3,7 +3,7 @@ using Database;
 using Database.Models;
 using GTANetworkAPI;
 
-namespace Authorization
+namespace NAPIExtensions
 {
     public static class PlayerExtensions
     {
