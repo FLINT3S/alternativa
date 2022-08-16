@@ -12,9 +12,9 @@ namespace Database.Models
         public Account(ulong socialClubId, string username, string password, string email)
         {
             SocialClubId = socialClubId;
-            Username = username;
-            PasswordHash = password;
-            Email = email;
+            UpdateUsername(username);
+            UpdatePassword(password);
+            UpdateEmail(email);
             ActiveCharacter = null;
         }
         
@@ -30,7 +30,7 @@ namespace Database.Models
         
         public string LastHwid { get; set; }
 
-        public Character ActiveCharacter { get; set; }
+        public Character ActiveCharacter { get; private set; }
 
         public List<Character> Characters { get; } = new List<Character>();
 
