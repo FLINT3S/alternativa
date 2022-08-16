@@ -13,7 +13,7 @@ namespace Database.Models
         {
             SocialClubId = socialClubId;
             Username = username;
-            Password = password;
+            PasswordHash = password;
             Email = email;
             ActiveCharacter = null;
         }
@@ -22,7 +22,9 @@ namespace Database.Models
         
         public string Username { get; private set; }
 
-        public string Password { get; private set; }
+        private string PasswordHash { get; set; }
+
+        private string PasswordSalt { get; set; }
         
         public string Email { get; private set; }
         
