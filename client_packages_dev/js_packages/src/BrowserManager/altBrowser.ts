@@ -32,6 +32,9 @@ export class AltBrowser {
   set active(value: boolean) {
     this.instance.active = value
   }
+  get url(): string {
+    return this.instance.url
+  }
 
   show() {
     if (this.options.toggleCursor) {
