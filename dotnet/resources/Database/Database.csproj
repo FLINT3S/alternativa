@@ -45,9 +45,5 @@
             <DependentUpon>Character.cs</DependentUpon>
           </Compile>
         </ItemGroup>
-
-        <ItemGroup>
-          <Folder Include="ModelsConfiguration" />
-        </ItemGroup>
     </Project>    
     
