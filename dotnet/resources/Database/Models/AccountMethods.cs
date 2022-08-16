@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
@@ -12,9 +13,16 @@ namespace Database.Models
     {
         private string ip = null!, hwid = null!;
 
-        public bool IsPasswordsMatch(string incomingPassword)
+        public bool IsPasswordsMatch(string incomingPassword) => GetPasswordHash(incomingPassword) == PasswordHash;
+
+        private string GetPasswordHash(string password) => GetSha256(password + PasswordSalt);
+
+        private static string GetSha256(string data)
         {
-            return GetSha256(incomingPassword + PasswordSalt) == PasswordHash;
+            using var sha256Hash = SHA256.Create();
+            byte[] sourceBytes = Encoding.UTF8.GetBytes(data);
+            byte[] hashBytes = sha256Hash.ComputeHash(sourceBytes);
+            return BitConverter.ToString(hashBytes).Replace("-", string.Empty);
         }
 
         #region Update user data
@@ -30,11 +38,11 @@ namespace Database.Models
             if (IsPasswordsMatch(newPassword))
                 throw new InvalidOperationException("Usernames are same!");
 
-            string newSalt = GetSha256(DateTime.Now.ToString(CultureInfo.CurrentCulture));
+            string newSalt = GetSha256(GetRandom());
             using (var context = new AlternativaContext())
             {
                 PasswordSalt = newSalt;
-                PasswordHash = GetSha256(newPassword + newSalt);
+                PasswordHash = GetPasswordHash(newPassword);
                 context.Update(this);
                 context.SaveChanges();
             }
@@ -42,15 +50,15 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
         }
 
-        private static string GetSha256(string data)
+        private static string GetRandom()
         {
-            using var sha256Hash = SHA256.Create();
-            byte[] sourceBytes = Encoding.UTF8.GetBytes(data);
-            byte[] hashBytes = sha256Hash.ComputeHash(sourceBytes);
-            string hash = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
-            return hash;
-        } 
-        
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string response = string.Empty;
+            for (int i = 0; i < 128; i++)
+                response += chars[RandomNumberGenerator.GetInt32(chars.Length)];
+            return response;
+        }
+
         public void UpdateEmail(string newEmail)
         {
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Usernames are same!");
