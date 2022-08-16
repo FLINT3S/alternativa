@@ -1,10 +1,10 @@
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AbstractResource;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
 using NAPIExtensions;
 
 /*
@@ -13,68 +13,87 @@ using NAPIExtensions;
 
 namespace Authorization
 {
-    public class Authorization : AltAbstractResource
+    public partial class Authorization : AltAbstractResource
     {
         [ServerEvent(Event.PlayerConnected)]
-        private void OnPlayerConnected(Player player)
+        private async Task OnPlayerConnected(Player player)
         {
-            var account = player.GetAccount();
+            var account = player.GetAccountFromDb();
+
             if (account == null)
             {
                 NewPlayerActions(player);
                 return;
             }
 
+            player.SetAccount(account);
             account.OnConnect(player.Address, player.Serial);
-            // TODO: Проверить заработает ли дата
-            player.SetData("account", account);
-            // TODO: Проверка на player.Serial == account.LastHWID
+            
+            if (account.LastHwid != player.Serial)
+            {
+                player.TriggerEvent(AuthorizationEvents.NeedLoginToClient);
+            }
+            
+            // TODO: Где лучше менять HWID? При подключении или при успешном логине?
+            using var db = new AlternativaContext();
+            account.LastHwid = player.Serial;
+            db.Update(account);
+            await db.SaveChangesAsync();
         }
 
-        private void NewPlayerActions(Player player)
-        {
-            AltLogger.Instance.LogInfo(new AltPlayerEvent("_newPlayers", this, "OnPlayerConnected",
-                player.GetPlayerDataString()));
-            CefConnect.TriggerCef(player, AuthorizationEvents.FirstConnectionToCef, $"Первое потключение от {player.Name}");
-            // TODO: Проверить правильность отправки события первого подключения
-        }
-        
+        #region RemoteEvents
+
         [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
         public void OnLoginSubmitFromCef(Player player, string login, string password)
         {
             using var db = new AlternativaContext();
-            
+
             var account = db.Accounts.FirstOrDefault(a => a.Username == login);
 
             if (account != null)
+            {
                 AccountFoundActions(player, account, password);
+                player.SetAccount(account);
+            }
             else
                 AccountNotFoundActions(player, login);
         }
 
-        private void AccountFoundActions(Player player, Account account, string password)
-        {
-            if (account.Password == password)
-                CefConnect.TriggerCef(player, AuthorizationEvents.LoginSuccessToCef);
-            else
-                CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef, $"Неверный пароль для пользователя {account.Username}");
-        }
-
-        private void AccountNotFoundActions(Player player, string login)
-        {
-            AltLogger.Instance.LogDevelopment(new AltEvent(this, "OnLoginSubmitFromCef", $"Account not found: {login}"));
-            CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef, $"Пользователь {login} не найден");
-        }
-
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
-        public void OnRegisterSubmitFromCef(Player player, string login, string password, string email)
+        public async Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
         {
             using var db = new AlternativaContext();
-            
+
             var account = new Account(player.SocialClubId, login, password, email);
-            
+
             db.Accounts.Add(account);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
+
+            player.SetData("account", account);
+        }
+
+        #endregion
+
+        [Command("testacc")]
+        public async Task TestAccount(Player player, string newEmail)
+        {
+            using var db = new AlternativaContext();
+            var account = player.GetAccount();
+
+            if (account == null)
+            {
+                player.SendChatMessage("Ты не авторизован");
+                return;
+            }
+
+            account.UpdateEmail(newEmail);
+            db.Update(account);
+            await db.SaveChangesAsync();
+
+            NAPI.Task.Run(() =>
+            {
+                player.SendChatMessage($"Ты авторизован как {account.Username} with email {account.Email}");
+            });
         }
     }
 }

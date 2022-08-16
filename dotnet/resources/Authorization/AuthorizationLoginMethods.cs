@@ -1,0 +1,26 @@
+﻿using Database.Models;
+using GTANetworkAPI;
+using Logger;
+using Logger.EventModels;
+
+namespace Authorization
+{
+    public partial class Authorization
+    {
+        private void AccountFoundActions(Player player, Account account, string password)
+        {
+            if (account.Password == password)
+                CefConnect.TriggerCef(player, AuthorizationEvents.LoginSuccessToCef);
+            else
+                CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
+                    $"Неверный пароль для пользователя {account.Username}");
+        }
+
+        private void AccountNotFoundActions(Player player, string login)
+        {
+            AltLogger.Instance.LogDevelopment(new AltEvent(this, "OnLoginSubmitFromCef",
+                $"Account not found: {login}"));
+            CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef, $"Пользователь {login} не найден");
+        }
+    }
+}
