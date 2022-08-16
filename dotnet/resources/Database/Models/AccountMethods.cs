@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
@@ -13,7 +11,24 @@ namespace Database.Models
     {
         private string ip = null!, hwid = null!;
 
+        #region Password logic
+
         public bool IsPasswordsMatch(string incomingPassword) => GetPasswordHash(incomingPassword) == PasswordHash;
+
+        public void UpdatePassword(string newPassword)
+        {
+            if (IsPasswordsMatch(newPassword))
+                throw new InvalidOperationException("Usernames are same!");
+
+            SetNewPasswordData(newPassword);
+            using (var context = new AlternativaContext())
+            {
+                context.Update(this);
+                context.SaveChanges();
+            }
+            
+            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
+        }
 
         private string GetPasswordHash(string password) => GetSha256(password + PasswordSalt);
 
@@ -25,38 +40,29 @@ namespace Database.Models
             return BitConverter.ToString(hashBytes).Replace("-", string.Empty);
         }
 
-        #region Update user data
-
-        public void UpdateUsername(string newUsername)
+        private void SetNewPasswordData(string newPassword)
         {
-            Username = newUsername != Username ? newUsername : throw new InvalidOperationException("Usernames are same!");
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
-        }
-        
-        public void UpdatePassword(string newPassword)
-        {
-            if (IsPasswordsMatch(newPassword))
-                throw new InvalidOperationException("Usernames are same!");
-
-            string newSalt = GetSha256(GetRandom());
-            using (var context = new AlternativaContext())
-            {
-                PasswordSalt = newSalt;
-                PasswordHash = GetPasswordHash(newPassword);
-                context.Update(this);
-                context.SaveChanges();
-            }
-            
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
+            PasswordSalt = GetSha256(GetRandomString());;
+            PasswordHash = GetPasswordHash(newPassword);
         }
 
-        private static string GetRandom()
+        private static string GetRandomString()
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             string response = string.Empty;
             for (int i = 0; i < 128; i++)
                 response += chars[RandomNumberGenerator.GetInt32(chars.Length)];
             return response;
+        }
+        
+        #endregion
+
+        #region Update user data
+
+        public void UpdateUsername(string newUsername)
+        {
+            Username = newUsername != Username ? newUsername : throw new InvalidOperationException("Usernames are same!");
+            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
         }
 
         public void UpdateEmail(string newEmail)

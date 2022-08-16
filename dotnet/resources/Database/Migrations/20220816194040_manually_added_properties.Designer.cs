@@ -3,15 +3,17 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(AlternativaContext))]
-    partial class AlternativaContextModelSnapshot : ModelSnapshot
+    [Migration("20220816194040_manually_added_properties")]
+    partial class manually_added_properties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,16 +99,14 @@ namespace Database.Migrations
                 {
                     b.HasOne("Database.Models.Account", null)
                         .WithMany("Connections")
-                        .HasForeignKey("AccountSocialClubId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AccountSocialClubId");
                 });
 
             modelBuilder.Entity("Database.Models.Character", b =>
                 {
                     b.HasOne("Database.Models.Account", "Account")
                         .WithMany("Characters")
-                        .HasForeignKey("AccountSocialClubId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AccountSocialClubId");
                 });
 #pragma warning restore 612, 618
         }

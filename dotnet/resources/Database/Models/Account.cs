@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Database.Models.AccountEvents;
+using Logger;
+using Logger.EventModels;
 
 namespace Database.Models
 {
@@ -12,9 +14,9 @@ namespace Database.Models
         public Account(ulong socialClubId, string username, string password, string email)
         {
             SocialClubId = socialClubId;
-            UpdateUsername(username);
-            UpdatePassword(password);
-            UpdateEmail(email);
+            Username = username;
+            Email = email;
+            SetNewPasswordData(password);
             ActiveCharacter = null;
         }
         
@@ -22,9 +24,9 @@ namespace Database.Models
         
         public string Username { get; private set; }
 
-        private string PasswordHash { get; set; }
+        public string PasswordHash { get; private set; }
 
-        private string PasswordSalt { get; set; }
+        public string PasswordSalt { get; private set; }
         
         public string Email { get; private set; }
         

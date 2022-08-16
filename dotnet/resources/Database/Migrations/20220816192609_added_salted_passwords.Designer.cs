@@ -3,15 +3,17 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(AlternativaContext))]
-    partial class AlternativaContextModelSnapshot : ModelSnapshot
+    [Migration("20220816192609_added_salted_passwords")]
+    partial class added_salted_passwords
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,12 +34,6 @@ namespace Database.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LastHwid")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordSalt")
                         .HasColumnType("text");
 
                     b.Property<string>("Username")
@@ -97,16 +93,14 @@ namespace Database.Migrations
                 {
                     b.HasOne("Database.Models.Account", null)
                         .WithMany("Connections")
-                        .HasForeignKey("AccountSocialClubId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AccountSocialClubId");
                 });
 
             modelBuilder.Entity("Database.Models.Character", b =>
                 {
                     b.HasOne("Database.Models.Account", "Account")
                         .WithMany("Characters")
-                        .HasForeignKey("AccountSocialClubId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AccountSocialClubId");
                 });
 #pragma warning restore 612, 618
         }
