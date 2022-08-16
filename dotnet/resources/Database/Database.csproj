@@ -32,6 +32,22 @@
           <Compile Update="Models\AccountMethods.cs">
             <DependentUpon>Account.cs</DependentUpon>
           </Compile>
+          <Compile Update="Models\AccountEvents\ConnectionEventConfiguration.cs">
+            <DependentUpon>ConnectionEvent.cs</DependentUpon>
+          </Compile>
+          <Compile Update="Models\AccountEvents\ConnectionEventType.cs">
+            <DependentUpon>ConnectionEvent.cs</DependentUpon>
+          </Compile>
+          <Compile Update="Models\AccountConfiguration.cs">
+            <DependentUpon>Account.cs</DependentUpon>
+          </Compile>
+          <Compile Update="Models\CharacterConfigurations.cs">
+            <DependentUpon>Character.cs</DependentUpon>
+          </Compile>
+        </ItemGroup>
+
+        <ItemGroup>
+          <Folder Include="ModelsConfiguration" />
         </ItemGroup>
     </Project>    
     

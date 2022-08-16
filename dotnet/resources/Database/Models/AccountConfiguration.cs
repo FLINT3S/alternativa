@@ -1,8 +1,7 @@
-﻿using Database.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Database.ModelsConfiguration
+namespace Database.Models
 {
     internal class AccountConfiguration : IEntityTypeConfiguration<Account>
     {

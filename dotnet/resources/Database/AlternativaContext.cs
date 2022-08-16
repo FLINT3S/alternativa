@@ -1,6 +1,5 @@
 ﻿using Database.Models;
 using Database.Models.AccountEvents;
-using Database.ModelsConfiguration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database

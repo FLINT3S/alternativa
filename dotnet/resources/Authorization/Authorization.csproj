@@ -18,5 +18,14 @@
         <ProjectReference Include="..\EventString\EventString.csproj" />
         <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="AuthorizationLoginMethods.cs">
+        <DependentUpon>Authorization.cs</DependentUpon>
+      </Compile>
+      <Compile Update="AuthorizationRegisterMethods.cs">
+        <DependentUpon>Authorization.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>    
     

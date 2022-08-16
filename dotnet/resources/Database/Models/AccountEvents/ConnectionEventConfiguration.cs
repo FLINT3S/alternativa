@@ -1,8 +1,7 @@
-﻿using Database.Models.AccountEvents;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Database.ModelsConfiguration
+namespace Database.Models.AccountEvents
 {
     internal class ConnectionEventConfiguration : IEntityTypeConfiguration<ConnectionEvent>
     {
