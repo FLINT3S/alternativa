@@ -10,7 +10,7 @@ namespace Authorization
         private void AccountFoundActions(Player player, Account account, string password)
         {
             if (account.Password == password)
-                CefConnect.TriggerCef(player, AuthorizationEvents.LoginSuccessToCef);
+                player.TriggerEvent(AuthorizationEvents.LoginSuccessToClient);
             else
                 CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
                     $"Неверный пароль для пользователя {account.Username}");

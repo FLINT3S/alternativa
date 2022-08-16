@@ -11,11 +11,14 @@ namespace Authorization
         public const string LoginSubmitFromCef = "CEF:SERVER:Authorization:LoginSubmit";
         public const string RegisterSubmitFromCef = "CEF:SERVER:Authorization:RegisterSubmit";
         
+        # region To Client Events
         public const string NeedLoginToClient = "CEF:CLIENT:Authorization:NeedLogin";
+        public const string FirstEntryToClient = "CEF:CLIENT:Authorization:FirstEntry";
+        public const string LoginSuccessToClient = "CEF:CLIENT:Authorization:LoginSuccess";
+        # endregion
         
-        # region CEF events
+        # region To CEF events
         public const string FirstConnectionToCef = "FirstConnection";
-        public const string LoginSuccessToCef = "LoginSuccess";
         public const string LoginFailureToCef = "LoginFailure";
         #endregion
     }
