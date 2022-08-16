@@ -9,7 +9,6 @@ namespace Database.ModelsConfiguration
         public void Configure(EntityTypeBuilder<Character> builder)
         {
             builder.HasKey(c => c.Id);
-            builder.HasOne<Account>(c => c.Account).WithOne();
         }
     }
 }

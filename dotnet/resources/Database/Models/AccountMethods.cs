@@ -35,8 +35,20 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
         }
 
+        public void OnCharacterPeek(Character peekedCharacter)
+        {
+            using var context = new AlternativaContext();
+            ActiveCharacter = peekedCharacter;
+            context.SaveChanges();
+        }
+
         public void OnDisconnect()
         {
+            using (var context = new AlternativaContext())
+            {
+                ActiveCharacter = null;
+                context.SaveChanges();
+            }
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, $"Account disconnected"));
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disonnect", $"Account disconnected."));
         }

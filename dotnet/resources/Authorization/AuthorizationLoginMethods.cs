@@ -2,6 +2,7 @@
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
+using NAPIExtensions;
 
 namespace Authorization
 {
@@ -14,6 +15,7 @@ namespace Authorization
             else
                 CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
                     $"Неверный пароль для пользователя {account.Username}");
+            player.SetAccount(account);
         }
 
         private void AccountNotFoundActions(Player player, string login)

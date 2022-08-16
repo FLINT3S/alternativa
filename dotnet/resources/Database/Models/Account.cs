@@ -15,6 +15,7 @@ namespace Database.Models
             Username = username;
             Password = password;
             Email = email;
+            ActiveCharacter = null;
         }
         
         public ulong SocialClubId { get; }
@@ -26,7 +27,7 @@ namespace Database.Models
         public string Email { get; private set; }
         
         public string LastHwid { get; set; }
-        
+
         public Character ActiveCharacter { get; set; }
 
         public List<Character> Characters { get; } = new List<Character>();
