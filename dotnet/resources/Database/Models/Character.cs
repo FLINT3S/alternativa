@@ -2,7 +2,7 @@
 
 namespace Database.Models
 {
-    public class Character
+    public class Character : AbstractModel
     {
         private Character()
         {

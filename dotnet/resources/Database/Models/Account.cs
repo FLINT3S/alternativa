@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using Database.Models.AccountEvents;
-using Logger;
-using Logger.EventModels;
 
 namespace Database.Models
 {
-    public partial class Account
+    public partial class Account : AbstractModel
     {
         private Account()
         {

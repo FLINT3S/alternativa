@@ -95,13 +95,6 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", $"Account disconnected."));
         }
 
-        private void UpdateDatabase()
-        {
-            using var context = new AlternativaContext();
-            context.Update(this);
-            context.SaveChanges();
-        }
-
         #endregion
 
         public override string ToString() => $"{Username}_[{SocialClubId}]";

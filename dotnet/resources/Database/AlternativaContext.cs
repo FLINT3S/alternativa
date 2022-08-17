@@ -1,6 +1,10 @@
-﻿using Database.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Database.Models;
 using Database.Models.AccountEvents;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Database
 {
@@ -22,6 +26,24 @@ namespace Database
             modelBuilder.ApplyConfiguration(new CharacterConfigurations());
             modelBuilder.ApplyConfiguration(new ConnectionEventConfiguration());
             
+        }
+        
+        public override int SaveChanges()
+        {
+            IEnumerable<EntityEntry> entries = ChangeTracker.Entries()
+                .Where(
+                    e => e.Entity is AbstractModel && 
+                         (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                ((AbstractModel)entityEntry.Entity).UpdatedDate = DateTime.Now;
+
+                if (entityEntry.State == EntityState.Added)
+                    ((AbstractModel)entityEntry.Entity).CreatedDate = DateTime.Now;
+            }
+
+            return base.SaveChanges();
         }
     }
 }
