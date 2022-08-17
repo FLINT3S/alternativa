@@ -22,13 +22,13 @@ namespace Database.Models
 
         public string Username { get; private set; }
 
-        public string PasswordHash { get; private set; }
+        public string PasswordHash { get; private set; } = null!;
 
-        public string PasswordSalt { get; private set; }
+        public string PasswordSalt { get; private set; } = null!;
 
         public string Email { get; private set; }
 
-        public string LastHwid { get; private set; }
+        public string LastHwid { get; private set; } = null!;
 
         public Character? ActiveCharacter { get; private set; }
 
