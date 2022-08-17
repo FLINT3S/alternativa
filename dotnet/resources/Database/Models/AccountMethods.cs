@@ -21,12 +21,7 @@ namespace Database.Models
                 throw new InvalidOperationException("Usernames are same!");
 
             SetNewPasswordData(newPassword);
-            using (var context = new AlternativaContext())
-            {
-                context.Update(this);
-                context.SaveChanges();
-            }
-            
+            UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
         }
 
@@ -62,12 +57,14 @@ namespace Database.Models
         public void UpdateUsername(string newUsername)
         {
             Username = newUsername != Username ? newUsername : throw new InvalidOperationException("Usernames are same!");
+            UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
         }
 
         public void UpdateEmail(string newEmail)
         {
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Usernames are same!");
+            UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
         }
 
@@ -80,27 +77,29 @@ namespace Database.Models
             this.ip = ip;
             this.hwid = hwid;
             Connections.Add(new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, $"Account connected."));
+            UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
         }
 
         public void OnCharacterPeek(Character peekedCharacter)
         {
-            using var context = new AlternativaContext();
             ActiveCharacter = peekedCharacter;
-            context.Update(this);
-            context.SaveChanges();
+            UpdateDatabase();
         }
 
         public void OnDisconnect()
         {
-            using (var context = new AlternativaContext())
-            {
-                ActiveCharacter = null;
-                context.Update(this);
-                context.SaveChanges();
-            }
+            ActiveCharacter = null;
+            UpdateDatabase();
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, $"Account disconnected"));
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", $"Account disconnected."));
+        }
+
+        private void UpdateDatabase()
+        {
+            using var context = new AlternativaContext();
+            context.Update(this);
+            context.SaveChanges();
         }
 
         #endregion
