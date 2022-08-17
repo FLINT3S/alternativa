@@ -30,7 +30,7 @@ namespace Database.Models
         
         public string LastHwid { get; private set; }
 
-        public Character ActiveCharacter { get; private set; }
+        public Character? ActiveCharacter { get; private set; }
 
         public List<Character> Characters { get; } = new List<Character>();
 

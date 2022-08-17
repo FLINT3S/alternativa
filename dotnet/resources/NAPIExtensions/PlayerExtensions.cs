@@ -28,7 +28,7 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из базы данных</returns>
-        public static Account GetAccountFromDb(this Player player)
+        public static Account? GetAccountFromDb(this Player player)
         {
             using var db = new AlternativaContext();
 
@@ -41,28 +41,28 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
-        public static Account GetAccount(this Player player) => 
+        public static Account? GetAccount(this Player player) => 
             player.HasData(PlayerConstants.Account) ? 
                 player.GetData<Account>(PlayerConstants.Account) : null;
 
         public static void SetAccount(this Player player, Account account) => 
             player.SetData(PlayerConstants.Account, account);
 
-        public static Account GetAccountWithActiveCharacter(this Player player)
+        public static Account? GetAccountWithActiveCharacter(this Player player)
         {
             using var db = new AlternativaContext();
 
             return db.Accounts.Include(a => a.ActiveCharacter).FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
         }
         
-        public static Account GetAccountWithCharactersList(this Player player)
+        public static Account? GetAccountWithCharactersList(this Player player)
         {
             using var db = new AlternativaContext();
 
             return db.Accounts.Include(a => a.Characters).FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
         }
 
-        public static Character GetActiveCharacter(this Player player) => 
-            player.GetAccountWithActiveCharacter().ActiveCharacter;
+        public static Character? GetActiveCharacter(this Player player) => 
+            player.GetAccountWithActiveCharacter()!.ActiveCharacter;
     }
 }

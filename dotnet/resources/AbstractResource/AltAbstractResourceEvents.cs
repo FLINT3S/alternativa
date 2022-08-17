@@ -8,7 +8,7 @@ namespace AbstractResource
     {
         public string ResourceName { get; }
 
-        public AltAbstractResourceEvents()
+        protected AltAbstractResourceEvents()
         {
             ResourceName = GetType().Name.Replace("Events", "");
         }

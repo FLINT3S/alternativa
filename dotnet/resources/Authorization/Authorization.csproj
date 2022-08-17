@@ -5,6 +5,7 @@
         <Platforms>x64</Platforms>
         <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
         <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>

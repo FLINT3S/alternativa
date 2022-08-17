@@ -95,7 +95,7 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
         }
 
-        public void OnCharacterPeek(Character peekedCharacter)
+        public void OnCharacterPeek(Character? peekedCharacter)
         {
             ActiveCharacter = peekedCharacter;
             UpdateDatabase();
