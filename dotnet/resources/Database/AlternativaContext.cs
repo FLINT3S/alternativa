@@ -27,7 +27,10 @@ namespace Database
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
             modelBuilder.ApplyConfiguration(new CharacterConfigurations());
             modelBuilder.ApplyConfiguration(new ConnectionEventConfiguration());
-            modelBuilder.ApplyConfiguration(new BanConfigurations());
+            
+            modelBuilder.ApplyConfiguration<AbstractBan>(new BanConfigurations());
+            modelBuilder.ApplyConfiguration<TemporaryBan>(new BanConfigurations());
+            modelBuilder.ApplyConfiguration<PermanentBan>(new BanConfigurations());
         }
 
         public override int SaveChanges()
