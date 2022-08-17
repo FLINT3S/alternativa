@@ -11,9 +11,16 @@ namespace Database.Models
     {
         private string ip = null!, hwid = null!;
 
+        #region Predicates
+
+        public bool IsSameHwid(string hwid) => LastHwid == hwid;
+
+        #endregion
+
         #region Password logic
 
-        public bool IsPasswordsMatch(string incomingPassword) => GetPasswordHash(incomingPassword) == PasswordHash;
+        public bool IsPasswordsMatch(string incomingPassword) => 
+            GetPasswordHash(incomingPassword) == PasswordHash;
 
         public void UpdatePassword(string newPassword)
         {
@@ -25,7 +32,8 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
         }
 
-        private string GetPasswordHash(string password) => GetSha256(password + PasswordSalt);
+        private string GetPasswordHash(string password) => 
+            GetSha256(password + PasswordSalt);
 
         private static string GetSha256(string data)
         {
@@ -66,6 +74,12 @@ namespace Database.Models
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Usernames are same!");
             UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
+        }
+
+        public void UpdateHwid(string newHwid)
+        {
+            LastHwid = newHwid;
+            UpdateDatabase();
         }
 
         #endregion

@@ -17,7 +17,7 @@ namespace Authorization
     public partial class Authorization : AltAbstractResource
     {
         [ServerEvent(Event.PlayerConnected)]
-        private async Task OnPlayerConnected(Player player)
+        private void OnPlayerConnected(Player player)
         {
             var account = player.GetAccountFromDb();
 
@@ -30,14 +30,11 @@ namespace Authorization
             player.SetAccount(account);
             account.OnConnect(player.Address, player.Serial);
             
-            if (account.LastHwid != player.Serial)
+            if (account.IsSameHwid(player.Serial))
                 player.TriggerEvent(AuthorizationEvents.NeedLoginToClient);
 
             // TODO: Где лучше менять HWID? При подключении или при успешном логине?
-            await using var db = new AlternativaContext();
-            account.LastHwid = player.Serial;
-            db.Update(account);
-            await db.SaveChangesAsync();
+            account.UpdateHwid(player.Serial);
         }
 
         #region RemoteEvents
