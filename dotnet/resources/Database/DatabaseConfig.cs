@@ -12,6 +12,7 @@
 
         private static string Database => "alt";
 
-        public static string ConnectionString => $"Host={Host};Port={Port};User Id={User};Password={Password};Database={Database}";
+        public static string ConnectionString =>
+            $"Host={Host};Port={Port};User Id={User};Password={Password};Database={Database}";
     }
 }

@@ -16,15 +16,15 @@ namespace Database.Models.AccountEvents
             Description = description;
             DateTime = DateTime.Now;
         }
-        
+
         public long Id { get; }
 
         public DateTime DateTime { get; }
-        
+
         public string Ip { get; }
-        
+
         public string HWID { get; }
-        
+
         public string? Description { get; }
     }
 }

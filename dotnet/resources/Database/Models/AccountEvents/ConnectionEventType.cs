@@ -3,6 +3,7 @@
     public enum ConnectionEventType
     {
         Connected,
+
         Disconnected
     }
 }

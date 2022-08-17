@@ -2,6 +2,7 @@
 using System.Linq;
 using Database.Models;
 using Database.Models.AccountEvents;
+using Database.Models.Bans;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -9,14 +10,16 @@ namespace Database
 {
     public class AlternativaContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql(DatabaseConfig.ConnectionString);
-        }
+        public DbSet<Account> Accounts { get; private set; }
 
-        public DbSet<Account> Accounts { get; set; }
         public DbSet<Character> Characters { get; set; }
+
         public DbSet<ConnectionEvent> ConnectionEvents { get; set; }
+
+        public DbSet<AbstractBan> Bans { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
+            optionsBuilder.UseNpgsql(DatabaseConfig.ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,17 +27,18 @@ namespace Database
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
             modelBuilder.ApplyConfiguration(new CharacterConfigurations());
             modelBuilder.ApplyConfiguration(new ConnectionEventConfiguration());
-            
+            modelBuilder.ApplyConfiguration(new BanConfigurations());
         }
-        
+
         public override int SaveChanges()
         {
-            var entries = ChangeTracker.Entries<AbstractModel>().AsQueryable();
-            var models = entries.Where(entityEntry => entityEntry.Entity != null);
-            var editedModels = models.Where(e => 
-                    e.State == EntityState.Added || e.State == EntityState.Modified
+            IQueryable<EntityEntry<AbstractModel>> entries = ChangeTracker.Entries<AbstractModel>().AsQueryable();
+            IQueryable<EntityEntry<AbstractModel>> models = entries.Where(entityEntry => entityEntry.Entity != null);
+            IQueryable<EntityEntry<AbstractModel>> editedModels = models.Where(
+                    e =>
+                        e.State == EntityState.Added || e.State == EntityState.Modified
                 );
-            
+
             foreach (EntityEntry<AbstractModel> entityEntry in editedModels)
             {
                 entityEntry.Entity.UpdatedDate = DateTime.Now;

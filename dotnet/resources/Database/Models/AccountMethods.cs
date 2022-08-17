@@ -17,9 +17,11 @@ namespace Database.Models
 
         #endregion
 
+        public override string ToString() => $"{Username}_[{SocialClubId}]";
+
         #region Password logic
 
-        public bool IsPasswordsMatch(string incomingPassword) => 
+        public bool IsPasswordsMatch(string incomingPassword) =>
             GetPasswordHash(incomingPassword) == PasswordHash;
 
         public void UpdatePassword(string newPassword)
@@ -32,7 +34,7 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
         }
 
-        private string GetPasswordHash(string password) => 
+        private string GetPasswordHash(string password) =>
             GetSha256(password + PasswordSalt);
 
         private static string GetSha256(string data)
@@ -45,7 +47,8 @@ namespace Database.Models
 
         private void SetNewPasswordData(string newPassword)
         {
-            PasswordSalt = GetSha256(GetRandomString());;
+            PasswordSalt = GetSha256(GetRandomString());
+            ;
             PasswordHash = GetPasswordHash(newPassword);
         }
 
@@ -57,7 +60,7 @@ namespace Database.Models
                 response += chars[RandomNumberGenerator.GetInt32(chars.Length)];
             return response;
         }
-        
+
         #endregion
 
         #region Update user data
@@ -90,7 +93,7 @@ namespace Database.Models
         {
             this.ip = ip;
             this.hwid = hwid;
-            Connections.Add(new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, $"Account connected."));
+            Connections.Add(new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, "Account connected."));
             UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
         }
@@ -105,12 +108,10 @@ namespace Database.Models
         {
             ActiveCharacter = null;
             UpdateDatabase();
-            Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, $"Account disconnected"));
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", $"Account disconnected."));
+            Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
+            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", "Account disconnected."));
         }
 
         #endregion
-
-        public override string ToString() => $"{Username}_[{SocialClubId}]";
     }
 }

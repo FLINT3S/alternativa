@@ -17,17 +17,17 @@ namespace Database.Models
             SetNewPasswordData(password);
             ActiveCharacter = null;
         }
-        
+
         public ulong SocialClubId { get; }
-        
+
         public string Username { get; private set; }
 
         public string PasswordHash { get; private set; }
 
         public string PasswordSalt { get; private set; }
-        
+
         public string Email { get; private set; }
-        
+
         public string LastHwid { get; private set; }
 
         public Character? ActiveCharacter { get; private set; }
