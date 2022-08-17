@@ -41,23 +41,13 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
-        public static Account GetAccount(this Player player)
-        {
-            if (player.HasData("account"))
-            {
-                // TODO: Вынести строку ключа даты в константу (отдельный класс?)
-                return player.GetData<Account>("account");
-            }
+        public static Account GetAccount(this Player player) => 
+            player.HasData(PlayerConstants.Account) ? 
+                player.GetData<Account>(PlayerConstants.Account) : null;
 
-            return null;
-        }
-        
-        public static void SetAccount(this Player player, Account account)
-        {
-            // TODO: Вынести строку ключа даты в константу (отдельный класс?)
-            player.SetData("account", account);
-        }
-        
+        public static void SetAccount(this Player player, Account account) => 
+            player.SetData(PlayerConstants.Account, account);
+
         public static Account GetAccountWithActiveCharacter(this Player player)
         {
             using var db = new AlternativaContext();
@@ -72,9 +62,7 @@ namespace NAPIExtensions
             return db.Accounts.Include(a => a.Characters).FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
         }
 
-        public static Character GetActiveCharacter(this Player player)
-        {
-            return player.GetAccountWithActiveCharacter().ActiveCharacter;
-        }
+        public static Character GetActiveCharacter(this Player player) => 
+            player.GetAccountWithActiveCharacter().ActiveCharacter;
     }
 }

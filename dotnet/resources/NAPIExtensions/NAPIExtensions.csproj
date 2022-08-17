@@ -17,5 +17,11 @@
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
         <ProjectReference Include="..\EventString\EventString.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="PlayerConstants.cs">
+        <DependentUpon>PlayerExtensions.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>    
     
