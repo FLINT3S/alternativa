@@ -30,17 +30,16 @@ namespace Database
         
         public override int SaveChanges()
         {
-            IEnumerable<EntityEntry> entries = ChangeTracker.Entries()
-                .Where(
-                    e => e.Entity is AbstractModel && 
-                         (e.State == EntityState.Added || e.State == EntityState.Modified));
+            IEnumerable<EntityEntry<AbstractModel>> entries = ChangeTracker.Entries<AbstractModel>()
+                .Where(e => e.Entity != null && 
+                            (e.State == EntityState.Added || e.State == EntityState.Modified));
 
-            foreach (var entityEntry in entries)
+            foreach (EntityEntry<AbstractModel> entityEntry in entries)
             {
-                ((AbstractModel)entityEntry.Entity).UpdatedDate = DateTime.Now;
+                entityEntry.Entity.UpdatedDate = DateTime.Now;
 
                 if (entityEntry.State == EntityState.Added)
-                    ((AbstractModel)entityEntry.Entity).CreatedDate = DateTime.Now;
+                    entityEntry.Entity.CreatedDate = DateTime.Now;
             }
 
             return base.SaveChanges();
