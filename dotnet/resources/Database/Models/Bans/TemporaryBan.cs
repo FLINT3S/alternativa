@@ -11,6 +11,6 @@ namespace Database.Models.Bans
                 description
             ) => EndTime = endTime;
 
-        public DateTime EndTime { get; }
+        public DateTime EndTime { get; private set; }
     }
 }

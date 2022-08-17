@@ -17,17 +17,17 @@ namespace Database.Models
             CreatedAt = DateTime.Now;
         }
 
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
-        public Account Account { get; }
+        public Account Account { get; private set; }
 
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; private set; }
 
-        public string FirstName { get; }
+        public string FirstName { get; private set; }
 
-        public string LastName { get; }
+        public string LastName { get; private set; }
 
-        public DateTime Birthday { get; }
+        public DateTime Birthday { get; private set; }
 
         public long Cash { get; set; }
     }

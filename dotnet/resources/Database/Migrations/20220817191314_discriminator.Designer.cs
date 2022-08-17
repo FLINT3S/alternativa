@@ -3,15 +3,17 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(AlternativaContext))]
-    partial class AlternativaContextModelSnapshot : ModelSnapshot
+    [Migration("20220817191314_discriminator")]
+    partial class discriminator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,23 +76,6 @@ namespace Database.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("HWID")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Ip")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -110,25 +95,14 @@ namespace Database.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<decimal>("GivenBySocialClubId")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<int>("Reason")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GivenBySocialClubId");
 
                     b.ToTable("Bans");
 
@@ -144,25 +118,11 @@ namespace Database.Migrations
                     b.Property<decimal>("AccountSocialClubId")
                         .HasColumnType("numeric(20,0)");
 
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<long>("Cash")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -187,15 +147,6 @@ namespace Database.Migrations
                         .WithMany("Connections")
                         .HasForeignKey("AccountSocialClubId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Database.Models.Bans.AbstractBan", b =>
-                {
-                    b.HasOne("Database.Models.Account", "GivenBy")
-                        .WithMany()
-                        .HasForeignKey("GivenBySocialClubId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Database.Models.Character", b =>

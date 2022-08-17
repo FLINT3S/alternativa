@@ -18,7 +18,7 @@ namespace Database.Models
             ActiveCharacter = null;
         }
 
-        public ulong SocialClubId { get; }
+        public ulong SocialClubId { get; private set; }
 
         public string Username { get; private set; }
 

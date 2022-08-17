@@ -17,14 +17,14 @@ namespace Database.Models.AccountEvents
             DateTime = DateTime.Now;
         }
 
-        public long Id { get; }
+        public long Id { get; private set; }
 
-        public DateTime DateTime { get; }
+        public DateTime DateTime { get; private set; }
 
-        public string Ip { get; }
+        public string Ip { get; private set; }
 
-        public string HWID { get; }
+        public string HWID { get; private set; }
 
-        public string? Description { get; }
+        public string? Description { get; private set; }
     }
 }

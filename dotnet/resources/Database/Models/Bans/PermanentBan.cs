@@ -9,6 +9,6 @@
         public PermanentBan(string hwid, Account givenBy, BanReason reason = BanReason.Other, string? description = null) :
             base(givenBy, reason, description) => HWID = hwid;
 
-        public string HWID { get; }
+        public string HWID { get; private set; }
     }
 }

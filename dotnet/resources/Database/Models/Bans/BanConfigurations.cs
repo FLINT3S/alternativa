@@ -8,6 +8,7 @@ namespace Database.Models.Bans
         public void Configure(EntityTypeBuilder<AbstractBan> builder)
         {
             builder.HasKey(b => b.Id);
+            builder.HasDiscriminator();
         }
     }
 }

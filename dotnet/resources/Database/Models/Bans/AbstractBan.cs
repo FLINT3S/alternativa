@@ -17,13 +17,13 @@ namespace Database.Models.Bans
             Description = description;
         }
 
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
-        public BanReason Reason { get; }
+        public BanReason Reason { get; private set;}
 
-        public string? Description { get; }
+        public string? Description { get; private set; }
 
-        public Account GivenBy { get; }
+        public Account GivenBy { get; private set; }
 
         [NotMapped] public DateTime StartDate => CreatedDate;
     }
