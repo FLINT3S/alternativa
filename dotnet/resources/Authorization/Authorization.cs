@@ -22,21 +22,45 @@ namespace Authorization
         [RemoteEvent(AuthorizationEvents.PlayerReadyFromClient)]
         private void OnPlayerConnectedAndReady(Player player)
         {
-            var account = player.GetAccountFromDb();
-
-            if (account == null)
+            var hwidBan = player.GetBanByHwid();
+            if (hwidBan != null)
+            {
+                player.TriggerEvent(AuthorizationEvents.PermanentlyBanned, hwidBan.Reason, hwidBan.Description);
+                return;
+            }
+            
+            
+            if (!player.HasAccount())
             {
                 NewPlayerActions(player);
+                return;
+            }
+            
+            var account = player.GetAccountFromDb()!;
+
+            if (account.IsTemporaryBanned())
+            {
+                var ban = account.GetLongestBan();
+                player.TriggerEvent(AuthorizationEvents.TemporaryBanned, ban.Reason, ban.StartDate, ban.EndDate, ban.Description);
                 return;
             }
 
             player.SetAccount(account);
             account.OnConnect(player.Address, player.Serial);
 
-            if (!account.IsSameHwid(player.Serial))
-                player.TriggerEvent(AuthorizationEvents.NeedLoginToClient);
-            else
-                player.TriggerEvent(AuthorizationEvents.LoginSuccessToClient);
+            player.TriggerEvent(
+                    !account.IsSameHwid(player.Serial) ? AuthorizationEvents.NeedLoginToClient
+                        : AuthorizationEvents.LoginSuccessToClient
+                );
+        }
+
+        private void CheckHwidBans(Player player)
+        {
+            var hwidBan = player.GetBanByHwid();
+            if (hwidBan != null)
+            {
+                
+            }
         }
 
         #region RemoteEvents

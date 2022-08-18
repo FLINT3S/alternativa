@@ -31,14 +31,14 @@ namespace Database.Models
 
         public string LastHwid { get; private set; } = null!;
 
-        public List<TemporaryBan> TemporaryBans { get; } = new List<TemporaryBan>();
+        public virtual List<TemporaryBan> TemporaryBans { get; } = new List<TemporaryBan>();
 
-        public PermanentBan? PermanentBan { get; private set; } = null;
+        public virtual PermanentBan? PermanentBan { get; private set; } = null;
 
-        public Character? ActiveCharacter { get; private set; }
+        public virtual Character? ActiveCharacter { get; private set; }
 
-        public List<Character> Characters { get; } = new List<Character>();
+        public virtual List<Character> Characters { get; } = new List<Character>();
 
-        public List<ConnectionEvent> Connections { get; } = new List<ConnectionEvent>();
+        public virtual List<ConnectionEvent> Connections { get; } = new List<ConnectionEvent>();
     }
 }

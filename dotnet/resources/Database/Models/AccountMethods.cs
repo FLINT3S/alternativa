@@ -89,12 +89,10 @@ namespace Database.Models
 
         #region Bans
 
-        public bool IsPermanentlyBanned() => PermanentBan != null;
+        public bool IsTemporaryBanned() => GetLongestBan().EndDate - DateTime.Now > TimeSpan.Zero;
 
-        public bool IsTemporaryBanned() => GetRemainingTime() > TimeSpan.Zero;
-
-        public TimeSpan GetRemainingTime() => TemporaryBans.Any() ? 
-            TemporaryBans.Max(b => b.StartDate + b.Duration) - DateTime.Now : TimeSpan.Zero;
+        public TemporaryBan GetLongestBan() => TemporaryBans
+            .FirstOrDefault(b => b.EndDate == TemporaryBans.Max(ban => ban.EndDate));
 
         public void Ban(AbstractBan ban)
         {

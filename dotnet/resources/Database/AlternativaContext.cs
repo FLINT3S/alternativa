@@ -19,7 +19,9 @@ namespace Database
         public DbSet<AbstractBan> Bans { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
-            optionsBuilder.UseNpgsql(DatabaseConfig.ConnectionString);
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseNpgsql(DatabaseConfig.ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

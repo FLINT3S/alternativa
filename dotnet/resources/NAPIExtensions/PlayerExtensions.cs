@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Database;
 using Database.Models;
+using Database.Models.Bans;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,20 @@ namespace NAPIExtensions
             response += "===========================================================";
             return response;
         }
-        
+
+        public static PermanentBan? GetBanByHwid(this Player player)
+        {
+            using var context = new AlternativaContext();
+            return context.Bans.FirstOrDefault(
+                b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial)
+                as PermanentBan;
+        }
+
+        public static bool HasAccount(this Player player)
+        {
+            using var context = new AlternativaContext();
+            return context.Find<Account>(player.GetAccount()) != null;
+        }
 
         /// <summary>
         /// <b>Использовать аккуратно!</b>
@@ -48,21 +62,7 @@ namespace NAPIExtensions
         public static void SetAccount(this Player player, Account account) => 
             player.SetData(PlayerConstants.Account, account);
 
-        public static Account? GetAccountWithActiveCharacter(this Player player)
-        {
-            using var db = new AlternativaContext();
-
-            return db.Accounts.Include(a => a.ActiveCharacter).FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
-        }
-        
-        public static Account? GetAccountWithCharactersList(this Player player)
-        {
-            using var db = new AlternativaContext();
-
-            return db.Accounts.Include(a => a.Characters).FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
-        }
-
         public static Character? GetActiveCharacter(this Player player) => 
-            player.GetAccountWithActiveCharacter()!.ActiveCharacter;
+            player.GetAccount()!.ActiveCharacter;
     }
 }
