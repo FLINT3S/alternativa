@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database.Models.Bans
 {
-    public abstract class AbstractBan : AbstractModel
+    public abstract partial class AbstractBan : AbstractModel
     {
         // EF Core .ctor
         protected AbstractBan()

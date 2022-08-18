@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
+using Database.Models.Bans;
 using Logger;
 using Logger.EventModels;
 
@@ -10,16 +12,26 @@ namespace Database.Models
     public partial class Account
     {
         private string ip = null!, hwid = null!;
+        
+        #region Simple user data
 
-        #region Predicates
+        public void UpdateUsername(string newUsername)
+        {
+            Username = newUsername != Username ? newUsername : throw new InvalidOperationException("Usernames are same!");
+            UpdateDatabase();
+            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
+        }
 
-        public bool IsSameHwid(string hwid) => LastHwid == hwid;
+        public void UpdateEmail(string newEmail)
+        {
+            Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Usernames are same!");
+            UpdateDatabase();
+            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
+        }
 
         #endregion
 
-        public override string ToString() => $"{Username}_[{SocialClubId}]";
-
-        #region Password logic
+        #region Passwords
 
         public bool IsPasswordsMatch(string incomingPassword) =>
             GetPasswordHash(incomingPassword) == PasswordHash;
@@ -62,26 +74,46 @@ namespace Database.Models
         }
 
         #endregion
+        
+        #region HWID
 
-        #region Update user data
-
-        public void UpdateUsername(string newUsername)
-        {
-            Username = newUsername != Username ? newUsername : throw new InvalidOperationException("Usernames are same!");
-            UpdateDatabase();
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
-        }
-
-        public void UpdateEmail(string newEmail)
-        {
-            Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Usernames are same!");
-            UpdateDatabase();
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
-        }
+        public bool IsSameHwid(string hwid) => LastHwid == hwid;
 
         public void UpdateHwid(string newHwid)
         {
             LastHwid = newHwid;
+            UpdateDatabase();
+        }
+
+        #endregion
+
+        #region Bans
+
+        public bool IsPermanentlyBanned() => PermanentBan != null;
+
+        public bool IsTemporaryBanned() => GetRemainingTime() > TimeSpan.Zero;
+
+        public TimeSpan GetRemainingTime() => TemporaryBans.Any() ? 
+            TemporaryBans.Max(b => b.StartDate + b.Duration) - DateTime.Now : TimeSpan.Zero;
+
+        public void Ban(AbstractBan ban)
+        {
+            ban.AddToContext();
+            switch (ban)
+            {
+                case PermanentBan permanentBan:
+                {
+                    PermanentBan = permanentBan;
+                    break;
+                }
+                case TemporaryBan temporaryBan:
+                {
+                    TemporaryBans.Add(temporaryBan);
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(ban));
+            }
             UpdateDatabase();
         }
 
@@ -113,5 +145,11 @@ namespace Database.Models
         }
 
         #endregion
+
+        public override bool Equals(object obj) => ToString().Equals(obj?.ToString() ?? "null");
+
+        public override int GetHashCode() => ToString().GetHashCode();
+
+        public override string ToString() => $"{Username}_[{SocialClubId}]";
     }
 }
