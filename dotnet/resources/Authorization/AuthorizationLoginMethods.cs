@@ -11,11 +11,16 @@ namespace Authorization
         private void AccountFoundActions(Player player, Account account, string password)
         {
             if (account.IsPasswordsMatch(password))
+            {
                 player.TriggerEvent(AuthorizationEvents.LoginSuccessToClient);
+                account.UpdateHwid(player.Serial);
+                player.SetAccount(account);
+            }
             else
+            {
                 CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
                     $"Неверный пароль для пользователя {account.Username}");
-            player.SetAccount(account);
+            }
         }
 
         private void AccountNotFoundActions(Player player, string login)

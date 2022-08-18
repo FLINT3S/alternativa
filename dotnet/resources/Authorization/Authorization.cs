@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AbstractResource;
@@ -16,8 +17,10 @@ namespace Authorization
 {
     public partial class Authorization : AltAbstractResource
     {
-        [ServerEvent(Event.PlayerConnected)]
-        private void OnPlayerConnected(Player player)
+        // Здесь ивент от клиента (а не PlayerConnected), о том, что он готов к логину
+        // (посылается после загрузки основных браузеров)
+        [RemoteEvent(AuthorizationEvents.PlayerReadyFromClient)]
+        private void OnPlayerConnectedAndReady(Player player)
         {
             var account = player.GetAccountFromDb();
 
@@ -29,12 +32,11 @@ namespace Authorization
 
             player.SetAccount(account);
             account.OnConnect(player.Address, player.Serial);
-            
-            if (account.IsSameHwid(player.Serial))
-                player.TriggerEvent(AuthorizationEvents.NeedLoginToClient);
 
-            // TODO: Где лучше менять HWID? При подключении или при успешном логине?
-            account.UpdateHwid(player.Serial);
+            if (!account.IsSameHwid(player.Serial))
+                player.TriggerEvent(AuthorizationEvents.NeedLoginToClient);
+            else
+                player.TriggerEvent(AuthorizationEvents.LoginSuccessToClient);
         }
 
         #region RemoteEvents

@@ -11,8 +11,7 @@ namespace Authorization
         {
             AltLogger.Instance.LogInfo(new AltPlayerEvent("_newPlayers", this, "OnPlayerConnected",
                 player.GetPlayerDataString()));
-            CefConnect.TriggerCef(player, AuthorizationEvents.FirstConnectionToCef,
-                $"Первое потключение от {player.Name}");
+            player.TriggerEvent(AuthorizationEvents.FirstConnectionToClient);
         }
     }
 }
