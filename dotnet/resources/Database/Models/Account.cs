@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Database.Models.AccountEvents;
+using Database.Models.Bans;
 
 namespace Database.Models
 {
@@ -29,6 +30,10 @@ namespace Database.Models
         public string Email { get; private set; }
 
         public string LastHwid { get; private set; } = null!;
+
+        public List<TemporaryBan> TemporaryBans { get; } = new List<TemporaryBan>();
+
+        public PermanentBan? PermanentBan { get; private set; } = null;
 
         public Character? ActiveCharacter { get; private set; }
 

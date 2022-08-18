@@ -8,12 +8,8 @@ namespace Database.Models.Bans
         {
         }
         
-        public TemporaryBan(DateTime endTime, Account givenBy, BanReason reason = BanReason.Other,
-            string? description = null) : base(
-                givenBy,
-                reason,
-                description
-            ) => EndTime = endTime;
+        public TemporaryBan(DateTime endTime, Account givenBy, Account givenTo, BanReason reason = BanReason.Other,
+            string description = null) : base(givenBy, givenTo, reason, description) => EndTime = endTime;
 
         public DateTime EndTime { get; private set; }
     }
