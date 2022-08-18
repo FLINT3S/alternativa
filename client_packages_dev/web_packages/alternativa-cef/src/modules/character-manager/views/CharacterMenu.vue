@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-
+    Выбор персонажа
   </div>
 </template>
 

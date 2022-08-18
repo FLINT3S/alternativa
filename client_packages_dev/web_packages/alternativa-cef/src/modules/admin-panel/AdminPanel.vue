@@ -25,7 +25,6 @@ export default defineComponent({
   mixins: [openOverlayMixin],
   data() {
     return {
-      overlayTitle: "Admin Panel",
       executeServerEvent: "CEF:SERVER:AdminPanel:randomDamage"
     };
   },

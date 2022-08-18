@@ -32,8 +32,17 @@ export class AltBrowser {
   set active(value: boolean) {
     this.instance.active = value
   }
+
   get url(): string {
     return this.instance.url
+  }
+
+  set url(value: string) {
+    this.instance.url = value
+  }
+
+  getInstance() {
+    return this.instance
   }
 
   show() {
@@ -60,43 +69,51 @@ export class AltBrowser {
     }
   }
 
-  execEvent(event: string, ...data: Array<string|number>) {
+  execEvent(event: string, ...data: Array<string | number>) {
     this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
+  }
+
+  execClient(eventName: string, ...data: Array<string | number>) {
+    this.execEvent(`CLIENT:CEF:${this.name}:${eventName}`, ...data)
   }
 }
 
 export class AltOverlayBrowser extends AltBrowser {
-  private isOverlayOpened: boolean = false;
-  private closeTimers: Map<string, NodeJS.Timeout>;
+  private isOverlayOpened: boolean = false
+  private closeTimer: NodeJS.Timeout
 
   constructor(url: string, name: string, options?: object) {
     super(url, name, options)
   }
 
-  openOverlay(overlayName?: string) {
+  openOverlay() {
+    clearTimeout(this.closeTimer)
     this.show()
 
     this.isOverlayOpened = true
-    this.execEvent(`CLIENT:CEF:${this.name}:onOpenOverlay`, overlayName)
+    this.execEvent(`CLIENT:CEF:${this.name}:onOpenOverlay`)
   }
 
-  closeOverlay(overlayName?: string) {
+  closeOverlay(): Promise<boolean> {
     if (this.options.toggleCursor) {
       mp.gui.cursor.visible = false
     }
 
     this.isOverlayOpened = false
-    this.execEvent(`CLIENT:CEF:${this.name}:onCloseOverlay`, overlayName)
+    this.execEvent(`CLIENT:CEF:${this.name}:onCloseOverlay`)
 
-    // FIXME: Не вызывается таймаут
-    this.closeTimers.set(overlayName, setTimeout(() => {
-      mp.gui.chat.push("Окно закрыто")
-        this.hide()
-      },
-      this.options.overlayCloseTimeout))
+
+    return new Promise((resolve) => {
+      this.closeTimer = setTimeout(() => {
+          this.hide()
+          resolve(true)
+        },
+        this.options.overlayCloseTimeout
+      )
+    })
   }
 
-  toggleOverlay(overlayName?: string) {
-    this.isOverlayOpened ? this.closeOverlay(overlayName) : this.openOverlay(overlayName)
+  toggleOverlay() {
+    this.isOverlayOpened ? this.closeOverlay() : this.openOverlay()
   }
 }

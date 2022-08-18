@@ -1,7 +1,6 @@
 export const openOverlayMixin = {
     data() {
         return {
-            overlayTitle: null,
             isOverlayOpen: false,
         };
     },
