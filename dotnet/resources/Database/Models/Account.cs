@@ -6,7 +6,7 @@ namespace Database.Models
 {
     public partial class Account : AbstractModel
     {
-        private Account()
+        protected Account()
         {
         }
 

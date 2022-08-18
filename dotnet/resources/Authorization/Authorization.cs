@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AbstractResource;
+using Authorization.ChainOfResponsibility;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
@@ -17,51 +18,22 @@ namespace Authorization
 {
     public partial class Authorization : AltAbstractResource
     {
+        private readonly AbstractHandler connectHandler;
+
+        public Authorization()
+        {
+            var loginStatusSender = new LoginStatusSender();
+            var temporaryBansChecker = new TemporaryBanChecker(loginStatusSender);
+            var permanentBansChecker = new PermanentBanChecker(temporaryBansChecker);
+            var existAccountChecker = new ExistAccountChecker(permanentBansChecker);
+            var hwidBansChecker = new HwidBansChecker(existAccountChecker);
+            connectHandler = hwidBansChecker;
+        }
+        
         // Здесь ивент от клиента (а не PlayerConnected), о том, что он готов к логину
         // (посылается после загрузки основных браузеров)
         [RemoteEvent(AuthorizationEvents.PlayerReadyFromClient)]
-        private void OnPlayerConnectedAndReady(Player player)
-        {
-            var hwidBan = player.GetBanByHwid();
-            if (hwidBan != null)
-            {
-                player.TriggerEvent(AuthorizationEvents.PermanentlyBanned, hwidBan.Reason, hwidBan.Description);
-                return;
-            }
-            
-            
-            if (!player.HasAccount())
-            {
-                NewPlayerActions(player);
-                return;
-            }
-            
-            var account = player.GetAccountFromDb()!;
-
-            if (account.IsTemporaryBanned())
-            {
-                var ban = account.GetLongestBan();
-                player.TriggerEvent(AuthorizationEvents.TemporaryBanned, ban.Reason, ban.StartDate, ban.EndDate, ban.Description);
-                return;
-            }
-
-            player.SetAccount(account);
-            account.OnConnect(player.Address, player.Serial);
-
-            player.TriggerEvent(
-                    !account.IsSameHwid(player.Serial) ? AuthorizationEvents.NeedLoginToClient
-                        : AuthorizationEvents.LoginSuccessToClient
-                );
-        }
-
-        private void CheckHwidBans(Player player)
-        {
-            var hwidBan = player.GetBanByHwid();
-            if (hwidBan != null)
-            {
-                
-            }
-        }
+        private void OnPlayerConnectedAndReady(Player player) => connectHandler.Handle(player);
 
         #region RemoteEvents
 

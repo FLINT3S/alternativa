@@ -29,7 +29,7 @@ namespace NAPIExtensions
                 as PermanentBan;
         }
 
-        public static bool HasAccount(this Player player)
+        public static bool HasAccountInDb(this Player player)
         {
             using var context = new AlternativaContext();
             return context.Find<Account>(player.GetAccount()) != null;
