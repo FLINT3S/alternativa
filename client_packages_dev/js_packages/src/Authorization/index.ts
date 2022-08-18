@@ -26,17 +26,12 @@ mp.events.add("playerReady", () => {
   mp.events.call("moveSkyCamera", mp.players.local, "up", 1, true)
 })
 
-mp.events.add("browserDomReady", (browser) => {
-  mp.events.call("AltBrowserLoaded_" + browserManager.getByUrl(browser.url).name)
-  logger.log("AltBrowserLoaded_" + browserManager.getByUrl(browser.url).name)
+browserManager.onBrowserLoad("Authorization").then(() => {
+  browserManager.getBrowser<AltOverlayBrowser>("Authorization").openOverlay()
 
-  if (browser.url === authorizationBrowser.url) {
-    authorizationBrowser.openOverlay()
-
-    browserManager.onBrowserLoad("CharacterManager").then(() => {
-      mp.events.callRemote(AuthorizationEvents.PLAYER_READY_TO_SERVER)
-    })
-  }
+  browserManager.onBrowserLoad("CharacterManager").then(() => {
+    mp.events.callRemote(AuthorizationEvents.PLAYER_READY_TO_SERVER)
+  })
 })
 
 mp.events.add(AuthorizationEvents.FIRST_CONNECTION_FROM_SERVER, () => {
@@ -53,7 +48,7 @@ mp.keys.bind(VirtualKey.VK_F5, true, () => {
 
 mp.events.add(AuthorizationEvents.LOGIN_SUCCESS_FROM_SERVER, () => {
   mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
-  authorizationBrowser.closeOverlay()
+  authorizationBrowser.closeOverlay(true)
   // loginCam.destroy();
   //
   // mp.game.cam.renderScriptCams(false, false, 0, false, false);

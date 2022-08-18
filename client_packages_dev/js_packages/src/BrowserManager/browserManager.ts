@@ -1,8 +1,15 @@
 import {AltBrowser} from "./altBrowser";
 import {logger} from "../utils/logger";
 
+mp.events.add("browserDomReady", (browser) => {
+  const abr = browserManager.getByUrl(browser.url)
+  abr.loaded = true
+  mp.events.call("AltBrowserLoaded_" + abr.name)
+  logger.log("AltBrowserLoaded_" + browserManager.getByUrl(browser.url).name)
+})
+
 export class browserManager {
-  static getBrowser(browserName: string): AltBrowser {
+  static getBrowser<T>(browserName: string): T {
     if (global.altBrowsers === undefined) {
       global.altBrowsers = {}
       return
@@ -61,6 +68,11 @@ export class browserManager {
 
   static onBrowserLoad(browserName: string): Promise<unknown> {
     return new Promise((resolve) => {
+      if (this.getBrowser<AltBrowser>(browserName)?.loaded) {
+        resolve(true)
+        return
+      }
+
       mp.events.add("AltBrowserLoaded_" + browserName, () => {
         resolve(true)
         mp.events.remove("AltBrowserLoaded_" + browserName)

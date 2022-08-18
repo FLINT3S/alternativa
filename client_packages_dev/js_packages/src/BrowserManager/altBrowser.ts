@@ -16,6 +16,7 @@ export class AltBrowser {
   // name - название браузера, должно быть таким же как и название ресурса
   public name: string;
   public options: AltBrowserOptions = {toggleCursor: false, overlayCloseTimeout: 500, level: AltBrowserLevel.DEFAULT}
+  public loaded: boolean;
 
   constructor(url: string, name: string, options?: object) {
     this.instance = mp.browsers.new(url)
@@ -53,8 +54,8 @@ export class AltBrowser {
     this.active = true
   }
 
-  hide() {
-    if (this.options.toggleCursor) {
+  hide(noHideCursorForce: boolean = false) {
+    if (this.options.toggleCursor && !noHideCursorForce) {
       mp.gui.cursor.visible = false
     }
 
@@ -94,18 +95,14 @@ export class AltOverlayBrowser extends AltBrowser {
     this.execEvent(`CLIENT:CEF:${this.name}:onOpenOverlay`)
   }
 
-  closeOverlay(): Promise<boolean> {
-    if (this.options.toggleCursor) {
-      mp.gui.cursor.visible = false
-    }
-
+  closeOverlay(noHideCursorForce: boolean = false): Promise<boolean> {
     this.isOverlayOpened = false
     this.execEvent(`CLIENT:CEF:${this.name}:onCloseOverlay`)
 
 
     return new Promise((resolve) => {
       this.closeTimer = setTimeout(() => {
-          this.hide()
+          this.hide(noHideCursorForce)
           resolve(true)
         },
         this.options.overlayCloseTimeout
