@@ -34,7 +34,7 @@ namespace NAPIExtensions
         public static bool HasAccountInDb(this Player player)
         {
             using var context = new AlternativaContext();
-            return context.Find<Account>(player.GetAccount()?.SocialClubId) != null;
+            return context.Find<Account>(player.SocialClubId) != null;
         }
 
         /// <summary>

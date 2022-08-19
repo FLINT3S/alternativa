@@ -77,7 +77,7 @@ namespace Database.Models
         
         #region HWID
 
-        public bool IsSameHwid(string hwid) => LastHwid == hwid;
+        public bool IsSameLastHwid(string hwid) => LastHwid == hwid;
 
         public void UpdateHwid(string newHwid)
         {
@@ -89,7 +89,12 @@ namespace Database.Models
 
         #region Bans
 
-        public bool IsTemporaryBanned() => GetLongestBan().EndDate - DateTime.Now > TimeSpan.Zero;
+        public bool IsTemporaryBanned()
+        {
+            var b = GetLongestBan();
+            if (b != null) return b.EndDate - DateTime.Now > TimeSpan.Zero;
+            return false;
+        }
 
         public TemporaryBan GetLongestBan() => TemporaryBans
             .FirstOrDefault(b => b.EndDate == TemporaryBans.Max(ban => ban.EndDate));
