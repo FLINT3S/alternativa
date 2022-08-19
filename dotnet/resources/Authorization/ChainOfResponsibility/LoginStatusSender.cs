@@ -13,9 +13,8 @@ namespace Authorization.ChainOfResponsibility
             player.SetAccount(account);
             account.OnConnect(player.Address, player.Serial);
 
-            player.TriggerEvent(
-                    !account.IsSameHwid(player.Serial) ? AuthorizationEvents.NeedLoginToClient
-                        : AuthorizationEvents.LoginSuccessToClient
+            player.TriggerEvent(account.IsSameHwid(player.Serial) ? 
+                    AuthorizationEvents.LoginSuccessToClient : AuthorizationEvents.NeedLoginToClient
                 );
         }
     }

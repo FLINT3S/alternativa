@@ -53,7 +53,7 @@ namespace Authorization
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
         public async Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
         {
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Set Username", ""));
+            await AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Set Username", ""));
             await using var db = new AlternativaContext();
 
             var account = new Account(player.SocialClubId, login, password, email);
