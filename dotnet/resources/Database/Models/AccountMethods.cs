@@ -123,7 +123,10 @@ namespace Database.Models
         {
             this.ip = ip;
             this.hwid = hwid;
-            Connections.Add(new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, "Account connected."));
+
+            var ce = new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, "Account connected.");
+            ce.AddToContext();
+            Connections.Add(ce);
             UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
         }

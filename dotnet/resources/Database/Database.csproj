@@ -33,9 +33,6 @@
         <Compile Update="Models\AccountMethods.cs">
             <DependentUpon>Account.cs</DependentUpon>
         </Compile>
-        <Compile Update="Models\AccountEvents\ConnectionEventConfiguration.cs">
-            <DependentUpon>ConnectionEvent.cs</DependentUpon>
-        </Compile>
         <Compile Update="Models\AccountEvents\ConnectionEventType.cs">
             <DependentUpon>ConnectionEvent.cs</DependentUpon>
         </Compile>
@@ -53,6 +50,9 @@
         </Compile>
         <Compile Update="Models\Bans\TemporaryBanMethod.cs">
           <DependentUpon>TemporaryBan.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\AccountEvents\AccountEventMethods.cs">
+          <DependentUpon>AccountEvent.cs</DependentUpon>
         </Compile>
     </ItemGroup>
 </Project>    

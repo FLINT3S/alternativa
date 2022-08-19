@@ -14,21 +14,21 @@ namespace Database
 
         public DbSet<Character> Characters { get; set; }
 
-        public DbSet<ConnectionEvent> ConnectionEvents { get; set; }
+        public DbSet<AccountEvent> AccountEvents { get; set; }
 
         public DbSet<AbstractBan> Bans { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
-            optionsBuilder
-                .UseLazyLoadingProxies()
-                .UseNpgsql(DatabaseConfig.ConnectionString);
+            optionsBuilder.UseNpgsql(DatabaseConfig.ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
             modelBuilder.ApplyConfiguration(new CharacterConfigurations());
-            modelBuilder.ApplyConfiguration(new ConnectionEventConfiguration());
+            
+            modelBuilder.ApplyConfiguration<AccountEvent>(new EventConfigurations());
+            modelBuilder.ApplyConfiguration<ConnectionEvent>(new EventConfigurations());
             
             modelBuilder.ApplyConfiguration<AbstractBan>(new BanConfigurations());
             modelBuilder.ApplyConfiguration<TemporaryBan>(new BanConfigurations());

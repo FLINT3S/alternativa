@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using Database;
 using Database.Models;
 using Database.Models.Bans;
@@ -32,7 +34,7 @@ namespace NAPIExtensions
         public static bool HasAccountInDb(this Player player)
         {
             using var context = new AlternativaContext();
-            return context.Find<Account>(player.GetAccount()) != null;
+            return context.Find<Account>(player.GetAccount()?.SocialClubId) != null;
         }
 
         /// <summary>
@@ -42,11 +44,16 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из базы данных</returns>
-        public static Account? GetAccountFromDb(this Player player)
+        public static Account? GetAccountFromDb(this Player player, params Expression<Func<Account, object>>[] includes)
         {
             using var db = new AlternativaContext();
 
-            return db.Accounts.FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+            DbSet<Account>? query = db.Accounts;
+            return includes
+                .Aggregate(query.AsQueryable(), 
+                        (current, include) => current.Include(include)
+                    )
+                .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
         }
         
         /// <summary>
