@@ -54,13 +54,12 @@ namespace Authorization
         }
 
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
-        public async Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
+        public Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
         {
-            await using var db = new AlternativaContext();
             if (player.HasAccountInDb())
                 CefConnect.TriggerCef(player, AuthorizationEvents.RegisterFailureToCef,
                     "Пользователь с таким Soсial Club уже зарегистрирован");
-            else if (db.Accounts.Select(a => new { a.Username }).Any(a => a.Username == login))
+            else if (IsUsernameTaken(login))
                 CefConnect.TriggerCef(player, AuthorizationEvents.RegisterFailureToCef,
                     "Пользователь с таким логином");
             else
@@ -71,6 +70,8 @@ namespace Authorization
                 CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient,
                     "Успех!");
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion
