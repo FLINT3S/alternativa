@@ -2,7 +2,7 @@
 {
     public partial class AccountEvent
     {
-        public void AddToContext()
+        public override void AddToContext()
         {
             using var context = new AlternativaContext();
             context.AccountEvents.Add(this);

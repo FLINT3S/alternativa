@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using AbstractResource;
 using Authorization.ChainOfResponsibility;
@@ -40,28 +38,36 @@ namespace Authorization
         [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
         public void OnLoginSubmitFromCef(Player player, string login, string password)
         {
-            using var db = new AlternativaContext();
-
-            var account = db.Accounts.FirstOrDefault(a => a.Username == login);
-
-            if (account != null)
-                AccountFoundActions(player, account, password);
+            var account = player.GetAccountFromDb()!; // todo
+            if (account.Username != login)
+                CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
+                    "Неверный логин");
+            else if (!account.IsPasswordsMatch(password))
+                CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
+                    $"Неверный пароль для пользователя {account.Username}");
+            // todo - защита от логина с 2 устройств
             else
-                AccountNotFoundActions(player, login);
+                SuccessLoginActions(player, account);
         }
 
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
-        public async Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
+        public Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
         {
-            await AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Set Username", ""));
-            await using var db = new AlternativaContext();
+            if (player.HasAccountInDb())
+                CefConnect.TriggerCef(player, AuthorizationEvents.RegisterFailureToCef,
+                    "Пользователь с таким Soсial Club уже зарегистрирован");
+            else if (IsUsernameTaken(login))
+                CefConnect.TriggerCef(player, AuthorizationEvents.RegisterFailureToCef,
+                    "Пользователь с таким логином");
+            else
+            {
+                // AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Set Username", ""));
+                var account = new Account(player.SocialClubId, login, password, email);
+                account.AddToContext();
+                CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Успех!");
+            }
 
-            var account = new Account(player.SocialClubId, login, password, email);
-
-            db.Accounts.Add(account);
-            await db.SaveChangesAsync();
-
-            // player.SetAccount(account);
+            return Task.CompletedTask;
         }
 
         #endregion
