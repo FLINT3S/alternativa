@@ -66,32 +66,32 @@ namespace Logger
         #region SyncLogging
         public void LogInfo(AltAbstractEvent serverAltAbstractEvent)
         {
-            NAPI.Task.Run(() => { LogInfoAsync(serverAltAbstractEvent); });
+            Task.Run(async () => { await LogInfoAsync(serverAltAbstractEvent); });
         }
 
         public void LogDevelopment(AltAbstractEvent serverAltAbstractEvent)
         {
-            NAPI.Task.Run(() => { LogDevelopmentAsync(serverAltAbstractEvent); });
+            Task.Run(async () => { await LogDevelopmentAsync(serverAltAbstractEvent); });
         }
 
         public void LogWarning(AltAbstractEvent serverAltAbstractEvent)
         {
-            NAPI.Task.Run(() => { LogWarningAsync(serverAltAbstractEvent); });
+            Task.Run(async () => { await LogWarningAsync(serverAltAbstractEvent); });
         }
 
         public void LogCritical(AltAbstractEvent serverAltAbstractEvent)
         {
-            NAPI.Task.Run(() => { LogCriticalAsync(serverAltAbstractEvent); });
+            Task.Run(async () => { await LogCriticalAsync(serverAltAbstractEvent); });
         }
 
         public void LogEvent(AltAbstractEvent serverAltAbstractEvent)
         {
-            NAPI.Task.Run(() => { LogEventAsync(serverAltAbstractEvent); });
+            Task.Run(async () => { await LogEventAsync(serverAltAbstractEvent); });
         }
 
         public void LogResource(AltResourceEvent resourceEvent)
         {
-            NAPI.Task.Run(() => { LogResourceAsync(resourceEvent); });
+            Task.Run(async () => { await LogResourceAsync(resourceEvent); });
         }
         #endregion
     }
