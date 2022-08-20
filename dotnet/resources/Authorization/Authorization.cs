@@ -40,15 +40,14 @@ namespace Authorization
         [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
         public void OnLoginSubmitFromCef(Player player, string login, string password)
         {
-            using var db = new AlternativaContext();
-
-            var account = player.GetAccountFromDb()!;
+            var account = player.GetAccountFromDb()!; // todo
             if (account.Username != login)
                 CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
                     "Неверный логин");
             else if (!account.IsPasswordsMatch(password))
                 CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
                     $"Неверный пароль для пользователя {account.Username}");
+            // todo - защита от логина с 2 устройств
             else
                 SuccessLoginActions(player, account);
         }
@@ -67,8 +66,7 @@ namespace Authorization
                 // await AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Set Username", ""));
                 var account = new Account(player.SocialClubId, login, password, email);
                 account.AddToContext();
-                CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient,
-                    "Успех!");
+                CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Успех!");
             }
 
             return Task.CompletedTask;
