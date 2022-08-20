@@ -27,6 +27,9 @@
       <Compile Update="AuthorizationRegisterMethods.cs">
         <DependentUpon>Authorization.cs</DependentUpon>
       </Compile>
+      <Compile Update="AuthorizationEvents.cs">
+        <DependentUpon>Authorization.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>    
     

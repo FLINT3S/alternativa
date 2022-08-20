@@ -151,6 +151,13 @@ namespace Database.Models
         }
 
         #endregion
+        
+        public override void AddToContext()
+        {
+            using var context = new AlternativaContext();
+            context.Accounts.Add(this);
+            context.SaveChangesAsync();
+        }
 
         public override bool Equals(object obj) => ToString().Equals(obj?.ToString() ?? "null");
 

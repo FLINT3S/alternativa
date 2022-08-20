@@ -1,4 +1,5 @@
-﻿using GTANetworkAPI;
+﻿using System.Linq;
+using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainOfResponsibility
@@ -9,7 +10,8 @@ namespace Authorization.ChainOfResponsibility
         {
         }
         
-        protected override bool CanHandle(Player player) => player.GetAccountFromDb(a => a.TemporaryBans)!.IsTemporaryBanned();
+        protected override bool CanHandle(Player player) => 
+            player.GetAccountFromDb(a => a.TemporaryBans)!.IsTemporaryBanned();
 
         protected override void _Handle(Player player)
         {

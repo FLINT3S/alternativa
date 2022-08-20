@@ -8,7 +8,14 @@ namespace Database.Models
         public DateTime CreatedDate { get; internal set; } = DateTime.Now;
 
         public DateTime UpdatedDate { get; internal set; } = DateTime.Now;
-
+        
+        public virtual void AddToContext()
+        {
+            using var context = new AlternativaContext();
+            context.Add(this);
+            context.SaveChangesAsync();
+        }
+        
         private protected void UpdateDatabase()
         {
             using var context = new AlternativaContext();
