@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using AbstractResource;
 using Authorization.ChainOfResponsibility;
@@ -63,7 +61,7 @@ namespace Authorization
                     "Пользователь с таким логином");
             else
             {
-                // await AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Set Username", ""));
+                // AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Set Username", ""));
                 var account = new Account(player.SocialClubId, login, password, email);
                 account.AddToContext();
                 CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Успех!");
