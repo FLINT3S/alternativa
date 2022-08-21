@@ -7,9 +7,9 @@ namespace Authorization
 {
     public partial class Authorization
     {
-        private static async Task SuccessLoginActions(Player player, Account account)
+        private static void SuccessLoginActions(Player player, Account account)
         {
-            await account.UpdateHwid(player.Serial);
+            account.UpdateHwid(player.Serial);
             player.TriggerEvent(AuthorizationEvents.LoginSuccessToClient);
             player.SetAccount(account);
         }

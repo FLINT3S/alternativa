@@ -12,11 +12,11 @@ namespace Authorization.ChainOfResponsibility
         {
         }
         
-        protected override async Task<bool> CanHandle(Player player) => !await player.HasAccountInDb();
+        protected override bool CanHandle(Player player) => !player.HasAccountInDb();
 
-        protected override async Task _Handle(Player player)
+        protected override void _Handle(Player player)
         {
-            await AltLogger.Instance.LogInfoAsync(new AltPlayerEvent("_newPlayers", this, "OnPlayerConnected",
+            AltLogger.Instance.LogInfo(new AltPlayerEvent("_newPlayers", this, "OnPlayerConnected",
                 player.GetPlayerDataString()));
             player.TriggerEvent(AuthorizationEvents.FirstConnectionToClient);
         }

@@ -14,11 +14,11 @@ namespace AdminPanel
         private void ReRandomDamage(Player player)
         {
             player.Health -= (int)Math.Round(new Random().NextDouble() * 20);
-            var es = GetEsFromAttr(MethodBase.GetCurrentMethod());
+            GetEsFromAttr(MethodBase.GetCurrentMethod());
             Task.Run(() =>
             {
-                var acc = player.GetAccount();
-                acc.UpdateEmail((Int32.Parse(acc.Email) + 1).ToString());
+                var acc = player.GetAccount()!;
+                acc.UpdateEmail((int.Parse(acc.Email) + 1).ToString());
                 Console.WriteLine(acc.Email);
             });
         }

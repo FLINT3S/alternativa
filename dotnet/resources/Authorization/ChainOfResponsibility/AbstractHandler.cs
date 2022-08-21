@@ -13,16 +13,16 @@ namespace Authorization.ChainOfResponsibility
             this.next = next;
         }
         
-        public async Task Handle(Player player)
+        public void Handle(Player player)
         {
-            if (await CanHandle(player))
-                await _Handle(player);
+            if (CanHandle(player))
+                _Handle(player);
             else
-                await next!.Handle(player);
+                next!.Handle(player);
         }
         
-        protected abstract Task<bool> CanHandle(Player player);
+        protected abstract bool CanHandle(Player player);
 
-        protected abstract Task _Handle(Player player);
+        protected abstract void _Handle(Player player);
     }
 }
