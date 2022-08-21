@@ -22,9 +22,7 @@ namespace Authorization
             player.TriggerEvent(AuthorizationEvents.FirstConnectionToClient);
         }
 
-        private static bool IsUsernameTaken(string username)
-        {
-            return AlternativaContext.Instance.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
-        }
+        private static bool IsUsernameTaken(string username) => 
+            AlternativaContext.Instance.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
     }
 }

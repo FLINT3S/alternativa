@@ -17,19 +17,29 @@ namespace Database.Models
 
         public void UpdateUsername(string newUsername)
         {
-            // TODO: Проверка на наличие пользователя с таким именем 
-            Username = newUsername != Username ? newUsername : throw new InvalidOperationException("Usernames are same!");
+            if (IsUsernameTaken(newUsername)) 
+                throw new InvalidOperationException("This username already taken");
+            Username = newUsername != Username ? 
+                newUsername : throw new InvalidOperationException("Usernames are same!");
             UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
         }
 
+        private static bool IsUsernameTaken(string username) => 
+            AlternativaContext.Instance.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
+
         public void UpdateEmail(string newEmail)
         {
-            // TODO: Проверка чтобы такой email не был уже использован
+            if (IsEmailTaken(newEmail)) 
+                throw new InvalidOperationException("This username already taken");
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Emails are same!");
             UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
         }
+        
+        
+        private static bool IsEmailTaken(string email) => 
+            AlternativaContext.Instance.Accounts.Select(a => new { a.Email }).Any(a => a.Email == email);
 
         #endregion
 
