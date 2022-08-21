@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Database;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
+using Microsoft.EntityFrameworkCore;
 using NAPIExtensions;
 
 namespace Authorization
@@ -16,10 +18,11 @@ namespace Authorization
             player.TriggerEvent(AuthorizationEvents.FirstConnectionToClient);
         }
 
-        private static bool IsUsernameTaken(string username)
-        {
-            using var db = new AlternativaContext();
-            return db.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
-        }
+        private static async Task<bool> IsUsernameTaken(string username) => 
+            await AlternativaContext
+                .Instance
+                .Accounts
+                .Select(a => new { a.Username })
+                .AnyAsync(a => a.Username == username);
     }
 }

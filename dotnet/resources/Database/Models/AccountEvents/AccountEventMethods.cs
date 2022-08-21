@@ -1,12 +1,14 @@
-﻿namespace Database.Models.AccountEvents
+﻿using System.Threading.Tasks;
+
+namespace Database.Models.AccountEvents
 {
     public partial class AccountEvent
     {
-        public override void AddToContext()
+        public override async Task AddToContext()
         {
-            using var context = new AlternativaContext();
-            context.AccountEvents.Add(this);
-            context.SaveChanges();
+            var context = AlternativaContext.Instance;
+            await context.AccountEvents.AddAsync(this);
+            await context.SaveChangesAsync();
         }
     }
 }

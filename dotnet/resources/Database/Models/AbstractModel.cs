@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Database.Models
 {
@@ -9,25 +10,24 @@ namespace Database.Models
 
         public DateTime UpdatedDate { get; internal set; } = DateTime.Now;
         
-        public virtual void AddToContext()
+        public virtual async Task AddToContext()
         {
-            using var context = new AlternativaContext();
-            context.Add(this);
-            context.SaveChangesAsync();
+            var context = AlternativaContext.Instance;
+            await context.AddAsync(this);
+            await context.SaveChangesAsync();
         }
         
-        private protected void UpdateDatabase()
+        private protected async Task UpdateDatabase()
         {
-            using var context = new AlternativaContext();
             try
             {
+                var context = AlternativaContext.Instance;
                 context.Update(this);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                context.Add(this);
-                context.SaveChanges();
+                await AddToContext();
             }
         }
     }

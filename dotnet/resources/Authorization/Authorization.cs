@@ -4,8 +4,6 @@ using Authorization.ChainOfResponsibility;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
 using NAPIExtensions;
 
 /*
@@ -31,14 +29,14 @@ namespace Authorization
         // Здесь ивент от клиента (а не PlayerConnected), о том, что он готов к логину
         // (посылается после загрузки основных браузеров)
         [RemoteEvent(AuthorizationEvents.PlayerReadyFromClient)]
-        private void OnPlayerConnectedAndReady(Player player) => connectHandler.Handle(player);
+        private async Task OnPlayerConnectedAndReady(Player player) => await connectHandler.Handle(player);
 
         #region RemoteEvents
 
         [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
-        public void OnLoginSubmitFromCef(Player player, string login, string password)
+        public async Task OnLoginSubmitFromCef(Player player, string login, string password)
         {
-            var account = player.GetAccountFromDb()!; // todo
+            var account = (await player.GetAccountFromDb())!; // todo
             if (account.Username != login)
                 CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
                     "Неверный логин");
@@ -47,27 +45,24 @@ namespace Authorization
                     $"Неверный пароль для пользователя {account.Username}");
             // todo - защита от логина с 2 устройств
             else
-                SuccessLoginActions(player, account);
+                await SuccessLoginActions(player, account);
         }
 
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
-        public Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
+        public async Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
         {
-            if (player.HasAccountInDb())
+            if (await player.HasAccountInDb())
                 CefConnect.TriggerCef(player, AuthorizationEvents.RegisterFailureToCef,
                     "Пользователь с таким Soсial Club уже зарегистрирован");
-            else if (IsUsernameTaken(login))
+            else if (await IsUsernameTaken(login))
                 CefConnect.TriggerCef(player, AuthorizationEvents.RegisterFailureToCef,
                     "Пользователь с таким логином");
             else
             {
-                // AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Set Username", ""));
                 var account = new Account(player.SocialClubId, login, password, email);
-                account.AddToContext();
+                await account.AddToContext();
                 CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Успех!");
             }
-
-            return Task.CompletedTask;
         }
 
         #endregion
@@ -75,7 +70,6 @@ namespace Authorization
         [Command("testacc")]
         public async Task TestAccount(Player player, string newEmail)
         {
-            await using var db = new AlternativaContext();
             var account = player.GetAccount();
 
             if (account == null)
@@ -84,9 +78,7 @@ namespace Authorization
                 return;
             }
 
-            account.UpdateEmail(newEmail);
-            db.Update(account);
-            await db.SaveChangesAsync();
+            await account.UpdateEmail(newEmail);
 
             NAPI.Task.Run(() => player.SendChatMessage($"Ты авторизован как {account.Username} with email {account.Email}"));
         }

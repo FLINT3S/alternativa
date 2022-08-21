@@ -1,4 +1,5 @@
-﻿using Database.Models;
+﻿using System.Threading.Tasks;
+using Database.Models;
 using GTANetworkAPI;
 
 namespace Authorization.ChainOfResponsibility
@@ -12,16 +13,16 @@ namespace Authorization.ChainOfResponsibility
             this.next = next;
         }
         
-        public void Handle(Player player)
+        public async Task Handle(Player player)
         {
-            if (CanHandle(player))
-                _Handle(player);
+            if (await CanHandle(player))
+                await _Handle(player);
             else
-                next!.Handle(player);
+                await next!.Handle(player);
         }
         
-        protected abstract bool CanHandle(Player player);
+        protected abstract Task<bool> CanHandle(Player player);
 
-        protected abstract void _Handle(Player player);
+        protected abstract Task _Handle(Player player);
     }
 }

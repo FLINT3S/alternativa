@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
 using Logger;
@@ -15,18 +16,18 @@ namespace Database.Models
         
         #region Simple user data
 
-        public void UpdateUsername(string newUsername)
+        public async Task UpdateUsername(string newUsername)
         {
             Username = newUsername != Username ? newUsername : throw new InvalidOperationException("Usernames are same!");
-            UpdateDatabase();
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
+            await UpdateDatabase();
+            await AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
         }
 
-        public void UpdateEmail(string newEmail)
+        public async Task UpdateEmail(string newEmail)
         {
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Usernames are same!");
-            UpdateDatabase();
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
+            await UpdateDatabase();
+            await AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
         }
 
         #endregion
@@ -36,14 +37,14 @@ namespace Database.Models
         public bool IsPasswordsMatch(string incomingPassword) =>
             GetPasswordHash(incomingPassword) == PasswordHash;
 
-        public void UpdatePassword(string newPassword)
+        public async Task UpdatePassword(string newPassword)
         {
             if (IsPasswordsMatch(newPassword))
                 throw new InvalidOperationException("Usernames are same!");
 
             SetNewPasswordData(newPassword);
-            UpdateDatabase();
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
+            await UpdateDatabase();
+            await AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
         }
 
         private string GetPasswordHash(string password) =>
@@ -60,7 +61,6 @@ namespace Database.Models
         private void SetNewPasswordData(string newPassword)
         {
             PasswordSalt = GetSha256(GetRandomString());
-            ;
             PasswordHash = GetPasswordHash(newPassword);
         }
 
@@ -79,10 +79,10 @@ namespace Database.Models
 
         public bool IsSameLastHwid(string hwid) => LastHwid == hwid;
 
-        public void UpdateHwid(string newHwid)
+        public async Task UpdateHwid(string newHwid)
         {
             LastHwid = newHwid;
-            UpdateDatabase();
+            await UpdateDatabase();
         }
 
         #endregion
@@ -99,9 +99,9 @@ namespace Database.Models
         public TemporaryBan GetLongestBan() => TemporaryBans
             .FirstOrDefault(b => b.EndDate == TemporaryBans.Max(ban => ban.EndDate));
 
-        public void Ban(AbstractBan ban)
+        public async Task Ban(AbstractBan ban)
         {
-            ban.AddToContext();
+            await ban.AddToContext();
             switch (ban)
             {
                 case PermanentBan permanentBan:
@@ -117,46 +117,46 @@ namespace Database.Models
                 default:
                     throw new ArgumentOutOfRangeException(nameof(ban));
             }
-            UpdateDatabase();
+            await UpdateDatabase();
         }
 
         #endregion
 
         #region On Events
 
-        public void OnConnect(string ip, string hwid)
+        public async Task OnConnect(string ip, string hwid)
         {
             this.ip = ip;
             this.hwid = hwid;
 
             var ce = new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, "Account connected.");
-            ce.AddToContext();
+            await ce.AddToContext();
             Connections.Add(ce);
-            UpdateDatabase();
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
+            await UpdateDatabase();
+            await AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
         }
 
-        public void OnCharacterPeek(Character? peekedCharacter)
+        public async Task OnCharacterPeek(Character? peekedCharacter)
         {
             ActiveCharacter = peekedCharacter;
-            UpdateDatabase();
+            await UpdateDatabase();
         }
 
-        public void OnDisconnect()
+        public async Task OnDisconnect()
         {
             ActiveCharacter = null;
-            UpdateDatabase();
+            await UpdateDatabase();
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
-            AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", "Account disconnected."));
+            await AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Disconnect", "Account disconnected."));
         }
 
         #endregion
         
-        public override void AddToContext()
+        public override async Task AddToContext()
         {
-            using var context = new AlternativaContext();
-            context.Accounts.Add(this);
-            context.SaveChangesAsync();
+            var context = AlternativaContext.Instance;
+            await context.Accounts.AddAsync(this);
+            await context.SaveChangesAsync();
         }
 
         public override bool Equals(object obj) => ToString().Equals(obj?.ToString() ?? "null");

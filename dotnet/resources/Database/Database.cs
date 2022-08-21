@@ -17,7 +17,7 @@ namespace Database
         {
             var account = new Account(player.SocialClubId, username, password, email);
 
-            using var dbContext = new AlternativaContext();
+            var dbContext = AlternativaContext.Instance;
 
             dbContext.Accounts.Add(account);
             dbContext.SaveChanges();

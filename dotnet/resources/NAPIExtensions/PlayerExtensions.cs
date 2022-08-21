@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Database;
 using Database.Models;
 using Database.Models.Bans;
@@ -23,19 +24,13 @@ namespace NAPIExtensions
             return response;
         }
 
-        public static PermanentBan? GetBanByHwid(this Player player)
-        {
-            using var context = new AlternativaContext();
-            return context.Bans.FirstOrDefault(
+        public static async Task<PermanentBan?> GetBanByHwid(this Player player) => 
+            await AlternativaContext.Instance.Bans.FirstOrDefaultAsync(
                 b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial)
-                as PermanentBan;
-        }
+            as PermanentBan;
 
-        public static bool HasAccountInDb(this Player player)
-        {
-            using var context = new AlternativaContext();
-            return context.Find<Account>(player.SocialClubId) != null;
-        }
+        public static async Task<bool> HasAccountInDb(this Player player) => 
+            await AlternativaContext.Instance.FindAsync<Account>(player.SocialClubId) != null;
 
         /// <summary>
         /// <b>Использовать аккуратно!</b>
@@ -44,16 +39,14 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из базы данных</returns>
-        public static Account? GetAccountFromDb(this Player player, params Expression<Func<Account, object>>[] includes)
+        public static async Task<Account?> GetAccountFromDb(this Player player, params Expression<Func<Account, object>>[] includes)
         {
-            using var db = new AlternativaContext();
-
-            DbSet<Account>? query = db.Accounts;
-            return includes
+            DbSet<Account>? query = AlternativaContext.Instance.Accounts;
+            return await includes
                 .Aggregate(query.AsQueryable(), 
                         (current, include) => current.Include(include)
                     )
-                .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+                .FirstOrDefaultAsync(a => a.SocialClubId == player.SocialClubId);
         }
         
         /// <summary>

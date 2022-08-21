@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Database.Models;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
@@ -10,6 +11,12 @@ namespace Database
 {
     public class AlternativaContext : DbContext
     {
+        private AlternativaContext()
+        {
+        }
+
+        public static AlternativaContext Instance { get; } = new AlternativaContext();
+        
         public DbSet<Account> Accounts { get; private set; }
 
         public DbSet<Character> Characters { get; set; }
@@ -39,8 +46,7 @@ namespace Database
         {
             IQueryable<EntityEntry<AbstractModel>> entries = ChangeTracker.Entries<AbstractModel>().AsQueryable();
             IQueryable<EntityEntry<AbstractModel>> models = entries.Where(entityEntry => entityEntry.Entity != null);
-            IQueryable<EntityEntry<AbstractModel>> editedModels = models.Where(
-                    e =>
+            IQueryable<EntityEntry<AbstractModel>> editedModels = models.Where(e =>
                         e.State == EntityState.Added || e.State == EntityState.Modified
                 );
 

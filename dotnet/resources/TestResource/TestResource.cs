@@ -16,7 +16,7 @@ namespace TestResource
         [ServerEvent(Event.ResourceStart)]
         public void OnTestResourceStart()
         {
-            using var dbContext = new AlternativaContext();
+            // using var dbContext = new AlternativaContext();
         }
 
         [Command("spawncar")]
@@ -28,7 +28,7 @@ namespace TestResource
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Player player)
         {
-            using var dbContext = new AlternativaContext();
+            // using var dbContext = new AlternativaContext();
             // var connectedUser = dbContext.Users.FirstOrDefault(u => u.Name == player.Name);
             //
             // var userConnected = new AccountEvent
