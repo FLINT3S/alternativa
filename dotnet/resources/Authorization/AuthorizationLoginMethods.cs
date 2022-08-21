@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Database.Models;
+﻿using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 

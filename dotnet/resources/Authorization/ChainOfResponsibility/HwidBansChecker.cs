@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using GTANetworkAPI;
+﻿using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainOfResponsibility

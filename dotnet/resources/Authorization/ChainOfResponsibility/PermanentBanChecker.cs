@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using GTANetworkAPI;
+﻿using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainOfResponsibility
@@ -9,7 +8,7 @@ namespace Authorization.ChainOfResponsibility
         public PermanentBanChecker(AbstractHandler? next = null) : base(next)
         {
         }
-        
+
         protected override bool CanHandle(Player player) => player.GetAccountFromDb()!.PermanentBan != null;
 
         protected override void _Handle(Player player)

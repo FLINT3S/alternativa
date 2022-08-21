@@ -1,11 +1,8 @@
 using System.Threading.Tasks;
 using AbstractResource;
 using Authorization.ChainOfResponsibility;
-using Database;
 using Database.Models;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
 using NAPIExtensions;
 
 /*
@@ -27,11 +24,29 @@ namespace Authorization
             var hwidBansChecker = new HwidBansChecker(existAccountChecker);
             connectHandler = hwidBansChecker;
         }
-        
+
         // Здесь ивент от клиента (а не PlayerConnected), о том, что он готов к логину
         // (посылается после загрузки основных браузеров)
         [RemoteEvent(AuthorizationEvents.PlayerReadyFromClient)]
         private void OnPlayerConnectedAndReady(Player player) => connectHandler.Handle(player);
+
+        [Command("testacc")]
+        public void TestAccount(Player player, string newEmail)
+        {
+            var account = player.GetAccount();
+
+            if (account == null)
+            {
+                player.SendChatMessage("Ты не авторизован");
+            }
+            else
+            {
+                account.UpdateEmail(newEmail);
+                NAPI.Task.Run(
+                        () => player.SendChatMessage($"Ты авторизован как {account.Username} with email {account.Email}")
+                    );
+            }
+        }
 
         #region RemoteEvents
 
@@ -40,11 +55,17 @@ namespace Authorization
         {
             var account = player.GetAccountFromDb()!; // todo
             if (account.Username != login)
-                CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
-                    "Неверный логин");
+                CefConnect.TriggerCef(
+                        player,
+                        AuthorizationEvents.LoginFailureToCef,
+                        "Неверный логин"
+                    );
             else if (!account.IsPasswordsMatch(password))
-                CefConnect.TriggerCef(player, AuthorizationEvents.LoginFailureToCef,
-                    $"Неверный пароль для пользователя {account.Username}");
+                CefConnect.TriggerCef(
+                        player,
+                        AuthorizationEvents.LoginFailureToCef,
+                        $"Неверный пароль для пользователя {account.Username}"
+                    );
             // todo - защита от логина с 2 устройств
             else
                 SuccessLoginActions(player, account);
@@ -54,11 +75,21 @@ namespace Authorization
         public Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
         {
             if (player.HasAccountInDb())
-                CefConnect.TriggerCef(player, AuthorizationEvents.RegisterFailureToCef,
-                    "Пользователь с таким Soсial Club уже зарегистрирован");
+            {
+                CefConnect.TriggerCef(
+                        player,
+                        AuthorizationEvents.RegisterFailureToCef,
+                        "Пользователь с таким Soсial Club уже зарегистрирован"
+                    );
+            }
             else if (IsUsernameTaken(login))
-                CefConnect.TriggerCef(player, AuthorizationEvents.RegisterFailureToCef,
-                    "Пользователь с таким логином");
+            {
+                CefConnect.TriggerCef(
+                        player,
+                        AuthorizationEvents.RegisterFailureToCef,
+                        "Пользователь с таким логином"
+                    );
+            }
             else
             {
                 // AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Set Username", ""));
@@ -71,19 +102,5 @@ namespace Authorization
         }
 
         #endregion
-
-        [Command("testacc")]
-        public void TestAccount(Player player, string newEmail)
-        {
-            var account = player.GetAccount();
-
-            if (account == null)
-                player.SendChatMessage("Ты не авторизован");
-            else
-            {
-                account.UpdateEmail(newEmail);
-                NAPI.Task.Run(() => player.SendChatMessage($"Ты авторизован как {account.Username} with email {account.Email}"));
-            }
-        }
     }
 }

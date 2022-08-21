@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using GTANetworkAPI;
+﻿using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainOfResponsibility
@@ -14,8 +13,9 @@ namespace Authorization.ChainOfResponsibility
             player.SetAccount(account!);
             account.OnConnect(player.Address, player.Serial);
 
-            player.TriggerEvent(account.IsSameLastHwid(player.Serial) ? 
-                    AuthorizationEvents.LoginSuccessToClient : AuthorizationEvents.NeedLoginToClient
+            player.TriggerEvent(
+                    account.IsSameLastHwid(player.Serial) ?
+                        AuthorizationEvents.LoginSuccessToClient : AuthorizationEvents.NeedLoginToClient
                 );
         }
     }

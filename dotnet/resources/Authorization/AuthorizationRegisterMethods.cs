@@ -11,8 +11,14 @@ namespace Authorization
     {
         private void NewPlayerActions(Player player)
         {
-            AltLogger.Instance.LogInfo(new AltPlayerEvent("_newPlayers", this, "OnPlayerConnected",
-                player.GetPlayerDataString()));
+            AltLogger.Instance.LogInfo(
+                    new AltPlayerEvent(
+                            "_newPlayers",
+                            this,
+                            "OnPlayerConnected",
+                            player.GetPlayerDataString()
+                        )
+                );
             player.TriggerEvent(AuthorizationEvents.FirstConnectionToClient);
         }
 
