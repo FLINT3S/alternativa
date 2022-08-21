@@ -9,7 +9,7 @@ namespace Authorization.ChainOfResponsibility
         {
         }
 
-        protected override bool CanHandle(Player player) => player.GetAccountFromDb()!.PermanentBan != null;
+        protected override bool CanHandle(Player player) => player.GetAccountFromDb()?.PermanentBan != null;
 
         protected override void _Handle(Player player)
         {
