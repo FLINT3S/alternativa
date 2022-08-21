@@ -17,6 +17,7 @@ namespace Database.Models
 
         public void UpdateUsername(string newUsername)
         {
+            // TODO: Проверка на наличие пользователя с таким именем 
             Username = newUsername != Username ? newUsername : throw new InvalidOperationException("Usernames are same!");
             UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
@@ -24,6 +25,7 @@ namespace Database.Models
 
         public void UpdateEmail(string newEmail)
         {
+            // TODO: Проверка чтобы такой email не был уже использован
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Emails are same!");
             UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
@@ -60,7 +62,6 @@ namespace Database.Models
         private void SetNewPasswordData(string newPassword)
         {
             PasswordSalt = GetSha256(GetRandomString());
-            ;
             PasswordHash = GetPasswordHash(newPassword);
         }
 
