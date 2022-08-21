@@ -31,7 +31,7 @@ namespace Database.Models
         public void UpdateEmail(string newEmail)
         {
             if (IsEmailTaken(newEmail)) 
-                throw new InvalidOperationException("This username already taken");
+                throw new InvalidOperationException("This email already taken");
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Emails are same!");
             UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
