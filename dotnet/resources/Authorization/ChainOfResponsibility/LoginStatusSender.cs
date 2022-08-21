@@ -1,17 +1,18 @@
-﻿using GTANetworkAPI;
+﻿using System.Threading.Tasks;
+using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainOfResponsibility
 {
     public class LoginStatusSender : AbstractHandler
     {
-        protected override bool CanHandle(Player player) => true;
+        protected override Task<bool> CanHandle(Player player) => Task.FromResult(true);
 
-        protected override void _Handle(Player player)
+        protected override async Task _Handle(Player player)
         {
-            var account = player.GetAccountFromDb()!;
-            player.SetAccount(account);
-            account.OnConnect(player.Address, player.Serial);
+            var account = await player.GetAccountFromDb();
+            player.SetAccount(account!);
+            await account!.OnConnect(player.Address, player.Serial);
 
             player.TriggerEvent(account.IsSameLastHwid(player.Serial) ? 
                     AuthorizationEvents.LoginSuccessToClient : AuthorizationEvents.NeedLoginToClient

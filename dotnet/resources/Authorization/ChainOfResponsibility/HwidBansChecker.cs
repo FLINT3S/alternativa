@@ -1,4 +1,5 @@
-﻿using GTANetworkAPI;
+﻿using System.Threading.Tasks;
+using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainOfResponsibility
@@ -9,11 +10,11 @@ namespace Authorization.ChainOfResponsibility
         {
         }
 
-        protected override bool CanHandle(Player player) => player.GetBanByHwid() != null;
+        protected override async Task<bool> CanHandle(Player player) => await player.GetBanByHwid() != null;
 
-        protected override void _Handle(Player player)
+        protected override async Task _Handle(Player player)
         {
-            var hwidBan = player.GetBanByHwid()!;
+            var hwidBan = (await player.GetBanByHwid())!;
             player.TriggerEvent(AuthorizationEvents.PermanentlyBanned, hwidBan.Reason, hwidBan.Description);
             throw new System.NotImplementedException();
         }
