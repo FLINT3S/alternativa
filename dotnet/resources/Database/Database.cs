@@ -16,11 +16,7 @@ namespace Database
         private static void OnRegisterAccount(Player player, string username, string password, string email)
         {
             var account = new Account(player.SocialClubId, username, password, email);
-
-            using var dbContext = new AlternativaContext();
-
-            dbContext.Accounts.Add(account);
-            dbContext.SaveChanges();
+            account.AddToContext();
         }
     }
 }

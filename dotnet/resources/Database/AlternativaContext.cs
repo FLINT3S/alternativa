@@ -10,6 +10,12 @@ namespace Database
 {
     public class AlternativaContext : DbContext
     {
+        public static AlternativaContext Instance { get; } = new AlternativaContext();
+
+        private AlternativaContext()
+        {
+        }
+        
         public DbSet<Account> Accounts { get; private set; }
 
         public DbSet<Character> Characters { get; set; }

@@ -154,9 +154,12 @@ namespace Database.Models
         
         public override void AddToContext()
         {
-            using var context = new AlternativaContext();
-            context.Accounts.Add(this);
-            context.SaveChangesAsync();
+            lock (AlternativaContext.Instance)
+            {
+                var context = AlternativaContext.Instance;
+                context.Accounts.Add(this);
+                context.SaveChanges();
+            }
         }
 
         public override bool Equals(object obj) => ToString().Equals(obj?.ToString() ?? "null");

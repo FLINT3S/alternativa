@@ -73,22 +73,17 @@ namespace Authorization
         #endregion
 
         [Command("testacc")]
-        public async Task TestAccount(Player player, string newEmail)
+        public void TestAccount(Player player, string newEmail)
         {
-            await using var db = new AlternativaContext();
             var account = player.GetAccount();
 
             if (account == null)
-            {
                 player.SendChatMessage("Ты не авторизован");
-                return;
+            else
+            {
+                account.UpdateEmail(newEmail);
+                NAPI.Task.Run(() => player.SendChatMessage($"Ты авторизован как {account.Username} with email {account.Email}"));
             }
-
-            account.UpdateEmail(newEmail);
-            db.Update(account);
-            await db.SaveChangesAsync();
-
-            NAPI.Task.Run(() => player.SendChatMessage($"Ты авторизован как {account.Username} with email {account.Email}"));
         }
     }
 }

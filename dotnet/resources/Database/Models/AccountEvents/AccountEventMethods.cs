@@ -4,9 +4,12 @@
     {
         public override void AddToContext()
         {
-            using var context = new AlternativaContext();
-            context.AccountEvents.Add(this);
-            context.SaveChanges();
+            lock (AlternativaContext.Instance)
+            {
+                var context = AlternativaContext.Instance;
+                context.AccountEvents.Add(this);
+                context.SaveChanges();
+            }
         }
     }
 }

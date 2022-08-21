@@ -23,19 +23,13 @@ namespace NAPIExtensions
             return response;
         }
 
-        public static PermanentBan? GetBanByHwid(this Player player)
-        {
-            using var context = new AlternativaContext();
-            return context.Bans.FirstOrDefault(
+        public static PermanentBan? GetBanByHwid(this Player player) => 
+            AlternativaContext.Instance.Bans.FirstOrDefault(
                 b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial)
-                as PermanentBan;
-        }
+            as PermanentBan;
 
-        public static bool HasAccountInDb(this Player player)
-        {
-            using var context = new AlternativaContext();
-            return context.Find<Account>(player.SocialClubId) != null;
-        }
+        public static bool HasAccountInDb(this Player player) => 
+            AlternativaContext.Instance.Find<Account>(player.SocialClubId) != null;
 
         /// <summary>
         /// <b>Использовать аккуратно!</b>
@@ -46,9 +40,7 @@ namespace NAPIExtensions
         /// <returns>Account из базы данных</returns>
         public static Account? GetAccountFromDb(this Player player, params Expression<Func<Account, object>>[] includes)
         {
-            using var db = new AlternativaContext();
-
-            DbSet<Account>? query = db.Accounts;
+            DbSet<Account>? query = AlternativaContext.Instance.Accounts;
             return includes
                 .Aggregate(query.AsQueryable(), 
                         (current, include) => current.Include(include)

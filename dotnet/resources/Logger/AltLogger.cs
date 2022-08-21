@@ -6,8 +6,6 @@ namespace Logger
 {
     public class AltLogger
     {
-        private static AltLogger _instance = null!;
-
         private readonly AltConsoleLogger consoleLogger;
 
         private readonly AltFileLogger fileLogger;
@@ -18,14 +16,7 @@ namespace Logger
             consoleLogger = new AltConsoleLogger();
         }
 
-        public static AltLogger Instance
-        {
-            get
-            {
-                _instance ??= new AltLogger();
-                return _instance;
-            }
-        }
+        public static AltLogger Instance { get; } = new AltLogger();
 
         #region AsyncLogging
         public async Task LogInfoAsync(AltAbstractEvent serverAltAbstractEvent)

@@ -11,22 +11,32 @@ namespace Database.Models
         
         public virtual void AddToContext()
         {
-            using var context = new AlternativaContext();
-            context.Add(this);
-            context.SaveChangesAsync();
+            lock (AlternativaContext.Instance)
+            {
+                var context = AlternativaContext.Instance;
+                context.Add(this);
+                context.SaveChanges();
+            }
         }
         
         private protected void UpdateDatabase()
         {
-            using var context = new AlternativaContext();
             try
             {
-                context.Update(this);
-                context.SaveChanges();
+                UpdateInContext();
             }
             catch (DbUpdateException)
             {
-                context.Add(this);
+                AddToContext();
+            }
+        }
+
+        private void UpdateInContext()
+        {
+            lock (AlternativaContext.Instance)
+            {
+                var context = AlternativaContext.Instance;
+                context.Update(this);
                 context.SaveChanges();
             }
         }
