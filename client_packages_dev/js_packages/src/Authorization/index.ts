@@ -15,8 +15,8 @@ mp.events.add("playerReady", () => {
 
   mp.players.local.freezePosition(true);
   mp.game.ui.setMinimapVisible(true);
-  // mp.gui.chat.activate(false);
-  // mp.gui.chat.show(false);
+  mp.gui.chat.activate(false);
+  mp.gui.chat.show(false);
   mp.game.ui.displayRadar(false);
 
   loginCam.setActive(true);
@@ -35,10 +35,12 @@ browserManager.onBrowserLoad("Authorization").then(() => {
 })
 
 mp.events.add(AuthorizationEvents.FIRST_CONNECTION_FROM_SERVER, () => {
+  logger.log(AuthorizationEvents.FIRST_CONNECTION_FROM_SERVER)
   authorizationBrowser.execClient("WelcomeScreen")
 })
 
 mp.events.add(AuthorizationEvents.NEED_LOGIN_FROM_SERVER, () => {
+  logger.log(AuthorizationEvents.NEED_LOGIN_FROM_SERVER)
   authorizationBrowser.execClient("LoginScreen")
 })
 
@@ -49,15 +51,15 @@ mp.keys.bind(VirtualKey.VK_F5, true, () => {
 mp.events.add(AuthorizationEvents.LOGIN_SUCCESS_FROM_SERVER, () => {
   mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
   authorizationBrowser.closeOverlay(true)
-  // loginCam.destroy();
-  //
-  // mp.game.cam.renderScriptCams(false, false, 0, false, false);
-  // mp.players.local.freezePosition(false);
-  // mp.game.ui.setMinimapVisible(false);
-  // mp.gui.chat.activate(true);
-  // mp.gui.chat.show(true);
-  // mp.game.ui.displayRadar(true);
-  // authorizationBrowser.hide();
-  //
-  // mp.events.call("moveSkyCamera", mp.players.local, "down", 1, true)
+  loginCam.destroy();
+
+  mp.game.cam.renderScriptCams(false, false, 0, false, false);
+  mp.players.local.freezePosition(false);
+  mp.game.ui.setMinimapVisible(false);
+  mp.gui.chat.activate(true);
+  mp.gui.chat.show(true);
+  mp.game.ui.displayRadar(true);
+  authorizationBrowser.hide();
+
+  mp.events.call("moveSkyCamera", mp.players.local, "down", 1, true)
 })

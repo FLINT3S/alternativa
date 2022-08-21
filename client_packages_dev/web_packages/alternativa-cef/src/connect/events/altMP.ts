@@ -41,8 +41,8 @@ export class altMP extends ModuleDependent {
     mp.trigger("CEF:SERVER", es.eventString, ...data)
   }
 
-  triggerServerRawEvent(eventString: string, data?: object) {
-    mp.trigger("CEF:SERVER", JSON.stringify({eventString, data}))
+  triggerServerRawEvent(eventString: string, data?: Array<number|string>) {
+    mp.trigger("CEF:SERVER", eventString, JSON.stringify(data))
   }
 
   /**

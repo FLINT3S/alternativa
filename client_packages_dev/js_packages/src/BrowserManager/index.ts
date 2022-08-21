@@ -16,6 +16,11 @@ mp.events.add("SERVER:CEF", (browserName: string, eventString: string, data: Arr
 })
 
 mp.events.add("CEF:SERVER", (eventString: string, ...data: Array<number | string>) => {
+  logger.log([
+    `Send new event to Server`,
+    `Event: "${eventString}"`,
+    `With data: ${JSON.stringify(data)}`,
+  ], "SERVER:CEF")
   mp.events.callRemote(eventString, ...data)
 })
 
