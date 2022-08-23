@@ -10,19 +10,13 @@ namespace Database
 {
     public class AlternativaContext : DbContext
     {
-        public static AlternativaContext Instance { get; } = new AlternativaContext();
-
-        private AlternativaContext()
-        {
-        }
-        
         public DbSet<Account> Accounts { get; private set; }
 
-        public DbSet<Character> Characters { get; set; }
+        public DbSet<Character> Characters { get; private set; }
 
-        public DbSet<AccountEvent> AccountEvents { get; set; }
+        public DbSet<AccountEvent> AccountEvents { get; private set; }
 
-        public DbSet<AbstractBan> Bans { get; set; }
+        public DbSet<AbstractBan> Bans { get; private set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
             optionsBuilder.UseNpgsql(DatabaseConfig.ConnectionString);
@@ -46,8 +40,7 @@ namespace Database
             IQueryable<EntityEntry<AbstractModel>> entries = ChangeTracker.Entries<AbstractModel>().AsQueryable();
             IQueryable<EntityEntry<AbstractModel>> models = entries.Where(entityEntry => entityEntry.Entity != null);
             IQueryable<EntityEntry<AbstractModel>> editedModels = models.Where(
-                    e =>
-                        e.State == EntityState.Added || e.State == EntityState.Modified
+                    e => e.State == EntityState.Added || e.State == EntityState.Modified
                 );
 
             foreach (EntityEntry<AbstractModel> entityEntry in editedModels)

@@ -11,9 +11,9 @@ namespace Database.Models
         
         public virtual void AddToContext()
         {
-            lock (AlternativaContext.Instance)
+            lock (ContextSingleton.Instance)
             {
-                var context = AlternativaContext.Instance;
+                var context = ContextSingleton.Instance;
                 context.Add(this);
                 context.SaveChanges();
             }
@@ -33,9 +33,9 @@ namespace Database.Models
 
         private void UpdateInContext()
         {
-            lock (AlternativaContext.Instance)
+            lock (ContextSingleton.Instance)
             {
-                var context = AlternativaContext.Instance;
+                var context = ContextSingleton.Instance;
                 context.Update(this);
                 context.SaveChanges();
             }

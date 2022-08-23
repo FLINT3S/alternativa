@@ -26,7 +26,7 @@ namespace Database.Models
         }
 
         private static bool IsUsernameTaken(string username) => 
-            AlternativaContext.Instance.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
+            ContextSingleton.Instance.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
 
         public void UpdateEmail(string newEmail)
         {
@@ -39,7 +39,7 @@ namespace Database.Models
         
         
         private static bool IsEmailTaken(string email) => 
-            AlternativaContext.Instance.Accounts.Select(a => new { a.Email }).Any(a => a.Email == email);
+            ContextSingleton.Instance.Accounts.Select(a => new { a.Email }).Any(a => a.Email == email);
 
         #endregion
 
@@ -165,9 +165,9 @@ namespace Database.Models
         
         public override void AddToContext()
         {
-            lock (AlternativaContext.Instance)
+            lock (ContextSingleton.Instance)
             {
-                var context = AlternativaContext.Instance;
+                var context = ContextSingleton.Instance;
                 context.Accounts.Add(this);
                 context.SaveChanges();
             }

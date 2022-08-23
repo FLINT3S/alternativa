@@ -4,9 +4,9 @@
     {
         public override void AddToContext()
         {
-            lock (AlternativaContext.Instance)
+            lock (ContextSingleton.Instance)
             {
-                var context = AlternativaContext.Instance;
+                var context = ContextSingleton.Instance;
                 context.Bans.Add(this);
                 context.SaveChanges();
             }
