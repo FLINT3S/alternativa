@@ -1,18 +1,23 @@
 ﻿using System;
 using Database.Models;
-using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Database
 {
     public class AlternativaContext : DbContext
     {
-        private string _connectionString = DatabaseConfig.ConnectionString;
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        private static readonly string ConnectionString;
+
+        static AlternativaContext()
         {
-            NAPI.Util.ConsoleOutput(_connectionString);
-            optionsBuilder.UseNpgsql(_connectionString);
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json").Build();
+            ConnectionString = config.GetConnectionString("AltDatabase");
         }
+        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
+            optionsBuilder.UseNpgsql(ConnectionString);
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserEvent> UserEvents { get; set; }
