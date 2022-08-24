@@ -1,11 +1,19 @@
 ﻿namespace Database
 {
-    public class ContextSingleton : AlternativaContext
+    public class ContextSingleton
     {
-        public static ContextSingleton Instance { get; } = new ContextSingleton();
+        private static AlternativaContext _instance;
 
-        private ContextSingleton()
+        public static AlternativaContext Instance
         {
+            get
+            {
+                if (_instance == null) return Instance = new AlternativaContext();
+
+                return _instance;
+            }
+
+            private set => _instance = value;
         }
     }
 }
