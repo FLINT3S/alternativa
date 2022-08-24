@@ -7,13 +7,15 @@ namespace Database
 {
     public class AlternativaContext : DbContext
     {
-        private static readonly string ConnectionString;
+        private static readonly IConfigurationRoot Config;
+        
+        private static string ConnectionString => Config.GetConnectionString("AltDatabase");
 
         static AlternativaContext()
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json").Build();
-            ConnectionString = config.GetConnectionString("AltDatabase");
+            Config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
