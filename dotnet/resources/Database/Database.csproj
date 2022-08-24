@@ -45,14 +45,8 @@
         <Compile Update="Models\Bans\BanReason.cs">
             <DependentUpon>AbstractBan.cs</DependentUpon>
         </Compile>
-        <Compile Update="Models\Bans\AbstractBanMethods.cs">
-          <DependentUpon>AbstractBan.cs</DependentUpon>
-        </Compile>
         <Compile Update="Models\Bans\TemporaryBanMethod.cs">
           <DependentUpon>TemporaryBan.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Models\AccountEvents\AccountEventMethods.cs">
-          <DependentUpon>AccountEvent.cs</DependentUpon>
         </Compile>
     </ItemGroup>
 </Project>    

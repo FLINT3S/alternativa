@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Database.Migrations
 {
-    [DbContext(typeof(AlternativaContext))]
+    [DbContext(typeof(AltContext))]
     [Migration("20220819042610_new_events_config")]
     partial class new_events_config
     {

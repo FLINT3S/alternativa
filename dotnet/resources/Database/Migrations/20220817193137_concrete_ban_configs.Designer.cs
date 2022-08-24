@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Database.Migrations
 {
-    [DbContext(typeof(AlternativaContext))]
+    [DbContext(typeof(AltContext))]
     [Migration("20220817193137_concrete_ban_configs")]
     partial class concrete_ban_configs
     {

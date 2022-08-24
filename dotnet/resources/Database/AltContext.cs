@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Database
 {
-    public class AlternativaContext : DbContext
+    public class AltContext : DbContext
     {
         public DbSet<Account> Accounts { get; private set; }
 

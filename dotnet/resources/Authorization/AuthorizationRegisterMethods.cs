@@ -22,7 +22,10 @@ namespace Authorization
             player.TriggerEvent(AuthorizationEvents.FirstConnectionToClient);
         }
 
-        private static bool IsUsernameTaken(string username) => 
-            AltDb.Context.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
+        private static bool IsUsernameTaken(string username)
+        {
+            using var context = new AltContext();
+            return context.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
+        }
     }
 }

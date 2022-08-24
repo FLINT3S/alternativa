@@ -25,8 +25,11 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
         }
 
-        private static bool IsUsernameTaken(string username) => 
-            AltDb.Context.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
+        private static bool IsUsernameTaken(string username)
+        {
+            using var context = new AltContext();
+            return context.Accounts.Select(a => new { a.Username }).Any(a => a.Username == username);
+        }
 
         public void UpdateEmail(string newEmail)
         {
@@ -38,8 +41,11 @@ namespace Database.Models
         }
         
         
-        private static bool IsEmailTaken(string email) => 
-            AltDb.Context.Accounts.Select(a => new { a.Email }).Any(a => a.Email == email);
+        private static bool IsEmailTaken(string email)
+        {
+            using var context = new AltContext();
+            return context.Accounts.Select(a => new { a.Email }).Any(a => a.Email == email);
+        }
 
         #endregion
 
@@ -162,16 +168,6 @@ namespace Database.Models
         }
 
         #endregion
-        
-        public override void AddToContext()
-        {
-            lock (AltDb.Context)
-            {
-                var context = AltDb.Context;
-                context.Accounts.Add(this);
-                context.SaveChanges();
-            }
-        }
 
         public override bool Equals(object obj) => ToString().Equals(obj?.ToString() ?? "null");
 

@@ -9,14 +9,11 @@ namespace Database.Models
 
         public DateTime UpdatedDate { get; internal set; } = DateTime.Now;
         
-        public virtual void AddToContext()
+        public void AddToContext()
         {
-            lock (AltDb.Context)
-            {
-                var context = AltDb.Context;
-                context.Add(this);
-                context.SaveChanges();
-            }
+            using var context = new AltContext();
+            context.Add(this);
+            context.SaveChanges();
         }
         
         private protected void UpdateDatabase()
@@ -31,14 +28,11 @@ namespace Database.Models
             }
         }
 
-        private void UpdateInContext()
+        public void UpdateInContext()
         {
-            lock (AltDb.Context)
-            {
-                var context = AltDb.Context;
-                context.Update(this);
-                context.SaveChanges();
-            }
+            using var context = new AltContext();
+            context.Update(this);
+            context.SaveChanges();
         }
     }
 }
