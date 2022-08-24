@@ -24,12 +24,12 @@ namespace NAPIExtensions
         }
 
         public static PermanentBan? GetBanByHwid(this Player player) => 
-            ContextSingleton.Instance.Bans.FirstOrDefault(
+            AltDb.Context.Bans.FirstOrDefault(
                 b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial)
             as PermanentBan;
 
         public static bool HasAccountInDb(this Player player) => 
-            ContextSingleton.Instance.Find<Account>(player.SocialClubId) != null;
+            AltDb.Context.Find<Account>(player.SocialClubId) != null;
 
         /// <summary>
         /// <b>Использовать аккуратно!</b>
@@ -40,7 +40,7 @@ namespace NAPIExtensions
         /// <returns>Account из базы данных</returns>
         public static Account? GetAccountFromDb(this Player player, params Expression<Func<Account, object>>[] includes)
         {
-            DbSet<Account>? query = ContextSingleton.Instance.Accounts;
+            DbSet<Account>? query = AltDb.Context.Accounts;
             return includes
                 .Aggregate(query.AsQueryable(), 
                         (current, include) => current.Include(include)

@@ -4,9 +4,9 @@
     {
         public override void AddToContext()
         {
-            lock (ContextSingleton.Instance)
+            lock (AltDb.Context)
             {
-                var context = ContextSingleton.Instance;
+                var context = AltDb.Context;
                 context.AccountEvents.Add(this);
                 context.SaveChanges();
             }
