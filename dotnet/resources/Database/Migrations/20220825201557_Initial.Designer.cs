@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(AltContext))]
-    [Migration("20220823174512_singleton_wrapper")]
-    partial class singleton_wrapper
+    [Migration("20220825201557_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -143,9 +143,6 @@ namespace Database.Migrations
                     b.Property<long>("Cash")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -153,6 +150,9 @@ namespace Database.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastPosition")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedDate")
