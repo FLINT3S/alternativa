@@ -16,7 +16,7 @@
 <script>
 import {defineComponent} from 'vue';
 import {openOverlayMixin} from "@/mixins/openOverlayMixin";
-import AltOverlay from "@/components/AltOverlay";
+import AltOverlay from "@/components/core/AltOverlay";
 import {altLog} from "@/connect/logs/altLogger";
 
 export default defineComponent({

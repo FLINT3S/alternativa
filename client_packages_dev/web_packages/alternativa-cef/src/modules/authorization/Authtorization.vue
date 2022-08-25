@@ -1,15 +1,16 @@
 <template>
   <alt-overlay :is-overlay-open="isOverlayOpen">
-    <transition name="fade">
-      <router-view/>
-
-    </transition>
+    <router-view v-slot="{Component}">
+      <transition name="fade" mode="out-in">
+        <component :is="Component"/>
+      </transition>
+    </router-view>
   </alt-overlay>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import AltOverlay from "@/components/AltOverlay";
+import {defineComponent} from 'vue';
+import AltOverlay from "@/components/core/AltOverlay";
 import {openOverlayMixin} from "@/mixins/openOverlayMixin";
 
 export default defineComponent({
@@ -17,10 +18,10 @@ export default defineComponent({
   mixins: [openOverlayMixin],
   components: {AltOverlay},
   created() {
-    this.$router.push("/loader");
+    this.$router.push("/loading");
 
     this.$altMp.on("LoginScreen", () => {
-      this.$router.push("/")
+      this.$router.push("/login")
     })
     this.$altMp.on("WelcomeScreen", () => {
       this.$router.push("/welcome")

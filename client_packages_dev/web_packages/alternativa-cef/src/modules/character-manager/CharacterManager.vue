@@ -7,7 +7,7 @@
 <script>
 import {defineComponent} from 'vue';
 import {openOverlayMixin} from "@/mixins/openOverlayMixin";
-import AltOverlay from "@/components/AltOverlay";
+import AltOverlay from "@/components/core/AltOverlay";
 
 export default defineComponent({
   name: 'character-manager',
