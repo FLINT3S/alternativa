@@ -1,7 +1,7 @@
 export const openOverlayMixin = {
     data() {
         return {
-            isOverlayOpen: true,
+            isOverlayOpen: process.env.NODE_ENV === 'development',
         };
     },
     methods: {
