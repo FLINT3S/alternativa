@@ -5,11 +5,14 @@ using Database.Models.AccountEvents;
 using Database.Models.Bans;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Configuration;
 
 namespace Database
 {
     public class AltContext : DbContext
     {
+        private static readonly IConfigurationRoot Config;
+        
         public DbSet<Account> Accounts { get; private set; }
 
         public DbSet<Character> Characters { get; private set; }
@@ -17,9 +20,18 @@ namespace Database
         public DbSet<AccountEvent> AccountEvents { get; private set; }
 
         public DbSet<AbstractBan> Bans { get; private set; }
+        
+        private static string ConnectionString => Config.GetConnectionString("AltDatabase");
 
+        static AltContext()
+        {
+            Config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+        }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
-            optionsBuilder.UseNpgsql(DatabaseConfig.ConnectionString);
+            optionsBuilder.UseNpgsql(ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
