@@ -1,18 +1,41 @@
 <template>
-  <div>
-    Привет! Добро пожаловать на Альтернативу!
-    <router-link to="/">Начать играть</router-link>
-  </div>
+  <authorization-card>
+    <h3>Привет!</h3>
+    <div class="mt-2">
+      Добро пожаловать на Alternativa Role Play!
+      <br>
+      Мы рады видеть тебя в рядах наших игроков,<br>
+      и сделаем всё, чтобы ты получил<br>
+      лучший игровой опыт!
+    </div>
+
+    <alt-button ref="startBtnRef" class="mt-3" stretched to="/login">
+      Начать играть
+    </alt-button>
+
+    <div class="help-caption mt-2">Если не отображается курсор — нажми Ё(~). Это работает в&nbsp;любом&nbsp;интерфейсе&nbsp;сервера</div>
+  </authorization-card>
 </template>
 
 <script>
 import {defineComponent} from "vue";
+import AltButton from "@/components/core/AltButton";
+import AuthorizationCard from "@/modules/authorization/components/AuthorizationCard";
 
 export default defineComponent({
-  name: "WelcomeView"
+  name: "WelcomeView",
+  components: {AuthorizationCard, AltButton},
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.startBtnRef.focus();
+    })
+  }
 })
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.help-caption {
+  opacity: .6;
+  font-size: 13px;
+}
 </style>

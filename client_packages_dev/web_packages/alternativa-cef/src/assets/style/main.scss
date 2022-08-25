@@ -1,8 +1,20 @@
+@import "fonts/manrope/manrope-stylesheet.css";
+@import "transitions";
+@import "typography";
+
 :root {
   --color-background-primary: #1D2025;
+  --color-background-tertiary: #5E5E5E;
+  --color-background-secondary: #262A31;
   --overlay-backdrop: rgba(29, 32, 37, 0.5);
+  --accent-primary: #198AEA;
+  --accent-light: #13D6F6;
 }
 
 html, body {
   background: transparent;
+  color: white;
+  font-family: 'Manrope', sans-serif;
+  font-size: 18px;
+  line-height: 1.3;
 }

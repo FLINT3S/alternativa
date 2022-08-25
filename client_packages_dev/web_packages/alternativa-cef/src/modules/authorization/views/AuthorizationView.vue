@@ -1,40 +1,51 @@
 <template>
-  <div class="home">
-    <div class="bg-black">
-      <div>
+  <authorization-card>
+    <h3>С возвращением!</h3>
 
-        <h1>Авторизация</h1>
-        <div class="d-flex">
-          <input v-model="login" placeholder="Логин" type="text">
-          <input v-model="password" placeholder="Пароль" type="password">
-        </div>
-        <div v-if="loginState !== null" :class="loginState ? 'text-success' : 'text-danger'">
-          {{ loginStateMessage }}
-        </div>
-        <button @click="submitLogin">Войти</button>
-      </div>
-
-      <h1>Регистрация</h1>
-      <div class="d-flex">
-        <input v-model="login" placeholder="Логин" type="text">
-        <input v-model="password" placeholder="Пароль" type="password">
-        <input v-model="email" placeholder="Электропочта" type="email">
-      </div>
-      <button @click="submitRegister">Регистрация</button>
+    <div>
+      Кажется, в последний раз ты играл с другого ПК<br>
+      Просто войди в свой аккаунт!
     </div>
-  </div>
+
+    <form class="mt-3">
+      <alt-input
+          v-model="login"
+          stretched
+          placeholder="Логин"
+      />
+      <alt-input
+          v-model="password"
+          stretched
+          placeholder="Пароль"
+          type="password"
+          class="mt-2"
+      />
+      <p class="mt-2 small-text">
+        Забыли пароль? <alt-link to="/password-recovery">Восстановить</alt-link>
+      </p>
+
+      <alt-button class="mt-3" stretched @click="submitLogin">Войти в игру</alt-button>
+    </form>
+    <p class="mt-2 small-text">
+      Нет аккаунта? <alt-link to="/registration">Зарегистрироваться</alt-link>
+    </p>
+  </authorization-card>
 </template>
 
 <script>
 import {defineComponent} from 'vue';
+import AuthorizationCard from "@/modules/authorization/components/AuthorizationCard";
+import AltButton from "@/components/core/AltButton";
+import AltInput from "@/components/core/AltInput";
+import AltLink from "@/components/core/AltLink";
 
 export default defineComponent({
   name: 'AuthorizationView',
+  components: {AltInput, AltButton, AuthorizationCard, AltLink},
   data() {
     return {
       login: "",
       password: "",
-      email: "",
       loginState: null,
       loginStateMessage: ""
     };
