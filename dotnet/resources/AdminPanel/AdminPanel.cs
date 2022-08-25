@@ -1,7 +1,9 @@
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using AbstractResource;
 using GTANetworkAPI;
+using NAPIExtensions;
 
 namespace AdminPanel
 {
@@ -10,11 +12,16 @@ namespace AdminPanel
         [RemoteEvent(AdminPanelEvents.RandomDamageFromCef)]
         private void ReRandomDamage(Player player)
         {
-            var es = GetEsFromAttr(MethodBase.GetCurrentMethod());
-            
-            player.Health -= (int) Math.Round(new Random().NextDouble() * 20);
+            player.Health -= (int)Math.Round(new Random().NextDouble() * 20);
+            GetEsFromAttr(MethodBase.GetCurrentMethod());
+            Task.Run(() =>
+            {
+                var acc = player.GetAccount()!;
+                acc.UpdateEmail((int.Parse(acc.Email) + 1).ToString());
+                Console.WriteLine(acc.Email);
+            });
         }
-        
+
         [Command("testbr")]
         public void CMDOnTestBR(Player player)
         {

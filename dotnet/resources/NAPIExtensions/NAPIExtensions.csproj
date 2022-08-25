@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Configurations>Debug</Configurations>
+        <Platforms>x64</Platforms>
+        <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+        <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="Bootstrapper">
+        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
+        <ProjectReference Include="..\EventString\EventString.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="PlayerConstants.cs">
+        <DependentUpon>PlayerExtensions.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+</Project>    
+    

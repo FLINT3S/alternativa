@@ -7,10 +7,13 @@
     "build": "webpack",
     "dev": "webpack --watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "-": "^0.0.1",
+    "circular-dependency-plugin": "^5.2.2"
+  },
   "devDependencies": {
     "@types/node": "^10.12.12",
-    "@types/ragemp-c": "github:CocaColaBear/types-ragemp-c#master",
+    "@types/ragemp-c": "github:CocaColaBear/types-ragemp-c#v2.0",
     "gulp": "^4.0.0",
     "gulp-copy": "^4.0.1",
     "ts-loader": "^9.3.1",

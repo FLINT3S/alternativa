@@ -1,27 +1,59 @@
 <Project Sdk="Microsoft.NET.Sdk">
-        <PropertyGroup>
-            <TargetFramework>netcoreapp3.1</TargetFramework>
-            <Configurations>Debug</Configurations>
-            <Platforms>x64</Platforms>
-            <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
-            <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
-        </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Configurations>Debug</Configurations>
+        <Platforms>x64</Platforms>
+        <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+        <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
 
-        <ItemGroup>
-          <Reference Include="Bootstrapper">
+    <ItemGroup>
+        <Reference Include="Bootstrapper">
             <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
-          </Reference>
-        </ItemGroup>
+        </Reference>
+    </ItemGroup>
 
-        <ItemGroup>
-          <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.18" />
-          <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.18">
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.18" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.18">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-          </PackageReference>
-          <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" />
-          <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
-          <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
-        </ItemGroup>
-    </Project>    
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.18" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+        <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Logger\Logger.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Models\AccountMethods.cs">
+            <DependentUpon>Account.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\AccountEvents\ConnectionEventType.cs">
+            <DependentUpon>ConnectionEvent.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\AccountConfiguration.cs">
+            <DependentUpon>Account.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\CharacterConfigurations.cs">
+            <DependentUpon>Character.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\Bans\BanReason.cs">
+            <DependentUpon>AbstractBan.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\Bans\TemporaryBanMethod.cs">
+          <DependentUpon>TemporaryBan.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+</Project>    
     

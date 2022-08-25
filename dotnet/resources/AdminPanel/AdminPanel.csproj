@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
         <PropertyGroup>
             <TargetFramework>netcoreapp3.1</TargetFramework>
-            <Configurations>Debug</Configurations>
+            <Configurations>Debug;Release</Configurations>
             <Platforms>x64</Platforms>
             <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
             <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
             <LangVersion>9.0</LangVersion>
+            <Nullable>enable</Nullable>
         </PropertyGroup>
 
         <ItemGroup>
@@ -17,6 +18,13 @@
         <ItemGroup>
           <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
           <ProjectReference Include="..\EventString\EventString.csproj" />
+          <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
+        </ItemGroup>
+
+        <ItemGroup>
+          <Compile Update="AdminPanelEvents.cs">
+            <DependentUpon>AdminPanel.cs</DependentUpon>
+          </Compile>
         </ItemGroup>
     </Project>    
     

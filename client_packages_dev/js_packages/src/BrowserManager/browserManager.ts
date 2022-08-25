@@ -1,29 +1,86 @@
 import {AltBrowser} from "./altBrowser";
-import {VirtualKey} from "../utils/virtualKeys";
-import {AltOverlayBrowser} from "./overlayBrowser";
+import {logger} from "../utils/logger";
 
-export const altBrowsers = {}
-
-// Ловит события с сервера и отправляет в нужный браузер
-// Негласное правило, что browserName = resourceName
-mp.events.add("SERVER:CEF", (browserName: string, eventString: string, data: object) => {
-  altBrowsers[browserName].execEvent(eventString, data)
+mp.events.add("browserDomReady", (browser) => {
+  const abr = browserManager.getByUrl(browser.url)
+  abr.loaded = true
+  mp.events.call("AltBrowserLoaded_" + abr.name)
+  logger.log("AltBrowserLoaded_" + browserManager.getByUrl(browser.url).name)
 })
 
-mp.events.add("CEF:SERVER", (eventString: string, data: object) => {
-  mp.events.callRemote(eventString, data)
-})
-
-mp.keys.bind(VirtualKey.VK_ESCAPE, true, () => {
-  Object.values(altBrowsers).forEach((browser: AltBrowser) => {
-    if (browser instanceof AltOverlayBrowser) {
-      browser.closeOverlay()
+export class browserManager {
+  static getBrowser<T>(browserName: string): T {
+    if (global.altBrowsers === undefined) {
+      global.altBrowsers = {}
+      return
     }
-  })
-})
 
-export class BrowserManager {
-  static getBrowser(browserName: string): AltBrowser {
-    return altBrowsers[browserName]
+    return global.altBrowsers[browserName]
+  }
+
+  static addBrowser(browser: AltBrowser): void {
+    if (global.altBrowsers === undefined) {
+      global.altBrowsers = {}
+    }
+
+    global.altBrowsers[browser.name] = browser
+  }
+
+  static getAllBrowsers(): AltBrowser[] {
+    if (global.altBrowsers === undefined) {
+      global.altBrowsers = {}
+      return []
+    }
+
+    return Object.values(global.altBrowsers)
+  }
+
+  static renameBrowser(browserName: string, newName: string): void {
+    if (global.altBrowsers === undefined) {
+      global.altBrowsers = {}
+      return
+    }
+
+    const browser = global.altBrowsers[browserName]
+    if (browser === undefined) {
+      return
+    }
+
+    browser.name = newName
+    delete global.altBrowsers[browserName]
+    global.altBrowsers[newName] = browser
+  }
+
+  static deleteBrowser(browserName: string): void {
+    if (global.altBrowsers === undefined) {
+      global.altBrowsers = {}
+      return
+    }
+
+    const browser: AltBrowser = global.altBrowsers[browserName]
+    if (browser === undefined) {
+      return
+    }
+
+    browser.getInstance().destroy()
+    delete global.altBrowsers[browserName]
+  }
+
+  static onBrowserLoad(browserName: string): Promise<unknown> {
+    return new Promise((resolve) => {
+      if (this.getBrowser<AltBrowser>(browserName)?.loaded) {
+        resolve(true)
+        return
+      }
+
+      mp.events.add("AltBrowserLoaded_" + browserName, () => {
+        resolve(true)
+        mp.events.remove("AltBrowserLoaded_" + browserName)
+      })
+    })
+  }
+
+  static getByUrl(url: string): AltBrowser {
+    return this.getAllBrowsers().find(browser => browser.url === url)
   }
 }

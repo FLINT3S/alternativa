@@ -1,6 +1,20 @@
 const path = require("path");
+const webpack = require("webpack");
+const CircularDependencyPlugin = require('circular-dependency-plugin')
+
 module.exports = {
     mode: "production",
+    plugins: [
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new CircularDependencyPlugin({
+            exclude: /a\.js|node_modules/,
+            include: /src/,
+            failOnError: true,
+            allowAsyncCycles: false,
+            cwd: process.cwd(),
+        })
+        // new UglifyJsPlugin({ sourceMap: true })
+    ],
     module: {
         rules: [
             {
@@ -10,21 +24,18 @@ module.exports = {
             }
         ]
     },
-    entry: {
-        "AdminPanel": "./src/AdminPanel/index.ts",
-        "CursorManager": "./src/CursorManager/index.ts",
+    entry: "./src/index.ts",
+    optimization: {
+        minimize: false
     },
     resolve: {
         extensions: [".ts"]
-    },
-    experiments: {
-        cacheUnaffected: false,
     },
     watchOptions: {
         ignored: "**/node_modules"
     },
     output: {
-        filename: "[name]/[name].js",
+        filename: "client.build.js",
         path: path.resolve(__dirname, "..", "..", "client_packages", "js_packages"),
     }
 };

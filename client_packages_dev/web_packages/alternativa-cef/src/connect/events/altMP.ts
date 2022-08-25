@@ -22,7 +22,7 @@ export class altMP extends ModuleDependent {
    *
    * Отправляет событие клиенту
    * */
-  trigger(eventName: string, data: object) {
+  triggerClient(eventName: string, data: object) {
     const es = new EventString("CEF", "CLIENT", this.moduleName, eventName)
     new AltEvent(es, AltEventType.SEND, data)
 
@@ -34,15 +34,15 @@ export class altMP extends ModuleDependent {
    *
    * Отправляет событие серверу
    * */
-  triggerServer(eventName: string, data?: object) {
+  triggerServer(eventName: string, ...data?: Array<number|string>) {
     const es = new EventString("CEF", "SERVER", this.moduleName, eventName)
     new AltEvent(es, AltEventType.SEND, data)
 
-    mp.trigger("CEF:SERVER", es.eventString, data)
+    mp.trigger("CEF:SERVER", es.eventString, ...data)
   }
 
-  triggerServerRawEvent(eventString: string, data?: object) {
-    mp.trigger("CEF:SERVER", eventString, data)
+  triggerServerRawEvent(eventString: string, data?: Array<number|string>) {
+    mp.trigger("CEF:SERVER", eventString, JSON.stringify(data))
   }
 
   /**
@@ -84,6 +84,6 @@ export class altMP extends ModuleDependent {
 
     const eventListeners: Array<AltEventCallback> = window.altListeners.get(eventString)
     if (!eventListeners || eventListeners.length === 0) altLog.warning(`No listeners for event ${eventString}`)
-    else eventListeners.forEach(listener => listener(data))
+    else eventListeners.forEach(listener => listener(...data))
   }
 }
