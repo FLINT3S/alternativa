@@ -6,7 +6,7 @@
 
 <script>
 import {defineComponent} from "vue";
-import animatedLogo from "@/assets/logo.svg";
+import animatedLogo from "@/assets/logo/animatedLoadingAlternativaLogo.svg";
 
 
 export default defineComponent({
