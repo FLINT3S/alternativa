@@ -24,3 +24,5 @@ client_packages/js_packages
 client_packages/_rage-console
 packages/_rage-console
 package-lock.json
+**/appsettings.json
+**/appsettings.*.json

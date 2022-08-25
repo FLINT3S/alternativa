@@ -12,6 +12,7 @@
   &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\mongodb.driver\2.17.1\lib\netstandard2.1\MongoDB.Driver.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\npgsql.entityframeworkcore.postgresql\5.0.10\lib\netstandard2.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\microsoft.entityframeworkcore\5.0.17\lib\netstandard2.1\Microsoft.EntityFrameworkCore.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\textu\.nuget\packages\microsoft.extensions.configuration.fileextensions\3.1.18\lib\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	
 	
