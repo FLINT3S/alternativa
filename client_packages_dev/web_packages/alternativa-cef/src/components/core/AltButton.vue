@@ -3,7 +3,7 @@
     <slot></slot>
   </button>
   <router-link :to="to" v-else custom v-slot="{navigate}">
-    <button class="alt-button" v-bind="$attrs" ref="btnEl" :class="altButtonClass" @click.prevent="navigate" @keypress.enter="navigate" role="button">
+    <button class="alt-button" v-bind="$attrs" ref="btnEl" :class="altButtonClass" @click="navigate" @keypress.enter="navigate" role="button">
       <slot></slot>
     </button>
   </router-link>

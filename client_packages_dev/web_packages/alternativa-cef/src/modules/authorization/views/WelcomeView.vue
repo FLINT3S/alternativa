@@ -4,9 +4,11 @@
     <div class="mt-2">
       Добро пожаловать на Alternativa Role Play!
       <br>
-      Мы рады видеть тебя в рядах наших игроков,<br>
-      и сделаем всё, чтобы ты получил<br>
-      лучший игровой опыт!
+      <span class="medium-text">
+        Мы рады видеть тебя в рядах наших игроков,<br>
+        и сделаем всё, чтобы ты получил<br>
+        лучший игровой опыт!
+      </span>
     </div>
 
     <alt-button ref="startBtnRef" class="mt-3" stretched to="/login">
