@@ -12,6 +12,10 @@ namespace Authorization.ChainOfResponsibility
             var account = player.GetAccountFromDb()!;
             player.SetAccount(account!);
             account.OnConnect(player.Address, player.Serial);
+            
+            var character = player.GetActiveCharacter();
+            if (character?.LastPosition != null)
+                player.Position = character.LastPosition;
 
             player.TriggerEvent(
                     account.IsSameLastHwid(player.Serial) ?

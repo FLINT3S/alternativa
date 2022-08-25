@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
+using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 
@@ -166,8 +167,8 @@ namespace Database.Models
         public void OnDisconnect()
         {
             ActiveCharacter = null;
-            UpdateDatabase();
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
+            UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", "Account disconnected."));
         }
 

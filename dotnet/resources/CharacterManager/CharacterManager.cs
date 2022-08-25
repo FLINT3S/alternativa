@@ -23,8 +23,7 @@ namespace CharacterManager
         {
             var account = player.GetAccountFromDb(a => a.Characters);
             var character = account!.Characters.FirstOrDefault(c => c.Id == Guid.Parse(rawGuid));
-            account.ActiveCharacter = character;
-            account.UpdateInContext();
+            account.OnCharacterPeek(character);
         }
     }
 }

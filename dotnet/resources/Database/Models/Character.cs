@@ -1,8 +1,9 @@
 ﻿using System;
+using GTANetworkAPI;
 
 namespace Database.Models
 {
-    public class Character : AbstractModel
+    public partial class Character : AbstractModel
     {
         private Character()
         {
@@ -16,18 +17,30 @@ namespace Database.Models
             Birthday = birthday;
         }
 
+        #region Main Data
+
         public Guid Id { get; private set; }
 
         public Account Account { get; private set; }
+        
+        #endregion
+
+        public Vector3 LastPosition { get; set; }
+        
+        #region Biography
 
         public string FirstName { get; private set; }
 
         public string LastName { get; private set; }
 
         public DateTime Birthday { get; private set; }
-
-        public long Cash { get; set; }
         
-        public override string ToString() => $"{Id}: [{FirstName} {LastName}]";
+        #endregion
+
+        #region Finances
+        
+        public long Cash { get; set; }
+
+        #endregion
     }
 }

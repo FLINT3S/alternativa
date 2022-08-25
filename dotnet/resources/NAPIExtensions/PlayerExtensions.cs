@@ -70,6 +70,6 @@ namespace NAPIExtensions
             player.SetData(PlayerConstants.Account, account);
 
         public static Character? GetActiveCharacter(this Player player) => 
-            player.GetAccount()!.ActiveCharacter;
+            player.GetAccountFromDb(a => a.ActiveCharacter!).ActiveCharacter;
     }
 }

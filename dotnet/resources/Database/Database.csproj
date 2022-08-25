@@ -20,6 +20,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.18" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
         <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
@@ -47,6 +48,9 @@
         </Compile>
         <Compile Update="Models\Bans\TemporaryBanMethod.cs">
           <DependentUpon>TemporaryBan.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\CharacterMethods.cs">
+          <DependentUpon>Character.cs</DependentUpon>
         </Compile>
     </ItemGroup>
 

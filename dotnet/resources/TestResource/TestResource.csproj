@@ -18,6 +18,7 @@
           <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
           <ProjectReference Include="..\Database\Database.csproj" />
           <ProjectReference Include="..\Logger\Logger.csproj" />
+          <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
         </ItemGroup>
 
         <ItemGroup>

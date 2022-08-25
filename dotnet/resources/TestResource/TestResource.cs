@@ -7,6 +7,7 @@ using Database.Models.AccountEvents;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
+using NAPIExtensions;
 using Player = GTANetworkAPI.Player;
 
 namespace TestResource
@@ -25,22 +26,14 @@ namespace TestResource
             NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
         }
 
-        [ServerEvent(Event.PlayerConnected)]
-        public void OnPlayerConnected(Player player)
+        [ServerEvent(Event.PlayerDisconnected)]
+        public void OnPlayerDisconnected(Player player, DisconnectionType type, string reason)
         {
-            // using var dbContext = new AlternativaContext();
-            // var connectedUser = dbContext.Users.FirstOrDefault(u => u.Name == player.Name);
-            //
-            // var userConnected = new AccountEvent
-            // {
-            //     Type = UserEventType.Connected,
-            //     Character = connectedUser
-            // };
-            //
-            // int connectionsCount = dbContext.UserEvents.Count(ue => ue.Character == connectedUser);
-            // NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
-            // dbContext.UserEvents.Add(userConnected);
-            // dbContext.SaveChanges();
+            var character = player.GetActiveCharacter();
+            character!.OnDisconnect(player.Position);
+            
+            var account = player.GetAccount();
+            account!.OnDisconnect();
         }
 
         [RemoteProc("RPC::CEF:SERVER:AdminPanel:randomDamage")]

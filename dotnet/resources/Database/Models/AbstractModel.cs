@@ -32,6 +32,7 @@ namespace Database.Models
         {
             using var context = new AltContext();
             context.Update(this);
+            Console.WriteLine($"Updating {this}");
             context.SaveChanges();
         }
     }
