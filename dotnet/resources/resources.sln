@@ -16,6 +16,8 @@ Project("{E591E203-048B-45FF-A642-E840479F4F96}") = "Authorization", "Authorizat
 EndProject
 Project("{D257FFD4-A2A5-48B0-B7F4-279F02AE7E96}") = "NAPIExtensions", "NAPIExtensions\NAPIExtensions.csproj", "{7793D314-096A-4773-9182-187C7CF67B88}"
 EndProject
+Project("{9277B19D-6FF1-424F-901B-477C44E368B8}") = "CharacterManager", "CharacterManager\CharacterManager.csproj", "{73BCFCBA-C6BB-4A4B-81BB-F2C1688024CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -50,5 +52,7 @@ Global
                 {888071C0-B783-46D1-A0F0-F7A3A750780B}.Debug|x64.Build.0 = Debug|x64
             {7793D314-096A-4773-9182-187C7CF67B88}.Debug|x64.ActiveCfg = Debug|x64
                 {7793D314-096A-4773-9182-187C7CF67B88}.Debug|x64.Build.0 = Debug|x64
-	EndGlobalSection
+	    {73BCFCBA-C6BB-4A4B-81BB-F2C1688024CA}.Debug|x64.ActiveCfg = Debug|x64
+        {73BCFCBA-C6BB-4A4B-81BB-F2C1688024CA}.Debug|x64.Build.0 = Debug|x64
+EndGlobalSection
 EndGlobal

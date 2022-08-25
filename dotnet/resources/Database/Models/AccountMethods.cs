@@ -12,7 +12,7 @@ namespace Database.Models
     public partial class Account
     {
         private string ip = null!, hwid = null!;
-        
+
         #region Simple user data
 
         public void UpdateUsername(string newUsername)
@@ -139,6 +139,10 @@ namespace Database.Models
 
         #endregion
 
+        #region Characters
+
+        #endregion
+
         #region On Events
 
         public void OnConnect(string ip, string hwid)
@@ -168,10 +172,6 @@ namespace Database.Models
         }
 
         #endregion
-
-        public override bool Equals(object obj) => ToString().Equals(obj?.ToString() ?? "null");
-
-        public override int GetHashCode() => ToString().GetHashCode();
 
         public override string ToString() => $"{Username}_[{SocialClubId}]";
     }

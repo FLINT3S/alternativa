@@ -14,14 +14,11 @@ namespace Database.Models
             FirstName = firstname;
             LastName = lastname;
             Birthday = birthday;
-            CreatedAt = DateTime.Now;
         }
 
         public Guid Id { get; private set; }
 
         public Account Account { get; private set; }
-
-        public DateTime CreatedAt { get; private set; }
 
         public string FirstName { get; private set; }
 
@@ -30,5 +27,7 @@ namespace Database.Models
         public DateTime Birthday { get; private set; }
 
         public long Cash { get; set; }
+        
+        public override string ToString() => $"{Id}: [{FirstName} {LastName}]";
     }
 }
