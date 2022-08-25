@@ -5,7 +5,7 @@
         protected AltAbstractEvent(string destination, object module, string eventName, string eventDescription)
         {
             Destination = destination;
-            Module = module.GetType().FullName;
+            Module = module.GetType().FullName!;
             EventName = eventName;
             EventDescription = eventDescription;
         }

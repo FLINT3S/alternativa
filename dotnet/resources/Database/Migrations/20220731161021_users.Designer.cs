@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Database.Migrations
 {
-    [DbContext(typeof(AlternativaContext))]
+    [DbContext(typeof(AltContext))]
     [Migration("20220731161021_users")]
     partial class users
     {

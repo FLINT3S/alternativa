@@ -1,0 +1,59 @@
+﻿<svg width="450" height="367" viewBox="0 0 480 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .logo-path {
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            animation: dash 2.5s ease forwards, opacity-fade 1.5s 1.5s ease forwards;
+            fill: url(#main_gradient);
+            fill-opacity: 0;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes opacity-fade {
+            to {
+                fill-opacity: 1;
+            }
+        }
+    </style>
+    <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M220 0.664605L439.958 366.335H283.669L141.828 130.622L220 0.664605ZM0.0421219 366.335H220.112L189.041
+          314.701H96.4814L142.788 237.837L110.056 183.442L0.0421219 366.335Z"
+          fill="transparent"
+          class="logo-path"
+          stroke="url(#main_gradient)"
+          stroke-width="3"
+          filter="url(#shadow)"
+          transform="translate(15, 15)"
+    />
+    <defs>
+        <filter id="shadow">
+            <feDropShadow dx="0" dy="0" stdDeviation="15" flood-color="#198AEA" flood-opacity="0.8"/>
+        </filter>
+        <linearGradient id="main_gradient" x1="3.43214" y1="364.635" x2="323.181" y2="177.547"
+                        gradientUnits="userSpaceOnUse">
+            <stop stop-color="#13D6F6">
+                <animate attributeName="stop-color"
+                         keySplines=".25 .1 .25 1; 0 0 .58 1"
+                         calcMode="spline"
+                         values="#13D6F6; #198AEA; #13D6F6"
+                         dur="3s"
+                         repeatCount="indefinite"
+                />
+            </stop>
+            <stop offset="1" stop-color="#198AEA">
+                <animate attributeName="stop-color"
+                         keySplines=".25 .1 .25 1; 0 0 .58 1"
+                         calcMode="spline"
+                         values="#198AEA; #13D6F6; #198AEA"
+                         dur="3s"
+                         repeatCount="indefinite"
+                />
+            </stop>
+        </linearGradient>
+    </defs>
+</svg>

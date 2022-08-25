@@ -14,4 +14,13 @@
   &lt;Assembly Path="C:\Users\Ilya\.nuget\packages\microsoft.entityframeworkcore\5.0.17\lib\netstandard2.1\Microsoft.EntityFrameworkCore.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\textu\.nuget\packages\microsoft.extensions.configuration.fileextensions\3.1.18\lib\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:Boolean x:Key="/Default/UserDictionary/Words/=Alternativa/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	
+	
+	
+	
+	
+	
+	
+	
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Alternativa/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Hwid/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

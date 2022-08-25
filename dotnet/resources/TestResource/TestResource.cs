@@ -3,6 +3,7 @@ using System.Linq;
 using AbstractResource;
 using Database;
 using Database.Models;
+using Database.Models.AccountEvents;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
@@ -15,9 +16,7 @@ namespace TestResource
         [ServerEvent(Event.ResourceStart)]
         public void OnTestResourceStart()
         {
-            using var dbContext = new AlternativaContext();
-            int playerCount = dbContext.Users.Count();
-            NAPI.Util.ConsoleOutput("Total players in the database: " + playerCount);
+            // using var dbContext = new AlternativaContext();
         }
 
         [Command("spawncar")]
@@ -29,19 +28,19 @@ namespace TestResource
         [ServerEvent(Event.PlayerConnected)]
         public void OnPlayerConnected(Player player)
         {
-            using var dbContext = new AlternativaContext();
-            var connectedUser = dbContext.Users.FirstOrDefault(u => u.Name == player.Name);
-
-            var userConnected = new UserEvent
-            {
-                Type = UserEventType.Connected,
-                User = connectedUser
-            };
-
-            int connectionsCount = dbContext.UserEvents.Count(ue => ue.User == connectedUser);
-            NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
-            dbContext.UserEvents.Add(userConnected);
-            dbContext.SaveChanges();
+            // using var dbContext = new AlternativaContext();
+            // var connectedUser = dbContext.Users.FirstOrDefault(u => u.Name == player.Name);
+            //
+            // var userConnected = new AccountEvent
+            // {
+            //     Type = UserEventType.Connected,
+            //     Character = connectedUser
+            // };
+            //
+            // int connectionsCount = dbContext.UserEvents.Count(ue => ue.Character == connectedUser);
+            // NAPI.Util.ConsoleOutput("Connected: " + connectionsCount);
+            // dbContext.UserEvents.Add(userConnected);
+            // dbContext.SaveChanges();
         }
 
         [RemoteProc("RPC::CEF:SERVER:AdminPanel:randomDamage")]

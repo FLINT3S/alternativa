@@ -1,5 +1,5 @@
 <meta>
-        <info name="Database" type="script" version="0.0.1"/>
-        <script src="bin/x64/Debug/netcoreapp3.1/Database.dll"/>
-    </meta>
+    <info name="Database" type="script" version="0.0.1"/>
+    <script src="bin/x64/Debug/netcoreapp3.1/Database.dll"/>
+</meta>
     

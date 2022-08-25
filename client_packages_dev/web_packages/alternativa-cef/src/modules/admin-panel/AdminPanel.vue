@@ -25,7 +25,6 @@ export default defineComponent({
   mixins: [openOverlayMixin],
   data() {
     return {
-      overlayTitle: "Admin Panel",
       executeServerEvent: "CEF:SERVER:AdminPanel:randomDamage"
     };
   },
@@ -34,7 +33,10 @@ export default defineComponent({
       this.$altMp.triggerServer("randomDamage");
     },
     sendServerEvent() {
-      this.$altMp.triggerServerRawEvent(this.executeServerEvent);
+      //repeat 100 times
+      for (let i = 0; i < 10; i++) {
+        this.$altMp.triggerServerRawEvent(this.executeServerEvent);
+      }
     }
   },
   created() {
