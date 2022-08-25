@@ -14,8 +14,17 @@ namespace Database
         static AlternativaContext()
         {
             Config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile(GetSettingsFilename())
                 .Build();
+        }
+
+        private static string GetSettingsFilename()
+        {
+            #if DEBUG
+                return "appsettings.Development.json";
+            #else
+                return "appsettings.Release.json";
+            #endif
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
