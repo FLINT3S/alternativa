@@ -43,8 +43,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/style/animations/slide-down.scss";
-@import "src/assets/style/animations/fade.scss";
+@import "@/assets/style/animations/slide-down.scss";
+@import "@/assets/style/animations/fade.scss";
 
 .overlay-backdrop {
   height: 100vh;

@@ -2,8 +2,8 @@ import {createApp} from 'vue'
 import App from './CharacterManager.vue'
 import router from './router'
 import store from './store'
-import "@/assets/style/bootstrap-utilities.min.css"
-import "@/assets/style/bootstrap-reboot.min.css"
+import "@/assets/style/bootstrap/bootstrap-utilities.min.css"
+import "@/assets/style/bootstrap/bootstrap-reboot.min.css"
 import {connectRage} from "@/connect/connectRageVuePlugin";
 
 
