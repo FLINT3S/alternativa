@@ -35,7 +35,7 @@ namespace Database.Models
 
         public PermanentBan? PermanentBan { get; private set; } = null;
 
-        public Character? ActiveCharacter { get; private set; }
+        public Character? ActiveCharacter { get; set; }
 
         public List<Character> Characters { get; } = new List<Character>();
 

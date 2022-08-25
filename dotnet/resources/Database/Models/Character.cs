@@ -1,8 +1,9 @@
 ﻿using System;
+using GTANetworkAPI;
 
 namespace Database.Models
 {
-    public class Character : AbstractModel
+    public partial class Character : AbstractModel
     {
         private Character()
         {
@@ -14,21 +15,32 @@ namespace Database.Models
             FirstName = firstname;
             LastName = lastname;
             Birthday = birthday;
-            CreatedAt = DateTime.Now;
         }
+
+        #region Main Data
 
         public Guid Id { get; private set; }
 
         public Account Account { get; private set; }
+        
+        #endregion
 
-        public DateTime CreatedAt { get; private set; }
+        public Vector3 LastPosition { get; set; }
+        
+        #region Biography
 
         public string FirstName { get; private set; }
 
         public string LastName { get; private set; }
 
         public DateTime Birthday { get; private set; }
+        
+        #endregion
 
+        #region Finances
+        
         public long Cash { get; set; }
+
+        #endregion
     }
 }

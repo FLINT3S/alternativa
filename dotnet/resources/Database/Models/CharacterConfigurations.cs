@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GTANetworkAPI;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Newtonsoft.Json;
 
 namespace Database.Models
 {
@@ -8,6 +10,12 @@ namespace Database.Models
         public void Configure(EntityTypeBuilder<Character> builder)
         {
             builder.HasKey(c => c.Id);
+            builder
+                .Property(c => c.LastPosition)
+                .HasConversion(
+                        v => JsonConvert.SerializeObject(v),
+                        s => JsonConvert.DeserializeObject<Vector3>(s)
+                    );
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
+using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 
@@ -12,7 +13,7 @@ namespace Database.Models
     public partial class Account
     {
         private string ip = null!, hwid = null!;
-        
+
         #region Simple user data
 
         public void UpdateUsername(string newUsername)
@@ -139,6 +140,10 @@ namespace Database.Models
 
         #endregion
 
+        #region Characters
+
+        #endregion
+
         #region On Events
 
         public void OnConnect(string ip, string hwid)
@@ -162,16 +167,12 @@ namespace Database.Models
         public void OnDisconnect()
         {
             ActiveCharacter = null;
-            UpdateDatabase();
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
+            UpdateDatabase();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", "Account disconnected."));
         }
 
         #endregion
-
-        public override bool Equals(object obj) => ToString().Equals(obj?.ToString() ?? "null");
-
-        public override int GetHashCode() => ToString().GetHashCode();
 
         public override string ToString() => $"{Username}_[{SocialClubId}]";
     }
