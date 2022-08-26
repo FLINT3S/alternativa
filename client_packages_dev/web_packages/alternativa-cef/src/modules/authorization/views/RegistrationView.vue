@@ -1,33 +1,35 @@
 <template>
   <authorization-card>
-    <h3>С возвращением!</h3>
+    <h3>Регистрация</h3>
 
     <div class="medium-text">
-      Кажется, в последний раз ты играл с другого ПК<br>
-      Просто войди в свой аккаунт!
+      Логин будет использоваться для входа в аккаунт и на игровой форум.
+      Логин может содержать латинские буквы, цифры и знаки нижнего подчеркивания, точку и короткое тире
     </div>
 
-    <form class="mt-3">
+    <div class="mt-3">
       <alt-input
           v-model="login"
-          stretched
           placeholder="Логин"
+          stretched
       />
       <alt-input
           v-model="password"
-          stretched
-          placeholder="Пароль"
-          type="password"
           class="mt-2"
+          placeholder="Пароль"
+          stretched
+          type="password"
       />
       <p class="mt-2 small-text">
-        Забыли пароль? <alt-link to="/password-recovery">Восстановить</alt-link>
+        Не помнишь пароль?
+        <alt-link to="/password-recovery">Восстановить</alt-link>
       </p>
 
       <alt-button class="mt-3" stretched @click="submitLogin">Войти в игру</alt-button>
-    </form>
+    </div>
     <p class="mt-2 small-text">
-      Нет аккаунта? <alt-link to="/registration">Зарегистрироваться</alt-link>
+      Нет аккаунта?
+      <alt-link to="/registration">Зарегистрироваться</alt-link>
     </p>
   </authorization-card>
 </template>
@@ -40,14 +42,11 @@ import AltInput from "@/components/core/AltInput";
 import AltLink from "@/components/core/AltLink";
 
 export default defineComponent({
-  name: 'AuthorizationView',
+  name: 'RegistrationView',
   components: {AltInput, AltButton, AuthorizationCard, AltLink},
   data() {
     return {
-      login: "",
-      password: "",
-      loginState: null,
-      loginStateMessage: ""
+      registrationData: new RegistrationDTO()
     };
   },
   methods: {

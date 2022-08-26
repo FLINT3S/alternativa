@@ -1,4 +1,4 @@
-import rpc, {callClient} from "rage-rpc"
+import rpc from "rage-rpc"
 import {AltRPCEventType} from "@/connect/events/altEventType";
 import {ModuleDependent} from "@/connect/moduleDependent";
 import {RPCEventSting} from "@/connect/events/rpc/rpcEventSting";

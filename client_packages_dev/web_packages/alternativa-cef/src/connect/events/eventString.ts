@@ -1,4 +1,4 @@
-import {altDefaultEventRegexp, altRPCEventRegexp} from "@/connect/events/utils/regExps";
+import {altDefaultEventRegexp} from "@/connect/events/utils/regExps";
 
 export class EventString {
   eventString: string

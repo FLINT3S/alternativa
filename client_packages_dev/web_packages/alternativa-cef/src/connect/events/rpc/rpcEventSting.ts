@@ -12,6 +12,7 @@ export class RPCEventSting {
    * */
   constructor(...args: [string] | [string, string, string, string]) {
     if (args.length === 1 && args[0].match(altRPCEventRegexp)) {
+      // eslint-disable-next-line
       const [_, __, from, to, module, name] = args[0].split(":")
       this.eventString = args[0]
       this.from = from
