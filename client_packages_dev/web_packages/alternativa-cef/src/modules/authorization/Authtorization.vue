@@ -18,7 +18,7 @@ export default defineComponent({
   mixins: [openOverlayMixin],
   components: {AltOverlay},
   created() {
-    this.$router.push("/loader");
+    this.$router.push("/loading");
 
     this.$altMp.on("LoginScreen", () => {
       this.$router.push("/login")

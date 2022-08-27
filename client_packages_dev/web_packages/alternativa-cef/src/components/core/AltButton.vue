@@ -69,6 +69,11 @@ export default defineComponent({
   color: white;
   transition: all .3s ease;
 
+  @media screen and (max-width: 1200px) {
+    font-size: 18px;
+    padding: 11px 20px;
+  }
+
   &:focus-visible {
     outline: 1px solid var(--accent-light)!important;
   }

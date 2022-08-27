@@ -55,9 +55,6 @@ export default defineComponent({
   methods: {
     submitLogin() {
       this.$altMp.triggerServer("LoginSubmit", this.login, this.password);
-    },
-    submitRegister() {
-      this.$altMp.triggerServer("RegisterSubmit", this.login, this.password, this.email);
     }
   },
   created() {

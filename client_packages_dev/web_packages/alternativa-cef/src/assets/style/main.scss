@@ -2,6 +2,8 @@
 @import url("https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp");
 @import "transitions";
 @import "typography";
+@import "animations/slide";
+@import "animations/fade";
 
 :root {
   --color-background-primary: #1D2025;
@@ -11,6 +13,9 @@
   --accent-primary: #198AEA;
   --accent-light: #13D6F6;
   --danger: #E43E3E;
+  --success: #28C638;
+  --warning: #D1C12C;
+  --text-secondary: #8d8d8d;
 }
 
 html, body {

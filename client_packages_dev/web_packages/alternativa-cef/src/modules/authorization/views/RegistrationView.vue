@@ -2,23 +2,39 @@
   <authorization-card>
     <h3>Регистрация</h3>
 
-    <div class="medium-text">
-      Логин будет использоваться для входа в аккаунт и на игровой форум.
-      Логин может содержать латинские буквы, цифры и знаки нижнего подчеркивания, точку и короткое тире
-    </div>
-
-    <div class="mt-3">
-      <alt-input
-          v-model="registrationData.login"
-          placeholder="Логин"
-          stretched
-          :validation="v$.registrationData.login"
-          show-validation-tooltip
-
+    <div class="d-flex justify-content-center mb-3">
+      <stepper-step
+          v-for="(step, index) in registrationSteps"
+          :key="step.name"
+          :icon="step.icon"
+          :isActive="activeStep >= index"
+          :nextActive="activeStep > index"
+          :name="step.name"
+          :next-step-exists="index < registrationSteps.length - 1"
       />
-
-      <alt-button :disabled="v$.registrationData.login.$invalid" class="mt-3" stretched @click="submitLogin">Дальше</alt-button>
     </div>
+
+    <transition-group name="collapse-right" tag="div" class="position-relative d-flex flex-row-reverse justify-content-center">
+      <common-information
+          v-if="activeStep === 0"
+          key="common-information"
+          class="w-100"
+          @next-step="nextStep"
+      />
+      <additional-information
+          v-if="activeStep === 1"
+          key="additional-information"
+          class="w-100"
+          @next-step="nextStep"
+      />
+      <policy-confirm
+          v-if="activeStep === 2"
+          key="policy-confirm"
+          class="w-100"
+          @submit="onRegisterSubmit"
+      ></policy-confirm>
+    </transition-group>
+
     <p class="mt-2 small-text">
       Уже есть аккаунт?
       <alt-link to="/login">Войти</alt-link>
@@ -29,21 +45,38 @@
 <script>
 import {defineComponent} from 'vue';
 import AuthorizationCard from "@/modules/authorization/components/AuthorizationCard";
-import AltButton from "@/components/core/AltButton";
-import AltInput from "@/components/core/AltInput";
 import AltLink from "@/components/core/AltLink";
 import {RegistrationDTO} from "@/modules/authorization/data/RegistrationDTO";
 import useVuelidate from "@vuelidate/core";
+import StepperStep from "@/components/core/stepper/Step";
+import {mapGetters} from "vuex";
+import CommonInformation from "@/modules/authorization/components/registration/CommonInformation";
+import AdditionalInformation from "@/modules/authorization/components/registration/AdditionalInformation";
+import PolicyConfirm from "@/modules/authorization/components/registration/PolicyConfirm";
 
 export default defineComponent({
   name: 'RegistrationView',
-  components: {AltInput, AltButton, AuthorizationCard, AltLink},
+  components: {PolicyConfirm, AdditionalInformation, CommonInformation, StepperStep, AuthorizationCard, AltLink},
   setup() {
     return {v$: useVuelidate()}
   },
   data() {
     return {
-      registrationData: new RegistrationDTO()
+      registrationSteps: [
+        {
+          name: "Пароль",
+          icon: "vpn_key",
+        },
+        {
+          name: "Логин",
+          icon: "badge",
+        },
+        {
+          name: "Правила",
+          icon: "policy",
+        }
+      ],
+      activeStep: 0
     };
   },
   validations() {
@@ -53,12 +86,17 @@ export default defineComponent({
       }
     }
   },
+  computed: {
+    ...mapGetters([
+      "registrationData"
+    ]),
+  },
   methods: {
-    submitLogin() {
-      this.$altMp.triggerServer("LoginSubmit", this.login, this.password);
+    nextStep() {
+      this.activeStep++;
     },
-    submitRegister() {
-      this.$altMp.triggerServer("RegisterSubmit", this.login, this.password, this.email);
+    onRegisterSubmit() {
+      this.$altMp.triggerServer("RegisterSubmit", this.registrationData.login, this.registrationData.password, this.registrationData.email);
     }
   },
   created() {
@@ -73,3 +111,7 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="scss" scoped>
+
+</style>

@@ -11,7 +11,7 @@
       </span>
     </div>
 
-    <alt-button ref="startBtnRef" class="mt-3" stretched to="/login">
+    <alt-button ref="startBtnRef" class="mt-3" stretched to="/registration">
       Начать играть
     </alt-button>
 

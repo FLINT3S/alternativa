@@ -2,16 +2,18 @@
   <div :class="altInputClasses" class="alt-input__wrapper d-flex">
     <input
         :placeholder="placeholder"
-        :type="type"
+        :type="fieldType"
         :value="inputValue"
         autocomplete="off"
         class="alt-input"
         @blur="onBlur"
         @focus="onFocus"
         @input.prevent="onInput"
+        @keypress.enter="$emit('enter')"
+        ref="input"
     >
 
-    <div class="validation-tooltip" v-if="showValidationTooltip" v-show="validation.$errors.length">
+    <div class="validation-tooltip" v-if="showValidationTooltip" v-show="validation.$errors && validation.$errors.length">
       <div class="tooltip-icon d-flex">
         <span class="material-icons-round m-auto">error_outline</span>
       </div>
@@ -20,6 +22,12 @@
           {{error.$message}}
         </div>
       </div>
+    </div>
+
+    <div class="password-show" v-if="type === 'password' && !noShowPassword">
+      <span class="material-icons-round my-auto" @mousedown="onShowPassword" @mouseup="onShowPassword">
+        visibility
+      </span>
     </div>
   </div>
 </template>
@@ -47,9 +55,13 @@ export default defineComponent({
     },
     validation: {
       type: Object,
-      default: () => ({})
+      default: null
     },
     showValidationTooltip: {
+      type: Boolean,
+      default: false
+    },
+    noShowPassword: {
       type: Boolean,
       default: false
     }
@@ -69,17 +81,20 @@ export default defineComponent({
     }
   },
   computed: {
+    fieldType() {
+      return this.type;
+    },
     altInputClasses() {
       return {
         "stretched": this.stretched,
         "focused": this.focused,
-        "invalid": this.validation.$errors.length !== 0
+        "invalid": this.validation ? (this.validation?.$errors?.length !== 0) : false
       }
     }
   },
   methods: {
     onInput(e) {
-      this.validation.$touch();
+      this.validation?.$touch();
       this.inputValue = e.target.value;
       this.$emit("update:modelValue", e.target.value);
     },
@@ -88,6 +103,9 @@ export default defineComponent({
     },
     onBlur() {
       this.focused = false;
+    },
+    onShowPassword() {
+      this.$refs.input.type = this.$refs.input.type === "password" ? "text" : "password";
     }
   }
 })
@@ -103,8 +121,17 @@ export default defineComponent({
   transition: all .3s ease;
   outline-color: var(--accent-primary);
 
-  input {
+  @media screen and (max-width: 1200px) {
+    padding: 8px 10px;
+  }
+
+    input {
     font-size: 18px;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 16px;
+    }
+
     width: 100%;
     padding: 0;
     border: none;
@@ -127,7 +154,11 @@ export default defineComponent({
   }
 }
 
-.validation-tooltip {
+.password-show span {
+  color: var(--text-secondary)
+}
+
+.validation-tooltip, .password-show {
   position: absolute;
   right: 0;
   height: 100%;
