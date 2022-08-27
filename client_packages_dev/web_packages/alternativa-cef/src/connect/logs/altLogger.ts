@@ -47,7 +47,7 @@ export class altLog {
     console.error(...data)
   }
 
-  static universalEvent<T>(event: AltEvent | AltRPCEvent) {
+  static universalEvent(event: AltEvent | AltRPCEvent) {
     console.groupCollapsed("Event string:", event.eventString.eventString)
     console.log("Module:", event.eventString.module)
     console.log("Name:", event.eventString.name)
@@ -68,7 +68,7 @@ export class altLog {
     if (altLog.logLevel === "event" || altLog.logLevel === "info") {
       console.groupCollapsed(`[EV ${AltEventType[event.type]}] ${event.eventString.module}:${event.eventString.name}`)
 
-      altLog.universalEvent<AltEvent>(event)
+      altLog.universalEvent(event)
     }
   }
 
@@ -76,7 +76,7 @@ export class altLog {
     if (altLog.logLevel === "event" || altLog.logLevel === "info") {
       console.groupCollapsed(`[RPC ${AltRPCEventType[event.type]}] ${event.eventString.module}:${event.eventString.name}`)
 
-      altLog.universalEvent<AltRPCEvent>(event)
+      altLog.universalEvent(event)
     }
   }
 }

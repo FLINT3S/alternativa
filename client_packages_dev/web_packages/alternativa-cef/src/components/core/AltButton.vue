@@ -1,9 +1,9 @@
 <template>
-  <button class="alt-button" :class="altButtonClass" ref="btnEl" v-if="to === null">
+  <button :disabled="disabled" class="alt-button" :class="altButtonClass" ref="btnEl" v-if="to === null">
     <slot></slot>
   </button>
   <router-link :to="to" v-else custom v-slot="{navigate}">
-    <button class="alt-button" v-bind="$attrs" ref="btnEl" :class="altButtonClass" @click="navigate" @keypress.enter="navigate" role="button">
+    <button :disabled="disabled" class="alt-button" v-bind="$attrs" ref="btnEl" :class="altButtonClass" @click="navigate" @keypress.enter="navigate" role="button">
       <slot></slot>
     </button>
   </router-link>
@@ -36,6 +36,10 @@ export default defineComponent({
     to: {
       type: String,
       default: null
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -65,6 +69,11 @@ export default defineComponent({
   color: white;
   transition: all .3s ease;
 
+  @media screen and (max-width: 1200px) {
+    font-size: 18px;
+    padding: 11px 20px;
+  }
+
   &:focus-visible {
     outline: 1px solid var(--accent-light)!important;
   }
@@ -80,6 +89,10 @@ export default defineComponent({
 
 .alt-button.stretched {
   width: 100%;
+}
+
+.alt-button:disabled {
+  filter: grayscale(1);
 }
 
 .default-variant {

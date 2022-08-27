@@ -7,27 +7,29 @@
       Просто войди в свой аккаунт!
     </div>
 
-    <form class="mt-3">
+    <div class="mt-3">
       <alt-input
           v-model="login"
-          stretched
           placeholder="Логин"
+          stretched
       />
       <alt-input
           v-model="password"
-          stretched
-          placeholder="Пароль"
-          type="password"
           class="mt-2"
+          placeholder="Пароль"
+          stretched
+          type="password"
       />
       <p class="mt-2 small-text">
-        Забыли пароль? <alt-link to="/password-recovery">Восстановить</alt-link>
+        Не помнишь пароль?
+        <alt-link to="/password-recovery">Восстановить</alt-link>
       </p>
 
       <alt-button class="mt-3" stretched @click="submitLogin">Войти в игру</alt-button>
-    </form>
+    </div>
     <p class="mt-2 small-text">
-      Нет аккаунта? <alt-link to="/registration">Зарегистрироваться</alt-link>
+      Нет аккаунта?
+      <alt-link to="/registration">Зарегистрироваться</alt-link>
     </p>
   </authorization-card>
 </template>
@@ -40,7 +42,7 @@ import AltInput from "@/components/core/AltInput";
 import AltLink from "@/components/core/AltLink";
 
 export default defineComponent({
-  name: 'AuthorizationView',
+  name: 'LoginView',
   components: {AltInput, AltButton, AuthorizationCard, AltLink},
   data() {
     return {
@@ -53,9 +55,6 @@ export default defineComponent({
   methods: {
     submitLogin() {
       this.$altMp.triggerServer("LoginSubmit", this.login, this.password);
-    },
-    submitRegister() {
-      this.$altMp.triggerServer("RegisterSubmit", this.login, this.password, this.email);
     }
   },
   created() {

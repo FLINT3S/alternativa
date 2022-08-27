@@ -1,15 +1,34 @@
 <template>
-  <div class="alt-input__wrapper" :class="altInputClasses">
+  <div :class="altInputClasses" class="alt-input__wrapper d-flex">
     <input
-        :type="type"
-        class="alt-input"
         :placeholder="placeholder"
+        :type="fieldType"
         :value="inputValue"
         autocomplete="off"
-        @input.prevent="onInput"
-        @focus="onFocus"
+        class="alt-input"
         @blur="onBlur"
+        @focus="onFocus"
+        @input.prevent="onInput"
+        @keypress.enter="$emit('enter')"
+        ref="input"
     >
+
+    <div class="validation-tooltip" v-if="showValidationTooltip" v-show="validation.$errors && validation.$errors.length">
+      <div class="tooltip-icon d-flex">
+        <span class="material-icons-round m-auto">error_outline</span>
+      </div>
+      <div class="tooltip-content">
+        <div v-for="error in validation.$errors" :key="error.$uid" class="tooltip-content__item mb-1">
+          {{error.$message}}
+        </div>
+      </div>
+    </div>
+
+    <div class="password-show" v-if="type === 'password' && !noShowPassword">
+      <span class="material-icons-round my-auto" @mousedown="onShowPassword" @mouseup="onShowPassword">
+        visibility
+      </span>
+    </div>
   </div>
 </template>
 
@@ -33,6 +52,18 @@ export default defineComponent({
     stretched: {
       type: Boolean,
       default: false
+    },
+    validation: {
+      type: Object,
+      default: null
+    },
+    showValidationTooltip: {
+      type: Boolean,
+      default: false
+    },
+    noShowPassword: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -43,22 +74,27 @@ export default defineComponent({
   },
   watch: {
     modelValue: {
-      handler: function(newValue) {
+      handler: function (newValue) {
         this.inputValue = newValue;
       },
       immediate: true
     }
   },
   computed: {
+    fieldType() {
+      return this.type;
+    },
     altInputClasses() {
       return {
         "stretched": this.stretched,
-        "focused": this.focused
+        "focused": this.focused,
+        "invalid": this.validation ? (this.validation?.$errors?.length !== 0) : false
       }
     }
   },
   methods: {
     onInput(e) {
+      this.validation?.$touch();
       this.inputValue = e.target.value;
       this.$emit("update:modelValue", e.target.value);
     },
@@ -67,13 +103,17 @@ export default defineComponent({
     },
     onBlur() {
       this.focused = false;
+    },
+    onShowPassword() {
+      this.$refs.input.type = this.$refs.input.type === "password" ? "text" : "password";
     }
   }
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .alt-input__wrapper {
+  position: relative;
   padding: 10px 14px;
   border: 1px solid var(--color-background-tertiary);
   background: var(--color-background-secondary);
@@ -81,8 +121,17 @@ export default defineComponent({
   transition: all .3s ease;
   outline-color: var(--accent-primary);
 
-  input {
+  @media screen and (max-width: 1200px) {
+    padding: 8px 10px;
+  }
+
+    input {
     font-size: 18px;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 16px;
+    }
+
     width: 100%;
     padding: 0;
     border: none;
@@ -96,8 +145,53 @@ export default defineComponent({
   }
 
   &.focused {
-    outline: 1px solid var(--accent-primary);
+    //outline: 1px solid var(--accent-primary);
     border-color: var(--accent-primary);
+  }
+
+  &.invalid {
+    border-color: var(--danger);
+  }
+}
+
+.password-show span {
+  color: var(--text-secondary)
+}
+
+.validation-tooltip, .password-show {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 40px;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  background: linear-gradient(to right, transparent, var(--color-background-secondary) 10%);
+
+  .tooltip-icon {
+    color: var(--danger);
+    z-index: 5;
+  }
+
+  .tooltip-icon:hover + .tooltip-content {
+    opacity: 1;
+  }
+
+  .tooltip-content {
+    // TODO: переменная
+    background: rgba(0, 0, 0, .8);
+    color: white;
+    opacity: 0;
+    transition: all .3s ease;
+    padding: 4px;
+    border-radius: 5px;
+    font-size: 12px;
+    text-align: center;
+    position: absolute;
+    bottom: 50px;
+    min-width: 210px;
+    max-width: 280px;
   }
 }
 </style>

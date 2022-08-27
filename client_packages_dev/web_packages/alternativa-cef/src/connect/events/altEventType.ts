@@ -1,5 +1,3 @@
-import {AltEvent} from "@/connect/events/altEvent";
-
 export enum AltEventType {
   RECEIVED,
   SEND,
