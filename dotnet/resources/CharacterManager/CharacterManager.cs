@@ -23,6 +23,7 @@ namespace CharacterManager
             var account = player.GetAccountFromDb()!;
             var character = account.Characters.FirstOrDefault(c => c.Id == Guid.Parse(rawGuid));
             account.PeekCharacter(character);
+            LocalContext.Main.OnlinePlayers.Add(account);
         }
     }
 }

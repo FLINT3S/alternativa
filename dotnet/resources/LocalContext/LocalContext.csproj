@@ -16,8 +16,6 @@
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
         <ProjectReference Include="..\EventString\EventString.csproj" />
-        <ProjectReference Include="..\LocalContext\LocalContext.csproj" />
-        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
     </ItemGroup>
 </Project>    
     

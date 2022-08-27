@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -12,6 +13,11 @@ namespace Database.Models
     public partial class Account
     {
         private string ip = null!, hwid = null!;
+
+        [NotMapped]
+        public TimeSpan InGameTime => Characters
+            .Select(c => c.InGameTime)
+            .Aggregate((t1, t2) => t1 + t2);
 
         #region Simple user data
 

@@ -15,7 +15,7 @@ namespace Database
         
         public static AltContext Instance { get; }
 
-        private AltContext()
+        protected AltContext()
         {
         }
         

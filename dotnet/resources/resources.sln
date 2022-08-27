@@ -18,6 +18,10 @@ Project("{D257FFD4-A2A5-48B0-B7F4-279F02AE7E96}") = "NAPIExtensions", "NAPIExten
 EndProject
 Project("{9277B19D-6FF1-424F-901B-477C44E368B8}") = "CharacterManager", "CharacterManager\CharacterManager.csproj", "{73BCFCBA-C6BB-4A4B-81BB-F2C1688024CA}"
 EndProject
+Project("{2FA9EFD3-7D78-4789-9B35-2A52DF00E1E6}") = "TimeCounter", "TimeCounter\TimeCounter.csproj", "{18EF6721-B8B7-4669-95E8-63D73AB8980C}"
+EndProject
+Project("{9BB0F61F-1C6F-4972-A9E7-542669544798}") = "LocalContext", "LocalContext\LocalContext.csproj", "{D8D7F96D-5558-4077-A663-1FA553C090F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -54,5 +58,9 @@ Global
 																{7793D314-096A-4773-9182-187C7CF67B88}.Debug|x64.Build.0 = Debug|x64
 					{73BCFCBA-C6BB-4A4B-81BB-F2C1688024CA}.Debug|x64.ActiveCfg = Debug|x64
 								{73BCFCBA-C6BB-4A4B-81BB-F2C1688024CA}.Debug|x64.Build.0 = Debug|x64
-	EndGlobalSection
+	    {18EF6721-B8B7-4669-95E8-63D73AB8980C}.Debug|x64.ActiveCfg = Debug|x64
+        {18EF6721-B8B7-4669-95E8-63D73AB8980C}.Debug|x64.Build.0 = Debug|x64
+    {D8D7F96D-5558-4077-A663-1FA553C090F7}.Debug|x64.ActiveCfg = Debug|x64
+        {D8D7F96D-5558-4077-A663-1FA553C090F7}.Debug|x64.Build.0 = Debug|x64
+EndGlobalSection
 EndGlobal
