@@ -21,8 +21,8 @@ namespace CharacterManager
         [Command("selectcharacter", GreedyArg = true)]
         public void OnSelectCharacter(Player player, string rawGuid)
         {
-            var account = player.GetAccountFromDb(a => a.Characters);
-            var character = account!.Characters.FirstOrDefault(c => c.Id == Guid.Parse(rawGuid));
+            var account = player.GetAccountFromDb()!;
+            var character = account.Characters.FirstOrDefault(c => c.Id == Guid.Parse(rawGuid));
             account.OnCharacterPeek(character);
         }
     }

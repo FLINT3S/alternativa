@@ -23,20 +23,14 @@ namespace NAPIExtensions
             return response;
         }
 
-        public static PermanentBan? GetBanByHwid(this Player player)
-        {
-            using var context = new AltContext();
-            return context.Bans.FirstOrDefault(
-                        b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial
-                    )
-                as PermanentBan;
-        }
+        public static PermanentBan? GetBanByHwid(this Player player) => 
+            AltContext.Instance.Bans.FirstOrDefault(
+                    b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial
+                )
+            as PermanentBan;
 
-        public static bool HasAccountInDb(this Player player)
-        {
-            using var context = new AltContext();
-            return context.Find<Account>(player.SocialClubId) != null;
-        }
+        public static bool HasAccountInDb(this Player player) => 
+            AltContext.Instance.Accounts.Find(player.SocialClubId) != null;
 
         /// <summary>
         /// <b>Использовать аккуратно!</b>
@@ -45,17 +39,12 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из базы данных</returns>
-        public static Account? GetAccountFromDb(this Player player, params Expression<Func<Account, object>>[] includes)
-        {
-            using var context = new AltContext();
-            DbSet<Account>? query = context.Accounts;
-            return includes
-                .Aggregate(query.AsQueryable(), 
-                        (current, include) => current.Include(include)
-                    )
+        public static Account? GetAccountFromDb(this Player player) => 
+            AltContext
+                .Instance
+                .Accounts
                 .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
-        }
-        
+
         /// <summary>
         /// Аккаунт получается из Data и существует только в рантайме
         /// Для получения аккаунта из базы данных нужно использовать <see cref="GetAccountFromDb"/>
@@ -70,6 +59,6 @@ namespace NAPIExtensions
             player.SetData(PlayerConstants.Account, account);
 
         public static Character? GetActiveCharacter(this Player player) => 
-            player.GetAccountFromDb(a => a.ActiveCharacter!).ActiveCharacter;
+            player.GetAccountFromDb()!.ActiveCharacter;
     }
 }

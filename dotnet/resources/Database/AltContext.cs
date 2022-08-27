@@ -11,6 +11,10 @@ namespace Database
 {
     public class AltContext : DbContext
     {
+        public static AltContext Instance { get; }
+        
+        private AltContext() {}
+        
         private static readonly IConfigurationRoot Config;
         
         public DbSet<Account> Accounts { get; private set; }
@@ -25,13 +29,17 @@ namespace Database
 
         static AltContext()
         {
+            Instance = new AltContext();
+            
             Config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
-            optionsBuilder.UseNpgsql(ConnectionString);
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseNpgsql(ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

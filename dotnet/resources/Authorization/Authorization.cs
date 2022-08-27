@@ -48,12 +48,16 @@ namespace Authorization
             }
         }
 
+        [Command("register")]
+        public void CMDOnRegister(Player player, string login, string password, string email) => 
+            OnRegisterSubmitFromCef(player, login, password, email);
+
         #region RemoteEvents
 
         [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
         public void OnLoginSubmitFromCef(Player player, string login, string password)
         {
-            var account = player.GetAccountFromDb()!; // todo
+            var account = player.GetAccountFromDb()!;
             if (account.Username != login)
                 CefConnect.TriggerCef(
                         player,
@@ -92,7 +96,6 @@ namespace Authorization
             }
             else
             {
-                // AltLogger.Instance.LogInfoAsync(new AltAccountEvent(this, "Set Username", ""));
                 var account = new Account(player.SocialClubId, login, password, email);
                 account.AddToContext();
                 CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Успех!");

@@ -10,11 +10,11 @@ namespace Authorization.ChainOfResponsibility
         }
 
         protected override bool CanHandle(Player player) =>
-            player.GetAccountFromDb(a => a.TemporaryBans)!.IsTemporaryBanned();
+            player.GetAccountFromDb()!.IsTemporaryBanned();
 
         protected override void _Handle(Player player)
         {
-            var ban = player.GetAccountFromDb(a => a.TemporaryBans)!.GetLongestBan();
+            var ban = player.GetAccountFromDb()!.GetLongestBan();
             player.TriggerEvent(
                     AuthorizationEvents.TemporaryBanned,
                     ban.Reason,

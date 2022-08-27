@@ -24,9 +24,9 @@ namespace Database.Models.Bans
 
         public string? Description { get; private set; }
 
-        public Account GivenTo { get; private set; }
+        public virtual Account GivenTo { get; private set; }
 
-        public Account GivenBy { get; private set; }
+        public virtual Account GivenBy { get; private set; }
 
         [NotMapped] public DateTime StartDate => CreatedDate;
     }

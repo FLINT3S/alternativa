@@ -11,7 +11,7 @@ namespace Database.Models
         
         public void AddToContext()
         {
-            using var context = new AltContext();
+            var context = AltContext.Instance;
             context.Add(this);
             context.SaveChanges();
         }
@@ -30,7 +30,7 @@ namespace Database.Models
 
         public void UpdateInContext()
         {
-            using var context = new AltContext();
+            var context = AltContext.Instance;
             context.Update(this);
             Console.WriteLine($"Updating {this}");
             context.SaveChanges();
