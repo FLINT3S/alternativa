@@ -10,16 +10,22 @@ namespace Database.Models
         
         public void AddToContext()
         {
-            var context = AltContext.Instance;
-            context.Add(this);
-            context.SaveChanges();
+            lock (AltContext.Locker)
+            {
+                var context = AltContext.Instance;
+                context.Add(this);
+                context.SaveChanges();
+            }
         }
 
         protected void UpdateInContext()
         {
-            var context = AltContext.Instance;
-            context.Update(this);
-            context.SaveChanges();
+            lock (AltContext.Locker)
+            {
+                var context = AltContext.Instance;
+                context.Update(this);
+                context.SaveChanges();
+            }
         }
     }
 }

@@ -25,11 +25,16 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
         }
 
-        public static bool IsUsernameTaken(string username) => 
-            AltContext
-                .Instance
-                .Accounts
-                .Select(a => new { a.Username }).Any(a => a.Username == username);
+        public static bool IsUsernameTaken(string username)
+        {
+            lock (AltContext.Locker)
+            {
+                return AltContext
+                    .Instance
+                    .Accounts
+                    .Select(a => new { a.Username }).Any(a => a.Username == username);
+            }
+        }
 
         public void UpdateEmail(string newEmail)
         {
@@ -41,8 +46,13 @@ namespace Database.Models
         }
         
         
-        private static bool IsEmailTaken(string email) => 
-            AltContext.Instance.Accounts.Select(a => new { a.Email }).Any(a => a.Email == email);
+        private static bool IsEmailTaken(string email)
+        {
+            lock (AltContext.Locker)
+            {
+                return AltContext.Instance.Accounts.Select(a => new { a.Email }).Any(a => a.Email == email);
+            }
+        }
 
         #endregion
 

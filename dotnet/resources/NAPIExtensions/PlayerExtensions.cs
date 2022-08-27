@@ -23,14 +23,24 @@ namespace NAPIExtensions
             return response;
         }
 
-        public static PermanentBan? GetBanByHwid(this Player player) => 
-            AltContext.Instance.Bans.FirstOrDefault(
-                    b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial
-                )
-            as PermanentBan;
+        public static PermanentBan? GetBanByHwid(this Player player)
+        {
+            lock (AltContext.Locker)
+            {
+                return AltContext.Instance.Bans.FirstOrDefault(
+                            b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial
+                        )
+                    as PermanentBan;
+            }
+        }
 
-        public static bool HasAccountInDb(this Player player) => 
-            AltContext.Instance.Accounts.Find(player.SocialClubId) != null;
+        public static bool HasAccountInDb(this Player player)
+        {
+            lock (AltContext.Locker)
+            {
+                return AltContext.Instance.Accounts.Find(player.SocialClubId) != null;
+            }
+        }
 
         /// <summary>
         /// <b>Использовать аккуратно!</b>
@@ -39,11 +49,16 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из базы данных</returns>
-        public static Account? GetAccountFromDb(this Player player) => 
-            AltContext
-                .Instance
-                .Accounts
-                .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+        public static Account? GetAccountFromDb(this Player player)
+        {
+            lock (AltContext.Locker)
+            {
+                return AltContext
+                    .Instance
+                    .Accounts
+                    .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+            }
+        }
 
         /// <summary>
         /// Аккаунт получается из Data и существует только в рантайме
