@@ -20,6 +20,8 @@ namespace TimeCounter
             while (true)
             {
                 CommonTimeCounter();
+
+                Thread.Sleep(60_000);
             }
         }
 
@@ -27,8 +29,7 @@ namespace TimeCounter
         {
             IEnumerable<Character> characters = EntityLists.OnlinePlayers.Select(a => a.ActiveCharacter);
             foreach (var character in characters)
-                Task.Run(() => character?.IncreaseInGameTime(TimeSpan.FromMilliseconds(60_000)));
-            Thread.Sleep(60_000);
+                character?.IncreaseInGameTime(TimeSpan.FromMilliseconds(60_000));
         }
     }
 }
