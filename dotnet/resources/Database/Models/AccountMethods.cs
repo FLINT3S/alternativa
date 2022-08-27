@@ -14,8 +14,7 @@ namespace Database.Models
     {
         private string ip = null!, hwid = null!;
 
-        [NotMapped]
-        public TimeSpan InGameTime => Characters
+        [NotMapped] public TimeSpan InGameTime => Characters
             .Select(c => c.InGameTime)
             .Aggregate((t1, t2) => t1 + t2);
 
@@ -159,6 +158,8 @@ namespace Database.Models
             Characters.Add(character);
             UpdateInContext();
         }
+
+        public bool IsSetActiveCharacter() => ActiveCharacter != null;
         
         public void PeekCharacter(Character? peekedCharacter)
         {

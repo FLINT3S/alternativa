@@ -14,6 +14,10 @@ namespace Authorization.ChainOfResponsibility
             account.OnConnect(player.Address, player.Serial);
             
             var character = player.GetActiveCharacter();
+            
+            if (account.IsSetActiveCharacter())
+                LocalContext.EntityLists.OnlinePlayers.Add(account);
+            
             if (character?.LastPosition != null)
                 player.Position = character.LastPosition;
 
