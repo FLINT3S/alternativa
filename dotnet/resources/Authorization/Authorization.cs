@@ -76,7 +76,7 @@ namespace Authorization
         }
 
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
-        public Task OnRegisterSubmitFromCef(Player player, string login, string password, string email)
+        public void OnRegisterSubmitFromCef(Player player, string login, string password, string email)
         {
             if (player.HasAccountInDb())
             {
@@ -86,7 +86,7 @@ namespace Authorization
                         "Пользователь с таким Soсial Club уже зарегистрирован"
                     );
             }
-            else if (IsUsernameTaken(login))
+            else if (Account.IsUsernameTaken(login))
             {
                 CefConnect.TriggerCef(
                         player,
@@ -100,8 +100,6 @@ namespace Authorization
                 account.AddToContext();
                 CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Успех!");
             }
-
-            return Task.CompletedTask;
         }
 
         #endregion

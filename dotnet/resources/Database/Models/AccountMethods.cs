@@ -25,7 +25,7 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
         }
 
-        private static bool IsUsernameTaken(string username) => 
+        public static bool IsUsernameTaken(string username) => 
             AltContext
                 .Instance
                 .Accounts
