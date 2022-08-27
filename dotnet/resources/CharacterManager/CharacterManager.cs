@@ -14,8 +14,7 @@ namespace CharacterManager
         {
             var account = player.GetAccountFromDb()!;
             var character = new Character(account, "Vasya", "Pupkin", DateTime.Now);
-            account.Characters.Add(character);
-            account.UpdateInContext();
+            account.AddCharacter(character);
         }
         
         [Command("selectcharacter", GreedyArg = true)]
@@ -23,7 +22,8 @@ namespace CharacterManager
         {
             var account = player.GetAccountFromDb()!;
             var character = account.Characters.FirstOrDefault(c => c.Id == Guid.Parse(rawGuid));
-            account.OnCharacterPeek(character);
+            account.PeekCharacter(character);
+            LocalContext.EntityLists.OnlinePlayers.Add(account);
         }
     }
 }

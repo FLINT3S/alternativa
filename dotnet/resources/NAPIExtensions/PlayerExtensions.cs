@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq;
 using Database;
 using Database.Models;
 using Database.Models.Bans;
 using GTANetworkAPI;
-using Microsoft.EntityFrameworkCore;
 
 namespace NAPIExtensions
 {
@@ -14,23 +11,33 @@ namespace NAPIExtensions
         public static string GetPlayerDataString(this Player player)
         {
             string response = "New player connected:\n";
-            response += $"name: {player.Name}\n";
-            response += $"socialClubId: {player.SocialClubId}\n";
+            response += $"Name: {player.Name}\n";
+            response += $"SocialClubId: {player.SocialClubId}\n";
             response += $"IP: {player.Address}";
             response += $"HWID: {player.Serial}\n";
-            response += $"socialClubName: {player.SocialClubName}\n";
+            response += $"SocialClubName: {player.SocialClubName}\n";
             response += "===========================================================";
             return response;
         }
 
-        public static PermanentBan? GetBanByHwid(this Player player) => 
-            AltContext.Instance.Bans.FirstOrDefault(
-                    b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial
-                )
-            as PermanentBan;
+        public static PermanentBan? GetBanByHwid(this Player player)
+        {
+            lock (AltContext.Locker)
+            {
+                return AltContext.Instance.Bans.FirstOrDefault(
+                            b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial
+                        )
+                    as PermanentBan;
+            }
+        }
 
-        public static bool HasAccountInDb(this Player player) => 
-            AltContext.Instance.Accounts.Find(player.SocialClubId) != null;
+        public static bool HasAccountInDb(this Player player)
+        {
+            lock (AltContext.Locker)
+            {
+                return AltContext.Instance.Accounts.Find(player.SocialClubId) != null;
+            }
+        }
 
         /// <summary>
         /// <b>Использовать аккуратно!</b>
@@ -39,11 +46,16 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из базы данных</returns>
-        public static Account? GetAccountFromDb(this Player player) => 
-            AltContext
-                .Instance
-                .Accounts
-                .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+        public static Account? GetAccountFromDb(this Player player)
+        {
+            lock (AltContext.Locker)
+            {
+                return AltContext
+                    .Instance
+                    .Accounts
+                    .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+            }
+        }
 
         /// <summary>
         /// Аккаунт получается из Data и существует только в рантайме
@@ -59,6 +71,6 @@ namespace NAPIExtensions
             player.SetData(PlayerConstants.Account, account);
 
         public static Character? GetActiveCharacter(this Player player) => 
-            player.GetAccountFromDb()!.ActiveCharacter;
+            player.GetAccount()!.ActiveCharacter;
     }
 }

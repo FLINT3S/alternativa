@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
 
 namespace Database.Models
 {
@@ -11,29 +10,22 @@ namespace Database.Models
         
         public void AddToContext()
         {
-            var context = AltContext.Instance;
-            context.Add(this);
-            context.SaveChanges();
-        }
-        
-        private protected void UpdateDatabase()
-        {
-            try
+            lock (AltContext.Locker)
             {
-                UpdateInContext();
-            }
-            catch (DbUpdateException)
-            {
-                AddToContext();
+                var context = AltContext.Instance;
+                context.Add(this);
+                context.SaveChanges();
             }
         }
 
-        public void UpdateInContext()
+        protected void UpdateInContext()
         {
-            var context = AltContext.Instance;
-            context.Update(this);
-            Console.WriteLine($"Updating {this}");
-            context.SaveChanges();
+            lock (AltContext.Locker)
+            {
+                var context = AltContext.Instance;
+                context.Update(this);
+                context.SaveChanges();
+            }
         }
     }
 }

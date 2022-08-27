@@ -15,6 +15,7 @@ namespace Database.Models
             FirstName = firstname;
             LastName = lastname;
             Birthday = birthday;
+            InGameTime = TimeSpan.Zero;
         }
 
         #region Main Data
@@ -22,6 +23,8 @@ namespace Database.Models
         public Guid Id { get; private set; }
 
         public virtual Account Account { get; private set; }
+        
+        public TimeSpan InGameTime { get; private set; }
         
         #endregion
 

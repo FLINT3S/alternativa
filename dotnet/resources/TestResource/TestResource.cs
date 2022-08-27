@@ -35,6 +35,8 @@ namespace TestResource
             
             var account = player.GetAccount();
             account!.OnDisconnect();
+            
+            LocalContext.EntityLists.OnlinePlayers.Remove(account);
         }
 
         [RemoteProc("RPC::CEF:SERVER:AdminPanel:randomDamage")]

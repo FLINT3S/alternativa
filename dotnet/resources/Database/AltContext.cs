@@ -11,9 +11,13 @@ namespace Database
 {
     public class AltContext : DbContext
     {
-        public static AltContext Instance { get; }
+        public static object Locker { get; }
         
-        private AltContext() {}
+        public static AltContext Instance { get; }
+
+        protected AltContext()
+        {
+        }
         
         private static readonly IConfigurationRoot Config;
         
@@ -30,6 +34,7 @@ namespace Database
         static AltContext()
         {
             Instance = new AltContext();
+            Locker = new object();
             
             Config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")

@@ -1,0 +1,5 @@
+<meta>
+    <info name="TimeCounter" type="script" version="0.0.1"/>
+    <script src="bin/x64/Debug/netcoreapp3.1/TimeCounter.dll"/>
+</meta>
+    

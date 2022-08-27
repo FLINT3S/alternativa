@@ -16,7 +16,6 @@ namespace Database.Models
             Username = username;
             Email = email;
             SetNewPasswordData(password);
-            ActiveCharacter = null;
         }
 
         public ulong SocialClubId { get; private set; }
@@ -33,9 +32,9 @@ namespace Database.Models
 
         public virtual List<TemporaryBan> TemporaryBans { get; } = new List<TemporaryBan>();
 
-        public virtual PermanentBan? PermanentBan { get; private set; } = null;
+        public virtual PermanentBan? PermanentBan { get; protected set; }
 
-        public virtual Character? ActiveCharacter { get; set; }
+        public virtual Character? ActiveCharacter { get; protected set; }
 
         public virtual List<Character> Characters { get; } = new List<Character>();
 

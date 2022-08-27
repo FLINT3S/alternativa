@@ -1,4 +1,5 @@
-﻿using GTANetworkAPI;
+﻿using System;
+using GTANetworkAPI;
 
 namespace Database.Models
 {
@@ -13,7 +14,16 @@ namespace Database.Models
         }
 
         #endregion
-        
+
+        public void IncreaseInGameTime(TimeSpan time)
+        {
+            InGameTime += time;
+            lock (AltContext.Locker)
+            {
+                UpdateInContext();
+            }
+        }
+
         public override string ToString() => $"{Id}: [{FirstName} {LastName}]";
     }
 }
