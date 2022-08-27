@@ -16,7 +16,7 @@ namespace Database.Models
             context.SaveChanges();
         }
 
-        public void UpdateInContext()
+        protected void UpdateInContext()
         {
             var context = AltContext.Instance;
             context.Update(this);
