@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq;
 using Database;
 using Database.Models;
 using Database.Models.Bans;
 using GTANetworkAPI;
-using Microsoft.EntityFrameworkCore;
 
 namespace NAPIExtensions
 {
@@ -14,11 +11,11 @@ namespace NAPIExtensions
         public static string GetPlayerDataString(this Player player)
         {
             string response = "New player connected:\n";
-            response += $"name: {player.Name}\n";
-            response += $"socialClubId: {player.SocialClubId}\n";
+            response += $"Name: {player.Name}\n";
+            response += $"SocialClubId: {player.SocialClubId}\n";
             response += $"IP: {player.Address}";
             response += $"HWID: {player.Serial}\n";
-            response += $"socialClubName: {player.SocialClubName}\n";
+            response += $"SocialClubName: {player.SocialClubName}\n";
             response += "===========================================================";
             return response;
         }
@@ -74,6 +71,6 @@ namespace NAPIExtensions
             player.SetData(PlayerConstants.Account, account);
 
         public static Character? GetActiveCharacter(this Player player) => 
-            player.GetAccountFromDb()!.ActiveCharacter;
+            player.GetAccount()!.ActiveCharacter;
     }
 }
