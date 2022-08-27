@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
-using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 
@@ -22,7 +21,7 @@ namespace Database.Models
                 throw new InvalidOperationException("This username already taken");
             Username = newUsername != Username ? 
                 newUsername : throw new InvalidOperationException("Usernames are same!");
-            UpdateDatabase();
+            UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
         }
 
@@ -37,7 +36,7 @@ namespace Database.Models
             if (IsEmailTaken(newEmail)) 
                 throw new InvalidOperationException("This email already taken");
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Emails are same!");
-            UpdateDatabase();
+            UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
         }
         
@@ -58,7 +57,7 @@ namespace Database.Models
                 throw new InvalidOperationException("Usernames are same!");
 
             SetNewPasswordData(newPassword);
-            UpdateDatabase();
+            UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
         }
 
@@ -97,7 +96,7 @@ namespace Database.Models
         public void UpdateHwid(string newHwid)
         {
             LastHwid = newHwid;
-            UpdateDatabase();
+            UpdateInContext();
         }
 
         #endregion
@@ -132,12 +131,24 @@ namespace Database.Models
                 default:
                     throw new ArgumentOutOfRangeException(nameof(ban));
             }
-            UpdateDatabase();
+            UpdateInContext();
         }
 
         #endregion
 
         #region Characters
+
+        public void AddCharacter(Character character)
+        {
+            Characters.Add(character);
+            UpdateInContext();
+        }
+        
+        public void PeekCharacter(Character? peekedCharacter)
+        {
+            ActiveCharacter = peekedCharacter;
+            UpdateInContext();
+        }
 
         #endregion
 
@@ -151,21 +162,15 @@ namespace Database.Models
             var ce = new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, "Account connected.");
             ce.AddToContext();
             Connections.Add(ce);
-            UpdateDatabase();
+            UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
-        }
-
-        public void OnCharacterPeek(Character? peekedCharacter)
-        {
-            ActiveCharacter = peekedCharacter;
-            UpdateDatabase();
         }
 
         public void OnDisconnect()
         {
             ActiveCharacter = null;
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
-            UpdateDatabase();
+            UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", "Account disconnected."));
         }
 

@@ -15,24 +15,11 @@ namespace Database.Models
             context.Add(this);
             context.SaveChanges();
         }
-        
-        private protected void UpdateDatabase()
-        {
-            try
-            {
-                UpdateInContext();
-            }
-            catch (DbUpdateException)
-            {
-                AddToContext();
-            }
-        }
 
         public void UpdateInContext()
         {
             var context = AltContext.Instance;
             context.Update(this);
-            Console.WriteLine($"Updating {this}");
             context.SaveChanges();
         }
     }
