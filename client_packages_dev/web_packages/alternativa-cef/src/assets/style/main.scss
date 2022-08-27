@@ -1,4 +1,5 @@
 @import "fonts/manrope/manrope-stylesheet.css";
+@import url("https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp");
 @import "transitions";
 @import "typography";
 
@@ -9,6 +10,7 @@
   --overlay-backdrop: rgba(29, 32, 37, 0.5);
   --accent-primary: #198AEA;
   --accent-light: #13D6F6;
+  --danger: #E43E3E;
 }
 
 html, body {

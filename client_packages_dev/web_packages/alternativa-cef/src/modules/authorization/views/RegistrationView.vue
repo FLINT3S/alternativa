@@ -9,27 +9,19 @@
 
     <div class="mt-3">
       <alt-input
-          v-model="login"
+          v-model="registrationData.login"
           placeholder="Логин"
           stretched
-      />
-      <alt-input
-          v-model="password"
-          class="mt-2"
-          placeholder="Пароль"
-          stretched
-          type="password"
-      />
-      <p class="mt-2 small-text">
-        Не помнишь пароль?
-        <alt-link to="/password-recovery">Восстановить</alt-link>
-      </p>
+          :validation="v$.registrationData.login"
+          show-validation-tooltip
 
-      <alt-button class="mt-3" stretched @click="submitLogin">Войти в игру</alt-button>
+      />
+
+      <alt-button :disabled="v$.registrationData.login.$invalid" class="mt-3" stretched @click="submitLogin">Дальше</alt-button>
     </div>
     <p class="mt-2 small-text">
-      Нет аккаунта?
-      <alt-link to="/registration">Зарегистрироваться</alt-link>
+      Уже есть аккаунт?
+      <alt-link to="/login">Войти</alt-link>
     </p>
   </authorization-card>
 </template>
@@ -40,14 +32,26 @@ import AuthorizationCard from "@/modules/authorization/components/AuthorizationC
 import AltButton from "@/components/core/AltButton";
 import AltInput from "@/components/core/AltInput";
 import AltLink from "@/components/core/AltLink";
+import {RegistrationDTO} from "@/modules/authorization/data/RegistrationDTO";
+import useVuelidate from "@vuelidate/core";
 
 export default defineComponent({
   name: 'RegistrationView',
   components: {AltInput, AltButton, AuthorizationCard, AltLink},
+  setup() {
+    return {v$: useVuelidate()}
+  },
   data() {
     return {
       registrationData: new RegistrationDTO()
     };
+  },
+  validations() {
+    return {
+      registrationData: {
+        ...RegistrationDTO.validators
+      }
+    }
   },
   methods: {
     submitLogin() {
