@@ -1,9 +1,9 @@
-using System.Threading.Tasks;
 using AbstractResource;
-using Authorization.ChainOfResponsibility;
-using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
+using PlayerConnectedHandlers = Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
+using RegistrationHandlers = Authorization.ChainsOfResponsibility.RegistrationHandlers;
+using LoginHandlers = Authorization.ChainsOfResponsibility.LoginHandler;
 
 /*
  * wiki: https://www.notion.so/Authorization-44a4b5377f2848c59d1772d89dde092d
@@ -11,25 +11,71 @@ using NAPIExtensions;
 
 namespace Authorization
 {
-    public partial class Authorization : AltAbstractResource
+    public class Authorization : AltAbstractResource
     {
-        private readonly AbstractHandler connectHandler;
+        private readonly PlayerConnectedHandlers.AbstractHandler connectHandlersChain;
+
+        private readonly RegistrationHandlers.AbstractHandler registrationHandlersChain;
+
+        private readonly LoginHandlers.AbstractHandler loginHandlersChain;
 
         public Authorization()
         {
-            var loginStatusSender = new LoginStatusSender();
-            var temporaryBansChecker = new TemporaryBanChecker(loginStatusSender);
-            var permanentBansChecker = new PermanentBanChecker(temporaryBansChecker);
-            var existAccountChecker = new ExistAccountChecker(permanentBansChecker);
-            var hwidBansChecker = new HwidBansChecker(existAccountChecker);
-            connectHandler = hwidBansChecker;
+            connectHandlersChain = GetConnectChain();
+            registrationHandlersChain = GetRegistrationChain();
+            loginHandlersChain = GetLoginChain();
         }
+
+        #region Chain Builders
+
+        private static PlayerConnectedHandlers.AbstractHandler GetConnectChain()
+        {
+            var loginStatusSender = new PlayerConnectedHandlers.LoginStatusSender();
+            var temporaryBansChecker = new PlayerConnectedHandlers.TemporaryBanChecker(loginStatusSender);
+            var permanentBansChecker = new PlayerConnectedHandlers.PermanentBanChecker(temporaryBansChecker);
+            var existAccountChecker = new PlayerConnectedHandlers.ExistAccountChecker(permanentBansChecker);
+            var hwidBansChecker = new PlayerConnectedHandlers.HwidBansChecker(existAccountChecker);
+            return hwidBansChecker;
+        }
+
+        private RegistrationHandlers.AbstractHandler GetRegistrationChain()
+        {
+            var successRegistrationHandler = new RegistrationHandlers.SuccessRegistrationHandler(CefConnect, null);
+            var usernameTakenHandler = new RegistrationHandlers.UsernameTakenHandler(CefConnect, successRegistrationHandler);
+            var hasAccountHandler = new RegistrationHandlers.HasAccountHandler(CefConnect, usernameTakenHandler);
+            return hasAccountHandler;
+        }
+
+        private LoginHandlers.AbstractHandler GetLoginChain()
+        {
+            var successLoginHandler = new LoginHandlers.SuccessLoginHandler(CefConnect, null);
+            // todo - защита от логина с 2 устройств
+            var passwordHandler = new LoginHandlers.PasswordHandler(CefConnect, successLoginHandler);
+            var loginHandler = new LoginHandlers.LoginHandler(CefConnect, passwordHandler);
+            return loginHandler;
+        }
+
+        #endregion
+
+        #region RemoteEvents
 
         // Здесь ивент от клиента (а не PlayerConnected), о том, что он готов к логину
         // (посылается после загрузки основных браузеров)
         [RemoteEvent(AuthorizationEvents.PlayerReadyFromClient)]
-        private void OnPlayerConnectedAndReady(Player player) => connectHandler.Handle(player);
+        private void OnPlayerConnectedAndReady(Player player) => connectHandlersChain.Handle(player);
 
+        [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
+        public void OnLoginSubmitFromCef(Player player, string login, string password) => 
+            loginHandlersChain.Handle(player, player.GetAccountFromDb()!, login, password);
+
+        [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
+        public void OnRegisterSubmitFromCef(Player player, string login, string password, string email) =>
+            registrationHandlersChain.Handle(player, login, password, email);
+
+        #endregion
+
+        #region Commands
+        
         [Command("testacc")]
         public void TestAccount(Player player, string newEmail)
         {
@@ -51,56 +97,6 @@ namespace Authorization
         [Command("register")]
         public void CMDOnRegister(Player player, string login, string password, string email) => 
             OnRegisterSubmitFromCef(player, login, password, email);
-
-        #region RemoteEvents
-
-        [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
-        public void OnLoginSubmitFromCef(Player player, string login, string password)
-        {
-            var account = player.GetAccountFromDb()!;
-            if (account.Username != login)
-                CefConnect.TriggerCef(
-                        player,
-                        AuthorizationEvents.LoginFailureToCef,
-                        "Неверный логин"
-                    );
-            else if (!account.IsPasswordsMatch(password))
-                CefConnect.TriggerCef(
-                        player,
-                        AuthorizationEvents.LoginFailureToCef,
-                        $"Неверный пароль для пользователя {account.Username}"
-                    );
-            // todo - защита от логина с 2 устройств
-            else
-                SuccessLoginActions(player, account);
-        }
-
-        [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
-        public void OnRegisterSubmitFromCef(Player player, string login, string password, string email)
-        {
-            if (player.HasAccountInDb())
-            {
-                CefConnect.TriggerCef(
-                        player,
-                        AuthorizationEvents.RegisterFailureToCef,
-                        "Пользователь с таким Soсial Club уже зарегистрирован"
-                    );
-            }
-            else if (Account.IsUsernameTaken(login))
-            {
-                CefConnect.TriggerCef(
-                        player,
-                        AuthorizationEvents.RegisterFailureToCef,
-                        "Пользователь с таким логином"
-                    );
-            }
-            else
-            {
-                var account = new Account(player.SocialClubId, login, password, email);
-                account.AddToContext();
-                CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Успех!");
-            }
-        }
 
         #endregion
     }

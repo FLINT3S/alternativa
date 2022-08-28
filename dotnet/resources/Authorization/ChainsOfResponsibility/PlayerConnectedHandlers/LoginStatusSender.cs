@@ -1,10 +1,15 @@
-﻿using GTANetworkAPI;
+﻿using Authorization.ChainsOfResponsibility.RegistrationHandlers;
+using GTANetworkAPI;
 using NAPIExtensions;
 
-namespace Authorization.ChainOfResponsibility
+namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     public class LoginStatusSender : AbstractHandler
     {
+        public LoginStatusSender() : base(null)
+        {
+        }
+        
         protected override bool CanHandle(Player player) => true;
 
         protected override void _Handle(Player player)

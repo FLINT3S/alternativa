@@ -1,12 +1,15 @@
 ﻿using GTANetworkAPI;
 
-namespace Authorization.ChainOfResponsibility
+namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     public abstract class AbstractHandler
     {
         private readonly AbstractHandler? next;
 
-        protected AbstractHandler(AbstractHandler? next = null) => this.next = next;
+        protected AbstractHandler(AbstractHandler? next)
+        {
+            this.next = next;
+        }
 
         public void Handle(Player player)
         {

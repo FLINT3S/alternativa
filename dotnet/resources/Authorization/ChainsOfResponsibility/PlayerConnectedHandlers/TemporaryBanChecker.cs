@@ -1,7 +1,8 @@
-﻿using GTANetworkAPI;
+﻿using Authorization.ChainsOfResponsibility.RegistrationHandlers;
+using GTANetworkAPI;
 using NAPIExtensions;
 
-namespace Authorization.ChainOfResponsibility
+namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     public class TemporaryBanChecker : AbstractHandler
     {
