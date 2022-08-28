@@ -27,6 +27,7 @@ mp.events.add("playerReady", () => {
 })
 
 browserManager.onBrowserLoad("alt").then(() => {
+  authorizationBrowser.setAsActive()
   authorizationBrowser.openOverlay()
   authorizationBrowser.execClient("AuthorizationInit")
 

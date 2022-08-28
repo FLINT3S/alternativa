@@ -21,7 +21,7 @@ export default defineComponent({
   components: {AltOverlay},
   mounted() {
     altMpAuth.on("AuthorizationInit", () => {
-      this.$router.push("/login/loader");
+      this.$router.push("loader");
     });
 
     altMpAuth.on("LoginScreen", () => {
