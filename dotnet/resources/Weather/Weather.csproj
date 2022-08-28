@@ -5,26 +5,21 @@
         <Platforms>x64</Platforms>
         <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
         <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
         <Reference Include="Bootstrapper">
-            <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
         </Reference>
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
         <ProjectReference Include="..\EventString\EventString.csproj" />
-        <ProjectReference Include="..\LocalContext\LocalContext.csproj" />
-        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="AuthorizationEvents.cs">
-        <DependentUpon>Authorization.cs</DependentUpon>
-      </Compile>
+      <PackageReference Include="OpenWeatherMap.Standard" Version="1.6.0" />
     </ItemGroup>
 </Project>    
     

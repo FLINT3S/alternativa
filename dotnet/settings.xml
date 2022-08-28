@@ -7,4 +7,4 @@
     <resource src="Database" />
     <resource src="TestResource" />
     <resource src="AdminPanel" />
-<resource src="Authorization" /><resource src="NAPIExtensions" /><resource src="CharacterManager" /><resource src="TypeConverters" /><resource src="TimeCounter" /><resource src="LocalContext" /></config>
+<resource src="Authorization" /><resource src="NAPIExtensions" /><resource src="CharacterManager" /><resource src="TypeConverters" /><resource src="TimeCounter" /><resource src="LocalContext" /><resource src="Weather" /></config>
