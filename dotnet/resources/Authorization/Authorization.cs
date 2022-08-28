@@ -23,9 +23,9 @@ namespace Authorization
 
         public Authorization()
         {
-            ChainsFactory.SetChain(ref connectHandlersChain!);
-            ChainsFactory.SetChain(ref registrationHandlersChain!, CefConnect);
-            ChainsFactory.SetChain(ref loginHandlersChain!, CefConnect);
+            ChainsFactory.SetChain(out connectHandlersChain);
+            ChainsFactory.SetChain(out registrationHandlersChain, CefConnect);
+            ChainsFactory.SetChain(out loginHandlersChain, CefConnect);
         }
 
         #region RemoteEvents
