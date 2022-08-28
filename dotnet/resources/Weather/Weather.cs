@@ -43,7 +43,7 @@ namespace Weather
                     NAPI.Task.Run(() => NAPI.World.SetWeather(GetRandomNotRainyWeather()));
                     Thread.Sleep(180_000);
                 }
-                else if (!(DateTime.Now.Month < 2 || DateTime.Now.Month > 11) && IsRaining(weather))
+                else if ((DateTime.Now.Month < 2 || DateTime.Now.Month > 11) && !IsRaining(weather))
                 {
                     NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
                     Thread.Sleep(3600_000);
