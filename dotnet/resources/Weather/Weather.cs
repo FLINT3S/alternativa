@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AbstractResource;
 using GTANetworkAPI;
 using Microsoft.Extensions.Configuration;
-using OpenWeatherMap.Standard;
 using Weather.WeatherProviders;
 
 namespace Weather
@@ -37,16 +36,21 @@ namespace Weather
             while (true)
             {
                 var weather = weatherProvider.GetWeather();
-                if (IsRaining(weather))
+                if ((DateTime.Now.Month < 2 || DateTime.Now.Month > 11) && IsRaining(weather))
                 {
                     NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
                     Thread.Sleep(600_000);
                     NAPI.Task.Run(() => NAPI.World.SetWeather(GetRandomNotRainyWeather()));
                     Thread.Sleep(180_000);
                 }
-                else
+                else if (!(DateTime.Now.Month < 2 || DateTime.Now.Month > 11) && IsRaining(weather))
                 {
                     NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
+                    Thread.Sleep(3600_000);
+                }
+                else
+                {
+                    NAPI.Task.Run(() => NAPI.World.SetWeather(GetRandomWinterWeather()));
                     Thread.Sleep(3600_000);
                 }
             }
@@ -75,10 +79,10 @@ namespace Weather
         {
             GTANetworkAPI.Weather[] weathersId =
             {
+                GTANetworkAPI.Weather.XMAS,
+                GTANetworkAPI.Weather.SNOWLIGHT,
                 GTANetworkAPI.Weather.SNOW,
                 GTANetworkAPI.Weather.BLIZZARD,
-                GTANetworkAPI.Weather.SNOWLIGHT,
-                GTANetworkAPI.Weather.XMAS,
             };
             return weathersId[RandomNumberGenerator.GetInt32(weathersId.Length)];
         }

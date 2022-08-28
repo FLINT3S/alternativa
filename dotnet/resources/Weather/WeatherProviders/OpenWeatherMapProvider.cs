@@ -24,57 +24,22 @@ namespace Weather.WeatherProviders
         public override GTANetworkAPI.Weather GetWeather()
         {
             var forecast = current.GetWeatherDataByZip(zip, country).Result;
-            int weatherId = forecast.Weathers.First().Id;
+            int weatherId = int.Parse(forecast.Weathers.First().Icon[..^1]);
             return ConvertToGtaWeather(weatherId);
         }
 
-        private static GTANetworkAPI.Weather ConvertToGtaWeather(int weatherId)
+        private static GTANetworkAPI.Weather ConvertToGtaWeather(int weatherId) => weatherId switch
         {
-            switch (weatherId / 10)
-            {
-                case 20:
-                case 21: 
-                case 22:
-                case 23:
-                    return GTANetworkAPI.Weather.THUNDER;
-                
-                case 30:
-                case 31:
-                case 32:
-                case 52:
-                case 53:
-                    return GTANetworkAPI.Weather.RAIN;
-                
-                case 50:
-                    return GTANetworkAPI.Weather.CLEARING;
-                
-                case 51:
-                case 60:
-                    // return GTANetworkAPI.Weather.SNOWLIGHT;
-                
-                case 61:
-                    // return GTANetworkAPI.Weather.SNOW;
-                case 62:
-                    // return GTANetworkAPI.Weather.BLIZZARD;
-                
-                case 70:
-                case 71:
-                case 72:
-                case 73:
-                case 74:
-                    return GTANetworkAPI.Weather.SMOG;
-                case 75:
-                case 76:
-                case 77:
-                case 78:
-                    return GTANetworkAPI.Weather.FOGGY;
-                
-                case 80:
-                    return (GTANetworkAPI.Weather)RandomNumberGenerator.GetInt32(0, 12);
-                
-                default:
-                    return GTANetworkAPI.Weather.EXTRASUNNY;
-            }
-        }
+            1 => GTANetworkAPI.Weather.EXTRASUNNY,
+            2 => GTANetworkAPI.Weather.CLEAR,
+            3 => GTANetworkAPI.Weather.OVERCAST,
+            4 => GTANetworkAPI.Weather.CLOUDS,
+            9 => GTANetworkAPI.Weather.RAIN,
+            10 => GTANetworkAPI.Weather.CLEARING,
+            11 => GTANetworkAPI.Weather.THUNDER,
+            13 => GTANetworkAPI.Weather.SNOW,
+            50 => GTANetworkAPI.Weather.FOGGY,
+            _ => GTANetworkAPI.Weather.NEUTRAL
+        };
     }
 }
