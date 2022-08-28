@@ -6,7 +6,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     public class SuccessRegistrationHandler : AbstractHandler
     {
-        public SuccessRegistrationHandler(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public SuccessRegistrationHandler(CefConnect cefConnect) : base(cefConnect, null)
         {
         }
 

@@ -2,23 +2,23 @@
 using Database.Models;
 using GTANetworkAPI;
 
-namespace Authorization.ChainsOfResponsibility.LoginHandler
+namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    public class LoginChecker : AbstractHandler
+    public class DoubleLoginChecker : AbstractHandler
     {
-        public LoginChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public DoubleLoginChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {
         }
 
         protected override bool CanHandle(Player player, Account account, string login, string password) => 
-            account.Username != login;
+            LocalContext.EntityLists.OnlinePlayers.Contains(account);
 
         protected override void _Handle(Player player, Account account, string login, string password)
         {
             CefConnect.TriggerCef(
                     player,
                     AuthorizationEvents.LoginFailureToCef,
-                    "Wrong login"
+                    "Account already online"
                 );
         }
     }

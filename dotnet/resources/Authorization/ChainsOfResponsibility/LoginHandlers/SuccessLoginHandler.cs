@@ -3,11 +3,11 @@ using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 
-namespace Authorization.ChainsOfResponsibility.LoginHandler
+namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
     public class SuccessLoginHandler : AbstractHandler
     {
-        public SuccessLoginHandler(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public SuccessLoginHandler(CefConnect cefConnect) : base(cefConnect, null)
         {
         }
 

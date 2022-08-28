@@ -1,4 +1,4 @@
-﻿namespace Authorization.ChainsOfResponsibility.LoginHandler
+﻿namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
     internal static class AuthorizationEvents
     {

@@ -2,7 +2,7 @@
 using Database.Models;
 using GTANetworkAPI;
 
-namespace Authorization.ChainsOfResponsibility.LoginHandler
+namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
     public abstract class AbstractHandler
     {

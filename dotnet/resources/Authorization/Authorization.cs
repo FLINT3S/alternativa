@@ -1,10 +1,11 @@
 using AbstractResource;
+using Authorization.ChainsOfResponsibility;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 using PlayerConnectedHandlers = Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
 using RegistrationHandlers = Authorization.ChainsOfResponsibility.RegistrationHandlers;
-using LoginHandlers = Authorization.ChainsOfResponsibility.LoginHandler;
+using LoginHandlers = Authorization.ChainsOfResponsibility.LoginHandlers;
 
 /*
  * wiki: https://www.notion.so/Authorization-44a4b5377f2848c59d1772d89dde092d
@@ -22,41 +23,10 @@ namespace Authorization
 
         public Authorization()
         {
-            connectHandlersChain = GetConnectChain();
-            registrationHandlersChain = GetRegistrationChain();
-            loginHandlersChain = GetLoginChain();
+            connectHandlersChain = ChainsFactory.GetConnectChain();
+            registrationHandlersChain = ChainsFactory.GetRegistrationChain(CefConnect);
+            loginHandlersChain = ChainsFactory.GetLoginChain(CefConnect);
         }
-
-        #region Chain Builders
-
-        private static PlayerConnectedHandlers.AbstractHandler GetConnectChain()
-        {
-            var loginStatusSender = new PlayerConnectedHandlers.LoginStatusSender();
-            var temporaryBansChecker = new PlayerConnectedHandlers.TemporaryBanChecker(loginStatusSender);
-            var permanentBansChecker = new PlayerConnectedHandlers.PermanentBanChecker(temporaryBansChecker);
-            var existAccountChecker = new PlayerConnectedHandlers.ExistAccountChecker(permanentBansChecker);
-            var hwidBansChecker = new PlayerConnectedHandlers.HwidBansChecker(existAccountChecker);
-            return hwidBansChecker;
-        }
-
-        private RegistrationHandlers.AbstractHandler GetRegistrationChain()
-        {
-            var successRegistrationHandler = new RegistrationHandlers.SuccessRegistrationHandler(CefConnect, null);
-            var usernameTakenHandler = new RegistrationHandlers.UsernameTakenChecker(CefConnect, successRegistrationHandler);
-            var hasAccountHandler = new RegistrationHandlers.HasAccountChecker(CefConnect, usernameTakenHandler);
-            return hasAccountHandler;
-        }
-
-        private LoginHandlers.AbstractHandler GetLoginChain()
-        {
-            var successLoginHandler = new LoginHandlers.SuccessLoginHandler(CefConnect, null);
-            var doubleLoginChecker = new LoginHandlers.DoubleLoginChecker(CefConnect, successLoginHandler);
-            var passwordHandler = new LoginHandlers.PasswordChecker(CefConnect, doubleLoginChecker);
-            var loginHandler = new LoginHandlers.LoginChecker(CefConnect, passwordHandler);
-            return loginHandler;
-        }
-
-        #endregion
 
         #region RemoteEvents
 
@@ -76,7 +46,7 @@ namespace Authorization
         [RemoteEvent(AuthorizationEvents.CheckUsernameFromCef)]
         public void IsUsernameExist(Player player, string username) => 
             CefConnect.TriggerCef(
-                    player, 
+                    player,
                     AuthorizationEvents.IsUsernameTakenToCef,
                     Account.IsUsernameTaken(username)
                     );
@@ -84,7 +54,7 @@ namespace Authorization
         [RemoteEvent(AuthorizationEvents.CheckEmailFromCef)]
         public void IsEmailExist(Player player, string email) => 
             CefConnect.TriggerCef(
-                    player, 
+                    player,
                     AuthorizationEvents.IsUsernameTakenToCef,
                     Account.IsEmailTaken(email)
                     );
