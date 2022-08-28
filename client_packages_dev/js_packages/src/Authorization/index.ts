@@ -4,6 +4,7 @@ import "./spawnCamera.js"
 import {AuthorizationEvents} from "./AuthorizationEvents";
 import {logger} from "../utils/logger";
 import {browserManager} from "../BrowserManager/browserManager";
+import {showCursor} from "../CursorManager/index";
 
 let loginCam
 let authorizationBrowser = new ModuleBrowser("Authorization", "/login/loader")
@@ -28,7 +29,7 @@ mp.events.add("playerReady", () => {
 
 browserManager.onBrowserLoad("alt").then(() => {
   authorizationBrowser.setAsActive()
-  authorizationBrowser.openOverlay()
+  authorizationBrowser.browser.openOverlay(false)
   authorizationBrowser.execClient("AuthorizationInit")
 
   setTimeout(() => {
@@ -39,17 +40,20 @@ browserManager.onBrowserLoad("alt").then(() => {
 mp.events.add(AuthorizationEvents.FIRST_CONNECTION_FROM_SERVER, () => {
   logger.log(AuthorizationEvents.FIRST_CONNECTION_FROM_SERVER)
   authorizationBrowser.execClient("WelcomeScreen")
+  showCursor()
 })
 
 mp.events.add(AuthorizationEvents.NEED_LOGIN_FROM_SERVER, () => {
   logger.log(AuthorizationEvents.NEED_LOGIN_FROM_SERVER)
   authorizationBrowser.execClient("LoginScreen")
+  showCursor()
 })
 
 mp.keys.bind(VirtualKey.VK_F5, true, () => {
-  authorizationBrowser.toggleOverlay()
+  authorizationBrowser.browser.toggleOverlay()
 })
 
 mp.events.add(AuthorizationEvents.LOGIN_SUCCESS_FROM_SERVER, () => {
   mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
+  showCursor()
 })

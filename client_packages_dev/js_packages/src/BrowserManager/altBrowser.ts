@@ -20,6 +20,7 @@ export class AltBrowser {
   public options: AltBrowserOptions = {toggleCursor: false, overlayCloseTimeout: 500, level: AltBrowserLevel.DEFAULT}
   public loaded: boolean;
   private overlayTimeout: Timer;
+  private isOverlayOpen: boolean = true
 
   constructor(url: string, name: string, options?: object) {
     this.instance = mp.browsers.new(url)
@@ -73,28 +74,48 @@ export class AltBrowser {
     this.active = false
   }
 
-  openOverlay(): Promise<boolean> {
+  openOverlay(showCursor: boolean = true): Promise<boolean> {
     clearTimeout(this.overlayTimeout)
 
     return new Promise((resolve) => {
       this.execEvent("CLIENT:CEF:Root:onOpenOverlay")
+      this.isOverlayOpen = true
       this.show()
+
+      if (showCursor) {
+        mp.gui.cursor.visible = true
+      }
+
       this.overlayTimeout = setTimeout(() => {
         resolve(true)
       }, this.options.overlayCloseTimeout)
     })
   }
 
-  closeOverlay(forceHide: boolean = false) {
+  closeOverlay(forceHide: boolean = false, hideCursor: boolean = true): Promise<boolean> {
     return new Promise((resolve) => {
       this.execEvent("CLIENT:CEF:Root:onCloseOverlay")
+      this.isOverlayOpen = false
       this.overlayTimeout = setTimeout(() => {
         if (forceHide) {
-          this.hide()
+          this.hide(!hideCursor)
         }
+
+        if (hideCursor) {
+          mp.gui.cursor.visible = false
+        }
+
         resolve(true)
       }, this.options.overlayCloseTimeout)
     })
+  }
+
+  toggleOverlay() {
+    if (this.isOverlayOpen) {
+      return this.closeOverlay()
+    } else {
+      return this.openOverlay()
+    }
   }
 
   execEvent(event: string, ...data: Array<string | number | boolean>) {
@@ -135,22 +156,6 @@ export class ModuleBrowser {
 
   execClient(eventName: string, ...data: Array<string | number>) {
     this.browser.execClient(this.moduleName, eventName, ...data)
-  }
-
-  openOverlay() {
-    this.browser.openOverlay()
-  }
-
-  closeOverlay() {
-    this.browser.closeOverlay()
-  }
-
-  toggleOverlay() {
-    if (this.isOverlayOpen) {
-      this.closeOverlay()
-    } else {
-      this.openOverlay()
-    }
   }
 }
 

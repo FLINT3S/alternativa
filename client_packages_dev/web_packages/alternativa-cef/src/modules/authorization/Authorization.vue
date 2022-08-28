@@ -19,17 +19,21 @@ export default defineComponent({
     }
   },
   components: {AltOverlay},
-  mounted() {
-    altMpAuth.on("AuthorizationInit", () => {
+  methods: {
+    onAuthInit() {
       this.$router.push("loader");
-    });
-
-    altMpAuth.on("LoginScreen", () => {
+    },
+    onLoginScreen() {
       this.$router.push("login")
-    })
-    altMpAuth.on("WelcomeScreen", () => {
+    },
+    onWelcomeScreen() {
       this.$router.push("welcome")
-    })
+    }
+  },
+  mounted() {
+    altMpAuth.on("AuthorizationInit", this.onAuthInit);
+    altMpAuth.on("LoginScreen", this.onLoginScreen)
+    altMpAuth.on("WelcomeScreen", this.onWelcomeScreen)
   }
 });
 </script>

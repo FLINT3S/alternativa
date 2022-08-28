@@ -14,6 +14,7 @@ import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "alt-button",
+  emits: ["invalid-feedback-end"],
   props: {
     variant: {
       type: String,
@@ -26,7 +27,7 @@ export default defineComponent({
       type: String,
       default: "l",
       validator(value) {
-        return ["s", "m", "l", "xl"].includes(value);
+        return ["xs", "s", "m", "l", "xl"].includes(value);
       }
     },
     stretched: {
@@ -40,12 +41,34 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    invalidFeedback: {
+      type: Boolean,
+      default: false
+    },
+  },
+  data() {
+    return {
+      showInvalidFeedback: false,
+      invalidFeedbackTimer: null
+    }
+  },
+  watch: {
+    invalidFeedback(val) {
+      this.showInvalidFeedback = val;
+      clearTimeout(this.invalidFeedbackTimer)
+
+      this.invalidFeedbackTimer = setTimeout(() => {
+        this.$emit("invalid-feedback-end")
+        this.showInvalidFeedback = false;
+      }, 300);
     }
   },
   computed: {
     altButtonClass() {
       const res = [this.variant + "-variant", "size-" + this.size]
       res.push(this.stretched ? "stretched" : "")
+      res.push(this.showInvalidFeedback ? "invalid-feedback" : "")
 
       return res.join(" ")
     }
@@ -97,5 +120,36 @@ export default defineComponent({
 
 .default-variant {
 
+}
+
+.size-xl {
+  padding: 16px 28px;
+  font-size: 24px;
+}
+
+.size-l {
+  padding: 14px 26px;
+  font-size: 20px;
+}
+
+.size-m {
+  padding: 12px 24px;
+  font-size: 18px;
+}
+
+.size-s {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.size-xs {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.invalid-feedback {
+  background-color: var(--danger);
+  outline: 10px solid rgba(228, 62, 62, .5);
+  animation: shake-x .075s ease infinite;
 }
 </style>

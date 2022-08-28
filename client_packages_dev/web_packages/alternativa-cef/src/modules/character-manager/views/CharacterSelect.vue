@@ -1,10 +1,15 @@
 <template>
   <alt-card>
     <alt-input
-        placeholder="ID персонажа"
         v-model="characterId"
+        placeholder="ID персонажа"
+        size="l"
     />
-    <alt-button @click="selectCharacter">
+    <alt-button :invalid-feedback="badFeedback"
+                size="m"
+                @click="selectCharacter"
+                @invalid-feedback-end="badFeedback = false"
+    >
       Выбрать персонажа
     </alt-button>
   </alt-card>
@@ -21,11 +26,13 @@ export default {
   components: {AltButton, AltInput, AltCard},
   data() {
     return {
-      characterId: ""
+      characterId: "",
+      badFeedback: false,
     }
   },
   methods: {
     selectCharacter() {
+      this.badFeedback = true;
       altMpCM.triggerServer('SelectCharacter', this.characterId)
     }
   }

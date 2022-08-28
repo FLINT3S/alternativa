@@ -56,17 +56,19 @@ export default defineComponent({
   methods: {
     submitLogin() {
       altMpAuth.triggerServer("LoginSubmit", this.login, this.password);
+    },
+    onLoginSuccess() {
+      this.loginState = true
+      this.loginStateMessage = "Успешный логин"
+    },
+    onLoginFailure(failureReason) {
+      this.loginState = false
+      this.loginStateMessage = failureReason
     }
   },
   created() {
-    altMpAuth.onServer("LoginSuccess", () => {
-      this.loginState = true
-      this.loginStateMessage = "Успешный логин"
-    })
-    altMpAuth.onServer("LoginFailure", (failureReason) => {
-      this.loginState = false
-      this.loginStateMessage = failureReason
-    })
+    altMpAuth.onServer("LoginSuccess", this.onLoginSuccess)
+    altMpAuth.onServer("LoginFailure", this.onLoginFailure)
   }
 });
 </script>

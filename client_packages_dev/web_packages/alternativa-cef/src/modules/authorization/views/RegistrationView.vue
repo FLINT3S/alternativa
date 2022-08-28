@@ -105,16 +105,6 @@ export default defineComponent({
         this.activeStep = index;
       }
     }
-  },
-  mounted() {
-    altMpAuth.onServer("LoginSuccess", () => {
-      this.loginState = true
-      this.loginStateMessage = "Успешный логин"
-    })
-    altMpAuth.onServer("LoginFailure", (failureReason) => {
-      this.loginState = false
-      this.loginStateMessage = failureReason
-    })
   }
 });
 </script>

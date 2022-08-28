@@ -7,7 +7,7 @@ import {AltEventCallback, AltEventType} from "@/connect/events/altEventType";
 import {altLog} from "@/connect/logs/altLogger";
 import {EventString} from "@/connect/events/eventString";
 
-window.altListeners = new Map<string, Array<AltEventCallback>>();
+window.altListeners = new Map<string, Set<AltEventCallback>>();
 
 type eventFrom = "SERVER" | "CLIENT";
 
@@ -56,9 +56,9 @@ export class altMP extends ModuleDependent {
 
     const currentListeners = window.altListeners.get(es.eventString)
     if (!currentListeners) {
-      window.altListeners.set(es.eventString, [callback])
+      window.altListeners.set(es.eventString, new Set([callback]))
     } else {
-      window.altListeners.set(es.eventString, [...currentListeners, callback])
+      window.altListeners.set(es.eventString, new Set([...currentListeners, callback]))
     }
   }
 

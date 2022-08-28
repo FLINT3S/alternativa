@@ -55,7 +55,7 @@ namespace Authorization
         public void IsEmailExist(Player player, string email) => 
             CefConnect.TriggerCef(
                     player,
-                    AuthorizationEvents.IsUsernameTakenToCef,
+                    AuthorizationEvents.IsEmailTakenToCef,
                     Account.IsEmailTaken(email)
                     );
         

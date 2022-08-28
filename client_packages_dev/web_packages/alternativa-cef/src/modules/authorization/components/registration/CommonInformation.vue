@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <alt-button :disabled="v$.registrationData.login.$invalid || !passwordValid" class="mt-3" stretched
+    <alt-button :disabled="v$.registrationData.login.$invalid || !passwordValid || isLoginTaken" class="mt-3" stretched
                 @click="nextStep">
       Дальше
     </alt-button>
@@ -59,6 +59,7 @@ import AltInput from "@/components/core/AltInput";
 import {mapGetters} from "vuex";
 import useVuelidate from "@vuelidate/core";
 import {RegistrationDTO} from "@/modules/authorization/data/RegistrationDTO";
+import {altMpAuth} from "@/modules/authorization/data/altMpAuth";
 
 export default defineComponent({
   name: "CommonInformation",
@@ -71,6 +72,13 @@ export default defineComponent({
   },
   setup() {
     return {v$: useVuelidate()}
+  },
+  validations() {
+    return {
+      registrationData: {
+        ...RegistrationDTO.validators
+      }
+    }
   },
   computed: {
     ...mapGetters([
@@ -125,17 +133,22 @@ export default defineComponent({
       return this.isLoginTaken ? "Логин занят" : "Логин свободен"
     }
   },
-  validations() {
-    return {
-      registrationData: {
-        ...RegistrationDTO.validators
-      }
+  watch: {
+    "registrationData.login"() {
+      console.log("login changed")
+      altMpAuth.triggerServer("CheckUsername", this.registrationData.login)
     }
   },
   methods: {
     nextStep() {
       this.$emit("nextStep");
+    },
+    onIsUserTaken(isTaken) {
+      this.isLoginTaken = isTaken
     }
+  },
+  mounted() {
+    altMpAuth.onServer("IsUsernameTaken", this.onIsUserTaken)
   }
 })
 </script>

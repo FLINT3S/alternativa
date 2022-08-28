@@ -109,6 +109,13 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    size: {
+      type: String,
+      default: "l",
+      validator(value) {
+        return ["s", "m", "l"].includes(value);
+      }
+    },
   },
   data() {
     return {
@@ -135,6 +142,7 @@ export default defineComponent({
         "focused": this.focused,
         "invalid": this.isInputInvalid,
         "valid": this.isInputValid,
+        ["size-" + this.size]: true,
       }
     },
     isCaptionShow() {
@@ -273,6 +281,22 @@ export default defineComponent({
     bottom: 50px;
     min-width: 210px;
     max-width: 280px;
+  }
+}
+
+.size-m {
+  padding: 8px 12px;
+
+  input {
+    font-size: 16px;
+  }
+}
+
+.size-s {
+  padding: 7px 10px;
+
+  input {
+    font-size: 14px;
   }
 }
 
