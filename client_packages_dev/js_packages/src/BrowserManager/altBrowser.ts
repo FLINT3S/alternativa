@@ -124,6 +124,7 @@ export class AltBrowser {
   }
 
   execClient(moduleName: string, eventName: string, ...data: Array<string | number | boolean>) {
+    logger.log(`CLIENT:CEF:${moduleName}:${eventName}`, "ExecClient")
     this.execEvent(`CLIENT:CEF:${moduleName}:${eventName}`, ...data)
   }
 

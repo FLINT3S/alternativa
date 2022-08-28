@@ -4,6 +4,6 @@
     {
         public const string LoginFailureToCef = "LoginFailure";
         
-        public const string LoginSuccessToClient = "LoginSuccess";
+        public const string LoginSuccessToClient = "SERVER:CLIENT:Authorization:LoginSuccess";
     }
 }

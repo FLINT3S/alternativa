@@ -11,12 +11,15 @@
       <alt-input
           v-model="login"
           placeholder="Логин"
+          :input-state="loginState === false ? 'invalid' : loginState ? 'valid' : 'default'"
           stretched
       />
       <alt-input
           v-model="password"
           class="mt-2"
           placeholder="Пароль"
+          :input-state="loginState === false ? 'invalid' : loginState ? 'valid' : 'default'"
+          :caption="loginStateMessage"
           stretched
           type="password"
       />
@@ -25,7 +28,16 @@
         <alt-link to="password-recovery">Восстановить</alt-link>
       </p>
 
-      <alt-button class="mt-3" stretched @click="submitLogin">Войти в игру</alt-button>
+      <alt-button
+          class="mt-3"
+          stretched
+          @click="submitLogin"
+          :variant="loginState ? 'success' : 'default'"
+          :invalid-feedback="invalidLoginFeedback"
+          @invalid-feedback-end="invalidLoginFeedback = false"
+      >
+        Войти в игру
+      </alt-button>
     </div>
     <p class="mt-2 small-text">
       Нет аккаунта?
@@ -50,24 +62,53 @@ export default defineComponent({
       login: "",
       password: "",
       loginState: null,
-      loginStateMessage: ""
+      loginStateMessage: "",
+      invalidLoginFeedback: false,
+      loginAttempts: 0
     };
+  },
+  watch: {
+    login() {
+      this.loginState = null;
+      this.loginStateMessage = "";
+    },
+    password() {
+      this.loginState = null;
+      this.loginStateMessage = "";
+    }
   },
   methods: {
     submitLogin() {
+      this.loginAttempts++
+
+      if (this.loginAttempts > 10) {
+        this.loginState = false;
+        this.loginStateMessage = "Слишком много попыток!";
+        return;
+      }
+
       altMpAuth.triggerServer("LoginSubmit", this.login, this.password);
     },
     onLoginSuccess() {
       this.loginState = true
-      this.loginStateMessage = "Успешный логин"
+      this.loginStateMessage = ""
     },
     onLoginFailure(failureReason) {
       this.loginState = false
-      this.loginStateMessage = failureReason
+      this.invalidLoginFeedback = true
+
+      switch (failureReason) {
+        case "Wrong password":
+          this.loginStateMessage = "Неверный пароль"
+          break;
+        case "Wrong login":
+          this.loginStateMessage = "Нет аккаунта с таким логином"
+          break;
+      }
     }
   },
   created() {
-    altMpAuth.onServer("LoginSuccess", this.onLoginSuccess)
+    altMpAuth.on("LoginSuccess", this.onLoginSuccess)
     altMpAuth.onServer("LoginFailure", this.onLoginFailure)
   }
 });

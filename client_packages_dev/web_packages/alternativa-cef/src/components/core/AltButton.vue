@@ -20,7 +20,7 @@ export default defineComponent({
       type: String,
       default: "default",
       validator(value) {
-        return ["default", "primary", "secondary"].includes(value);
+        return ["default", "primary", "secondary", "sucess"].includes(value);
       }
     },
     size: {
@@ -145,6 +145,10 @@ export default defineComponent({
 .size-xs {
   padding: 8px 16px;
   font-size: 14px;
+}
+
+.success-variant {
+  background: var(--success);
 }
 
 .invalid-feedback {

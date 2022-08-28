@@ -19,6 +19,7 @@
       <component
           class="transition-default"
           :is="getRegistrationComponent"
+          :registration-state="registrationState"
           @submit="onRegisterSubmit"
           @next-step="nextStep"
       />
@@ -66,7 +67,8 @@ export default defineComponent({
           icon: "policy",
         }
       ],
-      activeStep: 0
+      activeStep: 0,
+      registrationState: false
     };
   },
   validations() {
@@ -104,7 +106,13 @@ export default defineComponent({
       if (index < this.activeStep) {
         this.activeStep = index;
       }
+    },
+    onRegisterSuccess() {
+      this.registrationState = true;
     }
+  },
+  mounted() {
+    altMpAuth.on("RegisterSuccess", this.onRegisterSuccess);
   }
 });
 </script>

@@ -54,6 +54,12 @@ mp.keys.bind(VirtualKey.VK_F5, true, () => {
 })
 
 mp.events.add(AuthorizationEvents.LOGIN_SUCCESS_FROM_SERVER, () => {
+  authorizationBrowser.execClient("LoginSuccess")
   mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
   showCursor()
+})
+
+mp.events.add(AuthorizationEvents.REGISTER_SUCCESS_FROM_SERVER, () => {
+  authorizationBrowser.execClient("RegisterSuccess")
+  mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
 })
