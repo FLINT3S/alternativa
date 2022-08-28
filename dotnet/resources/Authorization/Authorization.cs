@@ -1,4 +1,5 @@
 using AbstractResource;
+using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 using PlayerConnectedHandlers = Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
@@ -72,26 +73,22 @@ namespace Authorization
         public void OnRegisterSubmitFromCef(Player player, string login, string password, string email) =>
             registrationHandlersChain.Handle(player, login, password, email);
 
-        #endregion
-
-        #region Commands
-        
-        [Command("testacc")]
-        public void TestAccount(Player player, string newEmail)
-        {
-            var account = player.GetAccount();
-
-            if (account == null)
-                player.SendChatMessage("Ты не авторизован");
-            else
-            {
-                account.UpdateEmail(newEmail);
-                NAPI.Task.Run(
-                        () => player.SendChatMessage($"Ты авторизован как {account.Username} with email {account.Email}")
+        [RemoteEvent(AuthorizationEvents.CheckUsernameFromCef)]
+        public void IsUsernameExist(Player player, string username) => 
+            CefConnect.TriggerCef(
+                    player, 
+                    AuthorizationEvents.IsUsernameTakenToCef,
+                    Account.IsUsernameTaken(username)
                     );
-            }
-        }
 
+        [RemoteEvent(AuthorizationEvents.CheckEmailFromCef)]
+        public void IsEmailExist(Player player, string email) => 
+            CefConnect.TriggerCef(
+                    player, 
+                    AuthorizationEvents.IsUsernameTakenToCef,
+                    Account.IsEmailTaken(email)
+                    );
+        
         #endregion
     }
 }

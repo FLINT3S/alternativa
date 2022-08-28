@@ -51,7 +51,7 @@ namespace Database.Models
         }
         
         
-        private static bool IsEmailTaken(string email)
+        public static bool IsEmailTaken(string email)
         {
             lock (AltContext.Locker)
             {

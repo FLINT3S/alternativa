@@ -11,5 +11,21 @@ namespace Authorization
         public const string RegisterSubmitFromCef = "CEF:SERVER:Authorization:RegisterSubmit";
 
         public const string PlayerReadyFromClient = "CLIENT:SERVER:Authorization:PlayerReady";
+
+        #region Username Check Events
+        
+        public const string CheckUsernameFromCef = "CEF:SERVER:Authorization:CheckUsername";
+
+        public const string IsUsernameTakenToCef = "SERVER:CEF:Authorization:IsUsernameTaken";
+
+        #endregion
+
+        #region Email Check Events
+
+        public const string CheckEmailFromCef = "CEF:SERVER:Authorization:CheckEmail";
+
+        public const string IsEmailTakenToCef = "SERVER:CEF:Authorization:IsEmailTaken";
+
+        #endregion
     }
 }
