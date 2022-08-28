@@ -7,7 +7,7 @@ import {AltEventCallback, AltEventType} from "@/connect/events/altEventType";
 import {altLog} from "@/connect/logs/altLogger";
 import {EventString} from "@/connect/events/eventString";
 
-window.altListeners = new Map<string, Array<AltEventCallback>>();
+window.altListeners = new Map<string, Set<AltEventCallback>>();
 
 type eventFrom = "SERVER" | "CLIENT";
 
@@ -50,15 +50,15 @@ export class altMP extends ModuleDependent {
    *
    * Добавляет обработчик события от клиента
    * */
-  on(eventName: string, callback: (...data: any) => void, eventFrom: eventFrom = "CLIENT") {
-    const es = new EventString(eventFrom, "CEF", this.moduleName, eventName)
+  on(eventName: string, callback: (...data: any) => void, moduleName: string = null, eventFrom: eventFrom = "CLIENT") {
+    const es = new EventString(eventFrom, "CEF", moduleName || this.moduleName, eventName)
     new AltEvent(es, AltEventType.REGISTER_LISTENER)
 
     const currentListeners = window.altListeners.get(es.eventString)
     if (!currentListeners) {
-      window.altListeners.set(es.eventString, [callback])
+      window.altListeners.set(es.eventString, new Set([callback]))
     } else {
-      window.altListeners.set(es.eventString, [...currentListeners, callback])
+      window.altListeners.set(es.eventString, new Set([...currentListeners, callback]))
     }
   }
 
@@ -67,8 +67,8 @@ export class altMP extends ModuleDependent {
    *
    * Добавляет обработчик события сервера
    * */
-  onServer(eventName: string, callback: (...data: any) => void) {
-    this.on(eventName, callback, "SERVER")
+  onServer(eventName: string, callback: (...data: any) => void, moduleName: string = null) {
+    this.on(eventName, callback, moduleName, "SERVER")
   }
 
   /**

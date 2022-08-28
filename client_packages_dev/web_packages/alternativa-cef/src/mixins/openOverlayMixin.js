@@ -15,9 +15,9 @@ export const openOverlayMixin = {
             this.isOverlayOpen = !this.isOverlayOpen;
         }
     },
-    created() {
-        this.$altMp.on("onOpenOverlay", this.onOpenOverlay);
-        this.$altMp.on("onCloseOverlay", this.onCloseOverlay);
-        this.$altMp.on("onToggleOverlay", this.onToggleOverlay);
+    mounted() {
+        this.altMp.on("onOpenOverlay", this.onOpenOverlay);
+        this.altMp.on("onCloseOverlay", this.onCloseOverlay);
+        this.altMp.on("onToggleOverlay", this.onToggleOverlay);
     }
 }

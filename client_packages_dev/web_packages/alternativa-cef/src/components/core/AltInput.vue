@@ -1,33 +1,41 @@
 <template>
-  <div :class="altInputClasses" class="alt-input__wrapper d-flex">
-    <input
-        :placeholder="placeholder"
-        :type="fieldType"
-        :value="inputValue"
-        autocomplete="off"
-        class="alt-input"
-        @blur="onBlur"
-        @focus="onFocus"
-        @input.prevent="onInput"
-        @keypress.enter="$emit('enter')"
-        ref="input"
-    >
+  <div class="alt-input__content">
+    <div :class="altInputClasses" class="alt-input__wrapper d-flex">
+      <input
+          :placeholder="placeholder"
+          :type="fieldType"
+          :value="inputValue"
+          autocomplete="off"
+          class="alt-input"
+          @blur="onBlur"
+          @focus="onFocus"
+          @input.prevent="onInput"
+          @keypress.enter="$emit('enter')"
+          ref="input"
+      >
 
-    <div class="validation-tooltip" v-if="showValidationTooltip" v-show="validation.$errors && validation.$errors.length">
-      <div class="tooltip-icon d-flex">
-        <span class="material-icons-round m-auto">error_outline</span>
-      </div>
-      <div class="tooltip-content">
-        <div v-for="error in validation.$errors" :key="error.$uid" class="tooltip-content__item mb-1">
-          {{error.$message}}
+      <div class="validation-tooltip" v-if="showValidationTooltip" v-show="validation.$errors && validation.$errors.length">
+        <div class="tooltip-icon d-flex">
+          <span class="material-icons-round m-auto">error_outline</span>
+        </div>
+        <div class="tooltip-content">
+          <div v-if="inputError" class="tooltip-content__item mb-1">
+            {{inputError}}
+          </div>
+          <div v-for="error in validation.$errors" :key="error.$uid" class="tooltip-content__item mb-1">
+            {{error.$message}}
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="password-show" v-if="type === 'password' && !noShowPassword">
-      <span class="material-icons-round my-auto" @mousedown="onShowPassword" @mouseup="onShowPassword">
-        visibility
-      </span>
+      <div class="password-show" v-if="type === 'password' && !noShowPassword">
+        <span class="material-icons-round my-auto" @mousedown="onShowPassword" @mouseup="onShowPassword">
+          visibility
+        </span>
+      </div>
+    </div>
+    <div class="alt-input__caption" :class="{'show': isCaptionShow, ...altInputClasses}" :style="{textAlign: captionAlign}">
+      {{caption}}
     </div>
   </div>
 </template>
@@ -64,12 +72,56 @@ export default defineComponent({
     noShowPassword: {
       type: Boolean,
       default: false
-    }
+    },
+    debounce: {
+      type: Number,
+      default: 0
+    },
+    inputState: {
+      type: String,
+      default: "default"
+    },
+    inputError: {
+      type: String,
+      default: ""
+    },
+    caption: {
+      type: String,
+      default: ""
+    },
+    captionAlign: {
+      type: String,
+      default: "left"
+    },
+    pattern: {
+      type: RegExp,
+      default: null
+    },
+    showCaptionOnFocus: {
+      type: Boolean,
+      default: false
+    },
+    showErrorOnFocus: {
+      type: Boolean,
+      default: false
+    },
+    showValidOnFocus: {
+      type: Boolean,
+      default: false
+    },
+    size: {
+      type: String,
+      default: "l",
+      validator(value) {
+        return ["s", "m", "l"].includes(value);
+      }
+    },
   },
   data() {
     return {
       inputValue: this.modelValue,
-      focused: false
+      focused: false,
+      debounceTimer: null
     }
   },
   watch: {
@@ -88,15 +140,48 @@ export default defineComponent({
       return {
         "stretched": this.stretched,
         "focused": this.focused,
-        "invalid": this.validation ? (this.validation?.$errors?.length !== 0) : false
+        "invalid": this.isInputInvalid,
+        "valid": this.isInputValid,
+        ["size-" + this.size]: true,
       }
+    },
+    isCaptionShow() {
+      return this.caption.length > 0 && (this.showCaptionOnFocus ? this.focused : true);
+    },
+    isInputInvalid() {
+      if (this.showErrorOnFocus && !this.focused) return false
+      if (this.inputState === "default") return this.validation ? (this.validation?.$errors?.length !== 0) : false;
+
+      return this.inputState === "invalid"
+    },
+    isInputValid() {
+      if (this.showValidOnFocus && !this.focused) return false
+      return this.inputState === "valid"
     }
   },
   methods: {
     onInput(e) {
-      this.validation?.$touch();
+      if (this.pattern && this.pattern instanceof RegExp) {
+        if (!this.pattern.test(e.target.value)) {
+          e.target.value = this.inputValue;
+          e.preventDefault()
+          return
+        }
+      }
+
       this.inputValue = e.target.value;
-      this.$emit("update:modelValue", e.target.value);
+      this.validation?.$touch();
+
+      if (this.debounce) {
+        if (this.debounceTimer) {
+          clearTimeout(this.debounceTimer);
+        }
+        this.debounceTimer = setTimeout(() => {
+          this.$emit("update:modelValue", e.target.value);
+        }, this.debounce);
+      } else {
+        this.$emit("update:modelValue", e.target.value);
+      }
     },
     onFocus() {
       this.focused = true;
@@ -152,6 +237,10 @@ export default defineComponent({
   &.invalid {
     border-color: var(--danger);
   }
+
+  &.valid {
+    border-color: var(--success);
+  }
 }
 
 .password-show span {
@@ -192,6 +281,46 @@ export default defineComponent({
     bottom: 50px;
     min-width: 210px;
     max-width: 280px;
+  }
+}
+
+.size-m {
+  padding: 8px 12px;
+
+  input {
+    font-size: 16px;
+  }
+}
+
+.size-s {
+  padding: 7px 10px;
+
+  input {
+    font-size: 14px;
+  }
+}
+
+.alt-input__caption {
+  font-size: 12px;
+  color: var(--text-secondary);
+  height: 0;
+  opacity: 0;
+  transition: all .3s ease;
+  margin-top: 0;
+  line-height: 1;
+
+  &.show {
+    margin-top: 4px;
+    height: 12px;
+    opacity: 1;
+  }
+
+  &.valid {
+    color: var(--success);
+  }
+
+  &.invalid {
+    color: var(--danger);
   }
 }
 </style>

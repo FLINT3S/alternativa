@@ -1,8 +1,8 @@
+import {ModuleBrowser} from "../BrowserManager/altBrowser";
 import {AuthorizationEvents} from "../Authorization/AuthorizationEvents";
-import {AltOverlayBrowser} from "../BrowserManager/altBrowser";
 
-let characterManagerBrowser = new AltOverlayBrowser("http://package/web_packages/character-manager.html", "CharacterManager", {toggleCursor: true});
+const characterManagerBrowser = new ModuleBrowser("CharacterManager", "/character-manager/select-character")
 
 mp.events.add(AuthorizationEvents.GO_TO_CHARACTER_MANAGER, () => {
-  characterManagerBrowser.openOverlay()
+  characterManagerBrowser.setAsActive()
 })
