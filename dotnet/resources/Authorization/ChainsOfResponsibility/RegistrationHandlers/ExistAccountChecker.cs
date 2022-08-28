@@ -4,9 +4,9 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    public class HasAccountChecker : AbstractHandler
+    public class ExistAccountChecker : AbstractHandler
     {
-        public HasAccountChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public ExistAccountChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {
         }
 

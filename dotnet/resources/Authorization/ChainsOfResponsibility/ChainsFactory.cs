@@ -17,8 +17,9 @@ namespace Authorization.ChainsOfResponsibility
         public static RegistrationHandlers.AbstractHandler GetRegistrationChain(CefConnect cefConnect)
         {
             var successRegistrationHandler = new RegistrationHandlers.SuccessRegistrationHandler(cefConnect);
-            var usernameTakenHandler = new RegistrationHandlers.UsernameTakenChecker(cefConnect, successRegistrationHandler);
-            var hasAccountHandler = new RegistrationHandlers.HasAccountChecker(cefConnect, usernameTakenHandler);
+            var emailTakenChecker = new RegistrationHandlers.EmailTakenChecker(cefConnect, successRegistrationHandler);
+            var usernameTakenHandler = new RegistrationHandlers.UsernameTakenChecker(cefConnect, emailTakenChecker);
+            var hasAccountHandler = new RegistrationHandlers.ExistAccountChecker(cefConnect, usernameTakenHandler);
             return hasAccountHandler;
         }
 
