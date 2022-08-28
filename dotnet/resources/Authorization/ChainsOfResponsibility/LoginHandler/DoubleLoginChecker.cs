@@ -6,11 +6,8 @@ namespace Authorization.ChainsOfResponsibility.LoginHandler
 {
     public class DoubleLoginChecker : AbstractHandler
     {
-        private readonly CefConnect cefConnect;
-
-        public DoubleLoginChecker(CefConnect cefConnect, AbstractHandler? next) : base(next)
+        public DoubleLoginChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {
-            this.cefConnect = cefConnect;
         }
 
         protected override bool CanHandle(Player player, Account account, string login, string password) => 
@@ -18,7 +15,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandler
 
         protected override void _Handle(Player player, Account account, string login, string password)
         {
-            cefConnect.TriggerCef(
+            CefConnect.TriggerCef(
                     player,
                     AuthorizationEvents.LoginFailureToCef,
                     "Account already online"

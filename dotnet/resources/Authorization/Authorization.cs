@@ -48,7 +48,7 @@ namespace Authorization
 
         private LoginHandlers.AbstractHandler GetLoginChain()
         {
-            var successLoginHandler = new LoginHandlers.SuccessLoginHandler(null);
+            var successLoginHandler = new LoginHandlers.SuccessLoginHandler(CefConnect, null);
             var doubleLoginChecker = new LoginHandlers.DoubleLoginChecker(CefConnect, successLoginHandler);
             var passwordHandler = new LoginHandlers.PasswordChecker(CefConnect, doubleLoginChecker);
             var loginHandler = new LoginHandlers.LoginChecker(CefConnect, passwordHandler);

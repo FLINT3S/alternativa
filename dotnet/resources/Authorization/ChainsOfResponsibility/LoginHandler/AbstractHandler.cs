@@ -1,4 +1,5 @@
-﻿using Database.Models;
+﻿using AbstractResource;
+using Database.Models;
 using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandler
@@ -6,10 +7,13 @@ namespace Authorization.ChainsOfResponsibility.LoginHandler
     public abstract class AbstractHandler
     {
         private AbstractHandler? Next { get; }
+        
+        protected CefConnect CefConnect { get; }
 
-        protected AbstractHandler(AbstractHandler? next)
+        protected AbstractHandler(CefConnect cefConnect, AbstractHandler? next)
         {
             Next = next;
+            CefConnect = cefConnect;
         }
 
         public void Handle(Player player, Account account, string login, string password)

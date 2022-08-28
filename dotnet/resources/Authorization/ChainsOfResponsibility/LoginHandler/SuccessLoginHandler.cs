@@ -1,4 +1,5 @@
-﻿using Database.Models;
+﻿using AbstractResource;
+using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 
@@ -6,7 +7,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandler
 {
     public class SuccessLoginHandler : AbstractHandler
     {
-        public SuccessLoginHandler(AbstractHandler? next) : base(next)
+        public SuccessLoginHandler(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {
         }
 

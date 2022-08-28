@@ -6,11 +6,8 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     public class SuccessRegistrationHandler : AbstractHandler
     {
-        private readonly CefConnect cefConnect;
-
-        public SuccessRegistrationHandler(CefConnect cefConnect, AbstractHandler? next) : base(next)
+        public SuccessRegistrationHandler(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {
-            this.cefConnect = cefConnect;
         }
 
         protected override bool CanHandle(Player player, string login, string password, string email) => true;
@@ -19,7 +16,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         {
             var account = new Account(player.SocialClubId, login, password, email);
             account.AddToContext();
-            cefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Success!");
+            CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Success!");
         }
     }
 }

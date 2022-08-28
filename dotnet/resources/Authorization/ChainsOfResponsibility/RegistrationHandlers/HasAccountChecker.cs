@@ -6,11 +6,8 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     public class HasAccountChecker : AbstractHandler
     {
-        private readonly CefConnect cefConnect;
-        
-        public HasAccountChecker(CefConnect cefConnect, AbstractHandler? next) : base(next)
+        public HasAccountChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {
-            this.cefConnect = cefConnect;
         }
 
         protected override bool CanHandle(Player player, string login, string password, string email) => 
@@ -18,7 +15,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 
         protected override void _Handle(Player player, string login, string password, string email)
         {
-            cefConnect.TriggerCef(
+            CefConnect.TriggerCef(
                     player,
                     AuthorizationEvents.RegisterFailureToCef,
                     "User with this Social Club ID already exist"
