@@ -4,11 +4,11 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     public abstract class AbstractHandler
     {
-        private readonly AbstractHandler? next;
+        private AbstractHandler? Next { get; }
 
         protected AbstractHandler(AbstractHandler? next)
         {
-            this.next = next;
+            Next = next;
         }
 
         public void Handle(Player player)
@@ -16,7 +16,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
             if (CanHandle(player))
                 _Handle(player);
             else
-                next!.Handle(player);
+                Next!.Handle(player);
         }
 
         protected abstract bool CanHandle(Player player);

@@ -4,11 +4,11 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     public abstract class AbstractHandler
     {
-        private readonly AbstractHandler? next;
+        private AbstractHandler? Next { get; }
 
         protected AbstractHandler(AbstractHandler? next)
         {
-            this.next = next;
+            Next = next;
         }
 
         public void Handle(Player player, string login, string password, string email)
@@ -16,7 +16,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
             if (CanHandle(player, login, password, email))
                 _Handle(player, login, password, email);
             else
-                next!.Handle(player, login, password, email);
+                Next!.Handle(player, login, password, email);
         }
 
         protected abstract bool CanHandle(Player player, string login, string password, string email);
