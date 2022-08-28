@@ -16,7 +16,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
             CefConnect = cefConnect;
         }
 
-        public void Handle(Player player, Account account, string login, string password)
+        public void Handle(Player player, Account? account, string login, string password)
         {
             if (CanHandle(player, account, login, password))
                 _Handle(player, account, login, password);
@@ -24,8 +24,8 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
                 Next!.Handle(player, account, login, password);
         }
 
-        protected abstract bool CanHandle(Player player, Account account, string login, string password);
+        protected abstract bool CanHandle(Player player, Account? account, string login, string password);
 
-        protected abstract void _Handle(Player player, Account account, string login, string password);
+        protected abstract void _Handle(Player player, Account? account, string login, string password);
     }
 }

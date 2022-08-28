@@ -29,7 +29,8 @@ namespace Authorization.ChainsOfResponsibility
             var doubleLoginChecker = new LoginHandlers.DoubleLoginChecker(cefConnect, successLoginHandler);
             var passwordHandler = new LoginHandlers.PasswordChecker(cefConnect, doubleLoginChecker);
             var loginHandler = new LoginHandlers.LoginChecker(cefConnect, passwordHandler);
-            return loginHandler;
+            var existAccountChecker = new LoginHandlers.ExistAccountChecker(cefConnect, loginHandler);
+            return existAccountChecker;
         }
     }
 }

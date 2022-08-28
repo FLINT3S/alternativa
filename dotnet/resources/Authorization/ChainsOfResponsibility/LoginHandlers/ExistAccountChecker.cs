@@ -4,21 +4,21 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    public class PasswordChecker : AbstractHandler
+    public class ExistAccountChecker : AbstractHandler
     {
-        public PasswordChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public ExistAccountChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {
         }
 
         protected override bool CanHandle(Player player, Account? account, string login, string password) => 
-            !account!.IsPasswordsMatch(password);
+            account == null;
 
         protected override void _Handle(Player player, Account? account, string login, string password)
         {
             CefConnect.TriggerCef(
                     player,
                     AuthorizationEvents.LoginFailureToCef,
-                    "Wrong password"
+                    "Account not found"
                 );
         }
     }

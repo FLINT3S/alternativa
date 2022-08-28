@@ -38,7 +38,7 @@ namespace Authorization
 
         [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
         public void OnLoginSubmitFromCef(Player player, string login, string password) => 
-            loginHandlersChain.Handle(player, player.GetAccountFromDb()!, login, password);
+            loginHandlersChain.Handle(player, player.GetAccountFromDb(), login, password);
 
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]
         public void OnRegisterSubmitFromCef(Player player, string login, string password, string email) =>

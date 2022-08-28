@@ -10,10 +10,10 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
         }
 
-        protected override bool CanHandle(Player player, Account account, string login, string password) => 
-            account.Username != login;
+        protected override bool CanHandle(Player player, Account? account, string login, string password) => 
+            account!.Username != login;
 
-        protected override void _Handle(Player player, Account account, string login, string password)
+        protected override void _Handle(Player player, Account? account, string login, string password)
         {
             CefConnect.TriggerCef(
                     player,

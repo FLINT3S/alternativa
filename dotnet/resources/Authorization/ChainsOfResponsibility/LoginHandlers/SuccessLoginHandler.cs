@@ -11,11 +11,11 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
         }
 
-        protected override bool CanHandle(Player player, Account account, string login, string password) => true;
+        protected override bool CanHandle(Player player, Account? account, string login, string password) => true;
 
-        protected override void _Handle(Player player, Account account, string login, string password)
+        protected override void _Handle(Player player, Account? account, string login, string password)
         {
-            account.UpdateHwid(player.Serial);
+            account!.UpdateHwid(player.Serial);
             player.TriggerEvent(AuthorizationEvents.LoginSuccessToClient);
             player.SetAccount(account);
         }
