@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Linq;
 using OpenWeatherMap.Standard;
 using OpenWeatherMap.Standard.Enums;
 

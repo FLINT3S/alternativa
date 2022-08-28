@@ -36,30 +36,37 @@ namespace Weather
             while (true)
             {
                 var weather = weatherProvider.GetWeather();
-                if ((DateTime.Now.Month < 2 || DateTime.Now.Month > 11) && IsRaining(weather))
+                if (IsWinter() && IsRaining(weather))
                 {
-                    NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
+                    SetWeather(weather);
                     Thread.Sleep(600_000);
-                    NAPI.Task.Run(() => NAPI.World.SetWeather(GetRandomNotRainyWeather()));
+                    SetWeather(GetRandomNotRainyWeather());
                     Thread.Sleep(180_000);
                 }
-                else if ((DateTime.Now.Month < 2 || DateTime.Now.Month > 11) && !IsRaining(weather))
+                else if (IsWinter() && !IsRaining(weather))
                 {
-                    NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
+                    SetWeather(weather);
                     Thread.Sleep(3600_000);
                 }
                 else
                 {
-                    NAPI.Task.Run(() => NAPI.World.SetWeather(GetRandomWinterWeather()));
+                    SetWeather(GetRandomWinterWeather());
                     Thread.Sleep(3600_000);
                 }
             }
         }
 
+        private static bool IsWinter() => DateTime.Now.Month < 3 || DateTime.Now.Month == 12;
+
         private static bool IsRaining(GTANetworkAPI.Weather weather) =>
             weather == GTANetworkAPI.Weather.RAIN || 
             weather == GTANetworkAPI.Weather.CLEARING || 
             weather == GTANetworkAPI.Weather.THUNDER;
+
+        private static void SetWeather(GTANetworkAPI.Weather weather)
+        {
+            NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
+        }
 
         private static GTANetworkAPI.Weather GetRandomNotRainyWeather()
         {
