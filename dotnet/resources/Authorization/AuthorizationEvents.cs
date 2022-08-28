@@ -1,12 +1,10 @@
-﻿using AbstractResource;
-
-/*
+﻿/*
  * wiki: https://www.notion.so/Authorization-44a4b5377f2848c59d1772d89dde092d
  */
 
 namespace Authorization
 {
-    public abstract class AuthorizationEvents : AltAbstractResourceEvents
+    internal static class AuthorizationEvents
     {
         public const string LoginSubmitFromCef = "CEF:SERVER:Authorization:LoginSubmit";
 
@@ -14,27 +12,19 @@ namespace Authorization
 
         public const string PlayerReadyFromClient = "CLIENT:SERVER:Authorization:PlayerReady";
 
-        # region To Client Events
+        #region Username Check Events
+        
+        public const string CheckUsernameFromCef = "CEF:SERVER:Authorization:CheckUsername";
 
-        public const string PermanentlyBanned = "SERVER:CLIENT:Authorization:PermanentBan";
+        public const string IsUsernameTakenToCef = "SERVER:CEF:Authorization:IsUsernameTaken";
 
-        public const string TemporaryBanned = "SERVER:CLIENT:Authorization:TempBan";
+        #endregion
 
-        public const string FirstConnectionToClient = "SERVER:CLIENT:Authorization:FirstConnection";
+        #region Email Check Events
 
-        public const string NeedLoginToClient = "SERVER:CLIENT:Authorization:NeedLogin";
+        public const string CheckEmailFromCef = "CEF:SERVER:Authorization:CheckEmail";
 
-        public const string LoginSuccessToClient = "SERVER:CLIENT:Authorization:LoginSuccess";
-
-        public const string RegisterSuccessToClient = "SERVER:CLIENT:Authorization:RegisterFailure";
-
-        # endregion
-
-        # region To CEF events
-
-        public const string LoginFailureToCef = "SERVER:CEF:Authorization:LoginFailure";
-
-        public const string RegisterFailureToCef = "SERVER:CEF:Authorization:RegisterFailure";
+        public const string IsEmailTakenToCef = "SERVER:CEF:Authorization:IsEmailTaken";
 
         #endregion
     }

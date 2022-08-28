@@ -1,7 +1,7 @@
 ﻿using GTANetworkAPI;
 using NAPIExtensions;
 
-namespace Authorization.ChainOfResponsibility
+namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     public class HwidBansChecker : AbstractHandler
     {

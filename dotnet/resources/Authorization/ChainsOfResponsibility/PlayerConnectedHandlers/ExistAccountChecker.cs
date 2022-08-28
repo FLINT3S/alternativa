@@ -3,7 +3,7 @@ using Logger;
 using Logger.EventModels;
 using NAPIExtensions;
 
-namespace Authorization.ChainOfResponsibility
+namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     public class ExistAccountChecker : AbstractHandler
     {
