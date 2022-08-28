@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="OpenWeatherMap.Standard" Version="1.7.0" />
+      <PackageReference Include="OpenWeatherMap.Standard" Version="1.6.0" />
     </ItemGroup>
 </Project>    
     
