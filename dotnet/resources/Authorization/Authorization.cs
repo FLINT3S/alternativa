@@ -1,5 +1,4 @@
 using AbstractResource;
-using Authorization.ChainsOfResponsibility;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
