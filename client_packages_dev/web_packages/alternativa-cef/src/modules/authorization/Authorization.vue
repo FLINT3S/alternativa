@@ -1,7 +1,7 @@
 <template>
   <alt-overlay :is-overlay-open="isOverlayOpen">
     <router-view v-slot="{Component}">
-      <transition name="fade" mode="out-in">
+      <transition mode="out-in" name="fade">
         <component :is="Component"/>
       </transition>
     </router-view>
@@ -12,19 +12,28 @@
 import {defineComponent} from 'vue';
 import AltOverlay from "@/components/core/AltOverlay";
 import {openOverlayMixin} from "@/mixins/openOverlayMixin";
+import {altMpAuth} from "@/modules/authorization/data/altMpAuth";
 
 export default defineComponent({
   name: "authorization-root",
   mixins: [openOverlayMixin],
+  data() {
+    return {
+      moduleName: "Authorization",
+      altMp: altMpAuth
+    }
+  },
   components: {AltOverlay},
-  created() {
-    this.$router.push("/loading");
+  mounted() {
+    altMpAuth.on("AuthorizationInit", () => {
+      this.$router.push("/login/loader");
+    });
 
-    this.$altMp.on("LoginScreen", () => {
-      this.$router.push("/login")
+    altMpAuth.on("LoginScreen", () => {
+      this.$router.push("login")
     })
-    this.$altMp.on("WelcomeScreen", () => {
-      this.$router.push("/welcome")
+    altMpAuth.on("WelcomeScreen", () => {
+      this.$router.push("welcome")
     })
   }
 });

@@ -1,24 +1,31 @@
 <template>
   <alt-overlay :is-overlay-open="isOverlayOpen">
-    <router-view/>
+    <router-view v-slot="{Component}">
+      <transition mode="out-in" name="fade">
+        <component :is="Component"/>
+      </transition>
+    </router-view>
   </alt-overlay>
 </template>
 
 <script>
-import {defineComponent} from 'vue';
-import {openOverlayMixin} from "@/mixins/openOverlayMixin";
 import AltOverlay from "@/components/core/AltOverlay";
+import {openOverlayMixin} from "@/mixins/openOverlayMixin";
+import {altMpCM} from "@/modules/character-manager/data/altMpCM";
 
-export default defineComponent({
-  name: 'character-manager',
+export default {
+  name: "CharacterManager",
   components: {AltOverlay},
   mixins: [openOverlayMixin],
   data() {
-    return {};
-  },
-});
+    return {
+      moduleName: "CharacterManager",
+      altMp: altMpCM
+    }
+  }
+}
 </script>
 
-<style lang="scss">
+<style scoped>
 
 </style>

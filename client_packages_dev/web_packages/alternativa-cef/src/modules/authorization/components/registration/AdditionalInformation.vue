@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="additional-info">
     <h4>Прочая информация</h4>
 
     <alt-input
@@ -52,6 +52,8 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.additional-info {
+  height: 200px;
+}
 </style>

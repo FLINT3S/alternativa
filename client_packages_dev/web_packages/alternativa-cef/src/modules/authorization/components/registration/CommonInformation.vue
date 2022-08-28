@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="common-info">
     <h4>Основная информация</h4>
 
     <div class="mt-3">
@@ -9,8 +9,12 @@
           class="w-100"
           placeholder="Логин"
           show-validation-tooltip
+          :debounce="500"
+          :pattern="/^[0-9A-z\.\-_]*$/"
+          :input-state="loginInputState"
+          :caption="loginInputCaption"
+          show-caption-on-focus
           stretched
-          @enter="nextStep"
       />
     </div>
 
@@ -25,8 +29,11 @@
       <alt-input
           v-model="passwordConfirmation"
           class="mt-2"
+          :input-state="passwordConfirmationState"
           placeholder="Ещё раз пароль"
           stretched
+          show-error-on-focus
+          show-valid-on-focus
           type="password"
       ></alt-input>
 
@@ -58,7 +65,8 @@ export default defineComponent({
   components: {AltInput, AltButton},
   data() {
     return {
-      passwordConfirmation: ""
+      passwordConfirmation: "",
+      isLoginTaken: false,
     }
   },
   setup() {
@@ -99,24 +107,22 @@ export default defineComponent({
         })
       }
 
-      if (!isNaN(parseInt(this.registrationData?.password?.replace(/\D/g, '')))) {
-        res.push({
-          icon: "check",
-          status: "ok",
-          text: "Пароль содержит цифры"
-        })
-      } else {
-        res.push({
-          icon: "priority_high",
-          status: "warn",
-          text: "Пароль не содержит цифры"
-        })
-      }
-
       return res
     },
     passwordValid() {
       return this.passwordChecks.map(check => check.status !== "err").every(Boolean)
+    },
+    passwordConfirmationState() {
+      if (!this.registrationData.password) return 'default'
+      return this.passwordConfirmation === this.registrationData.password ? 'valid' : 'invalid'
+    },
+    loginInputState() {
+      if (this.v$.registrationData.login.$invalid || !this.registrationData.login) return 'default'
+      return this.isLoginTaken ? 'invalid' : 'valid'
+    },
+    loginInputCaption() {
+      if (this.v$.registrationData.login.$invalid || !this.registrationData.login) return ""
+      return this.isLoginTaken ? "Логин занят" : "Логин свободен"
     }
   },
   validations() {

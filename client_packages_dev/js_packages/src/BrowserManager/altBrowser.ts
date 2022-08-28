@@ -1,4 +1,5 @@
 import {browserManager} from "./browserManager";
+import {logger} from "../utils/logger";
 
 export enum AltBrowserLevel {
   DEFAULT,
@@ -71,46 +72,62 @@ export class AltBrowser {
   }
 
   execEvent(event: string, ...data: Array<string | number>) {
+    logger.log(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
     this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
   }
 
-  execClient(eventName: string, ...data: Array<string | number>) {
-    this.execEvent(`CLIENT:CEF:${this.name}:${eventName}`, ...data)
+  execClient(moduleName: string, eventName: string, ...data: Array<string | number>) {
+    this.execEvent(`CLIENT:CEF:${moduleName}:${eventName}`, ...data)
+  }
+
+  goTo(path: string) {
+    this.execEvent("CLIENT:CEF:Root:GoTo", path)
   }
 }
 
-export class AltOverlayBrowser extends AltBrowser {
-  private isOverlayOpened: boolean = false
-  private closeTimer: NodeJS.Timeout
+export const altBrowser = new AltBrowser("http://package/web_packages/index.html", "alt")
+altBrowser.show()
 
-  constructor(url: string, name: string, options?: object) {
-    super(url, name, options)
+export class ModuleBrowser {
+  public moduleName: string;
+  public browser: AltBrowser = altBrowser;
+  private isOverlayOpen: boolean;
+  private readonly path: string;
+
+  constructor(moduleName: string, path: string) {
+    this.moduleName = moduleName
+    this.path = path
+  }
+
+  setAsActive() {
+    this.browser.goTo(this.path)
+  }
+
+  execEvent(eventString: string, ...data: Array<string | number>) {
+    this.browser.execEvent(eventString, ...data)
+  }
+
+  execClient(eventName: string, ...data: Array<string | number>) {
+    this.browser.execClient(this.moduleName, eventName, ...data)
   }
 
   openOverlay() {
-    clearTimeout(this.closeTimer)
-    this.show()
-
-    this.isOverlayOpened = true
-    this.execEvent(`CLIENT:CEF:${this.name}:onOpenOverlay`)
+    this.setAsActive()
+    this.isOverlayOpen = true
+    this.execClient("onOpenOverlay")
   }
 
-  closeOverlay(noHideCursorForce: boolean = false): Promise<boolean> {
-    this.isOverlayOpened = false
-    this.execEvent(`CLIENT:CEF:${this.name}:onCloseOverlay`)
-
-
-    return new Promise((resolve) => {
-      this.closeTimer = setTimeout(() => {
-          this.hide(noHideCursorForce)
-          resolve(true)
-        },
-        this.options.overlayCloseTimeout
-      )
-    })
+  closeOverlay() {
+    this.isOverlayOpen = false
+    this.execClient("onCloseOverlay")
   }
 
   toggleOverlay() {
-    this.isOverlayOpened ? this.closeOverlay() : this.openOverlay()
+    if (this.isOverlayOpen) {
+      this.closeOverlay()
+    } else {
+      this.openOverlay()
+    }
   }
 }
+

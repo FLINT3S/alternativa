@@ -1,5 +1,5 @@
 <template>
-  <div class="step" :class="{'active': isActive}">
+  <div class="step" :class="{'active': isActive}" @click="$emit('click')">
     <span class="material-icons-round">{{ icon }}</span>
   </div>
   <div v-if="nextStepExists" class="next-line mx-2 w-100" :class="{'active': nextActive}"></div>

@@ -50,8 +50,8 @@ export class altMP extends ModuleDependent {
    *
    * Добавляет обработчик события от клиента
    * */
-  on(eventName: string, callback: (...data: any) => void, eventFrom: eventFrom = "CLIENT") {
-    const es = new EventString(eventFrom, "CEF", this.moduleName, eventName)
+  on(eventName: string, callback: (...data: any) => void, moduleName: string = null, eventFrom: eventFrom = "CLIENT") {
+    const es = new EventString(eventFrom, "CEF", moduleName || this.moduleName, eventName)
     new AltEvent(es, AltEventType.REGISTER_LISTENER)
 
     const currentListeners = window.altListeners.get(es.eventString)
@@ -67,8 +67,8 @@ export class altMP extends ModuleDependent {
    *
    * Добавляет обработчик события сервера
    * */
-  onServer(eventName: string, callback: (...data: any) => void) {
-    this.on(eventName, callback, "SERVER")
+  onServer(eventName: string, callback: (...data: any) => void, moduleName: string = null) {
+    this.on(eventName, callback, moduleName, "SERVER")
   }
 
   /**
