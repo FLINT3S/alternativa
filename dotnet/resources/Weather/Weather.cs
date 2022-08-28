@@ -67,6 +67,14 @@ namespace Weather
                 GTANetworkAPI.Weather.FOGGY,
                 GTANetworkAPI.Weather.OVERCAST,
                 GTANetworkAPI.Weather.NEUTRAL,
+            };
+            return weathersId[RandomNumberGenerator.GetInt32(weathersId.Length)];
+        }
+
+        private static GTANetworkAPI.Weather GetRandomWinterWeather()
+        {
+            GTANetworkAPI.Weather[] weathersId =
+            {
                 GTANetworkAPI.Weather.SNOW,
                 GTANetworkAPI.Weather.BLIZZARD,
                 GTANetworkAPI.Weather.SNOWLIGHT,

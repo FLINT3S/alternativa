@@ -50,12 +50,12 @@ namespace Weather.WeatherProviders
                 
                 case 51:
                 case 60:
-                    return GTANetworkAPI.Weather.SNOWLIGHT;
+                    // return GTANetworkAPI.Weather.SNOWLIGHT;
                 
                 case 61:
-                    return GTANetworkAPI.Weather.SNOW;
+                    // return GTANetworkAPI.Weather.SNOW;
                 case 62:
-                    return GTANetworkAPI.Weather.BLIZZARD;
+                    // return GTANetworkAPI.Weather.BLIZZARD;
                 
                 case 70:
                 case 71:
