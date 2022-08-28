@@ -82,9 +82,7 @@ namespace Authorization
             var account = player.GetAccount();
 
             if (account == null)
-            {
                 player.SendChatMessage("Ты не авторизован");
-            }
             else
             {
                 account.UpdateEmail(newEmail);
@@ -93,10 +91,6 @@ namespace Authorization
                     );
             }
         }
-
-        [Command("register")]
-        public void CMDOnRegister(Player player, string login, string password, string email) => 
-            OnRegisterSubmitFromCef(player, login, password, email);
 
         #endregion
     }
