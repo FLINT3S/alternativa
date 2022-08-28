@@ -22,5 +22,15 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         protected abstract bool CanHandle(Player player);
 
         protected abstract void _Handle(Player player);
+
+        public static AbstractHandler GetChain()
+        {
+            var loginStatusSender = new LoginStatusSender();
+            var temporaryBansChecker = new TemporaryBanChecker(loginStatusSender);
+            var permanentBansChecker = new PermanentBanChecker(temporaryBansChecker);
+            var existAccountChecker = new ExistAccountChecker(permanentBansChecker);
+            var hwidBansChecker = new HwidBansChecker(existAccountChecker);
+            return hwidBansChecker;
+        }
     }
 }

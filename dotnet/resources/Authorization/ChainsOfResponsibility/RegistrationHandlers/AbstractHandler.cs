@@ -26,5 +26,14 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         protected abstract bool CanHandle(Player player, string login, string password, string email);
 
         protected abstract void _Handle(Player player, string login, string password, string email);
+
+        public static AbstractHandler GetChain(CefConnect cefConnect)
+        {
+            var successRegistrationHandler = new SuccessRegistrationHandler(cefConnect);
+            var emailTakenChecker = new EmailTakenChecker(cefConnect, successRegistrationHandler);
+            var usernameTakenHandler = new UsernameTakenChecker(cefConnect, emailTakenChecker);
+            var hasAccountHandler = new ExistAccountChecker(cefConnect, usernameTakenHandler);
+            return hasAccountHandler;
+        }
     }
 }
