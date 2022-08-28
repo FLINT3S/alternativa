@@ -1,4 +1,5 @@
-﻿using AbstractResource;
+﻿using System;
+using AbstractResource;
 
 namespace Authorization.ChainsOfResponsibility
 {
@@ -6,6 +7,7 @@ namespace Authorization.ChainsOfResponsibility
     {
         public static void SetChain(ref PlayerConnectedHandlers.AbstractHandler field)
         {
+            if (field == null) throw new ArgumentNullException(nameof(field));
             var loginStatusSender = new PlayerConnectedHandlers.LoginStatusSender();
             var temporaryBansChecker = new PlayerConnectedHandlers.TemporaryBanChecker(loginStatusSender);
             var permanentBansChecker = new PlayerConnectedHandlers.PermanentBanChecker(temporaryBansChecker);
@@ -16,6 +18,7 @@ namespace Authorization.ChainsOfResponsibility
 
         public static void SetChain(ref RegistrationHandlers.AbstractHandler field, CefConnect cefConnect)
         {
+            if (field == null) throw new ArgumentNullException(nameof(field));
             var successRegistrationHandler = new RegistrationHandlers.SuccessRegistrationHandler(cefConnect);
             var emailTakenChecker = new RegistrationHandlers.EmailTakenChecker(cefConnect, successRegistrationHandler);
             var usernameTakenHandler = new RegistrationHandlers.UsernameTakenChecker(cefConnect, emailTakenChecker);
@@ -25,6 +28,7 @@ namespace Authorization.ChainsOfResponsibility
 
         public static void SetChain(ref LoginHandlers.AbstractHandler field, CefConnect cefConnect)
         {
+            if (field == null) throw new ArgumentNullException(nameof(field));
             var successLoginHandler = new LoginHandlers.SuccessLoginHandler(cefConnect);
             var doubleLoginChecker = new LoginHandlers.DoubleLoginChecker(cefConnect, successLoginHandler);
             var passwordHandler = new LoginHandlers.PasswordChecker(cefConnect, doubleLoginChecker);
