@@ -33,7 +33,8 @@ namespace Authorization
         // Здесь ивент от клиента (а не PlayerConnected), о том, что он готов к логину
         // (посылается после загрузки основных браузеров)
         [RemoteEvent(AuthorizationEvents.PlayerReadyFromClient)]
-        private void OnPlayerConnectedAndReady(Player player) => connectHandlersChain.Handle(player);
+        private void OnPlayerConnectedAndReady(Player player) => 
+            connectHandlersChain.Handle(player);
 
         [RemoteEvent(AuthorizationEvents.LoginSubmitFromCef)]
         public void OnLoginSubmitFromCef(Player player, string login, string password) => 
