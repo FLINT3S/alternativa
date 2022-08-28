@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade">
+  <transition name="fade" v-if="overlayBackdrop">
     <div class="overlay-backdrop" v-if="isOverlayOpen">
     </div>
   </transition>
@@ -19,6 +19,10 @@ export default defineComponent({
     isOverlayOpen: {
       type: Boolean,
       default: false,
+    },
+    overlayBackdrop: {
+      type: Boolean,
+      default: true,
     },
     contentAlign: {
       type: String,

@@ -1,26 +1,21 @@
 <template>
-  <alt-overlay :is-overlay-open="isOverlayOpen">
-    <router-view v-slot="{Component}">
-      <transition mode="out-in" name="fade">
-        <component :is="Component"/>
-      </transition>
-    </router-view>
-  </alt-overlay>
+  <router-view v-slot="{Component}">
+    <transition mode="out-in" name="fade">
+      <component :is="Component"/>
+    </transition>
+  </router-view>
 </template>
 
 <script>
 import {defineComponent} from 'vue';
 import AltOverlay from "@/components/core/AltOverlay";
-import {openOverlayMixin} from "@/mixins/openOverlayMixin";
 import {altMpAuth} from "@/modules/authorization/data/altMpAuth";
 
 export default defineComponent({
   name: "authorization-root",
-  mixins: [openOverlayMixin],
   data() {
     return {
       moduleName: "Authorization",
-      altMp: altMpAuth
     }
   },
   components: {AltOverlay},

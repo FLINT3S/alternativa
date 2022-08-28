@@ -10,6 +10,7 @@ import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "StepperStep",
+  emits: ["click"],
   props: {
     name: {
       type: String,

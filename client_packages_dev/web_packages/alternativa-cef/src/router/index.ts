@@ -16,7 +16,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "login",
-        redirect: "login/loader",
+        redirect: "/login/loader",
         component: Authorization,
         children: [
           {

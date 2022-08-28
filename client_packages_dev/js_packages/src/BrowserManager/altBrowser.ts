@@ -1,5 +1,6 @@
 import {browserManager} from "./browserManager";
 import {logger} from "../utils/logger";
+import Timer = NodeJS.Timer;
 
 export enum AltBrowserLevel {
   DEFAULT,
@@ -18,6 +19,7 @@ export class AltBrowser {
   public name: string;
   public options: AltBrowserOptions = {toggleCursor: false, overlayCloseTimeout: 500, level: AltBrowserLevel.DEFAULT}
   public loaded: boolean;
+  private overlayTimeout: Timer;
 
   constructor(url: string, name: string, options?: object) {
     this.instance = mp.browsers.new(url)
@@ -43,6 +45,14 @@ export class AltBrowser {
     this.instance.url = value
   }
 
+  set overlayBackdrop(show: boolean) {
+    if (show) {
+      this.execEvent("CLIENT:CEF:Root:turnOnBackdrop")
+    } else {
+      this.execEvent("CLIENT:CEF:Root:turnOffBackdrop")
+    }
+  }
+
   getInstance() {
     return this.instance
   }
@@ -63,20 +73,36 @@ export class AltBrowser {
     this.active = false
   }
 
-  toggle() {
-    if (this.active) {
-      this.hide()
-    } else {
+  openOverlay(): Promise<boolean> {
+    clearTimeout(this.overlayTimeout)
+
+    return new Promise((resolve) => {
+      this.execEvent("CLIENT:CEF:Root:onOpenOverlay")
       this.show()
-    }
+      this.overlayTimeout = setTimeout(() => {
+        resolve(true)
+      }, this.options.overlayCloseTimeout)
+    })
   }
 
-  execEvent(event: string, ...data: Array<string | number>) {
+  closeOverlay(forceHide: boolean = false) {
+    return new Promise((resolve) => {
+      this.execEvent("CLIENT:CEF:Root:onCloseOverlay")
+      this.overlayTimeout = setTimeout(() => {
+        if (forceHide) {
+          this.hide()
+        }
+        resolve(true)
+      }, this.options.overlayCloseTimeout)
+    })
+  }
+
+  execEvent(event: string, ...data: Array<string | number | boolean>) {
     logger.log(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
     this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
   }
 
-  execClient(moduleName: string, eventName: string, ...data: Array<string | number>) {
+  execClient(moduleName: string, eventName: string, ...data: Array<string | number | boolean>) {
     this.execEvent(`CLIENT:CEF:${moduleName}:${eventName}`, ...data)
   }
 
@@ -112,14 +138,11 @@ export class ModuleBrowser {
   }
 
   openOverlay() {
-    this.setAsActive()
-    this.isOverlayOpen = true
-    this.execClient("onOpenOverlay")
+    this.browser.openOverlay()
   }
 
   closeOverlay() {
-    this.isOverlayOpen = false
-    this.execClient("onCloseOverlay")
+    this.browser.closeOverlay()
   }
 
   toggleOverlay() {

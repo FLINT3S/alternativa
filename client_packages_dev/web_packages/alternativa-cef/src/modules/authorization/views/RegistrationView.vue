@@ -47,7 +47,6 @@ import {altMpAuth} from "@/modules/authorization/data/altMpAuth";
 export default defineComponent({
   name: 'RegistrationView',
   components: {PolicyConfirm, AdditionalInformation, CommonInformation, StepperStep, AuthorizationCard, AltLink},
-  inject: ['altMp'],
   setup() {
     return {v$: useVuelidate()}
   },

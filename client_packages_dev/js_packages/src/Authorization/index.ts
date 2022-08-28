@@ -50,15 +50,5 @@ mp.keys.bind(VirtualKey.VK_F5, true, () => {
 })
 
 mp.events.add(AuthorizationEvents.LOGIN_SUCCESS_FROM_SERVER, () => {
-  authorizationBrowser.closeOverlay()
-  loginCam.destroy();
-
-  mp.game.cam.renderScriptCams(false, false, 0, false, false);
-  mp.players.local.freezePosition(false);
-  mp.game.ui.setMinimapVisible(false);
-  mp.gui.chat.activate(true);
-  mp.gui.chat.show(true);
-  mp.game.ui.displayRadar(true);
-
-  mp.events.call("moveSkyCamera", mp.players.local, "down", 1, true)
+  mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
 })

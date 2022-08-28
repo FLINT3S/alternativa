@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import App from './modules/AltRoot.vue'
+import App from './modules/AltApp.vue'
 import router from './router'
 import store from './store'
 import "@/assets/style/bootstrap/bootstrap-utilities.min.css"
