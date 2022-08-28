@@ -37,7 +37,8 @@ namespace Database.Models
                 return AltContext
                     .Instance
                     .Accounts
-                    .Select(a => new { a.Username }).Any(a => a.Username == username);
+                    .Select(a => a.Username)
+                    .Any(u => u == username);
             }
         }
 
@@ -55,7 +56,11 @@ namespace Database.Models
         {
             lock (AltContext.Locker)
             {
-                return AltContext.Instance.Accounts.Select(a => new { a.Email }).Any(a => a.Email == email);
+                return AltContext
+                    .Instance
+                    .Accounts
+                    .Select(a => a.Email)
+                    .Any(e => e == email);
             }
         }
 
