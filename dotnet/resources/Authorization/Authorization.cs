@@ -41,17 +41,17 @@ namespace Authorization
         private RegistrationHandlers.AbstractHandler GetRegistrationChain()
         {
             var successRegistrationHandler = new RegistrationHandlers.SuccessRegistrationHandler(CefConnect, null);
-            var usernameTakenHandler = new RegistrationHandlers.UsernameTakenHandler(CefConnect, successRegistrationHandler);
-            var hasAccountHandler = new RegistrationHandlers.HasAccountHandler(CefConnect, usernameTakenHandler);
+            var usernameTakenHandler = new RegistrationHandlers.UsernameTakenChecker(CefConnect, successRegistrationHandler);
+            var hasAccountHandler = new RegistrationHandlers.HasAccountChecker(CefConnect, usernameTakenHandler);
             return hasAccountHandler;
         }
 
         private LoginHandlers.AbstractHandler GetLoginChain()
         {
-            var successLoginHandler = new LoginHandlers.SuccessLoginHandler(CefConnect, null);
-            // todo - защита от логина с 2 устройств
-            var passwordHandler = new LoginHandlers.PasswordHandler(CefConnect, successLoginHandler);
-            var loginHandler = new LoginHandlers.LoginHandler(CefConnect, passwordHandler);
+            var successLoginHandler = new LoginHandlers.SuccessLoginHandler(null);
+            var doubleLoginChecker = new LoginHandlers.DoubleLoginChecker(CefConnect, successLoginHandler);
+            var passwordHandler = new LoginHandlers.PasswordChecker(CefConnect, doubleLoginChecker);
+            var loginHandler = new LoginHandlers.LoginChecker(CefConnect, passwordHandler);
             return loginHandler;
         }
 

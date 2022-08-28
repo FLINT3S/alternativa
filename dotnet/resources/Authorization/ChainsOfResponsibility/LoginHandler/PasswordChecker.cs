@@ -4,11 +4,11 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandler
 {
-    public class PasswordHandler : AbstractHandler
+    public class PasswordChecker : AbstractHandler
     {
         private readonly CefConnect cefConnect;
 
-        public PasswordHandler(CefConnect cefConnect, AbstractHandler? next) : base(next)
+        public PasswordChecker(CefConnect cefConnect, AbstractHandler? next) : base(next)
         {
             this.cefConnect = cefConnect;
         }
@@ -21,7 +21,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandler
             cefConnect.TriggerCef(
                     player,
                     AuthorizationEvents.LoginFailureToCef,
-                    $"Неверный пароль для пользователя {account.Username}"
+                    "Wrong password"
                 );
         }
     }

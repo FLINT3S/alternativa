@@ -1,15 +1,14 @@
 ﻿using AbstractResource;
-using Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
 using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    public class HasAccountHandler : AbstractHandler
+    public class HasAccountChecker : AbstractHandler
     {
         private readonly CefConnect cefConnect;
         
-        public HasAccountHandler(CefConnect cefConnect, AbstractHandler? next) : base(next)
+        public HasAccountChecker(CefConnect cefConnect, AbstractHandler? next) : base(next)
         {
             this.cefConnect = cefConnect;
         }
@@ -22,8 +21,8 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
             cefConnect.TriggerCef(
                     player,
                     AuthorizationEvents.RegisterFailureToCef,
-                    "Пользователь с таким Soсial Club уже зарегистрирован"
-                );;
+                    "User with this Social Club ID already exist"
+                );
         }
     }
 }

@@ -4,11 +4,11 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    public class UsernameTakenHandler : AbstractHandler
+    public class UsernameTakenChecker : AbstractHandler
     {
         private readonly CefConnect cefConnect;
 
-        public UsernameTakenHandler(CefConnect cefConnect, AbstractHandler? next) : base(next)
+        public UsernameTakenChecker(CefConnect cefConnect, AbstractHandler? next) : base(next)
         {
             this.cefConnect = cefConnect;
         }
@@ -21,7 +21,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
             cefConnect.TriggerCef(
                     player,
                     AuthorizationEvents.RegisterFailureToCef,
-                    "Пользователь с таким логином зарегистрирован"
+                    "User with this login already exist"
                 );
         }
     }

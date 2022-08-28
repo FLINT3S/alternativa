@@ -1,5 +1,4 @@
-﻿using AbstractResource;
-using Database.Models;
+﻿using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 
@@ -7,11 +6,8 @@ namespace Authorization.ChainsOfResponsibility.LoginHandler
 {
     public class SuccessLoginHandler : AbstractHandler
     {
-        private readonly CefConnect cefConnect;
-
-        public SuccessLoginHandler(CefConnect cefConnect, AbstractHandler? next) : base(next)
+        public SuccessLoginHandler(AbstractHandler? next) : base(next)
         {
-            this.cefConnect = cefConnect;
         }
 
         protected override bool CanHandle(Player player, Account account, string login, string password) => true;

@@ -1,5 +1,4 @@
-﻿using Authorization.ChainsOfResponsibility.RegistrationHandlers;
-using GTANetworkAPI;
+﻿using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers

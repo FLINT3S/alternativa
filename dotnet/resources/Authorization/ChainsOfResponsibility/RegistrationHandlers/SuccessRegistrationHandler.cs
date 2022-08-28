@@ -19,7 +19,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         {
             var account = new Account(player.SocialClubId, login, password, email);
             account.AddToContext();
-            cefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Успех!");
+            cefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Success!");
         }
     }
 }

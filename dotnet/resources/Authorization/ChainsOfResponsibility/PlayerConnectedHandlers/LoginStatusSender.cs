@@ -1,5 +1,4 @@
-﻿using Authorization.ChainsOfResponsibility.RegistrationHandlers;
-using GTANetworkAPI;
+﻿using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
@@ -15,8 +14,11 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         protected override void _Handle(Player player)
         {
             var account = player.GetAccountFromDb()!;
-            player.SetAccount(account!);
+            player.SetAccount(account);
             account.OnConnect(player.Address, player.Serial);
+
+            #region Character Actions
+            // todo вынести весь регион в CharacterManager
             
             var character = player.GetActiveCharacter();
             
@@ -25,10 +27,11 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
             
             if (character?.LastPosition != null)
                 player.Position = character.LastPosition;
+            
+            #endregion
 
-            player.TriggerEvent(
-                    account.IsSameLastHwid(player.Serial) ?
-                        AuthorizationEvents.LoginSuccessToClient : AuthorizationEvents.NeedLoginToClient
+            player.TriggerEvent(account.IsSameLastHwid(player.Serial) ?
+                    AuthorizationEvents.LoginSuccessToClient : AuthorizationEvents.NeedLoginToClient
                 );
         }
     }

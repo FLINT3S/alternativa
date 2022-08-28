@@ -1,5 +1,4 @@
-﻿using Authorization.ChainsOfResponsibility.RegistrationHandlers;
-using GTANetworkAPI;
+﻿using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 using NAPIExtensions;
