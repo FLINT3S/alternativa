@@ -36,5 +36,10 @@ namespace AbstractResource
         {
             player.TriggerEvent("SERVER:CEF", browserName, eventString, args);
         }
+        
+        public void TriggerCefError(Player player, params object[] args)
+        {
+            player.TriggerEvent("SERVER:CEF", "Root", "ShowErrorMessage", args);
+        }
     }
 }
