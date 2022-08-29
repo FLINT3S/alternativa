@@ -3,6 +3,6 @@ import "./utils/virtualKeys.ts"
 import "./utils/formatters/index.ts"
 
 import "./CursorManager/index.ts"
-import "./Authorization/index.ts"
-import "./CharacterManager/index.ts"
+import "./Authorization/authorization.ts"
+import "./CharacterManager/characterManager.ts"
 import "./AdminPanel/index.ts"

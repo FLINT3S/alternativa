@@ -6,7 +6,7 @@ import {logger} from "../utils/logger";
 import {browserManager} from "../BrowserManager/browserManager";
 import {showCursor} from "../CursorManager/index";
 
-let loginCam
+export let loginCam
 let authorizationBrowser = new ModuleBrowser("Authorization", "/login/loader")
 
 mp.events.add("playerReady", () => {

@@ -32,10 +32,10 @@ namespace TestResource
         {
             var character = player.GetActiveCharacter();
             character!.OnDisconnect(player.Position);
-            
+
             var account = player.GetAccount();
             account!.OnDisconnect();
-            
+
             LocalContext.EntityLists.OnlinePlayers.Remove(account);
         }
 
@@ -46,6 +46,30 @@ namespace TestResource
             NAPI.Task.WaitForMainThread(1000);
             player.Health -= (int) Math.Round(new Random().NextDouble() * 20);
             return "Байты получены";
+        }
+
+        [Command("testcreator")]
+        public void TestCreator(Player player)
+        {
+            player.Position = new Vector3(402.8664, -996.4108, -99.00027);
+        }
+
+        [Command("tp")]
+        public void Teleport(Player player, float x, float y, float z)
+        {
+            player.Position = new Vector3(x, y, z);
+        }
+
+        [Command("testcreator")]
+        public void TestCreator(Player player)
+        {
+            player.Position = new Vector3(402.8664, -996.4108, -99.00027);
+        }
+
+        [Command("tp")]
+        public void Teleport(Player player, float x, float y, float z)
+        {
+            player.Position = new Vector3(x, y, z);
         }
     }
 }

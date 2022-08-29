@@ -22,11 +22,11 @@ export class altMP extends ModuleDependent {
    *
    * Отправляет событие клиенту
    * */
-  triggerClient(eventName: string, data: object) {
+  triggerClient(eventName: string, ...data?: Array<number|string>) {
     const es = new EventString("CEF", "CLIENT", this.moduleName, eventName)
     new AltEvent(es, AltEventType.SEND, data)
 
-    mp.trigger(eventString, data)
+    mp.trigger(es.eventString, ...data)
   }
 
   /**
