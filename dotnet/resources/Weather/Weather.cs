@@ -40,7 +40,7 @@ namespace Weather
                 {
                     SetWeather(weather);
                     Thread.Sleep(600_000);
-                    SetWeather(GetRandomNotRainyWeather());
+                    SetWeather(weatherProvider.GetNotRainyWeather());
                     Thread.Sleep(180_000);
                 }
                 else if (IsWinter() && !IsRaining(weather))
@@ -50,7 +50,7 @@ namespace Weather
                 }
                 else
                 {
-                    SetWeather(GetRandomWinterWeather());
+                    SetWeather(weatherProvider.GetWinterWeather());
                     Thread.Sleep(3600_000);
                 }
             }
@@ -68,32 +68,6 @@ namespace Weather
             NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
             NAPI.Task.Run(() => 
                 NAPI.ClientEvent.TriggerClientEventForAll(WeatherEvents.SetWeatherToClient, weather.ToString()));
-        }
-
-        private static GTANetworkAPI.Weather GetRandomNotRainyWeather()
-        {
-            GTANetworkAPI.Weather[] weathersId = {
-                GTANetworkAPI.Weather.EXTRASUNNY,
-                GTANetworkAPI.Weather.CLEAR,
-                GTANetworkAPI.Weather.CLOUDS,
-                GTANetworkAPI.Weather.SMOG,
-                GTANetworkAPI.Weather.FOGGY,
-                GTANetworkAPI.Weather.OVERCAST,
-                GTANetworkAPI.Weather.NEUTRAL,
-            };
-            return weathersId[RandomNumberGenerator.GetInt32(weathersId.Length)];
-        }
-
-        private static GTANetworkAPI.Weather GetRandomWinterWeather()
-        {
-            GTANetworkAPI.Weather[] weathersId =
-            {
-                GTANetworkAPI.Weather.XMAS,
-                GTANetworkAPI.Weather.SNOWLIGHT,
-                GTANetworkAPI.Weather.SNOW,
-                GTANetworkAPI.Weather.BLIZZARD,
-            };
-            return weathersId[RandomNumberGenerator.GetInt32(weathersId.Length)];
         }
 
         private static void TimeUpdatingProcess()
