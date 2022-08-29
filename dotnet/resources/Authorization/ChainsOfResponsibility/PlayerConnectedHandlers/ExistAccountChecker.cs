@@ -24,7 +24,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
                             player.GetPlayerDataString()
                         )
                 );
-            ClientConnect.Trigger(player, AuthorizationEvents.FirstConnection);
+            ClientConnect.Trigger(player, PlayerConnectedEvents.FirstConnection);
         }
     }
 }

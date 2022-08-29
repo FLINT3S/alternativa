@@ -20,7 +20,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         {
             var account = new Account(player.SocialClubId, login, password, email);
             account.AddToContext();
-            ClientConnect.Trigger(player, AuthorizationEvents.RegisterSuccess, "Success!");
+            ClientConnect.Trigger(player, RegistrationEvents.RegisterSuccess, "Success!");
         }
     }
 }

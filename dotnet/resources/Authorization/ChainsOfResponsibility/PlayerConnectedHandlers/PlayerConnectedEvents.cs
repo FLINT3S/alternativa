@@ -1,6 +1,6 @@
 ﻿namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    internal static class AuthorizationEvents
+    internal static class PlayerConnectedEvents
     {
         public const string FirstConnection = "FirstConnection";
 

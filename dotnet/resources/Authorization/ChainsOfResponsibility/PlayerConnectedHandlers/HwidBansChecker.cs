@@ -15,7 +15,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         protected override void _Handle(Player player)
         {
             var hwidBan = player.GetBanByHwid()!;
-            ClientConnect.Trigger(player, AuthorizationEvents.PermanentlyBanned, hwidBan.Reason, hwidBan.Description);
+            ClientConnect.Trigger(player, PlayerConnectedEvents.PermanentlyBanned, hwidBan.Reason, hwidBan.Description);
         }
     }
 }

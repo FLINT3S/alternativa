@@ -1,6 +1,6 @@
 ﻿namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    internal static class AuthorizationEvents
+    internal static class RegistrationEvents
     {
         public const string RegisterSuccess = "RegisterSuccess";
 

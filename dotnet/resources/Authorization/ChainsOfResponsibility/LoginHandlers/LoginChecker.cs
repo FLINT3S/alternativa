@@ -21,7 +21,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
             CefConnect.Trigger(
                     player,
-                    AuthorizationEvents.LoginFailure,
+                    LoginEvents.LoginFailure,
                     "Wrong login"
                 );
         }

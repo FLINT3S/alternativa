@@ -15,7 +15,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         protected override void _Handle(Player player)
         {
             var ban = player.GetAccountFromDb()!.PermanentBan!;
-            ClientConnect.Trigger(player, AuthorizationEvents.PermanentlyBanned, ban.Reason, ban.Description);
+            ClientConnect.Trigger(player, PlayerConnectedEvents.PermanentlyBanned, ban.Reason, ban.Description);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    internal static class AuthorizationEvents
+    internal static class LoginEvents
     {
         public const string LoginFailure = "LoginFailure";
 

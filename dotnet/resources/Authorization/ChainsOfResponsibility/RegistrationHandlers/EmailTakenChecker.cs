@@ -21,7 +21,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         {
             CefConnect.Trigger(
                     player,
-                    AuthorizationEvents.RegisterFailure,
+                    RegistrationEvents.RegisterFailure,
                     "User with this email already exist"
                 );
         }

@@ -35,7 +35,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
             ClientConnect.Trigger(
                     player,
-                    account.IsSameLastHwid(player.Serial) ? AuthorizationEvents.LoginSuccess : AuthorizationEvents.NeedLogin
+                    account.IsSameLastHwid(player.Serial) ? PlayerConnectedEvents.LoginSuccess : PlayerConnectedEvents.NeedLogin
                 );
         }
     }

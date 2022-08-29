@@ -20,7 +20,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         protected override void _Handle(Player player, Account? account, string login, string password)
         {
             account!.UpdateHwid(player.Serial);
-            ClientConnect.Trigger(player, AuthorizationEvents.LoginSuccess, "Success!");
+            ClientConnect.Trigger(player, LoginEvents.LoginSuccess, "Success!");
             player.SetAccount(account);
         }
     }
