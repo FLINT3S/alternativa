@@ -37,7 +37,7 @@ namespace AbstractResource
         protected EventString GetEsFromAttr(MethodBase? method)
         {
             var attr = (RemoteEventAttribute)method!.GetCustomAttributes(typeof(RemoteEventAttribute), true)[0];
-            var es = AltAbstractResourceEvents.GetEs(attr.RemoteEventString);
+            var es = new EventString(attr.RemoteEventString);
             AltLogger.Instance.LogDevelopment(new AltEvent(this, es.Event, es.ToString()));
 
             return es;
