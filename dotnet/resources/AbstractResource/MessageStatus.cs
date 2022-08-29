@@ -2,10 +2,10 @@
 {
     public enum MessageStatus
     {
-        ERROR, 
+        Error, 
         
-        WARNING, 
+        Warning, 
         
-        SUCCESS
+        Success
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
+﻿using AbstractResource;
+
+namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     internal static class AuthorizationEvents
     {

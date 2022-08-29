@@ -4,7 +4,7 @@
 
 namespace AbstractResource
 {
-    internal abstract class AltAbstractResourceEvents
+    public abstract class AltAbstractResourceEvents
     {
         public string ResourceName { get; }
 
