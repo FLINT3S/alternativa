@@ -25,7 +25,7 @@ namespace AdminPanel
         [Command("testbr")]
         public void CMDOnTestBR(Player player)
         {
-            CefConnect.TriggerCefRaw(player, "CLIENT:CEF:AdminPanel:onOpenOverlay");
+            CefConnect.TriggerRaw(player, "CLIENT:CEF:AdminPanel:onOpenOverlay");
         }
     }
 }

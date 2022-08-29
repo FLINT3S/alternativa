@@ -45,7 +45,7 @@ namespace Authorization
 
         [RemoteEvent(AuthorizationEvents.CheckSocialClubIdFromCef)]
         public void IsSocialClubIdExist(Player player) => 
-            CefConnect.TriggerCef(
+            CefConnect.Trigger(
                     player,
                     AuthorizationEvents.IsSocialClubIdTakenToCef,
                     Account.IsSocialClubIdTaken(player.SocialClubId)
@@ -53,7 +53,7 @@ namespace Authorization
 
         [RemoteEvent(AuthorizationEvents.CheckUsernameFromCef)]
         public void IsUsernameExist(Player player, string username) => 
-            CefConnect.TriggerCef(
+            CefConnect.Trigger(
                     player,
                     AuthorizationEvents.IsUsernameTakenToCef,
                     Account.IsUsernameTaken(username)
@@ -61,7 +61,7 @@ namespace Authorization
 
         [RemoteEvent(AuthorizationEvents.CheckEmailFromCef)]
         public void IsEmailExist(Player player, string email) => 
-            CefConnect.TriggerCef(
+            CefConnect.Trigger(
                     player,
                     AuthorizationEvents.IsEmailTakenToCef,
                     Account.IsEmailTaken(email)

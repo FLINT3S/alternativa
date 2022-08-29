@@ -1,4 +1,5 @@
 ﻿using AbstractResource;
+using AbstractResource.Connects;
 using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers

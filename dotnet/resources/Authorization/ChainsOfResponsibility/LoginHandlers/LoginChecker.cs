@@ -1,4 +1,5 @@
 ﻿using AbstractResource;
+using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
 
@@ -15,7 +16,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 
         protected override void _Handle(Player player, Account? account, string login, string password)
         {
-            CefConnect.TriggerCef(
+            CefConnect.Trigger(
                     player,
                     AuthorizationEvents.LoginFailureToCef,
                     "Wrong login"

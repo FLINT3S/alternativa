@@ -1,4 +1,5 @@
 ﻿using AbstractResource;
+using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
 
@@ -15,7 +16,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 
         protected override void _Handle(Player player, string login, string password, string email)
         {
-            CefConnect.TriggerCef(
+            CefConnect.Trigger(
                     player,
                     AuthorizationEvents.RegisterFailureToCef,
                     "User with this email already exist"
