@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "-": "^0.0.1",
-    "circular-dependency-plugin": "^5.2.2"
+    "circular-dependency-plugin": "^5.2.2",
+    "pm2": "^5.2.0"
   },
   "devDependencies": {
     "@types/node": "^10.12.12",

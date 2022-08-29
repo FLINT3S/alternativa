@@ -54,5 +54,12 @@
           <DependentUpon>Character.cs</DependentUpon>
         </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\Secrets\appsettings.json">
+        <Link>appsettings.json</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
 </Project>    
     

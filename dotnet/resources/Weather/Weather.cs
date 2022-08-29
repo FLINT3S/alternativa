@@ -66,7 +66,8 @@ namespace Weather
         private static void SetWeather(GTANetworkAPI.Weather weather)
         {
             NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
-            NAPI.ClientEvent.TriggerClientEventForAll(WeatherEvents.SetWeatherToClient, weather.ToString());
+            NAPI.Task.Run(() => 
+                NAPI.ClientEvent.TriggerClientEventForAll(WeatherEvents.SetWeatherToClient, weather.ToString()));
         }
 
         private static GTANetworkAPI.Weather GetRandomNotRainyWeather()
