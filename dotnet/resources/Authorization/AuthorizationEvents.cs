@@ -16,7 +16,7 @@ namespace Authorization
         
         public const string CheckUsernameFromCef = "CEF:SERVER:Authorization:CheckUsername";
 
-        public const string IsUsernameTakenToCef = "SERVER:CEF:Authorization:IsUsernameTaken";
+        public const string IsUsernameTakenToCef = "IsUsernameTaken";
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace Authorization
 
         public const string CheckEmailFromCef = "CEF:SERVER:Authorization:CheckEmail";
 
-        public const string IsEmailTakenToCef = "SERVER:CEF:Authorization:IsEmailTaken";
+        public const string IsEmailTakenToCef = "IsEmailTaken";
 
         #endregion
     }

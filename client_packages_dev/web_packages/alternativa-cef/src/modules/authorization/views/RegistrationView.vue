@@ -6,6 +6,7 @@
       <stepper-step
           v-for="(step, index) in registrationSteps"
           :key="step.name"
+          @click="setStep(index)"
           :icon="step.icon"
           :isActive="activeStep >= index"
           :nextActive="activeStep > index"
@@ -14,30 +15,19 @@
       />
     </div>
 
-    <transition-group name="collapse-right" tag="div" class="position-relative d-flex flex-row-reverse justify-content-center">
-      <common-information
-          v-if="activeStep === 0"
-          key="common-information"
-          class="w-100"
-          @next-step="nextStep"
-      />
-      <additional-information
-          v-if="activeStep === 1"
-          key="additional-information"
-          class="w-100"
-          @next-step="nextStep"
-      />
-      <policy-confirm
-          v-if="activeStep === 2"
-          key="policy-confirm"
-          class="w-100"
+    <transition name="fade" mode="out-in" :duration="200">
+      <component
+          class="transition-default"
+          :is="getRegistrationComponent"
+          :registration-state="registrationState"
           @submit="onRegisterSubmit"
-      ></policy-confirm>
-    </transition-group>
+          @next-step="nextStep"
+      />
+    </transition>
 
     <p class="mt-2 small-text">
       Уже есть аккаунт?
-      <alt-link to="/login">Войти</alt-link>
+      <alt-link to="login">Войти</alt-link>
     </p>
   </authorization-card>
 </template>
@@ -53,6 +43,7 @@ import {mapGetters} from "vuex";
 import CommonInformation from "@/modules/authorization/components/registration/CommonInformation";
 import AdditionalInformation from "@/modules/authorization/components/registration/AdditionalInformation";
 import PolicyConfirm from "@/modules/authorization/components/registration/PolicyConfirm";
+import {altMpAuth} from "@/modules/authorization/data/altMpAuth";
 
 export default defineComponent({
   name: 'RegistrationView',
@@ -76,7 +67,8 @@ export default defineComponent({
           icon: "policy",
         }
       ],
-      activeStep: 0
+      activeStep: 0,
+      registrationState: false
     };
   },
   validations() {
@@ -90,24 +82,37 @@ export default defineComponent({
     ...mapGetters([
       "registrationData"
     ]),
+    getRegistrationComponent() {
+      switch (this.activeStep) {
+        case 0:
+          return "common-information";
+        case 1:
+          return "additional-information";
+        case 2:
+          return "policy-confirm";
+        default:
+          return "common-information";
+      }
+    }
   },
   methods: {
     nextStep() {
       this.activeStep++;
     },
     onRegisterSubmit() {
-      this.$altMp.triggerServer("RegisterSubmit", this.registrationData.login, this.registrationData.password, this.registrationData.email);
+      altMpAuth.triggerServer("RegisterSubmit", this.registrationData.login, this.registrationData.password, this.registrationData.email);
+    },
+    setStep(index) {
+      if (index < this.activeStep) {
+        this.activeStep = index;
+      }
+    },
+    onRegisterSuccess() {
+      this.registrationState = true;
     }
   },
-  created() {
-    this.$altMp.onServer("LoginSuccess", () => {
-      this.loginState = true
-      this.loginStateMessage = "Успешный логин"
-    })
-    this.$altMp.onServer("LoginFailure", (failureReason) => {
-      this.loginState = false
-      this.loginStateMessage = failureReason
-    })
+  mounted() {
+    altMpAuth.on("RegisterSuccess", this.onRegisterSuccess);
   }
 });
 </script>

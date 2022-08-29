@@ -1,7 +1,5 @@
-import {VirtualKey} from "../utils/virtualKeys";
-import {AltBrowser, AltOverlayBrowser} from "./altBrowser";
-import {browserManager} from "./browserManager";
 import {logger} from "../utils/logger";
+import {altBrowser} from "./altBrowser";
 
 // Ловит события с сервера и отправляет в нужный браузер
 // Негласное правило, что browserName = resourceName
@@ -12,7 +10,7 @@ mp.events.add("SERVER:CEF", (browserName: string, eventString: string, data: Arr
     `Event: "${eventString}"`,
     `With data: ${JSON.stringify(data)}`,
   ], "SERVER:CEF")
-  global.altBrowsers[browserName].execEvent(eventString, ...data)
+  altBrowser.execEvent(eventString, ...data)
 })
 
 mp.events.add("CEF:SERVER", (eventString: string, ...data: Array<number | string>) => {
@@ -24,10 +22,10 @@ mp.events.add("CEF:SERVER", (eventString: string, ...data: Array<number | string
   mp.events.callRemote(eventString, ...data)
 })
 
-mp.keys.bind(VirtualKey.VK_ESCAPE, true, () => {
-  Object.values(browserManager.getAllBrowsers()).forEach((browser: AltBrowser) => {
-    if (browser instanceof AltOverlayBrowser) {
-      browser.closeOverlay()
-    }
-  })
-})
+// mp.keys.bind(VirtualKey.VK_ESCAPE, true, () => {
+//   Object.values(browserManager.getAllBrowsers()).forEach((browser: AltBrowser) => {
+//     if (browser instanceof AltOverlayBrowser) {
+//       browser.closeOverlay()
+//     }
+//   })
+// })

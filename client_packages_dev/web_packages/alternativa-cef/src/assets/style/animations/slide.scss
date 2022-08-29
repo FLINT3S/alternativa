@@ -11,28 +11,25 @@
 }
 
 .slide-left-enter, .slide-right-leave-active {
-  transition: all .3s ease-in-out;
-  position: absolute;
+  transition: all .3s ease;
   width: 100%;
   opacity: 0;
-  -webkit-transform: translate(100px, 0);
-  transform: translate(100px, 0);
+  -webkit-transform: translate(300px, 0);
+  transform: translate(300px, 0);
 }
 
 .slide-left-leave-active, .slide-right-enter {
-  transition: all .3s ease-in-out;
-  position: absolute;
+  transition: all .3s ease;
   width: 100%;
   opacity: 0;
-  -webkit-transform: translate(-100px, 0);
-  transform: translate(-100px, 0);
+  -webkit-transform: translate(-300px, 0);
+  transform: translate(-300px, 0);
 }
 
 
 .collapse-right-enter-active, .collapse-right-leave-active {
   transition: all .5s ease;
   overflow: hidden;
-  position: relative;
 }
 
 .collapse-right-enter-from, .collapse-right-leave-to {

@@ -1,7 +1,10 @@
 export enum AuthorizationEvents {
   LOGIN_SUCCESS_FROM_SERVER = "SERVER:CLIENT:Authorization:LoginSuccess",
-  GO_TO_CHARACTER_MANAGER = "CEF:CEF:Authorization:GoToCharacterManager",
+  REGISTER_SUCCESS_FROM_SERVER = "SERVER:CLIENT:Authorization:RegisterSuccess",
   FIRST_CONNECTION_FROM_SERVER = "SERVER:CLIENT:Authorization:FirstConnection",
   NEED_LOGIN_FROM_SERVER = "SERVER:CLIENT:Authorization:NeedLogin",
+
+  GO_TO_CHARACTER_MANAGER = "CEF:CEF:Authorization:GoToCharacterManager",
+
   PLAYER_READY_TO_SERVER = "CLIENT:SERVER:Authorization:PlayerReady"
 }
