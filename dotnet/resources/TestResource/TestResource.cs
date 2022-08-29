@@ -59,17 +59,5 @@ namespace TestResource
         {
             player.Position = new Vector3(x, y, z);
         }
-
-        [Command("testcreator")]
-        public void TestCreator(Player player)
-        {
-            player.Position = new Vector3(402.8664, -996.4108, -99.00027);
-        }
-
-        [Command("tp")]
-        public void Teleport(Player player, float x, float y, float z)
-        {
-            player.Position = new Vector3(x, y, z);
-        }
     }
 }
