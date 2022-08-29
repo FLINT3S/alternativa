@@ -5,7 +5,7 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    public class SuccessLoginHandler : AbstractHandler
+    internal class SuccessLoginHandler : AbstractHandler
     {
         public SuccessLoginHandler(CefConnect cefConnect) : base(cefConnect, null)
         {

@@ -24,6 +24,9 @@
           <Compile Update="AltAbstractResourceEvents.cs">
             <DependentUpon>AltAbstractResource.cs</DependentUpon>
           </Compile>
+          <Compile Update="MessageStatus.cs">
+            <DependentUpon>CEFConnect.cs</DependentUpon>
+          </Compile>
         </ItemGroup>
     </Project>    
     

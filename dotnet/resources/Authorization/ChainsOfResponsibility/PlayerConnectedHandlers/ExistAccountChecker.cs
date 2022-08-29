@@ -5,7 +5,7 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    public class ExistAccountChecker : AbstractHandler
+    internal class ExistAccountChecker : AbstractHandler
     {
         public ExistAccountChecker(AbstractHandler? next = null) : base(next)
         {

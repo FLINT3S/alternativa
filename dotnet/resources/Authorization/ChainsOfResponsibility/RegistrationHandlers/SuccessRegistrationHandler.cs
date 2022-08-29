@@ -4,7 +4,7 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    public class SuccessRegistrationHandler : AbstractHandler
+    internal class SuccessRegistrationHandler : AbstractHandler
     {
         public SuccessRegistrationHandler(CefConnect cefConnect) : base(cefConnect, null)
         {

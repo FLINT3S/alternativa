@@ -3,7 +3,7 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    public class TemporaryBanChecker : AbstractHandler
+    internal class TemporaryBanChecker : AbstractHandler
     {
         public TemporaryBanChecker(AbstractHandler? next = null) : base(next)
         {

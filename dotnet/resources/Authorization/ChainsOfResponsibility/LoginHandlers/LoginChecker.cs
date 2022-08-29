@@ -4,7 +4,7 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    public class LoginChecker : AbstractHandler
+    internal class LoginChecker : AbstractHandler
     {
         public LoginChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {

@@ -3,7 +3,7 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    public class LoginStatusSender : AbstractHandler
+    internal class LoginStatusSender : AbstractHandler
     {
         public LoginStatusSender() : base(null)
         {

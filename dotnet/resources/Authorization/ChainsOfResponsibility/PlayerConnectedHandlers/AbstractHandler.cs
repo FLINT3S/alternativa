@@ -2,7 +2,7 @@
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    public abstract class AbstractHandler
+    internal abstract class AbstractHandler
     {
         private AbstractHandler? Next { get; }
 

@@ -3,7 +3,7 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    public abstract class AbstractHandler
+    internal abstract class AbstractHandler
     {
         private AbstractHandler? Next { get; }
         

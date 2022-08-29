@@ -5,7 +5,7 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    public abstract class AbstractHandler
+    internal abstract class AbstractHandler
     {
         private AbstractHandler? Next { get; }
         

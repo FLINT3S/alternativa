@@ -3,7 +3,7 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    public class HwidBansChecker : AbstractHandler
+    internal class HwidBansChecker : AbstractHandler
     {
         public HwidBansChecker(AbstractHandler? next = null) : base(next)
         {

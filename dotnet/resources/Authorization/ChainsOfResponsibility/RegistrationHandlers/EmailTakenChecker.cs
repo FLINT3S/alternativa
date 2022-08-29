@@ -4,7 +4,7 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    public class EmailTakenChecker : AbstractHandler
+    internal class EmailTakenChecker : AbstractHandler
     {
         public EmailTakenChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {

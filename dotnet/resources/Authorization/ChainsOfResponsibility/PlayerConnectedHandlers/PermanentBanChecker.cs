@@ -3,7 +3,7 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    public class PermanentBanChecker : AbstractHandler
+    internal class PermanentBanChecker : AbstractHandler
     {
         public PermanentBanChecker(AbstractHandler? next = null) : base(next)
         {

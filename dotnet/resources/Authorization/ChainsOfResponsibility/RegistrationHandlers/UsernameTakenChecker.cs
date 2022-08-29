@@ -4,7 +4,7 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    public class UsernameTakenChecker : AbstractHandler
+    internal class UsernameTakenChecker : AbstractHandler
     {
         public UsernameTakenChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
         {
