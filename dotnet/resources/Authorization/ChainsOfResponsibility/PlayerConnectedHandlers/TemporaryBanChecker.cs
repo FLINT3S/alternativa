@@ -17,12 +17,13 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         {
             var ban = player.GetAccountFromDb()!.GetLongestBan();
             ClientConnect.Trigger(
-                player, 
-                AuthorizationEvents.TemporaryBanned,
-                ban.Reason,
-                ban.StartDate,
-                ban.EndDate,
-                ban.Description);
+                    player,
+                    AuthorizationEvents.TemporaryBanned,
+                    ban.Reason,
+                    ban.StartDate,
+                    ban.EndDate,
+                    ban.Description
+                );
         }
     }
 }

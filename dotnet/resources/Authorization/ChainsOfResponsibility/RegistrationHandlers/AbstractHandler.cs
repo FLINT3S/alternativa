@@ -1,23 +1,22 @@
-﻿using AbstractResource;
-using AbstractResource.Connects;
+﻿using AbstractResource.Connects;
 using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     internal abstract class AbstractHandler
     {
-        protected ClientConnect ClientConnect { get; }
-
-        private AbstractHandler? Next { get; }
-        
-        protected CefConnect CefConnect { get; }
-
         protected AbstractHandler(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next)
         {
             ClientConnect = clientConnect;
             Next = next;
             CefConnect = cefConnect;
         }
+
+        protected ClientConnect ClientConnect { get; }
+
+        private AbstractHandler? Next { get; }
+
+        protected CefConnect CefConnect { get; }
 
         public void Handle(Player player, string login, string password, string email)
         {

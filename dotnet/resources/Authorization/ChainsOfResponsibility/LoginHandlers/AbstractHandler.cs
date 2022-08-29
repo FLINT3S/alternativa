@@ -1,6 +1,4 @@
-﻿using System;
-using AbstractResource;
-using AbstractResource.Connects;
+﻿using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
 
@@ -8,18 +6,18 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
     internal abstract class AbstractHandler
     {
-        public ClientConnect ClientConnect { get; }
-
-        private AbstractHandler? Next { get; }
-        
-        protected CefConnect CefConnect { get; }
-
         protected AbstractHandler(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next)
         {
             ClientConnect = clientConnect;
             Next = next;
             CefConnect = cefConnect;
         }
+
+        public ClientConnect ClientConnect { get; }
+
+        private AbstractHandler? Next { get; }
+
+        protected CefConnect CefConnect { get; }
 
         public void Handle(Player player, Account? account, string login, string password)
         {

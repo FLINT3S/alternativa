@@ -7,10 +7,9 @@
         public const string NeedLogin = "NeedLogin";
 
         public const string TemporaryBanned = "TempBan";
-        
+
         public const string PermanentlyBanned = "PermanentBan";
 
         public const string LoginSuccess = "LoginSuccess";
-        
     }
 }

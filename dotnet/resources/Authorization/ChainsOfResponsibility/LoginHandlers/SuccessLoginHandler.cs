@@ -1,5 +1,4 @@
-﻿using AbstractResource;
-using AbstractResource.Connects;
+﻿using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
@@ -8,7 +7,11 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
     internal class SuccessLoginHandler : AbstractHandler
     {
-        public SuccessLoginHandler(ClientConnect clientConnect, CefConnect cefConnect) : base(clientConnect, cefConnect, null)
+        public SuccessLoginHandler(ClientConnect clientConnect, CefConnect cefConnect) : base(
+                clientConnect,
+                cefConnect,
+                null
+            )
         {
         }
 

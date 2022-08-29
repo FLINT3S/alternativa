@@ -5,15 +5,15 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     internal abstract class AbstractHandler
     {
-        public ClientConnect ClientConnect { get; }
-
-        private AbstractHandler? Next { get; }
-
         protected AbstractHandler(ClientConnect clientConnect, AbstractHandler? next)
         {
             ClientConnect = clientConnect;
             Next = next;
         }
+
+        public ClientConnect ClientConnect { get; }
+
+        private AbstractHandler? Next { get; }
 
         public void Handle(Player player)
         {
