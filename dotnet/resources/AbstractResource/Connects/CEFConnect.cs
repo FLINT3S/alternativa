@@ -10,9 +10,7 @@ namespace AbstractResource.Connects
 
         protected override string Receiver => "CEF";
 
-        public override void Trigger(Player player, string eventName, params object?[] args)
-        {
+        public override void Trigger(Player player, string eventName, params object?[] args) => 
             player.TriggerEvent(FromTo, ModuleName, $"{FromTo}:{ModuleName}:{eventName}", args);
-        }
     }
 }
