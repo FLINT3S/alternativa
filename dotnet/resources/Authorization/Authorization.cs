@@ -43,12 +43,12 @@ namespace Authorization
         public void OnRegisterSubmitFromCef(Player player, string login, string password, string email) =>
             registrationHandlersChain.Handle(player, login, password, email);
 
-        [RemoteEvent(AuthorizationEvents.CheckUsernameFromCef)]
-        public void IsUsernameExist(Player player, string username) => 
+        [RemoteEvent(AuthorizationEvents.CheckSocialClubIdFromCef)]
+        public void IsSocialClubIdExist(Player player) => 
             CefConnect.TriggerCef(
                     player,
-                    AuthorizationEvents.IsUsernameTakenToCef,
-                    Account.IsUsernameTaken(username)
+                    AuthorizationEvents.IsSocialClubIdTakenToCef,
+                    Account.IsSocialClubIdTaken(player.SocialClubId)
                     );
 
         [RemoteEvent(AuthorizationEvents.CheckEmailFromCef)]

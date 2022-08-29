@@ -20,6 +20,18 @@ namespace Database.Models
 
         #region Simple user data
 
+        public static bool IsSocialClubIdTaken(ulong socialClubId)
+        {
+            lock (AltContext.Locker)
+            {
+                return AltContext
+                    .Instance
+                    .Accounts
+                    .Select(a => a.SocialClubId)
+                    .Any(u => u == socialClubId);
+            }
+        }
+
         public void UpdateUsername(string newUsername)
         {
             if (IsUsernameTaken(newUsername)) 

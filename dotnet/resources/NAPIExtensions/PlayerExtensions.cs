@@ -31,13 +31,7 @@ namespace NAPIExtensions
             }
         }
 
-        public static bool HasAccountInDb(this Player player)
-        {
-            lock (AltContext.Locker)
-            {
-                return AltContext.Instance.Accounts.Find(player.SocialClubId) != null;
-            }
-        }
+        public static bool HasAccountInDb(this Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
 
         /// <summary>
         /// <b>Использовать аккуратно!</b>

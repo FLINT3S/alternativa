@@ -12,6 +12,14 @@ namespace Authorization
 
         public const string PlayerReadyFromClient = "CLIENT:SERVER:Authorization:PlayerReady";
 
+        #region Social Club Id Chek Events
+
+        public const string CheckSocialClubIdFromCef = "CEF:SERVER:Authorization:CheckSocialClubId";
+
+        public const string IsSocialClubIdTakenToCef = "IsSocialClubIdTaken";
+
+        #endregion
+
         #region Username Check Events
         
         public const string CheckUsernameFromCef = "CEF:SERVER:Authorization:CheckUsername";
