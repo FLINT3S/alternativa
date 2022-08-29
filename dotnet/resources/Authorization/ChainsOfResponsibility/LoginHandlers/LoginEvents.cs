@@ -2,8 +2,8 @@
 {
     internal static class AuthorizationEvents
     {
-        public const string LoginFailureToCef = "LoginFailure";
+        public const string LoginFailure = "LoginFailure";
         
-        public const string LoginSuccessToClient = "SERVER:CLIENT:Authorization:LoginSuccess";
+        public const string LoginSuccess = "LoginSuccess";
     }
 }

@@ -6,12 +6,15 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     internal abstract class AbstractHandler
     {
+        protected ClientConnect ClientConnect { get; }
+
         private AbstractHandler? Next { get; }
         
         protected CefConnect CefConnect { get; }
 
-        protected AbstractHandler(CefConnect cefConnect, AbstractHandler? next)
+        protected AbstractHandler(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next)
         {
+            ClientConnect = clientConnect;
             Next = next;
             CefConnect = cefConnect;
         }
@@ -28,12 +31,12 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 
         protected abstract void _Handle(Player player, string login, string password, string email);
 
-        public static AbstractHandler GetChain(CefConnect cefConnect)
+        public static AbstractHandler GetChain(ClientConnect clientConnect, CefConnect cefConnect)
         {
-            var successRegistrationHandler = new SuccessRegistrationHandler(cefConnect);
-            var emailTakenChecker = new EmailTakenChecker(cefConnect, successRegistrationHandler);
-            var usernameTakenHandler = new UsernameTakenChecker(cefConnect, emailTakenChecker);
-            var hasAccountHandler = new ExistAccountChecker(cefConnect, usernameTakenHandler);
+            var successRegistrationHandler = new SuccessRegistrationHandler(clientConnect, cefConnect);
+            var emailTakenChecker = new EmailTakenChecker(clientConnect, cefConnect, successRegistrationHandler);
+            var usernameTakenHandler = new UsernameTakenChecker(clientConnect, cefConnect, emailTakenChecker);
+            var hasAccountHandler = new ExistAccountChecker(clientConnect, cefConnect, usernameTakenHandler);
             return hasAccountHandler;
         }
     }

@@ -1,8 +1,5 @@
-using System.Linq;
 using System.Reflection;
 using AbstractResource.Connects;
-using Database;
-using Database.Models;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
@@ -16,10 +13,13 @@ namespace AbstractResource
     public abstract class AltAbstractResource : Script
     {
         protected CefConnect CefConnect { get; }
+        
+        protected ClientConnect ClientConnect { get; }
 
         protected AltAbstractResource()
         {
             CefConnect = new CefConnect(this);
+            ClientConnect = new ClientConnect(this);
         }
 
         [ServerEvent(Event.ResourceStart)]
@@ -34,7 +34,7 @@ namespace AbstractResource
             AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Shutdown));
         }
 
-        protected EventString.EventString GetEsFromAttr(MethodBase? method)
+        protected EventString GetEsFromAttr(MethodBase? method)
         {
             var attr = (RemoteEventAttribute)method!.GetCustomAttributes(typeof(RemoteEventAttribute), true)[0];
             var es = AltAbstractResourceEvents.GetEs(attr.RemoteEventString);

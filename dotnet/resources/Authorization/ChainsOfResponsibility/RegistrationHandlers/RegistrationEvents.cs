@@ -2,8 +2,8 @@
 {
     internal static class AuthorizationEvents
     {
-        public const string RegisterSuccessToClient = "SERVER:CLIENT:Authorization:RegisterSuccess";
+        public const string RegisterSuccess = "RegisterSuccess";
         
-        public const string RegisterFailureToCef = "SERVER:CEF:Authorization:RegisterFailure";
+        public const string RegisterFailure = "RegisterFailure";
     }
 }

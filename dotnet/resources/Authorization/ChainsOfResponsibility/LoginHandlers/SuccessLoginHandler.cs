@@ -8,7 +8,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
     internal class SuccessLoginHandler : AbstractHandler
     {
-        public SuccessLoginHandler(CefConnect cefConnect) : base(cefConnect, null)
+        public SuccessLoginHandler(ClientConnect clientConnect, CefConnect cefConnect) : base(clientConnect, cefConnect, null)
         {
         }
 
@@ -17,7 +17,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         protected override void _Handle(Player player, Account? account, string login, string password)
         {
             account!.UpdateHwid(player.Serial);
-            player.TriggerEvent(AuthorizationEvents.LoginSuccessToClient);
+            ClientConnect.Trigger(player, AuthorizationEvents.LoginSuccess, "Success!");
             player.SetAccount(account);
         }
     }

@@ -1,13 +1,17 @@
-﻿using GTANetworkAPI;
+﻿using AbstractResource.Connects;
+using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     internal abstract class AbstractHandler
     {
+        public ClientConnect ClientConnect { get; }
+
         private AbstractHandler? Next { get; }
 
-        protected AbstractHandler(AbstractHandler? next)
+        protected AbstractHandler(ClientConnect clientConnect, AbstractHandler? next)
         {
+            ClientConnect = clientConnect;
             Next = next;
         }
 
@@ -23,13 +27,13 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
         protected abstract void _Handle(Player player);
 
-        public static AbstractHandler GetChain()
+        public static AbstractHandler GetChain(ClientConnect clientConnect)
         {
-            var loginStatusSender = new LoginStatusSender();
-            var temporaryBansChecker = new TemporaryBanChecker(loginStatusSender);
-            var permanentBansChecker = new PermanentBanChecker(temporaryBansChecker);
-            var existAccountChecker = new ExistAccountChecker(permanentBansChecker);
-            var hwidBansChecker = new HwidBansChecker(existAccountChecker);
+            var loginStatusSender = new LoginStatusSender(clientConnect);
+            var temporaryBansChecker = new TemporaryBanChecker(clientConnect, loginStatusSender);
+            var permanentBansChecker = new PermanentBanChecker(clientConnect, temporaryBansChecker);
+            var existAccountChecker = new ExistAccountChecker(clientConnect, permanentBansChecker);
+            var hwidBansChecker = new HwidBansChecker(clientConnect, existAccountChecker);
             return hwidBansChecker;
         }
     }

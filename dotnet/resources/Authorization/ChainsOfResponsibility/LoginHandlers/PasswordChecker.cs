@@ -7,7 +7,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
     internal class PasswordChecker : AbstractHandler
     {
-        public PasswordChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public PasswordChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next) : base(clientConnect, cefConnect, next)
         {
         }
 
@@ -18,7 +18,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
             CefConnect.Trigger(
                     player,
-                    AuthorizationEvents.LoginFailureToCef,
+                    AuthorizationEvents.LoginFailure,
                     "Wrong password"
                 );
         }

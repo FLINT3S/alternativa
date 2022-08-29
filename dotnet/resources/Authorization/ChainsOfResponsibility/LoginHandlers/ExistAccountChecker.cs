@@ -1,5 +1,4 @@
-﻿using AbstractResource;
-using AbstractResource.Connects;
+﻿using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
 
@@ -7,7 +6,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
     internal class ExistAccountChecker : AbstractHandler
     {
-        public ExistAccountChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public ExistAccountChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next) : base(clientConnect, cefConnect, next)
         {
         }
 
@@ -18,7 +17,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
             CefConnect.Trigger(
                     player,
-                    AuthorizationEvents.LoginFailureToCef,
+                    AuthorizationEvents.LoginFailure,
                     "Account not found"
                 );
         }

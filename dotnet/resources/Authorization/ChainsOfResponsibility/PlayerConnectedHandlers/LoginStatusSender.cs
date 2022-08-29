@@ -1,11 +1,12 @@
-﻿using GTANetworkAPI;
+﻿using AbstractResource.Connects;
+using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     internal class LoginStatusSender : AbstractHandler
     {
-        public LoginStatusSender() : base(null)
+        public LoginStatusSender(ClientConnect clientConnect) : base( clientConnect, null)
         {
         }
         
@@ -30,9 +31,9 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
             
             #endregion
 
-            player.TriggerEvent(account.IsSameLastHwid(player.Serial) ?
-                    AuthorizationEvents.LoginSuccessToClient : AuthorizationEvents.NeedLoginToClient
-                );
+            ClientConnect.Trigger(
+                player, 
+                account.IsSameLastHwid(player.Serial) ? AuthorizationEvents.LoginSuccess : AuthorizationEvents.NeedLogin);
         }
     }
 }

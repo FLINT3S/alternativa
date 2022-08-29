@@ -4,7 +4,7 @@
  * wiki: https://www.notion.so/EventString-873f558c7ae64d1986965dc24377c894
  */
 
-namespace EventString
+namespace AbstractResource
 {
     public class EventString
     {

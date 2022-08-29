@@ -7,7 +7,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     internal class SuccessRegistrationHandler : AbstractHandler
     {
-        public SuccessRegistrationHandler(CefConnect cefConnect) : base(cefConnect, null)
+        public SuccessRegistrationHandler(ClientConnect clientConnect, CefConnect cefConnect) : base(clientConnect, cefConnect, null)
         {
         }
 
@@ -17,8 +17,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         {
             var account = new Account(player.SocialClubId, login, password, email);
             account.AddToContext();
-            player.TriggerEvent(AuthorizationEvents.RegisterSuccessToClient);
-            // CefConnect.TriggerCef(player, AuthorizationEvents.RegisterSuccessToClient, "Success!");
+            ClientConnect.Trigger(player, AuthorizationEvents.RegisterSuccess, "Success!");
         }
     }
 }

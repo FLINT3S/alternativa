@@ -16,7 +16,6 @@
 
         <ItemGroup>
           <ProjectReference Include="..\Database\Database.csproj" />
-          <ProjectReference Include="..\EventString\EventString.csproj" />
           <ProjectReference Include="..\Logger\Logger.csproj" />
         </ItemGroup>
 

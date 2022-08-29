@@ -21,7 +21,7 @@ namespace AbstractResource.Connects
             TriggerRaw(player, $"SERVER:{Receiver}:{ModuleName}:{eventName}", args);
         }
 
-        public void Trigger(Player player, EventString.EventString eventString, params object[] args)
+        public void Trigger(Player player, EventString eventString, params object[] args)
         {
             TriggerRaw(player, eventString.ToString(), args);
         }

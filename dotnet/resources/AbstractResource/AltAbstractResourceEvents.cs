@@ -13,6 +13,6 @@ namespace AbstractResource
             ResourceName = GetType().Name.Replace("Events", "");
         }
 
-        public static EventString.EventString GetEs(string eventString) => new EventString.EventString(eventString);
+        public static EventString GetEs(string eventString) => new EventString(eventString);
     }
 }

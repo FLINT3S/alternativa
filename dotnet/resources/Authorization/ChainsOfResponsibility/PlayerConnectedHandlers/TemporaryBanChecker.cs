@@ -1,11 +1,12 @@
-﻿using GTANetworkAPI;
+﻿using AbstractResource.Connects;
+using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     internal class TemporaryBanChecker : AbstractHandler
     {
-        public TemporaryBanChecker(AbstractHandler? next = null) : base(next)
+        public TemporaryBanChecker(ClientConnect clientConnect, AbstractHandler? next = null) : base(clientConnect, next)
         {
         }
 
@@ -15,13 +16,13 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         protected override void _Handle(Player player)
         {
             var ban = player.GetAccountFromDb()!.GetLongestBan();
-            player.TriggerEvent(
-                    AuthorizationEvents.TemporaryBanned,
-                    ban.Reason,
-                    ban.StartDate,
-                    ban.EndDate,
-                    ban.Description
-                );
+            ClientConnect.Trigger(
+                player, 
+                AuthorizationEvents.TemporaryBanned,
+                ban.Reason,
+                ban.StartDate,
+                ban.EndDate,
+                ban.Description);
         }
     }
 }

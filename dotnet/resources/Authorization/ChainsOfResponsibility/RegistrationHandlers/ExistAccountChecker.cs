@@ -7,7 +7,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     internal class ExistAccountChecker : AbstractHandler
     {
-        public ExistAccountChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public ExistAccountChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next) : base(clientConnect, cefConnect, next)
         {
         }
 
@@ -18,7 +18,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         {
             CefConnect.Trigger(
                     player,
-                    AuthorizationEvents.RegisterFailureToCef,
+                    AuthorizationEvents.RegisterFailure,
                     "User with this Social Club ID already exist"
                 );
         }

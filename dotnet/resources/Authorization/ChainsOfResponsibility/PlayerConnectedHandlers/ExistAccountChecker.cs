@@ -1,4 +1,5 @@
-﻿using GTANetworkAPI;
+﻿using AbstractResource.Connects;
+using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 using NAPIExtensions;
@@ -7,7 +8,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     internal class ExistAccountChecker : AbstractHandler
     {
-        public ExistAccountChecker(AbstractHandler? next = null) : base(next)
+        public ExistAccountChecker(ClientConnect clientConnect, AbstractHandler? next = null) : base(clientConnect, next)
         {
         }
 
@@ -23,7 +24,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
                             player.GetPlayerDataString()
                         )
                 );
-            player.TriggerEvent(AuthorizationEvents.FirstConnectionToClient);
+            ClientConnect.Trigger(player, AuthorizationEvents.FirstConnection);
         }
     }
 }

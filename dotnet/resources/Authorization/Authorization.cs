@@ -22,9 +22,9 @@ namespace Authorization
 
         public Authorization()
         {
-            connectHandlersChain = PlayerConnectedHandlers.AbstractHandler.GetChain();
-            registrationHandlersChain = RegistrationHandlers.AbstractHandler.GetChain(CefConnect);
-            loginHandlersChain = LoginHandlers.AbstractHandler.GetChain(CefConnect);
+            connectHandlersChain = PlayerConnectedHandlers.AbstractHandler.GetChain(ClientConnect);
+            registrationHandlersChain = RegistrationHandlers.AbstractHandler.GetChain(ClientConnect, CefConnect);
+            loginHandlersChain = LoginHandlers.AbstractHandler.GetChain(ClientConnect, CefConnect);
         }
 
         #region RemoteEvents

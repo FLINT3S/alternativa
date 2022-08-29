@@ -7,7 +7,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     internal class EmailTakenChecker : AbstractHandler
     {
-        public EmailTakenChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public EmailTakenChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next) : base(clientConnect, cefConnect, next)
         {
         }
 
@@ -18,7 +18,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         {
             CefConnect.Trigger(
                     player,
-                    AuthorizationEvents.RegisterFailureToCef,
+                    AuthorizationEvents.RegisterFailure,
                     "User with this email already exist"
                 );
         }
