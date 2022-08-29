@@ -34,13 +34,11 @@ namespace AbstractResource
             AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Shutdown));
         }
 
-        protected EventString GetEsFromAttr(MethodBase? method)
+        protected void GetEsFromAttr(MethodBase? method)
         {
             var attr = (RemoteEventAttribute)method!.GetCustomAttributes(typeof(RemoteEventAttribute), true)[0];
             var es = new EventString(attr.RemoteEventString);
             AltLogger.Instance.LogDevelopment(new AltEvent(this, es.Event, es.ToString()));
-
-            return es;
         }
     }
 }

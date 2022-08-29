@@ -36,14 +36,14 @@ namespace Weather
             while (true)
             {
                 var weather = weatherProvider.GetWeather();
-                if (IsWinter() && IsRaining(weather))
+                if (!IsWinter() && IsRaining(weather))
                 {
                     SetWeather(weather);
                     Thread.Sleep(600_000);
                     SetWeather(weatherProvider.GetNotRainyWeather());
                     Thread.Sleep(180_000);
                 }
-                else if (IsWinter() && !IsRaining(weather))
+                else if (!IsWinter() && !IsRaining(weather))
                 {
                     SetWeather(weather);
                     Thread.Sleep(3600_000);

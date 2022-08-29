@@ -30,13 +30,13 @@ namespace TestResource
         [ServerEvent(Event.PlayerDisconnected)]
         public void OnPlayerDisconnected(Player player, DisconnectionType type, string reason)
         {
-            var character = player.GetActiveCharacter();
-            character!.OnDisconnect(player.Position);
+            // var character = player.GetActiveCharacter();
+            // character!.OnDisconnect(player.Position);
             
-            var account = player.GetAccount();
-            account!.OnDisconnect();
+            // var account = player.GetAccount();
+            // account!.OnDisconnect();
             
-            LocalContext.EntityLists.OnlinePlayers.Remove(account);
+            // LocalContext.EntityLists.OnlinePlayers.Remove(account);
         }
 
         [RemoteProc("RPC::CEF:SERVER:AdminPanel:randomDamage")]

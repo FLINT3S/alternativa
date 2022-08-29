@@ -13,7 +13,7 @@ namespace AdminPanel
         private void ReRandomDamage(Player player)
         {
             player.Health -= (int)Math.Round(new Random().NextDouble() * 20);
-            GetEsFromAttr(MethodBase.GetCurrentMethod());
+            // GetEsFromAttr(MethodBase.GetCurrentMethod());
             Task.Run(() =>
             {
                 var acc = player.GetAccount()!;
@@ -25,7 +25,7 @@ namespace AdminPanel
         [Command("testbr")]
         public void CMDOnTestBR(Player player)
         {
-            CefConnect.TriggerRaw(player, "CLIENT:CEF:AdminPanel:onOpenOverlay");
+            CefConnect.Trigger(player, "onOpenOverlay");
         }
     }
 }
