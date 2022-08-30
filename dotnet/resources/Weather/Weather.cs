@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using AbstractResource;
 using GTANetworkAPI;
+using Logger;
+using Logger.EventModels;
 using Microsoft.Extensions.Configuration;
 using Weather.WeatherProviders;
 
@@ -63,14 +65,15 @@ namespace Weather
             weather == GTANetworkAPI.Weather.CLEARING || 
             weather == GTANetworkAPI.Weather.THUNDER;
 
-        private static void SetWeather(GTANetworkAPI.Weather weather)
+        private void SetWeather(GTANetworkAPI.Weather weather)
         {
             NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
             NAPI.Task.Run(() => 
                 NAPI.ClientEvent.TriggerClientEventForAll(WeatherEvents.SetWeatherToClient, weather.ToString()));
+            AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Info, $"Set weather: {weather.ToString()}"));
         }
 
-        private static void TimeUpdatingProcess()
+        private void TimeUpdatingProcess()
         {
             while (true)
             {
@@ -82,6 +85,7 @@ namespace Weather
 
                 NAPI.Task.Run(SetCurrentTime);
                 Thread.Sleep(60_000);
+                AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Info, $"Set time: {DateTime.Now}"));
             }
         }
     }
