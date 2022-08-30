@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,10 +33,7 @@ namespace TimeCounter
 
         private static void IncreaseGameTime()
         {
-            IQueryable<Player> players = NAPI.Pools.GetAllPlayers().AsQueryable();
-            IQueryable<Account> accounts = players.Select(player => player.GetAccount()).Where(account => account != null);
-            IQueryable<Character> characters = accounts.Select(account => account.ActiveCharacter);
-            IQueryable<Character> onlineCharacters = characters.Where(character => character != null);
+            List<Character> onlineCharacters = NAPI.Pools.GetActiveCharacters().ToList();
             foreach (var character in onlineCharacters)
                 character.InGameTime += TimeSpan.FromMinutes(1);
 
@@ -61,11 +59,7 @@ namespace TimeCounter
 
         private static void DecreaseTimeToReborn()
         {
-            IQueryable<Player> players = NAPI.Pools.GetAllPlayers().AsQueryable();
-            IQueryable<Account> accounts = players.Select(player => player.GetAccount()).Where(account => account != null);
-            IQueryable<Character> characters = accounts.Select(account => account.ActiveCharacter);
-            IQueryable<Character> onlineCharacters = characters.Where(character => character != null);
-            IQueryable<Character> deadCharacters = onlineCharacters.Where(character => character.IsDead);
+            List<Character> deadCharacters = NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
             foreach (var deadCharacter in deadCharacters)
                 deadCharacter.TimeToReborn -= TimeSpan.FromSeconds(1);
 

@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Database;
 using Database.Models;
 using Database.Models.Bans;
-using GTANetworkAPI;
+using GTANetworkMethods;
+using Player = GTANetworkAPI.Player;
 
 namespace NAPIExtensions
 {
@@ -71,5 +73,11 @@ namespace NAPIExtensions
 
         public static Character? GetActiveCharacter(this Player player) => 
             player.GetAccount()!.ActiveCharacter;
+
+        public static IEnumerable<Account> GetAccounts(this Pools pools) =>
+            pools.GetAllPlayers().Select(player => player.GetAccount()).Where(account => account != null)!;
+
+        public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>
+            pools.GetAccounts().Select(account => account.ActiveCharacter).Where(character => character != null)!;
     }
 }
