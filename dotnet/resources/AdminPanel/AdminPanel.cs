@@ -9,7 +9,7 @@ namespace AdminPanel
 {
     public class AdminPanel : AltAbstractResource
     {
-        [RemoteEvent(AdminPanelEvents.RandomDamageFromCef)]
+        [GTANetworkAPI.RemoteEvent(AdminPanelEvents.RandomDamageFromCef)]
         private void ReRandomDamage(Player player)
         {
             player.Health -= (int)Math.Round(new Random().NextDouble() * 20);

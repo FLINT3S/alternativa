@@ -42,9 +42,10 @@ namespace Logger
             await consoleLogger.LogCritical(serverAltAbstractEvent);
         }
 
-        public async Task LogEventAsync(AltAbstractEvent serverAltAbstractEvent)
+        public async Task LogEventAsync(AltEvent serverAltEvent)
         {
-            await fileLogger.LogEvent(serverAltAbstractEvent);
+            await consoleLogger.LogEvent(serverAltEvent);
+            await fileLogger.LogEvent(serverAltEvent);
         }
 
         public async Task LogResourceAsync(AltResourceEvent resourceEvent)
@@ -75,9 +76,9 @@ namespace Logger
             Task.Run(async () => { await LogCriticalAsync(serverAltAbstractEvent); });
         }
 
-        public void LogEvent(AltAbstractEvent serverAltAbstractEvent)
+        public void LogEvent(AltEvent serverAltEvent)
         {
-            Task.Run(async () => { await LogEventAsync(serverAltAbstractEvent); });
+            Task.Run(async () => { await LogEventAsync(serverAltEvent); });
         }
 
         public void LogResource(AltResourceEvent resourceEvent)

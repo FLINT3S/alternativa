@@ -32,9 +32,9 @@ namespace Database.Models
 
         public virtual List<TemporaryBan> TemporaryBans { get; } = new List<TemporaryBan>();
 
-        public virtual PermanentBan? PermanentBan { get; protected set; }
+        public virtual PermanentBan PermanentBan { get; protected set; }
 
-        public virtual Character? ActiveCharacter { get; protected set; }
+        public virtual Character ActiveCharacter { get; protected set; }
 
         public virtual List<Character> Characters { get; } = new List<Character>();
 

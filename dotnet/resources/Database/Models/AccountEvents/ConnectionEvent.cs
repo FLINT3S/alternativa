@@ -7,7 +7,7 @@
         {
         }
 
-        public ConnectionEvent(ConnectionEventType type, string ip, string hwid, string? description = null)
+        public ConnectionEvent(ConnectionEventType type, string ip, string hwid, string description = null)
             : base(ip, hwid, description) => Type = type;
 
         public ConnectionEventType Type { get; private set; }
