@@ -5,11 +5,15 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    internal class LoginStatusSender : AbstractHandler
+    internal class LoginStatusSender : AbstractConnectionHandler
     {
         public LoginStatusSender(ClientConnect clientConnect) : base(clientConnect, null)
         {
         }
+
+        protected override string EventName => "ConnectSuccess";
+
+        protected override string EventDescription => "Connect success";
 
         protected override bool CanHandle(Player player) => true;
 
@@ -33,9 +37,11 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
             #endregion
 
+            Log(player);
             ClientConnect.Trigger(
                     player,
-                    account.IsSameLastHwid(player.Serial) ? PlayerConnectedEvents.LoginSuccess : PlayerConnectedEvents.NeedLogin
+                    account.IsSameLastHwid(player.Serial) ? PlayerConnectedEvents.LoginSuccess
+                        : PlayerConnectedEvents.NeedLogin
                 );
         }
     }

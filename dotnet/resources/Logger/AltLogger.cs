@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using GTANetworkAPI;
-using Logger.EventModels;
+﻿using Logger.EventModels;
 
 namespace Logger
 {
@@ -20,46 +18,41 @@ namespace Logger
 
         #region Methods
         
-        public void LogInfo(AltAbstractEvent serverAltAbstractEvent) => Task.Run(
-            async () =>
-            {
-                await fileLogger.LogInfo(serverAltAbstractEvent);
-            });
+        public void LogInfo(AltAbstractEvent serverAltAbstractEvent)
+        {
+            fileLogger.LogInfo(serverAltAbstractEvent);
+        }
 
-        public void LogDevelopment(AltAbstractEvent serverAltAbstractEvent) => Task.Run(
-            async () =>
-            {
-                await fileLogger.LogDevelopment(serverAltAbstractEvent);
-                await consoleLogger.LogDevelopment(serverAltAbstractEvent);
-            });
+        public void LogDevelopment(AltAbstractEvent serverAltAbstractEvent)
+        {
+            fileLogger.LogDevelopment(serverAltAbstractEvent);
+            consoleLogger.LogDevelopment(serverAltAbstractEvent);
+        }
 
-        public void LogWarning(AltAbstractEvent serverAltAbstractEvent) => Task.Run(
-            async () =>
-            {
-                await fileLogger.LogWarning(serverAltAbstractEvent);
-                await consoleLogger.LogWarning(serverAltAbstractEvent);
-            });
+        public void LogWarning(AltAbstractEvent serverAltAbstractEvent)
+        {
+            fileLogger.LogWarning(serverAltAbstractEvent);
+            consoleLogger.LogWarning(serverAltAbstractEvent);
+        }
 
-        public void LogCritical(AltAbstractEvent serverAltAbstractEvent) => Task.Run(
-            async () =>
-            {
-                await fileLogger.LogCritical(serverAltAbstractEvent);
-                await consoleLogger.LogCritical(serverAltAbstractEvent);
-            });
+        public void LogCritical(AltAbstractEvent serverAltAbstractEvent)
+        {
+            fileLogger.LogCritical(serverAltAbstractEvent);
+            consoleLogger.LogCritical(serverAltAbstractEvent);
+        }
 
-        public void LogEvent(AltEvent serverAltEvent) => Task.Run(
-            async () =>
-            {
-                await fileLogger.LogEvent(serverAltEvent);
-            });
+        public void LogEvent(AltEvent serverAltEvent)
+        {
+            consoleLogger.LogEvent(serverAltEvent);
+            fileLogger.LogEvent(serverAltEvent);
+        }
 
-        public void LogResource(AltResourceEvent resourceEvent) => Task.Run(
-            async () =>
-            {
-                await fileLogger.LogResource(resourceEvent);
-                await consoleLogger.LogResource(resourceEvent);
-            });
-
+        public void LogResource(AltResourceEvent resourceEvent)
+        {
+            fileLogger.LogResource(resourceEvent);
+            consoleLogger.LogResource(resourceEvent);
+        }
+        
         #endregion
     }
 }

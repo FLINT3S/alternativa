@@ -3,20 +3,23 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    internal abstract class AbstractHandler
+    internal abstract class AbstractRegistrationHandler : AbstractHandler
     {
-        protected AbstractHandler(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next)
+        protected AbstractRegistrationHandler(ClientConnect clientConnect, CefConnect cefConnect,
+            AbstractRegistrationHandler? next)
         {
             ClientConnect = clientConnect;
             Next = next;
             CefConnect = cefConnect;
         }
 
+        protected CefConnect CefConnect { get; }
+
         protected ClientConnect ClientConnect { get; }
 
-        private AbstractHandler? Next { get; }
+        private AbstractRegistrationHandler? Next { get; }
 
-        protected CefConnect CefConnect { get; }
+        protected override string EventName => "RegistrationFailure";
 
         public void Handle(Player player, string login, string password, string email)
         {
@@ -30,7 +33,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 
         protected abstract void _Handle(Player player, string login, string password, string email);
 
-        public static AbstractHandler GetChain(ClientConnect clientConnect, CefConnect cefConnect)
+        public static AbstractRegistrationHandler GetChain(ClientConnect clientConnect, CefConnect cefConnect)
         {
             var successRegistrationHandler = new SuccessRegistrationHandler(clientConnect, cefConnect);
             var emailTakenChecker = new EmailTakenChecker(clientConnect, cefConnect, successRegistrationHandler);

@@ -4,9 +4,9 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    internal class ExistAccountChecker : AbstractHandler
+    internal class ExistAccountChecker : AbstractLoginHandler
     {
-        public ExistAccountChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next) : base(
+        public ExistAccountChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractLoginHandler? next) : base(
                 clientConnect,
                 cefConnect,
                 next
@@ -14,16 +14,15 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
         }
 
+        protected override string EventDescription => "Login failure cause account not found";
+
         protected override bool CanHandle(Player player, Account? account, string login, string password) =>
             account == null;
 
         protected override void _Handle(Player player, Account? account, string login, string password)
         {
-            CefConnect.Trigger(
-                    player,
-                    LoginEvents.LoginFailure,
-                    "Account not found"
-                );
+            Log(player);
+            CefConnect.Trigger(player, LoginEvents.LoginFailure, "Account not found");
         }
     }
 }

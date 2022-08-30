@@ -4,11 +4,16 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    internal class TemporaryBanChecker : AbstractHandler
+    internal class TemporaryBanChecker : AbstractConnectionHandler
     {
-        public TemporaryBanChecker(ClientConnect clientConnect, AbstractHandler? next = null) : base(clientConnect, next)
+        public TemporaryBanChecker(ClientConnect clientConnect, AbstractConnectionHandler? next = null) : base(
+                clientConnect,
+                next
+            )
         {
         }
+
+        protected override string EventDescription => "Connect failure caused Social Club ID temporary banned";
 
         protected override bool CanHandle(Player player) =>
             player.GetAccountFromDb()!.IsTemporaryBanned();
@@ -16,6 +21,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         protected override void _Handle(Player player)
         {
             var ban = player.GetAccountFromDb()!.GetLongestBan();
+            Log(player);
             ClientConnect.Trigger(
                     player,
                     PlayerConnectedEvents.TemporaryBanned,

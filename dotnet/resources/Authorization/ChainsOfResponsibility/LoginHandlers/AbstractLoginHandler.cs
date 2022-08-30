@@ -4,20 +4,22 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    internal abstract class AbstractHandler
+    internal abstract class AbstractLoginHandler : AbstractHandler
     {
-        protected AbstractHandler(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next)
+        protected AbstractLoginHandler(ClientConnect clientConnect, CefConnect cefConnect, AbstractLoginHandler? next)
         {
             ClientConnect = clientConnect;
             Next = next;
             CefConnect = cefConnect;
         }
 
-        public ClientConnect ClientConnect { get; }
-
-        private AbstractHandler? Next { get; }
+        protected ClientConnect ClientConnect { get; }
 
         protected CefConnect CefConnect { get; }
+
+        private AbstractLoginHandler? Next { get; }
+
+        protected override string EventName => "LoginFailure";
 
         public void Handle(Player player, Account? account, string login, string password)
         {
@@ -31,7 +33,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 
         protected abstract void _Handle(Player player, Account? account, string login, string password);
 
-        public static AbstractHandler GetChain(ClientConnect clientConnect, CefConnect cefConnect)
+        public static AbstractLoginHandler GetChain(ClientConnect clientConnect, CefConnect cefConnect)
         {
             var successLoginHandler = new SuccessLoginHandler(clientConnect, cefConnect);
             var doubleLoginChecker = new DoubleLoginChecker(clientConnect, cefConnect, successLoginHandler);

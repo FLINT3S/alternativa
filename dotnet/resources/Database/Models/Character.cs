@@ -28,7 +28,9 @@ namespace Database.Models
         
         #endregion
 
-        public Vector3 LastPosition { get; set; }
+        public Vector3 LastPosition { get; private set; }
+        
+        public TimeSpan TimeToReborn { get; private set; }
         
         #region Biography
 

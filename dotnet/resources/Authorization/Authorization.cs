@@ -13,17 +13,17 @@ namespace Authorization
 {
     public class Authorization : AltAbstractResource
     {
-        private readonly AbstractHandler connectHandlersChain;
+        private readonly AbstractConnectionHandler connectHandlersChain;
 
-        private readonly ChainsOfResponsibility.RegistrationHandlers.AbstractHandler registrationHandlersChain;
+        private readonly ChainsOfResponsibility.RegistrationHandlers.AbstractRegistrationHandler registrationHandlersChain;
 
-        private readonly ChainsOfResponsibility.LoginHandlers.AbstractHandler loginHandlersChain;
+        private readonly ChainsOfResponsibility.LoginHandlers.AbstractLoginHandler loginHandlersChain;
 
         public Authorization()
         {
-            connectHandlersChain = AbstractHandler.GetChain(ClientConnect);
-            registrationHandlersChain = ChainsOfResponsibility.RegistrationHandlers.AbstractHandler.GetChain(ClientConnect, CefConnect);
-            loginHandlersChain = ChainsOfResponsibility.LoginHandlers.AbstractHandler.GetChain(ClientConnect, CefConnect);
+            connectHandlersChain = AbstractConnectionHandler.GetChain(ClientConnect);
+            registrationHandlersChain = ChainsOfResponsibility.RegistrationHandlers.AbstractRegistrationHandler.GetChain(ClientConnect, CefConnect);
+            loginHandlersChain = ChainsOfResponsibility.LoginHandlers.AbstractLoginHandler.GetChain(ClientConnect, CefConnect);
         }
 
         #region RemoteEvents

@@ -4,6 +4,7 @@
     {
         Started,
         Shutdown,
-        Error
+        Error,
+        Info
     }
 }
