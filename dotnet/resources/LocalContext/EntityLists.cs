@@ -6,6 +6,5 @@ namespace LocalContext
 {
     public class EntityLists : AltAbstractResource
     {
-        public static readonly List<Account> OnlinePlayers = new List<Account>();
     }
 }

@@ -6,7 +6,7 @@ using AbstractResource;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
-using LocalContext;
+using NAPIExtensions;
 
 namespace TimeCounter
 {
@@ -32,14 +32,18 @@ namespace TimeCounter
 
         private static void IncreaseGameTime()
         {
-            IQueryable<Account> players = EntityLists.OnlinePlayers.AsQueryable();
-            IQueryable<Character> characters = players.Select(account => account.ActiveCharacter);
+            IQueryable<Player> players = NAPI.Pools.GetAllPlayers().AsQueryable();
+            IQueryable<Account> accounts = players.Select(player => player.GetAccount()).Where(account => account != null);
+            IQueryable<Character> characters = accounts.Select(account => account.ActiveCharacter);
             IQueryable<Character> onlineCharacters = characters.Where(character => character != null);
             foreach (var character in onlineCharacters)
                 character.InGameTime += TimeSpan.FromMinutes(1);
 
-            AltContext.Instance.UpdateRange(onlineCharacters);
-            AltContext.Instance.SaveChanges();
+            lock (AltContext.Locker)
+            {
+                AltContext.Instance.UpdateRange(onlineCharacters);
+                AltContext.Instance.SaveChanges();
+            }
         }
 
         #endregion
@@ -57,8 +61,9 @@ namespace TimeCounter
 
         private static void DecreaseTimeToReborn()
         {
-            IQueryable<Account> players = EntityLists.OnlinePlayers.AsQueryable();
-            IQueryable<Character> characters = players.Select(account => account.ActiveCharacter);
+            IQueryable<Player> players = NAPI.Pools.GetAllPlayers().AsQueryable();
+            IQueryable<Account> accounts = players.Select(player => player.GetAccount()).Where(account => account != null);
+            IQueryable<Character> characters = accounts.Select(account => account.ActiveCharacter);
             IQueryable<Character> onlineCharacters = characters.Where(character => character != null);
             IQueryable<Character> deadCharacters = onlineCharacters.Where(character => character.IsDead);
             foreach (var deadCharacter in deadCharacters)

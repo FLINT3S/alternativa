@@ -29,9 +29,6 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
             var character = player.GetActiveCharacter();
 
-            if (account.IsSetActiveCharacter())
-                EntityLists.OnlinePlayers.Add(account);
-
             if (character?.LastPosition != null)
                 player.Position = character.LastPosition;
 
