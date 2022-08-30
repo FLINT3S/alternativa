@@ -19,6 +19,8 @@ namespace TimeCounter
             Task.Run(DeathTimeCounter);
         }
 
+        #region Common Counter
+        
         private static void CommonTimeCounter()
         {
             while (true)
@@ -37,6 +39,10 @@ namespace TimeCounter
                 character.IncreaseInGameTime(TimeSpan.FromMinutes(1));
         }
 
+        #endregion
+
+        #region Time to Reborn Counter
+        
         private static void DeathTimeCounter()
         {
             while (true)
@@ -55,5 +61,7 @@ namespace TimeCounter
             foreach (var deadCharacter in deadCharacters)
                 deadCharacter.DecreaseTimeToReborn(TimeSpan.FromSeconds(1));
         }
+
+        #endregion
     }
 }
