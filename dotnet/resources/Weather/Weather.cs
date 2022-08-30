@@ -73,7 +73,7 @@ namespace Weather
             AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Info, $"Set weather: {weather.ToString()}"));
         }
 
-        private void TimeUpdatingProcess()
+        private static void TimeUpdatingProcess()
         {
             while (true)
             {
@@ -85,7 +85,6 @@ namespace Weather
 
                 NAPI.Task.Run(SetCurrentTime);
                 Thread.Sleep(60_000);
-                AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Info, $"Set time: {DateTime.Now}"));
             }
         }
     }
