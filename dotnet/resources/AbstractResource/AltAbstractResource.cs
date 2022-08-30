@@ -36,7 +36,7 @@ namespace AbstractResource
         {
             string exceptionDescription = ParseException(exception);
             if (exception.InnerException != null)
-                exceptionDescription += $" Inner exception: {ParseException(exception.InnerException)}";
+                exceptionDescription += $"Inner exception: {ParseException(exception.InnerException)}";
             AltLogger.Instance.LogCritical(new AltResourceEvent(this, ResourceEventType.Error, exceptionDescription));
         }
 
