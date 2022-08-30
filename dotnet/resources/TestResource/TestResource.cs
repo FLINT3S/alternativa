@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AbstractResource;
-using Database.Models;
+﻿using AbstractResource;
 using GTANetworkAPI;
-using NAPIExtensions;
 using Player = GTANetworkAPI.Player;
 
 namespace TestResource
