@@ -65,6 +65,9 @@ namespace NAPIExtensions
 
         public static void SetAccount(this Player player, Account account) => 
             player.SetData(PlayerConstants.Account, account);
+        
+        public static void RemoveAccount(this Player player) => 
+            player.ResetData(PlayerConstants.Account);
 
         public static Character? GetActiveCharacter(this Player player) => 
             player.GetAccount()!.ActiveCharacter;

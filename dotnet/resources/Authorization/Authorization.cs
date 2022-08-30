@@ -3,6 +3,7 @@ using AbstractResource;
 using Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
 using Database.Models;
 using GTANetworkAPI;
+using Logger;
 using NAPIExtensions;
 
 /*
@@ -85,5 +86,13 @@ namespace Authorization
         }
 
         #endregion
+
+        [ServerEvent(Event.PlayerDisconnected)]
+        public void OnPlayerDisconnect(Player player, DisconnectionType type, string reason)
+        {
+            var account = player.GetAccount();
+            account?.OnDisconnect();
+            player.RemoveAccount();
+        }
     }
 }

@@ -64,8 +64,11 @@ namespace TimeCounter
             foreach (var deadCharacter in deadCharacters)
                 deadCharacter.TimeToReborn -= TimeSpan.FromSeconds(1);
 
-            AltContext.Instance.UpdateRange(deadCharacters);
-            AltContext.Instance.SaveChanges();
+            lock (AltContext.Locker)
+            {
+                AltContext.Instance.UpdateRange(deadCharacters);
+                AltContext.Instance.SaveChanges();
+            }
         }
 
         #endregion
