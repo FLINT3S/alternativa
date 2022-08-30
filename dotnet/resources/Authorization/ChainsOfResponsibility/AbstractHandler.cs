@@ -2,7 +2,7 @@
 using Logger;
 using Logger.EventModels;
 
-namespace Authorization
+namespace Authorization.ChainsOfResponsibility
 {
     internal abstract class AbstractHandler
     {
