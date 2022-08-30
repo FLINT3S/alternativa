@@ -1,6 +1,7 @@
 ﻿using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
+using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility
 {
@@ -17,6 +18,6 @@ namespace Authorization.ChainsOfResponsibility
         }
 
         private AltPlayerEvent GetEvent(Player player) => 
-            new AltPlayerEvent(player.ToString()!, this, EventName, EventDescription);
+            new AltPlayerEvent(player.GetString()!, this, EventName, EventDescription);
     }
 }

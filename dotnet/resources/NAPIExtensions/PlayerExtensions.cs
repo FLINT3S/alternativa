@@ -20,7 +20,7 @@ namespace NAPIExtensions
             return response;
         }
 
-        public static string ToString(this Player player) => $"{player.SocialClubName}_[{player.SocialClubId}]";
+        public static string GetString(this Player player) => $"{player.SocialClubName}_[{player.SocialClubId}]";
 
         public static PermanentBan? GetBanByHwid(this Player player)
         {
