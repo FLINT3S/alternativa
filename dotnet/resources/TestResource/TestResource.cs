@@ -1,17 +1,15 @@
-﻿using AbstractResource;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AbstractResource;
+using Database.Models;
 using GTANetworkAPI;
+using NAPIExtensions;
 using Player = GTANetworkAPI.Player;
 
 namespace TestResource
 {
     public class TestResource : AltAbstractResource
     {
-        [ServerEvent(Event.ResourceStart)]
-        public void OnTestResourceStart()
-        {
-            // using var dbContext = new AlternativaContext();
-        }
-
         [Command("spawncar")]
         public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
         {
@@ -26,8 +24,11 @@ namespace TestResource
             
             // var account = player.GetAccount();
             // account!.OnDisconnect();
+
+            List<Account>? onlinePlayers = LocalContext.EntityLists.OnlinePlayers;
             
-            // LocalContext.EntityLists.OnlinePlayers.Remove(account);
+            if (onlinePlayers.Any(a => a.SocialClubId == player.SocialClubId))
+                onlinePlayers.Remove(player.GetAccount()!);
         }
     }
 }
