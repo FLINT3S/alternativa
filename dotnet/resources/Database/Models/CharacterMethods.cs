@@ -16,7 +16,7 @@ namespace Database.Models
 
         #endregion
 
-        [NotMapped] public bool IsAlive => TimeToReborn <= TimeSpan.Zero;
+        [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
         
         public void IncreaseInGameTime(TimeSpan time)
         {
