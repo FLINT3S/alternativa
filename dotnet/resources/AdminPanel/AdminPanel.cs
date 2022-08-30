@@ -9,11 +9,11 @@ namespace AdminPanel
 {
     public class AdminPanel : AltAbstractResource
     {
-        [GTANetworkAPI.RemoteEvent(AdminPanelEvents.RandomDamageFromCef)]
+        [RemoteEvent(AdminPanelEvents.RandomDamageFromCef)]
         private void ReRandomDamage(Player player)
         {
+            LogEvent(MethodBase.GetCurrentMethod()!);
             player.Health -= (int)Math.Round(new Random().NextDouble() * 20);
-            // GetEsFromAttr(MethodBase.GetCurrentMethod());
             Task.Run(() =>
             {
                 var acc = player.GetAccount()!;
