@@ -44,7 +44,6 @@ namespace Logger
 
         public async Task LogEventAsync(AltEvent serverAltEvent)
         {
-            await consoleLogger.LogEvent(serverAltEvent);
             await fileLogger.LogEvent(serverAltEvent);
         }
 
