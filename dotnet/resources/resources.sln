@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Secrets", "Secrets\Secrets.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeathAndReborn", "DeathAndReborn\DeathAndReborn.csproj", "{507B6195-CE8A-4A2D-BB5C-5DFEA3620A56}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Character", "Character", "{1923B001-CE2F-4E4A-899E-B2A219B6901A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -96,5 +98,6 @@ Global
 		{308F5617-D996-4ED6-88C8-02680DCF7DF0} = {FC570E0A-3203-4B44-AF3C-BA3EA7C0D40C}
 					{8DAEFCD4-D6EB-4C88-81FC-BD764BD2029B}.Debug|x64.ActiveCfg = Debug|x64
 								{8DAEFCD4-D6EB-4C88-81FC-BD764BD2029B}.Debug|x64.Build.0 = Debug|x64
+		{507B6195-CE8A-4A2D-BB5C-5DFEA3620A56} = {1923B001-CE2F-4E4A-899E-B2A219B6901A}
 	EndGlobalSection
 EndGlobal
