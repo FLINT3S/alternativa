@@ -21,7 +21,7 @@ namespace TestResource
         {
             // var character = player.GetActiveCharacter();
             // character!.OnDisconnect(player.Position);
-            
+            //
             // var account = player.GetAccount();
             // account!.OnDisconnect();
 
