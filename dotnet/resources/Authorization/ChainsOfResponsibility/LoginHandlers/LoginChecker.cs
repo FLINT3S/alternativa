@@ -1,12 +1,15 @@
 ﻿using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
+using Logger;
+using Logger.EventModels;
+using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    internal class LoginChecker : AbstractHandler
+    internal class LoginChecker : AbstractLoginHandler
     {
-        public LoginChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next) : base(
+        public LoginChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractLoginHandler? next) : base(
                 clientConnect,
                 cefConnect,
                 next
@@ -19,11 +22,10 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 
         protected override void _Handle(Player player, Account? account, string login, string password)
         {
-            CefConnect.Trigger(
-                    player,
-                    LoginEvents.LoginFailure,
-                    "Wrong login"
-                );
+            Log(player);
+            CefConnect.Trigger(player, LoginEvents.LoginFailure, "Wrong login");
         }
+
+        protected override string EventDescription => "Login failure cause wrong login";
     }
 }

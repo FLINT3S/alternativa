@@ -2,12 +2,14 @@
 using Database.Models;
 using GTANetworkAPI;
 using LocalContext;
+using Logger;
+using Logger.EventModels;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
-    internal class DoubleLoginChecker : AbstractHandler
+    internal class DoubleLoginChecker : AbstractLoginHandler
     {
-        public DoubleLoginChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next) : base(
+        public DoubleLoginChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractLoginHandler? next) : base(
                 clientConnect,
                 cefConnect,
                 next
@@ -20,11 +22,10 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 
         protected override void _Handle(Player player, Account? account, string login, string password)
         {
-            CefConnect.Trigger(
-                    player,
-                    LoginEvents.LoginFailure,
-                    "Account already online"
-                );
+            Log(player);
+            CefConnect.Trigger(player, LoginEvents.LoginFailure, "Account already online");
         }
+
+        protected override string EventDescription => "Login failure cause account already online";
     }
 }

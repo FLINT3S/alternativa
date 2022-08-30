@@ -3,17 +3,19 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    internal abstract class AbstractHandler
+    internal abstract class AbstractConnectionHandler : AbstractHandler
     {
-        protected AbstractHandler(ClientConnect clientConnect, AbstractHandler? next)
+        protected AbstractConnectionHandler(ClientConnect clientConnect, AbstractConnectionHandler? next)
         {
             ClientConnect = clientConnect;
             Next = next;
         }
 
-        public ClientConnect ClientConnect { get; }
+        protected ClientConnect ClientConnect { get; }
 
-        private AbstractHandler? Next { get; }
+        private AbstractConnectionHandler? Next { get; }
+
+        protected override string EventName => "ConnectFailure";
 
         public void Handle(Player player)
         {
@@ -27,7 +29,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
         protected abstract void _Handle(Player player);
 
-        public static AbstractHandler GetChain(ClientConnect clientConnect)
+        public static AbstractConnectionHandler GetChain(ClientConnect clientConnect)
         {
             var loginStatusSender = new LoginStatusSender(clientConnect);
             var temporaryBansChecker = new TemporaryBanChecker(clientConnect, loginStatusSender);

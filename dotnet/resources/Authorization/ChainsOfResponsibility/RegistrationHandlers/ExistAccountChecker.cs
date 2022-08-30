@@ -4,9 +4,9 @@ using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    internal class ExistAccountChecker : AbstractHandler
+    internal class ExistAccountChecker : AbstractRegistrationHandler
     {
-        public ExistAccountChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next) : base(
+        public ExistAccountChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractRegistrationHandler? next) : base(
                 clientConnect,
                 cefConnect,
                 next
@@ -19,11 +19,14 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 
         protected override void _Handle(Player player, string login, string password, string email)
         {
+            Log(player);
             CefConnect.Trigger(
                     player,
                     RegistrationEvents.RegisterFailure,
                     "User with this Social Club ID already exist"
                 );
         }
+
+        protected override string EventDescription => "Register failure cause";
     }
 }

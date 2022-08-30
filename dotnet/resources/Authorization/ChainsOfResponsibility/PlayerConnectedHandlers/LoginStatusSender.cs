@@ -1,11 +1,13 @@
 ﻿using AbstractResource.Connects;
 using GTANetworkAPI;
 using LocalContext;
+using Logger;
+using Logger.EventModels;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    internal class LoginStatusSender : AbstractHandler
+    internal class LoginStatusSender : AbstractConnectionHandler
     {
         public LoginStatusSender(ClientConnect clientConnect) : base(clientConnect, null)
         {
@@ -32,11 +34,16 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
                 player.Position = character.LastPosition;
 
             #endregion
-
+            
+            Log(player);
             ClientConnect.Trigger(
                     player,
                     account.IsSameLastHwid(player.Serial) ? PlayerConnectedEvents.LoginSuccess : PlayerConnectedEvents.NeedLogin
                 );
         }
+
+        protected override string EventName => "ConnectSuccess";
+
+        protected override string EventDescription => "Connect success";
     }
 }

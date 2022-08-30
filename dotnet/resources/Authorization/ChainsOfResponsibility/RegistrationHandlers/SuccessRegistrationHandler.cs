@@ -4,7 +4,7 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    internal class SuccessRegistrationHandler : AbstractHandler
+    internal class SuccessRegistrationHandler : AbstractRegistrationHandler
     {
         public SuccessRegistrationHandler(ClientConnect clientConnect, CefConnect cefConnect) : base(
                 clientConnect,
@@ -21,7 +21,12 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
             var account = new Account(player.SocialClubId, login, password, email);
             account.AddToContext();
             account.UpdateHwid(player.Serial);
+            Log(player);
             ClientConnect.Trigger(player, RegistrationEvents.RegisterSuccess, "Success!");
         }
+
+        protected override string EventName => "RegistrationSuccess";
+
+        protected override string EventDescription => "Register success";
     }
 }

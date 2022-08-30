@@ -8,7 +8,7 @@ namespace NAPIExtensions
 {
     public static class PlayerExtensions
     {
-        public static string GetPlayerDataString(this Player player)
+        public static string GetPlayerConnectedDataString(this Player player)
         {
             string response = "New player connected:\n";
             response += $"Name: {player.Name}\n";
@@ -19,6 +19,8 @@ namespace NAPIExtensions
             response += "===========================================================";
             return response;
         }
+
+        public static string ToString(this Player player) => $"{player.SocialClubName}_[{player.SocialClubId}]";
 
         public static PermanentBan? GetBanByHwid(this Player player)
         {

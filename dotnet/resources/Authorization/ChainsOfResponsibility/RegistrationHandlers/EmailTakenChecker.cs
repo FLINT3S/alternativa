@@ -4,9 +4,9 @@ using GTANetworkAPI;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    internal class EmailTakenChecker : AbstractHandler
+    internal class EmailTakenChecker : AbstractRegistrationHandler
     {
-        public EmailTakenChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractHandler? next) : base(
+        public EmailTakenChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractRegistrationHandler? next) : base(
                 clientConnect,
                 cefConnect,
                 next
@@ -19,11 +19,14 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 
         protected override void _Handle(Player player, string login, string password, string email)
         {
+            Log(player);
             CefConnect.Trigger(
                     player,
                     RegistrationEvents.RegisterFailure,
                     "User with this email already exist"
                 );
         }
+
+        protected override string EventDescription => "Register failure cause user with this email already exist";
     }
 }

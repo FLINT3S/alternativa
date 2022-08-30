@@ -1,12 +1,14 @@
 ﻿using AbstractResource.Connects;
 using GTANetworkAPI;
+using Logger;
+using Logger.EventModels;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    internal class PermanentBanChecker : AbstractHandler
+    internal class PermanentBanChecker : AbstractConnectionHandler
     {
-        public PermanentBanChecker(ClientConnect clientConnect, AbstractHandler? next = null) : base(clientConnect, next)
+        public PermanentBanChecker(ClientConnect clientConnect, AbstractConnectionHandler? next = null) : base(clientConnect, next)
         {
         }
 
@@ -14,8 +16,11 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
         protected override void _Handle(Player player)
         {
+            Log(player);
             var ban = player.GetAccountFromDb()!.PermanentBan!;
             ClientConnect.Trigger(player, PlayerConnectedEvents.PermanentlyBanned, ban.Reason, ban.Description);
         }
+
+        protected override string EventDescription => "Connect failure caused Social Club ID permanently banned";
     }
 }
