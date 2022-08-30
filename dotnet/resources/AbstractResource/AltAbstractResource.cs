@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using AbstractResource.Connects;
 using GTANetworkAPI;
@@ -22,17 +23,32 @@ namespace AbstractResource
             ClientConnect = new ClientConnect(this);
         }
 
+        #region Server Events
+
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
             AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Started));
         }
 
+        [ServerEvent(Event.UnhandledException)]
+        public void OnUnhandledException(Exception exception)
+        {
+            string exceptionDescription = ParseException(exception);
+            if (exception.InnerException != null)
+                exceptionDescription += $"Inner exception: {ParseException(exception.InnerException)}";
+            AltLogger.Instance.LogCritical(new AltResourceEvent(this, ResourceEventType.Error, exceptionDescription));
+        }
+
+        private static string ParseException(Exception ex) => $"{ex.GetType().FullName}: {ex.Message} at {ex.Source}. ";
+
         [ServerEvent(Event.ResourceStop)]
         public void OnResourceShutdown()
         {
             AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Shutdown));
         }
+
+        #endregion
 
         protected void LogEvent(MethodBase @event)
         {

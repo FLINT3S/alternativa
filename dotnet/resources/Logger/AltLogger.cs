@@ -18,73 +18,48 @@ namespace Logger
 
         public static AltLogger Instance { get; } = new AltLogger();
 
-        #region AsyncLogging
-        public async Task LogInfoAsync(AltAbstractEvent serverAltAbstractEvent)
-        {
-            await fileLogger.LogInfo(serverAltAbstractEvent);
-        }
+        #region Methods
+        
+        public void LogInfo(AltAbstractEvent serverAltAbstractEvent) => Task.Run(
+            async () =>
+            {
+                await fileLogger.LogInfo(serverAltAbstractEvent);
+            });
 
-        public async Task LogDevelopmentAsync(AltAbstractEvent serverAltAbstractEvent)
-        {
-            await fileLogger.LogDevelopment(serverAltAbstractEvent);
-            await consoleLogger.LogDevelopment(serverAltAbstractEvent);
-        }
+        public void LogDevelopment(AltAbstractEvent serverAltAbstractEvent) => Task.Run(
+            async () =>
+            {
+                await fileLogger.LogDevelopment(serverAltAbstractEvent);
+                await consoleLogger.LogDevelopment(serverAltAbstractEvent);
+            });
 
-        public async Task LogWarningAsync(AltAbstractEvent serverAltAbstractEvent)
-        {
-            await fileLogger.LogWarning(serverAltAbstractEvent);
-            await consoleLogger.LogWarning(serverAltAbstractEvent);
-        }
+        public void LogWarning(AltAbstractEvent serverAltAbstractEvent) => Task.Run(
+            async () =>
+            {
+                await fileLogger.LogWarning(serverAltAbstractEvent);
+                await consoleLogger.LogWarning(serverAltAbstractEvent);
+            });
 
-        public async Task LogCriticalAsync(AltAbstractEvent serverAltAbstractEvent)
-        {
-            await fileLogger.LogCritical(serverAltAbstractEvent);
-            await consoleLogger.LogCritical(serverAltAbstractEvent);
-        }
+        public void LogCritical(AltAbstractEvent serverAltAbstractEvent) => Task.Run(
+            async () =>
+            {
+                await fileLogger.LogCritical(serverAltAbstractEvent);
+                await consoleLogger.LogCritical(serverAltAbstractEvent);
+            });
 
-        public async Task LogEventAsync(AltEvent serverAltEvent)
-        {
-            await consoleLogger.LogEvent(serverAltEvent);
-            await fileLogger.LogEvent(serverAltEvent);
-        }
+        public void LogEvent(AltEvent serverAltEvent) => Task.Run(
+            async () =>
+            {
+                await fileLogger.LogEvent(serverAltEvent);
+            });
 
-        public async Task LogResourceAsync(AltResourceEvent resourceEvent)
-        {
-            await fileLogger.LogResource(resourceEvent);
-            await consoleLogger.LogResource(resourceEvent);
-        }
-        #endregion
+        public void LogResource(AltResourceEvent resourceEvent) => Task.Run(
+            async () =>
+            {
+                await fileLogger.LogResource(resourceEvent);
+                await consoleLogger.LogResource(resourceEvent);
+            });
 
-        #region SyncLogging
-        public void LogInfo(AltAbstractEvent serverAltAbstractEvent)
-        {
-            Task.Run(async () => { await LogInfoAsync(serverAltAbstractEvent); });
-        }
-
-        public void LogDevelopment(AltAbstractEvent serverAltAbstractEvent)
-        {
-            Task.Run(async () => { await LogDevelopmentAsync(serverAltAbstractEvent); });
-        }
-
-        public void LogWarning(AltAbstractEvent serverAltAbstractEvent)
-        {
-            Task.Run(async () => { await LogWarningAsync(serverAltAbstractEvent); });
-        }
-
-        public void LogCritical(AltAbstractEvent serverAltAbstractEvent)
-        {
-            Task.Run(async () => { await LogCriticalAsync(serverAltAbstractEvent); });
-        }
-
-        public void LogEvent(AltEvent serverAltEvent)
-        {
-            Task.Run(async () => { await LogEventAsync(serverAltEvent); });
-        }
-
-        public void LogResource(AltResourceEvent resourceEvent)
-        {
-            Task.Run(async () => { await LogResourceAsync(resourceEvent); });
-        }
         #endregion
     }
 }
