@@ -30,10 +30,19 @@ namespace CharacterManager
         [RemoteEvent(CharacterManagerEvent.SelectCharacter)]
         public void OnSelectCharacter(Player player, string rawGuid)
         {
-            var account = player.GetAccountFromDb()!;
-            var character = account.Characters.FirstOrDefault(c => c.Id == Guid.Parse(rawGuid));
-            account.PeekCharacter(character);
-            NAPI.Player.SpawnPlayer(player, Vector3.RandomXy());
+            try
+            {
+                var account = player.GetAccountFromDb()!;
+                var character = account.Characters.First(c => c.Id == Guid.Parse(rawGuid));
+                account.PeekCharacter(character);
+                NAPI.Player.SpawnPlayer(player, character.LastPosition ?? Vector3.RandomXy());
+            }
+            catch (FormatException)
+            {
+            }
+            catch (InvalidOperationException)
+            {
+            }
         }
 
         #endregion

@@ -37,11 +37,6 @@ namespace NAPIExtensions
 
         public static bool HasAccountInDb(this Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
 
-        /// <summary>
-        /// <b>Использовать аккуратно!</b>
-        /// После возвращения аккаунта контекст закрывается и работать с аккаунтом нужно через новый контекст,
-        /// сохраняя его через db.Update(account)
-        /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из базы данных</returns>
         public static Account? GetAccountFromDb(this Player player)
