@@ -3,7 +3,6 @@ using AbstractResource;
 using Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
 using Database.Models;
 using GTANetworkAPI;
-using Logger;
 using NAPIExtensions;
 
 /*
