@@ -9,7 +9,7 @@ namespace Database.Models.AccountEvents
         {
         }
 
-        protected AccountEvent(string ip, string hwid, string? description = null)
+        protected AccountEvent(string ip, string hwid, string description = null)
         {
             Ip = ip;
             HWID = hwid;
@@ -25,6 +25,6 @@ namespace Database.Models.AccountEvents
 
         public string HWID { get; private set; }
 
-        public string? Description { get; private set; }
+        public string Description { get; private set; }
     }
 }

@@ -1,8 +1,6 @@
-﻿using AbstractResource;
-
-namespace AdminPanel
+﻿namespace AdminPanel
 {
-    public abstract class AdminPanelEvents : AltAbstractResourceEvents
+    public static class AdminPanelEvents
     {
         public const string RandomDamageFromCef = "CEF:SERVER:AdminPanel:randomDamage";
     }

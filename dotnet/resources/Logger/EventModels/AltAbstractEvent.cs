@@ -14,7 +14,7 @@
 
         private string Module { get; }
 
-        private string EventInstance => GetType().Name!;
+        private string EventInstance => GetType().Name;
 
         private string EventName { get; }
 

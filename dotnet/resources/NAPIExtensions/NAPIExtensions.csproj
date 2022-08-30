@@ -16,7 +16,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
-        <ProjectReference Include="..\EventString\EventString.csproj" />
     </ItemGroup>
 
     <ItemGroup>

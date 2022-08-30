@@ -6,7 +6,7 @@
         {
         }
 
-        public PermanentBan(string hwid, Account givenBy, Account givenTo, BanReason reason = BanReason.Other, string? description = null) :
+        public PermanentBan(string hwid, Account givenBy, Account givenTo, BanReason reason = BanReason.Other, string description = null) :
             base(givenBy, givenTo, reason, description)
         {
             AccountId = givenTo.SocialClubId;

@@ -1,14 +1,20 @@
-﻿using GTANetworkAPI;
+﻿using AbstractResource.Connects;
+using GTANetworkAPI;
+using LocalContext;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    public class LoginStatusSender : AbstractHandler
+    internal class LoginStatusSender : AbstractConnectionHandler
     {
-        public LoginStatusSender() : base(null)
+        public LoginStatusSender(ClientConnect clientConnect) : base(clientConnect, null)
         {
         }
-        
+
+        protected override string EventName => "ConnectSuccess";
+
+        protected override string EventDescription => "Connect success";
+
         protected override bool CanHandle(Player player) => true;
 
         protected override void _Handle(Player player)
@@ -18,20 +24,24 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
             account.OnConnect(player.Address, player.Serial);
 
             #region Character Actions
+
             // todo вынести весь регион в CharacterManager
-            
+
             var character = player.GetActiveCharacter();
-            
+
             if (account.IsSetActiveCharacter())
-                LocalContext.EntityLists.OnlinePlayers.Add(account);
-            
+                EntityLists.OnlinePlayers.Add(account);
+
             if (character?.LastPosition != null)
                 player.Position = character.LastPosition;
-            
+
             #endregion
 
-            player.TriggerEvent(account.IsSameLastHwid(player.Serial) ?
-                    AuthorizationEvents.LoginSuccessToClient : AuthorizationEvents.NeedLoginToClient
+            Log(player);
+            ClientConnect.Trigger(
+                    player,
+                    account.IsSameLastHwid(player.Serial) ? PlayerConnectedEvents.LoginSuccess
+                        : PlayerConnectedEvents.NeedLogin
                 );
         }
     }

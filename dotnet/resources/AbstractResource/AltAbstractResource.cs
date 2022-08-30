@@ -1,7 +1,6 @@
-using System.Linq;
+using System;
 using System.Reflection;
-using Database;
-using Database.Models;
+using AbstractResource.Connects;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
@@ -15,11 +14,16 @@ namespace AbstractResource
     public abstract class AltAbstractResource : Script
     {
         protected CefConnect CefConnect { get; }
+        
+        protected ClientConnect ClientConnect { get; }
 
         protected AltAbstractResource()
         {
             CefConnect = new CefConnect(this);
+            ClientConnect = new ClientConnect(this);
         }
+
+        #region Server Events
 
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
@@ -27,19 +31,33 @@ namespace AbstractResource
             AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Started));
         }
 
+        [ServerEvent(Event.UnhandledException)]
+        public void OnUnhandledException(Exception exception)
+        {
+            string exceptionDescription = ParseException(exception);
+            if (exception.InnerException != null)
+                exceptionDescription += $"Inner exception: {ParseException(exception.InnerException)}";
+            AltLogger.Instance.LogCritical(new AltResourceEvent(this, ResourceEventType.Error, exceptionDescription));
+        }
+
+        private static string ParseException(Exception ex) => $"{ex.GetType().FullName}: {ex.Message} at {ex.Source}. ";
+
         [ServerEvent(Event.ResourceStop)]
         public void OnResourceShutdown()
         {
             AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Shutdown));
         }
 
-        protected EventString.EventString GetEsFromAttr(MethodBase? method)
-        {
-            var attr = (RemoteEventAttribute)method!.GetCustomAttributes(typeof(RemoteEventAttribute), true)[0];
-            var es = AltAbstractResourceEvents.GetEs(attr.RemoteEventString);
-            AltLogger.Instance.LogDevelopment(new AltEvent(this, es.Event, es.ToString()));
+        #endregion
 
-            return es;
+        protected void LogEvent(MethodBase @event)
+        {
+            string eventName = GetEventString(@event);
+            var altEvent = new AltEvent(this, eventName, $"{eventName} fetched");
+            AltLogger.Instance.LogEvent(altEvent);
         }
+
+        private static string GetEventString(MethodBase methodBase) =>
+            methodBase.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString;
     }
 }

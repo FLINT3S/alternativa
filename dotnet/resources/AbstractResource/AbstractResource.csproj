@@ -16,13 +16,12 @@
 
         <ItemGroup>
           <ProjectReference Include="..\Database\Database.csproj" />
-          <ProjectReference Include="..\EventString\EventString.csproj" />
           <ProjectReference Include="..\Logger\Logger.csproj" />
         </ItemGroup>
 
         <ItemGroup>
-          <Compile Update="AltAbstractResourceEvents.cs">
-            <DependentUpon>AltAbstractResource.cs</DependentUpon>
+          <Compile Update="Connects\MessageStatus.cs">
+            <DependentUpon>AbstractConnect.cs</DependentUpon>
           </Compile>
         </ItemGroup>
     </Project>    

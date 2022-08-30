@@ -6,14 +6,12 @@ namespace Logger
 {
     internal class AltConsoleLogger : AltAbstractLogger
     {
-        public override Task Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent) =>
-            Task.Factory.StartNew(() =>
-                    {
-                        SetConsoleColor(level);
-                        Console.WriteLine(GetLogString(level, serverAltAbstractEvent));
-                        Console.ResetColor();
-                    }
-                );
+        protected override void Log(LogLevel level, AltAbstractEvent serverAltAbstractEvent)
+        {
+            SetConsoleColor(level);
+            Console.WriteLine(GetLogString(level, serverAltAbstractEvent));
+            Console.ResetColor();
+        }
 
         private static void SetConsoleColor(LogLevel level)
         {

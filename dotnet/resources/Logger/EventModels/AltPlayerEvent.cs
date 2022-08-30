@@ -2,8 +2,8 @@
 {
     public class AltPlayerEvent : AltAbstractEvent
     {
-        public AltPlayerEvent(object playerNickname, object module, string eventName, string eventDescription) : base(
-            $"logs/players/{playerNickname}.log", module, eventName, eventDescription)
+        public AltPlayerEvent(object player, object module, string eventName, string eventDescription) : base(
+            $"logs/players/{player}.log", module, eventName, eventDescription)
         {
         }
     }

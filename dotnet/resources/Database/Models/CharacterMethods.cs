@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using GTANetworkAPI;
 
 namespace Database.Models
@@ -15,9 +16,20 @@ namespace Database.Models
 
         #endregion
 
+        [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
+        
         public void IncreaseInGameTime(TimeSpan time)
         {
             InGameTime += time;
+            lock (AltContext.Locker)
+            {
+                UpdateInContext();
+            }
+        }
+
+        public void DecreaseTimeToReborn(TimeSpan time)
+        {
+            TimeToReborn -= time;
             lock (AltContext.Locker)
             {
                 UpdateInContext();

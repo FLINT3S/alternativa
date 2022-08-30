@@ -1,29 +1,34 @@
-﻿using GTANetworkAPI;
+﻿using AbstractResource.Connects;
+using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    public class ExistAccountChecker : AbstractHandler
+    internal class ExistAccountChecker : AbstractConnectionHandler
     {
-        public ExistAccountChecker(AbstractHandler? next = null) : base(next)
+        public ExistAccountChecker(ClientConnect clientConnect, AbstractConnectionHandler? next = null) : base(
+                clientConnect,
+                next
+            )
         {
         }
+
+        protected override string EventDescription => "";
 
         protected override bool CanHandle(Player player) => !player.HasAccountInDb();
 
         protected override void _Handle(Player player)
         {
-            AltLogger.Instance.LogInfo(
-                    new AltPlayerEvent(
-                            "_newPlayers",
-                            this,
-                            "OnPlayerConnected",
-                            player.GetPlayerDataString()
-                        )
+            var playerEvent = new AltPlayerEvent(
+                    "_newPlayers",
+                    this,
+                    "Connection",
+                    player.GetPlayerConnectedDataString()
                 );
-            player.TriggerEvent(AuthorizationEvents.FirstConnectionToClient);
+            AltLogger.Instance.LogInfo(playerEvent);
+            ClientConnect.Trigger(player, PlayerConnectedEvents.FirstConnection);
         }
     }
 }

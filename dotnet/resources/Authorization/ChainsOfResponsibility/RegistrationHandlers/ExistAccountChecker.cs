@@ -1,23 +1,31 @@
-﻿using AbstractResource;
+﻿using AbstractResource.Connects;
 using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
-    public class ExistAccountChecker : AbstractHandler
+    internal class ExistAccountChecker : AbstractRegistrationHandler
     {
-        public ExistAccountChecker(CefConnect cefConnect, AbstractHandler? next) : base(cefConnect, next)
+        public ExistAccountChecker(ClientConnect clientConnect, CefConnect cefConnect,
+            AbstractRegistrationHandler? next) : base(
+                clientConnect,
+                cefConnect,
+                next
+            )
         {
         }
 
-        protected override bool CanHandle(Player player, string login, string password, string email) => 
+        protected override string EventDescription => "Register failure cause";
+
+        protected override bool CanHandle(Player player, string login, string password, string email) =>
             player.HasAccountInDb();
 
         protected override void _Handle(Player player, string login, string password, string email)
         {
-            CefConnect.TriggerCef(
+            Log(player);
+            CefConnect.Trigger(
                     player,
-                    AuthorizationEvents.RegisterFailureToCef,
+                    RegistrationEvents.RegisterFailure,
                     "User with this Social Club ID already exist"
                 );
         }

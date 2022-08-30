@@ -10,7 +10,7 @@ namespace Database.Models.Bans
         {
         }
 
-        protected AbstractBan(Account givenBy, Account givenTo, BanReason reason, string? description)
+        protected AbstractBan(Account givenBy, Account givenTo, BanReason reason, string description)
         {
             GivenBy = givenBy;
             GivenTo = givenTo;
@@ -22,7 +22,7 @@ namespace Database.Models.Bans
 
         public BanReason Reason { get; private set;}
 
-        public string? Description { get; private set; }
+        public string Description { get; private set; }
 
         public virtual Account GivenTo { get; private set; }
 

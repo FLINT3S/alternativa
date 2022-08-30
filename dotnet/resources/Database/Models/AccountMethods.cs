@@ -178,7 +178,7 @@ namespace Database.Models
 
         public bool IsSetActiveCharacter() => ActiveCharacter != null;
         
-        public void PeekCharacter(Character? peekedCharacter)
+        public void PeekCharacter(Character peekedCharacter)
         {
             ActiveCharacter = peekedCharacter;
             UpdateInContext();

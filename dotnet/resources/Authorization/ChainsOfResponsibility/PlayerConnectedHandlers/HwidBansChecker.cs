@@ -1,20 +1,27 @@
-﻿using GTANetworkAPI;
+﻿using AbstractResource.Connects;
+using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
-    public class HwidBansChecker : AbstractHandler
+    internal class HwidBansChecker : AbstractConnectionHandler
     {
-        public HwidBansChecker(AbstractHandler? next = null) : base(next)
+        public HwidBansChecker(ClientConnect clientConnect, AbstractConnectionHandler? next = null) : base(
+                clientConnect,
+                next
+            )
         {
         }
+
+        protected override string EventDescription => "Connect failure cause player's HWID banned";
 
         protected override bool CanHandle(Player player) => player.GetBanByHwid() != null;
 
         protected override void _Handle(Player player)
         {
             var hwidBan = player.GetBanByHwid()!;
-            player.TriggerEvent(AuthorizationEvents.PermanentlyBanned, hwidBan.Reason, hwidBan.Description);
+            Log(player);
+            ClientConnect.Trigger(player, PlayerConnectedEvents.PermanentlyBanned, hwidBan.Reason, hwidBan.Description);
         }
     }
 }
