@@ -2,8 +2,6 @@
 using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
-using LocalContext;
-using Microsoft.EntityFrameworkCore.Internal;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers

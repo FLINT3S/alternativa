@@ -7,7 +7,7 @@ using NAPIExtensions;
 
 namespace CharacterManager
 {
-    public class Main : AltAbstractResource
+    public class CharacterManager : AltAbstractResource
     {
         [Command("createcharacter")]
         public void OnCreateCharacter(Player player)
@@ -35,13 +35,25 @@ namespace CharacterManager
                 var account = player.GetAccountFromDb()!;
                 var character = account.Characters.First(c => c.Id == Guid.Parse(rawGuid));
                 account.PeekCharacter(character);
-                NAPI.Player.SpawnPlayer(player, character.LastPosition ?? Vector3.RandomXy());
+                NAPI.Task.Run(() => NAPI.Player.SpawnPlayer(player, character.LastPosition ?? Vector3.RandomXy()));
+                if (character.IsDead)
+                    NAPI.Task.Run(() => player.Health = 0);
+                ClientConnect.Trigger(player, "OnCharacterSpawned", character.IsDead);
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                Console.WriteLine(rawGuid);
+                Console.WriteLine(ex);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
+                Console.WriteLine(rawGuid);
+                Console.WriteLine(ex);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(rawGuid);
+                Console.WriteLine(ex);
             }
         }
 

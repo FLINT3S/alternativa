@@ -1,6 +1,7 @@
 using System.Reflection;
 using AbstractResource;
 using Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
+using Database;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;

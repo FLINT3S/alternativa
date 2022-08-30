@@ -194,6 +194,7 @@ namespace Database.Models
             this.ip = ip;
             this.hwid = hwid;
 
+            ActiveCharacter = null;
             var ce = new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, "Account connected.");
             ce.AddToContext();
             Connections.Add(ce);

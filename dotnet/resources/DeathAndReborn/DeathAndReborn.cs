@@ -11,7 +11,7 @@ using NAPIExtensions;
 
 namespace DeathAndReborn
 {
-    public class Main : AltAbstractResource
+    public class DeathAndReborn : AltAbstractResource
     {
         #region Server Events
         
@@ -23,16 +23,18 @@ namespace DeathAndReborn
         }
 
         [ServerEvent(Event.PlayerDeath)]
-        public void OnPlayerDeath(Player client, Player killer, uint reason)
+        public void OnPlayerDeath(Player player, Player killer, uint reason)
         {
-            client.GetActiveCharacter()!.OnDeath();
+            if (player.GetActiveCharacter()!.IsDead) return;
+            player.GetActiveCharacter()!.OnDeath();
+            ClientConnect.Trigger(player, "Death");
         }
 
         #endregion
         
         #region Counter
         
-        private static void DeathTimeCounter()
+        private void DeathTimeCounter()
         {
             while (true)
             {
@@ -41,7 +43,7 @@ namespace DeathAndReborn
             }
         }
 
-        private static void DecreaseTimeToReborn()
+        private void DecreaseTimeToReborn()
         {
             List<Character> deadCharacters = NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
             foreach (var deadCharacter in deadCharacters)
@@ -60,11 +62,16 @@ namespace DeathAndReborn
 
         #endregion
 
-        private static void Respawn(Character character)
+        private void Respawn(Character character)
         {
             var account = character.Account;
-            var player = NAPI.Pools.GetAllPlayers().First(p => p.SocialClubId == account.SocialClubId);
-            NAPI.Player.SpawnPlayer(player, Vector3.RandomXy());
+            NAPI.Task.Run(
+                () =>
+                {
+                    var player = NAPI.Pools.GetAllPlayers().First(p => p.SocialClubId == account.SocialClubId);
+                    NAPI.Player.SpawnPlayer(player, Vector3.RandomXy());
+                    ClientConnect.Trigger(player, "Reborn");
+                });
         }
     }
 }
