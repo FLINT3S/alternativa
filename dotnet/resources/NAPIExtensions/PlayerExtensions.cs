@@ -74,10 +74,10 @@ namespace NAPIExtensions
         public static void RemoveAccount(this Player player) => 
             player.ResetData(PlayerConstants.Account);
 
-        public static IEnumerable<Account> GetOnlineAccounts(this Pools pools) =>
+        public static IEnumerable<Account> GetActiveAccounts(this Pools pools) =>
             pools.GetAllPlayers().Select(p => p.GetAccount()).Where(a => a != null)!;
 
         public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>
-            pools.GetOnlineAccounts().Select(a => a.ActiveCharacter).Where(c => c != null);
+            pools.GetActiveAccounts().Select(a => a.ActiveCharacter).Where(c => c != null);
     }
 }

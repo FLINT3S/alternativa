@@ -1,7 +1,10 @@
-﻿using AbstractResource.Connects;
+﻿using System.Linq;
+using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
 using LocalContext;
+using Microsoft.EntityFrameworkCore.Internal;
+using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
@@ -15,10 +18,10 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
         }
 
-        protected override string EventDescription => "Login failure cause account already online";
-
         protected override bool CanHandle(Player player, Account? account, string login, string password) =>
-            EntityLists.OnlinePlayers.Contains(account);
+            NAPI.Pools.GetActiveAccounts().ToList().Any(a => a.SocialClubId == player.SocialClubId);
+
+        protected override string EventDescription => "Login failure cause account already online";
 
         protected override void _Handle(Player player, Account? account, string login, string password)
         {

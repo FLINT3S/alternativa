@@ -27,13 +27,6 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
             // todo вынести весь регион в CharacterManager
 
-            var character = player.GetActiveCharacter();
-
-            if (account.IsSetActiveCharacter())
-                EntityLists.OnlinePlayers.Add(account);
-
-            if (character?.LastPosition != null)
-                player.Position = character.LastPosition;
 
             #endregion
 
