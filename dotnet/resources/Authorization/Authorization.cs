@@ -26,6 +26,11 @@ namespace Authorization
             loginHandlersChain = ChainsOfResponsibility.LoginHandlers.AbstractLoginHandler.GetChain(ClientConnect, CefConnect);
         }
 
+        public void OnAuthorizationStart()
+        {
+            NAPI.Server.SetAutoSpawnOnConnect(false);
+        }
+
         #region RemoteEvents
 
         // Здесь ивент от клиента (а не PlayerConnected), о том, что он готов к логину
@@ -85,5 +90,13 @@ namespace Authorization
         }
 
         #endregion
+
+        [ServerEvent(Event.PlayerDisconnected)]
+        public void OnPlayerDisconnect(Player player, DisconnectionType type, string reason)
+        {
+            var account = player.GetAccount();
+            account?.OnDisconnect(player.Position);
+            player.RemoveAccount();
+        }
     }
 }
