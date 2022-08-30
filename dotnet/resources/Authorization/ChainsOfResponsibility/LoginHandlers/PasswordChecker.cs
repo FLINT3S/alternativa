@@ -1,8 +1,6 @@
 ﻿using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
@@ -16,6 +14,8 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
         }
 
+        protected override string EventDescription => "Login failure cause wrong password";
+
         protected override bool CanHandle(Player player, Account? account, string login, string password) =>
             !account!.IsPasswordsMatch(password);
 
@@ -24,7 +24,5 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
             Log(player);
             CefConnect.Trigger(player, LoginEvents.LoginFailure, "Wrong password");
         }
-
-        protected override string EventDescription => "Login failure cause wrong password";
     }
 }

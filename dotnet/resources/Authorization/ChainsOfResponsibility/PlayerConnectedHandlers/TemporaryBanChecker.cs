@@ -1,16 +1,19 @@
 ﻿using AbstractResource.Connects;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 {
     internal class TemporaryBanChecker : AbstractConnectionHandler
     {
-        public TemporaryBanChecker(ClientConnect clientConnect, AbstractConnectionHandler? next = null) : base(clientConnect, next)
+        public TemporaryBanChecker(ClientConnect clientConnect, AbstractConnectionHandler? next = null) : base(
+                clientConnect,
+                next
+            )
         {
         }
+
+        protected override string EventDescription => "Connect failure caused Social Club ID temporary banned";
 
         protected override bool CanHandle(Player player) =>
             player.GetAccountFromDb()!.IsTemporaryBanned();
@@ -28,7 +31,5 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
                     ban.Description
                 );
         }
-
-        protected override string EventDescription => "Connect failure caused Social Club ID temporary banned";
     }
 }

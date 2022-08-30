@@ -6,13 +6,16 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     internal class EmailTakenChecker : AbstractRegistrationHandler
     {
-        public EmailTakenChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractRegistrationHandler? next) : base(
+        public EmailTakenChecker(ClientConnect clientConnect, CefConnect cefConnect,
+            AbstractRegistrationHandler? next) : base(
                 clientConnect,
                 cefConnect,
                 next
             )
         {
         }
+
+        protected override string EventDescription => "Register failure cause user with this email already exist";
 
         protected override bool CanHandle(Player player, string login, string password, string email) =>
             Account.IsEmailTaken(email);
@@ -26,7 +29,5 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
                     "User with this email already exist"
                 );
         }
-
-        protected override string EventDescription => "Register failure cause user with this email already exist";
     }
 }

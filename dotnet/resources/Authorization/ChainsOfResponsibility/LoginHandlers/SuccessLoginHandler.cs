@@ -17,6 +17,10 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
         }
 
+        protected override string EventName => "LoginSuccess";
+
+        protected override string EventDescription { get; }
+
         protected override bool CanHandle(Player player, Account? account, string login, string password) => true;
 
         protected override void _Handle(Player player, Account? account, string login, string password)
@@ -32,9 +36,5 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
                 );
             AltLogger.Instance.LogInfo(playerEvent);
         }
-        
-        protected override string EventName => "LoginSuccess";
-        
-        protected override string EventDescription { get; }
     }
 }

@@ -14,6 +14,8 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
         }
 
+        protected override string EventDescription => "Login failure cause account not found";
+
         protected override bool CanHandle(Player player, Account? account, string login, string password) =>
             account == null;
 
@@ -22,7 +24,5 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
             Log(player);
             CefConnect.Trigger(player, LoginEvents.LoginFailure, "Account not found");
         }
-
-        protected override string EventDescription => "Login failure cause account not found";
     }
 }

@@ -6,13 +6,16 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     internal class ExistAccountChecker : AbstractRegistrationHandler
     {
-        public ExistAccountChecker(ClientConnect clientConnect, CefConnect cefConnect, AbstractRegistrationHandler? next) : base(
+        public ExistAccountChecker(ClientConnect clientConnect, CefConnect cefConnect,
+            AbstractRegistrationHandler? next) : base(
                 clientConnect,
                 cefConnect,
                 next
             )
         {
         }
+
+        protected override string EventDescription => "Register failure cause";
 
         protected override bool CanHandle(Player player, string login, string password, string email) =>
             player.HasAccountInDb();
@@ -26,7 +29,5 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
                     "User with this Social Club ID already exist"
                 );
         }
-
-        protected override string EventDescription => "Register failure cause";
     }
 }

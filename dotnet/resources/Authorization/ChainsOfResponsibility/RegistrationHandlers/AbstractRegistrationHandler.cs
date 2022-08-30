@@ -5,15 +5,16 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
     internal abstract class AbstractRegistrationHandler : AbstractHandler
     {
-        protected AbstractRegistrationHandler(ClientConnect clientConnect, CefConnect cefConnect, AbstractRegistrationHandler? next)
+        protected AbstractRegistrationHandler(ClientConnect clientConnect, CefConnect cefConnect,
+            AbstractRegistrationHandler? next)
         {
             ClientConnect = clientConnect;
             Next = next;
             CefConnect = cefConnect;
         }
-        
+
         protected CefConnect CefConnect { get; }
-        
+
         protected ClientConnect ClientConnect { get; }
 
         private AbstractRegistrationHandler? Next { get; }

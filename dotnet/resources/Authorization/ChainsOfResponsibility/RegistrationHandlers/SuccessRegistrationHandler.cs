@@ -14,6 +14,10 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         {
         }
 
+        protected override string EventName => "RegistrationSuccess";
+
+        protected override string EventDescription => "Register success";
+
         protected override bool CanHandle(Player player, string login, string password, string email) => true;
 
         protected override void _Handle(Player player, string login, string password, string email)
@@ -24,9 +28,5 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
             Log(player);
             ClientConnect.Trigger(player, RegistrationEvents.RegisterSuccess, "Success!");
         }
-
-        protected override string EventName => "RegistrationSuccess";
-
-        protected override string EventDescription => "Register success";
     }
 }
