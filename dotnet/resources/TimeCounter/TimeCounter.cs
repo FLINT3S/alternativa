@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AbstractResource;
+using Database;
 using Database.Models;
 using GTANetworkAPI;
 using LocalContext;
@@ -35,7 +36,10 @@ namespace TimeCounter
             IQueryable<Character> characters = players.Select(account => account.ActiveCharacter);
             IQueryable<Character> onlineCharacters = characters.Where(character => character != null);
             foreach (var character in onlineCharacters)
-                character.IncreaseInGameTime(TimeSpan.FromMinutes(1));
+                character.InGameTime += TimeSpan.FromMinutes(1);
+
+            AltContext.Instance.UpdateRange(onlineCharacters);
+            AltContext.Instance.SaveChanges();
         }
 
         #endregion
@@ -58,7 +62,10 @@ namespace TimeCounter
             IQueryable<Character> onlineCharacters = characters.Where(character => character != null);
             IQueryable<Character> deadCharacters = onlineCharacters.Where(character => character.IsDead);
             foreach (var deadCharacter in deadCharacters)
-                deadCharacter.DecreaseTimeToReborn(TimeSpan.FromSeconds(1));
+                deadCharacter.TimeToReborn -= TimeSpan.FromSeconds(1);
+
+            AltContext.Instance.UpdateRange(deadCharacters);
+            AltContext.Instance.SaveChanges();
         }
 
         #endregion

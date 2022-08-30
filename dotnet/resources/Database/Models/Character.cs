@@ -24,13 +24,13 @@ namespace Database.Models
 
         public virtual Account Account { get; private set; }
         
-        public TimeSpan InGameTime { get; private set; } = TimeSpan.Zero;
+        public TimeSpan InGameTime { get; set; } = TimeSpan.Zero;
         
         #endregion
 
         public Vector3 LastPosition { get; private set; }
         
-        public TimeSpan TimeToReborn { get; private set; } = TimeSpan.Zero;
+        public TimeSpan TimeToReborn { get; set; } = TimeSpan.Zero;
         
         #region Biography
 
