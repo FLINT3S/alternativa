@@ -28,7 +28,7 @@ namespace Authorization
 
         public void OnAuthorizationStart()
         {
-            // NAPI.Server.SetAutoSpawnOnConnect(false);
+            NAPI.Server.SetAutoSpawnOnConnect(false);
         }
 
         #region RemoteEvents

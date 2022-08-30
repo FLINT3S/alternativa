@@ -33,6 +33,7 @@ namespace CharacterManager
             var account = player.GetAccountFromDb()!;
             var character = account.Characters.FirstOrDefault(c => c.Id == Guid.Parse(rawGuid));
             account.PeekCharacter(character);
+            NAPI.Player.SpawnPlayer(player, Vector3.RandomXy());
         }
 
         #endregion
