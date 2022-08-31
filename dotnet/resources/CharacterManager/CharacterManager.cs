@@ -40,20 +40,9 @@ namespace CharacterManager
                     NAPI.Task.Run(() => player.Health = 0);
                 ClientConnect.Trigger(player, "OnCharacterSpawned", character.IsDead);
             }
-            catch (FormatException ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(rawGuid);
-                Console.WriteLine(ex);
-            }
-            catch (InvalidOperationException ex)
-            {
-                Console.WriteLine(rawGuid);
-                Console.WriteLine(ex);
-            }
-            catch (ArgumentNullException ex)
-            {
-                Console.WriteLine(rawGuid);
-                Console.WriteLine(ex);
+                LogException(ex);
             }
         }
 
