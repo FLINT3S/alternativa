@@ -9,16 +9,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace Database
 {
-    public class AltContext : DbContext
+    public partial class AltContext : DbContext
     {
-        public static object Locker { get; }
-        
-        public static AltContext Instance { get; }
-
-        protected AltContext()
-        {
-        }
-        
         private static readonly IConfigurationRoot Config;
         
         public DbSet<Account> Accounts { get; private set; }
@@ -33,9 +25,6 @@ namespace Database
 
         static AltContext()
         {
-            Instance = new AltContext();
-            Locker = new object();
-            
             Config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();

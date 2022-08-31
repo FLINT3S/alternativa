@@ -19,7 +19,6 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         protected override void _Handle(Player player)
         {
             var account = player.GetAccountFromDb()!;
-            player.SetAccount(account);
             account.OnConnect(player.Address, player.Serial);
 
             Log(player);

@@ -36,8 +36,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         public static AbstractLoginHandler GetChain(ClientConnect clientConnect, CefConnect cefConnect)
         {
             var successLoginHandler = new SuccessLoginHandler(clientConnect, cefConnect);
-            var doubleLoginChecker = new DoubleLoginChecker(clientConnect, cefConnect, successLoginHandler);
-            var passwordHandler = new PasswordChecker(clientConnect, cefConnect, doubleLoginChecker);
+            var passwordHandler = new PasswordChecker(clientConnect, cefConnect, successLoginHandler);
             var loginHandler = new LoginChecker(clientConnect, cefConnect, passwordHandler);
             var existAccountChecker = new ExistAccountChecker(clientConnect, cefConnect, loginHandler);
             return existAccountChecker;

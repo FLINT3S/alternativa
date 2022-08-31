@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AbstractResource;
-using Database;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
@@ -34,13 +33,7 @@ namespace TimeCounter
         {
             List<Character> onlineCharacters = NAPI.Pools.GetActiveCharacters().ToList();
             foreach (var character in onlineCharacters)
-                character.InGameTime += TimeSpan.FromMinutes(1);
-
-            lock (AltContext.Locker)
-            {
-                AltContext.Instance.UpdateRange(onlineCharacters);
-                AltContext.Instance.SaveChanges();
-            }
+                character.IncreaseInGameTime(TimeSpan.FromMinutes(1));
         }
 
         #endregion

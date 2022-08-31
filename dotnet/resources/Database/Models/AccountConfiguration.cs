@@ -17,7 +17,6 @@ namespace Database.Models
             builder.HasMany(a => a.Characters)
                 .WithOne(c => c.Account)
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(a => a.ActiveCharacter);
             
             builder.HasMany(a => a.Connections)
                 .WithOne()

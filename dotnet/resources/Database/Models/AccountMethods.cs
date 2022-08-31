@@ -23,14 +23,8 @@ namespace Database.Models
 
         public static bool IsSocialClubIdTaken(ulong socialClubId)
         {
-            lock (AltContext.Locker)
-            {
-                return AltContext
-                    .Instance
-                    .Accounts
-                    .Select(a => a.SocialClubId)
-                    .Any(u => u == socialClubId);
-            }
+            using var context = new AltContext();
+            return context.Accounts.Select(a => a.SocialClubId).Any(u => u == socialClubId);
         }
 
         public void UpdateUsername(string newUsername)
@@ -45,14 +39,8 @@ namespace Database.Models
 
         public static bool IsUsernameTaken(string username)
         {
-            lock (AltContext.Locker)
-            {
-                return AltContext
-                    .Instance
-                    .Accounts
-                    .Select(a => a.Username)
-                    .Any(u => u == username);
-            }
+            using var context = new AltContext();
+            return context.Accounts.Select(a => a.Username).Any(u => u == username);
         }
 
         public void UpdateEmail(string newEmail)
@@ -67,14 +55,8 @@ namespace Database.Models
         
         public static bool IsEmailTaken(string email)
         {
-            lock (AltContext.Locker)
-            {
-                return AltContext
-                    .Instance
-                    .Accounts
-                    .Select(a => a.Email)
-                    .Any(e => e == email);
-            }
+            using var context = new AltContext();
+            return context.Accounts.Select(a => a.Email).Any(e => e == email);
         }
 
         #endregion
@@ -177,14 +159,6 @@ namespace Database.Models
             UpdateInContext();
         }
 
-        public bool IsSetActiveCharacter() => ActiveCharacter != null;
-        
-        public void PeekCharacter(Character peekedCharacter)
-        {
-            ActiveCharacter = peekedCharacter;
-            UpdateInContext();
-        }
-
         #endregion
 
         #region On Events
@@ -194,7 +168,6 @@ namespace Database.Models
             this.ip = ip;
             this.hwid = hwid;
 
-            ActiveCharacter = null;
             var ce = new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, "Account connected.");
             ce.AddToContext();
             Connections.Add(ce);
@@ -202,10 +175,8 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
         }
 
-        public void OnDisconnect(Vector3 position)
+        public void OnDisconnect()
         {
-            ActiveCharacter?.OnDisconnect(position);
-            ActiveCharacter = null;
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
             UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", "Account disconnected."));

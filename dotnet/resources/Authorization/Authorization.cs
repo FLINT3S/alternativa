@@ -94,9 +94,9 @@ namespace Authorization
         [ServerEvent(Event.PlayerDisconnected)]
         public void OnPlayerDisconnect(Player player, DisconnectionType type, string reason)
         {
-            var account = player.GetAccount();
-            account?.OnDisconnect(player.Position);
-            player.RemoveAccount();
+            var character = player.GetCharacter();
+            character?.OnDisconnect(player.Position);
+            player.RemoveCharacter();
         }
     }
 }

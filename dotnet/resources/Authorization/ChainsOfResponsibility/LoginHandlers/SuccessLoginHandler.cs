@@ -27,7 +27,6 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
             account!.UpdateHwid(player.Serial);
             ClientConnect.Trigger(player, LoginEvents.LoginSuccess, "Success!");
-            player.SetAccount(account);
             Log(player);
         }
     }

@@ -10,6 +10,7 @@ namespace Database.Models
 
         public void OnDisconnect(Vector3 position)
         {
+            Account.OnDisconnect();
             LastPosition = position;
             UpdateInContext();
         }
@@ -21,6 +22,18 @@ namespace Database.Models
         }
 
         #endregion
+
+        public void IncreaseInGameTime(TimeSpan time)
+        {
+            InGameTime += time;
+            UpdateInContext();
+        }
+
+        public void DecreaseTimeToReborn(TimeSpan time)
+        {
+            TimeToReborn -= time;
+            UpdateInContext();
+        }
 
         [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
 

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using AbstractResource;
+using Database;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
@@ -20,9 +21,8 @@ namespace CharacterManager
         [Command("selectcharacter", GreedyArg = true)]
         public void OnSelectCharacterCommand(Player player, string rawGuid)
         {
-            var account = player.GetAccountFromDb()!;
-            var character = account.Characters.FirstOrDefault(c => c.Id == Guid.Parse(rawGuid));
-            account.PeekCharacter(character);
+            var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
+            player.SetCharacter(character);
         }
 
         #region OnRemoteEvent
@@ -32,9 +32,8 @@ namespace CharacterManager
         {
             try
             {
-                var account = player.GetAccountFromDb()!;
-                var character = account.Characters.First(c => c.Id == Guid.Parse(rawGuid));
-                account.PeekCharacter(character);
+                var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
+                player.SetCharacter(character);
                 NAPI.Task.Run(() => NAPI.Player.SpawnPlayer(player, character.LastPosition ?? Vector3.RandomXy()));
                 if (character.IsDead)
                     NAPI.Task.Run(() => player.Health = 0);

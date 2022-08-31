@@ -25,8 +25,8 @@ namespace DeathAndReborn
         [ServerEvent(Event.PlayerDeath)]
         public void OnPlayerDeath(Player player, Player killer, uint reason)
         {
-            if (player.GetActiveCharacter()!.IsDead) return;
-            player.GetActiveCharacter()!.OnDeath();
+            if (player.GetCharacter()!.IsDead) return;
+            player.GetCharacter()!.OnDeath();
             ClientConnect.Trigger(player, "Death");
         }
 
@@ -48,15 +48,9 @@ namespace DeathAndReborn
             List<Character> deadCharacters = NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
             foreach (var deadCharacter in deadCharacters)
             {
-                deadCharacter.TimeToReborn -= TimeSpan.FromSeconds(1);
+                deadCharacter.DecreaseTimeToReborn(TimeSpan.FromSeconds(1));
                 if (!deadCharacter.IsDead)
                     Respawn(deadCharacter);
-            }
-
-            lock (AltContext.Locker)
-            {
-                AltContext.Instance.UpdateRange(deadCharacters);
-                AltContext.Instance.SaveChanges();
             }
         }
 
