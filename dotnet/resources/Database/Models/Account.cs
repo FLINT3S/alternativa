@@ -32,7 +32,7 @@ namespace Database.Models
 
         public List<TemporaryBan> TemporaryBans { get; } = new List<TemporaryBan>();
 
-        public PermanentBan PermanentBan { get; protected set; }
+        public PermanentBan PermanentBan { get; private set; }
 
         public List<Character> Characters { get; } = new List<Character>();
 
