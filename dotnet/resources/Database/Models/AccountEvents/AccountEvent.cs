@@ -2,7 +2,7 @@
 
 namespace Database.Models.AccountEvents
 {
-    public partial class AccountEvent : AbstractModel
+    public class AccountEvent : AbstractModel
     {
         // EF .ctor
         protected AccountEvent()

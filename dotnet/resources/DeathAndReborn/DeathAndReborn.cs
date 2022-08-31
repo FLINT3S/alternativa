@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AbstractResource;
-using Database;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
@@ -13,8 +12,21 @@ namespace DeathAndReborn
 {
     public class DeathAndReborn : AltAbstractResource
     {
+        private void Respawn(Character character)
+        {
+            var account = character.Account;
+            NAPI.Task.Run(
+                    () =>
+                    {
+                        var player = NAPI.Pools.GetAllPlayers().First(p => p.SocialClubId == account.SocialClubId);
+                        NAPI.Player.SpawnPlayer(player, Vector3.RandomXy());
+                        ClientConnect.Trigger(player, "Reborn");
+                    }
+                );
+        }
+
         #region Server Events
-        
+
         [ServerEvent(Event.ResourceStart)]
         public void OnTimeCounterStart()
         {
@@ -31,9 +43,9 @@ namespace DeathAndReborn
         }
 
         #endregion
-        
+
         #region Counter
-        
+
         private void DeathTimeCounter()
         {
             while (true)
@@ -55,17 +67,5 @@ namespace DeathAndReborn
         }
 
         #endregion
-
-        private void Respawn(Character character)
-        {
-            var account = character.Account;
-            NAPI.Task.Run(
-                () =>
-                {
-                    var player = NAPI.Pools.GetAllPlayers().First(p => p.SocialClubId == account.SocialClubId);
-                    NAPI.Player.SpawnPlayer(player, Vector3.RandomXy());
-                    ClientConnect.Trigger(player, "Reborn");
-                });
-        }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
-using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {

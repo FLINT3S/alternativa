@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using AbstractResource;
 using Database;
 using Database.Models;
@@ -17,7 +16,7 @@ namespace CharacterManager
             var character = new Character(account, "Vasya", "Pupkin", DateTime.Now);
             account.AddCharacter(character);
         }
-        
+
         [Command("selectcharacter", GreedyArg = true)]
         public void OnSelectCharacterCommand(Player player, string rawGuid)
         {

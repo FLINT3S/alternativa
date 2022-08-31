@@ -5,7 +5,6 @@ using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
-using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 
@@ -15,9 +14,22 @@ namespace Database.Models
     {
         private string ip = null!, hwid = null!;
 
-        [NotMapped] public TimeSpan InGameTime => Characters
+        [NotMapped]
+        public TimeSpan InGameTime => Characters
             .Select(c => c.InGameTime)
             .Aggregate((t1, t2) => t1 + t2);
+
+        #region Characters
+
+        public void AddCharacter(Character character)
+        {
+            Characters.Add(character);
+            UpdateInContext();
+        }
+
+        #endregion
+
+        public override string ToString() => $"{Username}_[{SocialClubId}]";
 
         #region Simple user data
 
@@ -29,9 +41,9 @@ namespace Database.Models
 
         public void UpdateUsername(string newUsername)
         {
-            if (IsUsernameTaken(newUsername)) 
+            if (IsUsernameTaken(newUsername))
                 throw new InvalidOperationException("This username already taken");
-            Username = newUsername != Username ? 
+            Username = newUsername != Username ?
                 newUsername : throw new InvalidOperationException("Usernames are same!");
             UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
@@ -45,14 +57,14 @@ namespace Database.Models
 
         public void UpdateEmail(string newEmail)
         {
-            if (IsEmailTaken(newEmail)) 
+            if (IsEmailTaken(newEmail))
                 throw new InvalidOperationException("This email already taken");
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Emails are same!");
             UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
         }
-        
-        
+
+
         public static bool IsEmailTaken(string email)
         {
             using var context = new AltContext();
@@ -103,7 +115,7 @@ namespace Database.Models
         }
 
         #endregion
-        
+
         #region HWID
 
         public bool IsSameLastHwid(string hwid) => LastHwid == hwid;
@@ -146,16 +158,7 @@ namespace Database.Models
                 default:
                     throw new ArgumentOutOfRangeException(nameof(ban));
             }
-            UpdateInContext();
-        }
 
-        #endregion
-
-        #region Characters
-
-        public void AddCharacter(Character character)
-        {
-            Characters.Add(character);
             UpdateInContext();
         }
 
@@ -183,7 +186,5 @@ namespace Database.Models
         }
 
         #endregion
-
-        public override string ToString() => $"{Username}_[{SocialClubId}]";
     }
 }

@@ -7,7 +7,7 @@ namespace Database.Models
         public DateTime CreatedDate { get; internal set; } = DateTime.Now;
 
         public DateTime UpdatedDate { get; internal set; } = DateTime.Now;
-        
+
         public void AddToContext()
         {
             using var context = new AltContext();

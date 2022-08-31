@@ -6,6 +6,22 @@ namespace Database.Models
 {
     public partial class Character
     {
+        [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
+
+        public void IncreaseInGameTime(TimeSpan time)
+        {
+            InGameTime += time;
+            UpdateInContext();
+        }
+
+        public void DecreaseTimeToReborn(TimeSpan time)
+        {
+            TimeToReborn -= time;
+            UpdateInContext();
+        }
+
+        public override string ToString() => $"{Id}: [{FirstName} {LastName}]";
+
         #region OnEvents
 
         public void OnDisconnect(Vector3 position)
@@ -22,21 +38,5 @@ namespace Database.Models
         }
 
         #endregion
-
-        public void IncreaseInGameTime(TimeSpan time)
-        {
-            InGameTime += time;
-            UpdateInContext();
-        }
-
-        public void DecreaseTimeToReborn(TimeSpan time)
-        {
-            TimeToReborn -= time;
-            UpdateInContext();
-        }
-
-        [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
-
-        public override string ToString() => $"{Id}: [{FirstName} {LastName}]";
     }
 }

@@ -47,19 +47,19 @@ namespace NAPIExtensions
         }
 
         /// <summary>
-        /// Аккаунт получается из Data и существует только в рантайме
-        /// Для получения аккаунта из базы данных нужно использовать <see cref="GetAccountFromDb"/>
+        ///     Аккаунт получается из Data и существует только в рантайме
+        ///     Для получения аккаунта из базы данных нужно использовать <see cref="GetAccountFromDb" />
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
-        public static Character? GetCharacter(this Player player) => 
-            player.HasData(PlayerConstants.Character) ? 
+        public static Character? GetCharacter(this Player player) =>
+            player.HasData(PlayerConstants.Character) ?
                 player.GetData<Character>(PlayerConstants.Character) : null;
 
-        public static void SetCharacter(this Player player, Character character) => 
+        public static void SetCharacter(this Player player, Character character) =>
             player.SetData(PlayerConstants.Character, character);
 
-        public static void RemoveCharacter(this Player player) => 
+        public static void RemoveCharacter(this Player player) =>
             player.ResetData(PlayerConstants.Character);
 
         public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>

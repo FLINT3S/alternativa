@@ -9,12 +9,12 @@
 
     <ItemGroup>
         <Reference Include="Bootstrapper">
-        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+            <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
         </Reference>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
     </ItemGroup>
 </Project>    
     

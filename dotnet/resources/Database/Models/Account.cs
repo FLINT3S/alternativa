@@ -9,7 +9,7 @@ namespace Database.Models
         protected Account()
         {
         }
-        
+
         public Account(ulong socialClubId, string username, string password, string email)
         {
             SocialClubId = socialClubId;

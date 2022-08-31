@@ -21,7 +21,7 @@ namespace Authorization
         #endregion
 
         #region Username Check Events
-        
+
         public const string CheckUsernameFromCef = "CEF:SERVER:Authorization:CheckUsername";
 
         public const string IsUsernameTakenToCef = "IsUsernameTaken";

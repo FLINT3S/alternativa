@@ -6,11 +6,11 @@ namespace Weather.WeatherProviders
 {
     internal class OpenWeatherMapProvider : WeatherProvider
     {
-        private readonly string zip;
-
         private readonly string country;
 
         private readonly Current current;
+
+        private readonly string zip;
 
         public OpenWeatherMapProvider(string apiKey, string zip, string country)
         {
@@ -18,7 +18,7 @@ namespace Weather.WeatherProviders
             this.zip = zip;
             current = new Current(apiKey, WeatherUnits.Metric);
         }
-        
+
         public override GTANetworkAPI.Weather GetWeather()
         {
             var forecast = current.GetWeatherDataByZip(zip, country).Result;

@@ -18,33 +18,33 @@ namespace Database.Models
             InGameTime = TimeSpan.Zero;
         }
 
+        public Vector3 LastPosition { get; private set; }
+
+        private TimeSpan TimeToReborn { get; set; } = TimeSpan.Zero;
+
+        #region Finances
+
+        public long Cash { get; set; }
+
+        #endregion
+
         #region Main Data
 
         public Guid Id { get; private set; }
 
         public Account Account { get; private set; }
         
-        public TimeSpan InGameTime { get; set; } = TimeSpan.Zero;
-        
+        public TimeSpan InGameTime { get; private set; } = TimeSpan.Zero;
+
         #endregion
 
-        public Vector3 LastPosition { get; private set; }
-        
-        public TimeSpan TimeToReborn { get; set; } = TimeSpan.Zero;
-        
         #region Biography
 
-        public string FirstName { get; private set; }
+        public string FirstName { get; }
 
-        public string LastName { get; private set; }
+        public string LastName { get; }
 
-        public DateTime Birthday { get; private set; }
-        
-        #endregion
-
-        #region Finances
-        
-        public long Cash { get; set; }
+        public DateTime Birthday { get; }
 
         #endregion
     }

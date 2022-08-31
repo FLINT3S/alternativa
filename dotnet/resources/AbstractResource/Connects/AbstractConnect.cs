@@ -11,11 +11,11 @@ namespace AbstractResource.Connects
     public abstract class AbstractConnect
     {
         protected AbstractConnect(object module) => Module = module;
-        
+
         private object Module { get; }
-        
+
         protected string ModuleName => Module.GetType().Name;
-        
+
         protected string FromTo => $"SERVER:{Receiver}";
 
         protected abstract string Receiver { get; }

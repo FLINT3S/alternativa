@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Logger.EventModels;
 
 /*
@@ -18,7 +17,8 @@ namespace Logger
 
         public void LogInfo(AltAbstractEvent serverAltAbstractEvent) => Log(LogLevel.Info, serverAltAbstractEvent);
 
-        public void LogDevelopment(AltAbstractEvent serverAltAbstractEvent) => Log(LogLevel.Development, serverAltAbstractEvent);
+        public void LogDevelopment(AltAbstractEvent serverAltAbstractEvent) =>
+            Log(LogLevel.Development, serverAltAbstractEvent);
 
         public void LogWarning(AltAbstractEvent serverAltAbstractEvent) => Log(LogLevel.Warning, serverAltAbstractEvent);
 

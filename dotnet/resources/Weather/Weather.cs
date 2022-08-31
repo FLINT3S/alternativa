@@ -1,5 +1,4 @@
 using System;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using AbstractResource;
@@ -55,13 +54,16 @@ namespace Weather
 
         private void SetWeather(GTANetworkAPI.Weather weather)
         {
-            NAPI.Task.Run(() =>
+            NAPI.Task.Run(
+                    () =>
                     {
                         NAPI.World.SetWeather(weather);
                         NAPI.ClientEvent.TriggerClientEventForAll(WeatherEvents.SetWeatherToClient, weather.ToString());
                     }
                 );
-            AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Info, $"Set weather: {weather.ToString()}"));
+            AltLogger.Instance.LogResource(
+                    new AltResourceEvent(this, ResourceEventType.Info, $"Set weather: {weather.ToString()}")
+                );
         }
 
         private void SetNotWinterWeather(GTANetworkAPI.Weather weather)
@@ -81,8 +83,8 @@ namespace Weather
         }
 
         private static bool IsRaining(GTANetworkAPI.Weather weather) =>
-            weather == GTANetworkAPI.Weather.RAIN || 
-            weather == GTANetworkAPI.Weather.CLEARING || 
+            weather == GTANetworkAPI.Weather.RAIN ||
+            weather == GTANetworkAPI.Weather.CLEARING ||
             weather == GTANetworkAPI.Weather.THUNDER;
 
         private static void TimeUpdatingProcess()

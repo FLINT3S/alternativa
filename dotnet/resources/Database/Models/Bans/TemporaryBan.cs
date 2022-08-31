@@ -7,7 +7,7 @@ namespace Database.Models.Bans
         protected TemporaryBan()
         {
         }
-        
+
         public TemporaryBan(TimeSpan duration, Account givenBy, Account givenTo, BanReason reason = BanReason.Other,
             string description = null) : base(givenBy, givenTo, reason, description) => Duration = duration;
 

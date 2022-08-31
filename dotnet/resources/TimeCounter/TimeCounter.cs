@@ -19,7 +19,7 @@ namespace TimeCounter
         }
 
         #region Common Counter
-        
+
         private static void CommonTimeCounter()
         {
             while (true)

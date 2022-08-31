@@ -1,6 +1,5 @@
 ﻿using AbstractResource;
 using GTANetworkAPI;
-using Player = GTANetworkAPI.Player;
 
 namespace TestResource
 {
@@ -11,7 +10,7 @@ namespace TestResource
         {
             NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
         }
-        
+
         [Command("killme")]
         public void CMDOnKillMe(Player player)
         {

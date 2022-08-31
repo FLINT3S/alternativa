@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Logger.EventModels;
 
 namespace Logger
@@ -18,26 +17,42 @@ namespace Logger
                 "logs/resources",
                 "logs/events"
             };
-            
+
             if (!logPaths.All(Directory.Exists))
             {
-                Console.WriteLine(GetLogString(LogLevel.Warning,
-                    new AltEvent(this, "Logger", "Logger initialized, logs folders not found")));
+                Console.WriteLine(
+                        GetLogString(
+                                LogLevel.Warning,
+                                new AltEvent(this, "Logger", "Logger initialized, logs folders not found")
+                            )
+                    );
 
                 foreach (string logPath in logPaths.Where(logPath => !Directory.Exists(logPath)))
                 {
                     Directory.CreateDirectory(logPath);
-                    Console.WriteLine(GetLogString(LogLevel.Info,
-                        new AltEvent(this, "Logger", $"Logs folder '{logPath}' created")));
+                    Console.WriteLine(
+                            GetLogString(
+                                    LogLevel.Info,
+                                    new AltEvent(this, "Logger", $"Logs folder '{logPath}' created")
+                                )
+                        );
                 }
 
-                Console.WriteLine(GetLogString(LogLevel.Development,
-                    new AltEvent(this, "Logger", "All logs folders created")));
+                Console.WriteLine(
+                        GetLogString(
+                                LogLevel.Development,
+                                new AltEvent(this, "Logger", "All logs folders created")
+                            )
+                    );
             }
             else
             {
-                Console.WriteLine(GetLogString(LogLevel.Development,
-                    new AltEvent(this, "Logger", "Logger initialized, all logs folders found")));
+                Console.WriteLine(
+                        GetLogString(
+                                LogLevel.Development,
+                                new AltEvent(this, "Logger", "Logger initialized, all logs folders found")
+                            )
+                    );
             }
         }
 
