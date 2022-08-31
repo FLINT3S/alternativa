@@ -76,16 +76,9 @@ mp.events.add("SERVER:CLIENT:CharacterManager:OnCharacterSpawned", (isDead) => {
   mp.game.ui.displayRadar(true);
 
   mp.events.call("moveSkyCamera", mp.players.local, "down", 1, true)
-  if (isDead)
-    mp.game.graphics.startScreenEffect("DeathFailMPIn", 300_000, false)
 
   authorizationBrowser.browser.closeOverlay()
-})
 
-mp.events.add("SERVER:CLIENT:DeathAndReborn:Death", () => {
-  mp.game.graphics.startScreenEffect("DeathFailMPIn", 300_000, false)
-})
-
-mp.events.add("SERVER:CLIENT:DeathAndReborn:Reborn", () => {
-  mp.game.graphics.stopScreenEffect("DeathFailMPIn")
+  if (isDead)
+    mp.game.graphics.startScreenEffect("DeathFailMPIn", 300_000, false)
 })
