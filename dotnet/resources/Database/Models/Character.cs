@@ -22,7 +22,7 @@ namespace Database.Models
 
         public Guid Id { get; private set; }
 
-        public virtual Account Account { get; private set; }
+        public Account Account { get; private set; }
         
         public TimeSpan InGameTime { get; set; } = TimeSpan.Zero;
         

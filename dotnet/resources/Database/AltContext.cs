@@ -43,7 +43,7 @@ namespace Database
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
             optionsBuilder
-                .UseLazyLoadingProxies()
+                //.UseLazyLoadingProxies()
                 .UseNpgsql(ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
