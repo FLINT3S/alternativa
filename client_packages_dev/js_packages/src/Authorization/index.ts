@@ -10,6 +10,7 @@ let loginCam
 let authorizationBrowser = new ModuleBrowser("Authorization", "/login/loader")
 
 mp.events.add("playerReady", () => {
+  mp.game.gameplay.setFadeOutAfterDeath(false);
   loginCam = mp.cameras.new('default', new mp.Vector3(0, 0, 0), new mp.Vector3(0, 0, 0), 40);
   mp.players.local.position = new mp.Vector3(-1757.12, -739.53, 10);
 
@@ -62,4 +63,22 @@ mp.events.add(AuthorizationEvents.LOGIN_SUCCESS_FROM_SERVER, () => {
 mp.events.add(AuthorizationEvents.REGISTER_SUCCESS_FROM_SERVER, () => {
   authorizationBrowser.execClient("RegisterSuccess")
   mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
+})
+
+mp.events.add("SERVER:CLIENT:CharacterManager:OnCharacterSpawned", (isDead) => {
+  loginCam.destroy();
+
+  mp.game.cam.renderScriptCams(false, false, 0, false, false);
+  mp.players.local.freezePosition(false);
+  mp.game.ui.setMinimapVisible(false);
+  mp.gui.chat.activate(true);
+  mp.gui.chat.show(true);
+  mp.game.ui.displayRadar(true);
+
+  mp.events.call("moveSkyCamera", mp.players.local, "down", 1, true)
+
+  authorizationBrowser.browser.closeOverlay()
+
+  if (isDead)
+    mp.game.graphics.startScreenEffect("DeathFailMPIn", 300_000, false)
 })

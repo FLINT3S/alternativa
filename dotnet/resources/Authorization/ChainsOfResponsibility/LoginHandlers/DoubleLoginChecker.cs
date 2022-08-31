@@ -16,10 +16,10 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
         }
 
-        protected override string EventDescription => "Login failure cause account already online";
-
         protected override bool CanHandle(Player player, Account? account, string login, string password) =>
-            NAPI.Pools.GetAllPlayers().FirstOrDefault(p => p == player)?.GetAccount() != null;
+            NAPI.Pools.GetActiveAccounts().ToList().Any(a => a.SocialClubId == player.SocialClubId);
+
+        protected override string EventDescription => "Login failure cause account already online";
 
         protected override void _Handle(Player player, Account? account, string login, string password)
         {

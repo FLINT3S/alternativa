@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
+using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 
@@ -193,6 +194,7 @@ namespace Database.Models
             this.ip = ip;
             this.hwid = hwid;
 
+            ActiveCharacter = null;
             var ce = new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, "Account connected.");
             ce.AddToContext();
             Connections.Add(ce);
@@ -200,8 +202,9 @@ namespace Database.Models
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
         }
 
-        public void OnDisconnect()
+        public void OnDisconnect(Vector3 position)
         {
+            ActiveCharacter?.OnDisconnect(position);
             ActiveCharacter = null;
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
             UpdateInContext();

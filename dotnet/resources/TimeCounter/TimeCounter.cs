@@ -17,7 +17,6 @@ namespace TimeCounter
         public void OnTimeCounterStart()
         {
             Task.Run(CommonTimeCounter);
-            Task.Run(DeathTimeCounter);
         }
 
         #region Common Counter
@@ -40,32 +39,6 @@ namespace TimeCounter
             lock (AltContext.Locker)
             {
                 AltContext.Instance.UpdateRange(onlineCharacters);
-                AltContext.Instance.SaveChanges();
-            }
-        }
-
-        #endregion
-
-        #region Time to Reborn Counter
-        
-        private static void DeathTimeCounter()
-        {
-            while (true)
-            {
-                Task.Run(DecreaseTimeToReborn);
-                Thread.Sleep(1_000);
-            }
-        }
-
-        private static void DecreaseTimeToReborn()
-        {
-            List<Character> deadCharacters = NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
-            foreach (var deadCharacter in deadCharacters)
-                deadCharacter.TimeToReborn -= TimeSpan.FromSeconds(1);
-
-            lock (AltContext.Locker)
-            {
-                AltContext.Instance.UpdateRange(deadCharacters);
                 AltContext.Instance.SaveChanges();
             }
         }

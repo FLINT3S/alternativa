@@ -32,13 +32,7 @@ namespace AbstractResource
         }
 
         [ServerEvent(Event.UnhandledException)]
-        public void OnUnhandledException(Exception exception)
-        {
-            string exceptionDescription = ParseException(exception);
-            if (exception.InnerException != null)
-                exceptionDescription += $"Inner exception: {ParseException(exception.InnerException)}";
-            AltLogger.Instance.LogCritical(new AltResourceEvent(this, ResourceEventType.Error, exceptionDescription));
-        }
+        public void OnUnhandledException(Exception exception) => LogException(exception);
 
         private static string ParseException(Exception ex) => $"{ex.GetType().FullName}: {ex.Message} at {ex.Source}. ";
 
@@ -59,5 +53,13 @@ namespace AbstractResource
 
         private static string GetEventString(MethodBase methodBase) =>
             methodBase.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString;
+
+        protected void LogException(Exception exception)
+        {
+            string exceptionDescription = ParseException(exception);
+            if (exception.InnerException != null)
+                exceptionDescription += $"Inner exception: {ParseException(exception.InnerException)}";
+            AltLogger.Instance.LogCritical(new AltResourceEvent(this, ResourceEventType.Error, exceptionDescription));
+        }
     }
 }

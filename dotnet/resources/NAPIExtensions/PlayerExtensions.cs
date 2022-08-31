@@ -37,11 +37,6 @@ namespace NAPIExtensions
 
         public static bool HasAccountInDb(this Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
 
-        /// <summary>
-        /// <b>Использовать аккуратно!</b>
-        /// После возвращения аккаунта контекст закрывается и работать с аккаунтом нужно через новый контекст,
-        /// сохраняя его через db.Update(account)
-        /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из базы данных</returns>
         public static Account? GetAccountFromDb(this Player player)
@@ -67,17 +62,17 @@ namespace NAPIExtensions
 
         public static void SetAccount(this Player player, Account account) => 
             player.SetData(PlayerConstants.Account, account);
-        
-        public static void RemoveAccount(this Player player) => 
-            player.ResetData(PlayerConstants.Account);
 
         public static Character? GetActiveCharacter(this Player player) => 
             player.GetAccount()!.ActiveCharacter;
 
-        public static IEnumerable<Account> GetAccounts(this Pools pools) =>
-            pools.GetAllPlayers().Select(player => player.GetAccount()).Where(account => account != null)!;
+        public static void RemoveAccount(this Player player) => 
+            player.ResetData(PlayerConstants.Account);
+
+        public static IEnumerable<Account> GetActiveAccounts(this Pools pools) =>
+            pools.GetAllPlayers().Select(p => p.GetAccount()).Where(a => a != null)!;
 
         public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>
-            pools.GetAccounts().Select(account => account.ActiveCharacter).Where(character => character != null)!;
+            pools.GetActiveAccounts().Select(a => a.ActiveCharacter).Where(c => c != null);
     }
 }

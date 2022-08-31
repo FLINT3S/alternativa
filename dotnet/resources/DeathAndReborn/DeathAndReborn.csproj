@@ -15,14 +15,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
-        <ProjectReference Include="..\LocalContext\LocalContext.csproj" />
         <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="CharacterManagerEvent.cs">
-        <DependentUpon>CharacterManager.cs</DependentUpon>
-      </Compile>
     </ItemGroup>
 </Project>    
     

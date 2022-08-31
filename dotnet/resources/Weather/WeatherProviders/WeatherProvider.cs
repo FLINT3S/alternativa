@@ -20,17 +20,5 @@ namespace Weather.WeatherProviders
             };
             return weathersId[RandomNumberGenerator.GetInt32(weathersId.Length)];
         }
-
-        public virtual GTANetworkAPI.Weather GetWinterWeather()
-        {
-            GTANetworkAPI.Weather[] weathersId =
-            {
-                GTANetworkAPI.Weather.XMAS,
-                GTANetworkAPI.Weather.SNOWLIGHT,
-                GTANetworkAPI.Weather.SNOW,
-                GTANetworkAPI.Weather.BLIZZARD,
-            };
-            return weathersId[RandomNumberGenerator.GetInt32(weathersId.Length)];
-        }
     }
 }
