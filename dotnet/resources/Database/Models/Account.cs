@@ -6,6 +6,10 @@ namespace Database.Models
 {
     public partial class Account : AbstractModel
     {
+        protected Account()
+        {
+        }
+        
         public Account(ulong socialClubId, string username, string password, string email)
         {
             SocialClubId = socialClubId;
@@ -22,7 +26,7 @@ namespace Database.Models
 
         private string PasswordSalt { get; set; } = null!;
 
-        public string Email { get; private set; }
+        private string Email { get; set; }
 
         private string LastHwid { get; set; } = null!;
 
