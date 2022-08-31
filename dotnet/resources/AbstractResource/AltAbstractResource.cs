@@ -23,6 +23,8 @@ namespace AbstractResource
 
         protected ClientConnect ClientConnect { get; }
 
+        #region Logs
+        
         protected void LogEvent(MethodBase @event)
         {
             string eventName = GetEventString(@event);
@@ -40,7 +42,9 @@ namespace AbstractResource
                 exceptionDescription += $"Inner exception: {ParseException(exception.InnerException)}";
             AltLogger.Instance.LogCritical(new AltResourceEvent(this, ResourceEventType.Error, exceptionDescription));
         }
-
+        
+        #endregion
+        
         #region Server Events
 
         [ServerEvent(Event.ResourceStart)]
