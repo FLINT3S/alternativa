@@ -1,7 +1,21 @@
-﻿namespace Database.Models.Economics
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Database.Models.Economics
 {
-    public class CryptoWallet
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
+    public class CryptoWallet : AbstractModel
     {
+        protected CryptoWallet()
+        {
+        }
         
+        public CryptoWallet(double startMoney)
+        {
+            Money = startMoney;
+        }
+        
+        public double Money { get; private set; }
+        
+        public long Id { get; set; }
     }
 }

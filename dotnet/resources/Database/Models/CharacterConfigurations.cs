@@ -16,6 +16,7 @@ namespace Database.Models
                         v => JsonConvert.SerializeObject(v),
                         s => JsonConvert.DeserializeObject<Vector3>(s)
                     );
+            builder.HasMany(c => c.BankAccounts).WithOne();
         }
     }
 }

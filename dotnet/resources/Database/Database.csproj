@@ -56,6 +56,12 @@
         <Compile Update="AltContextMethods.cs">
             <DependentUpon>AltContext.cs</DependentUpon>
         </Compile>
+        <Compile Update="Models\Economics\Banks\BankAccountConfiguration.cs">
+          <DependentUpon>BankAccount.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\Economics\Banks\BankConfiguration.cs">
+          <DependentUpon>Bank.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Database.Models.Economics;
+using Database.Models.Economics.Banks;
 using GTANetworkAPI;
 
 namespace Database.Models
