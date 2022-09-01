@@ -4,11 +4,13 @@
       <slot></slot>
     </div>
     <alt-slider
-        @update:modelValue="v => $emit('update:modelValue', v)"
+        @input="v => $emit('update:modelValue', v)"
         :model-value="modelValue"
-        max="1"
-        min="-1"
-        step="0.1"
+        :max="1"
+        :marks="[-1, 1]"
+        :min="-1"
+        :process="false"
+        :interval="0.1"
         :debounce="100"
         show-range
         show-value-tooltip

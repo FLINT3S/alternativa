@@ -4,7 +4,7 @@ import "./spawnCamera.js"
 import {AuthorizationEvents} from "./AuthorizationEvents";
 import {logger} from "../utils/logger";
 import {browserManager} from "../BrowserManager/browserManager";
-import {showCursor} from "../CursorManager/index";
+import {showCursor} from "../Managers/cursorManager";
 import {CharacterManagerEvents} from "../CharacterManager/CharacterManagerEvents";
 
 export let loginCam

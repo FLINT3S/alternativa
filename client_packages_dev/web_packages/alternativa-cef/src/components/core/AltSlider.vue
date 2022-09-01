@@ -1,33 +1,23 @@
 <template>
-  <div class="alt-slider__range d-flex">
-    <span v-if="showRange" class="alt-slider__range__min me-2 my-auto">{{ min }}</span>
-    <button class="control-btn me-1" @click="onInput({target: {value: modelValue - parseFloat(step)}})">
+  <div class="alt-slider__wrapper d-flex w-100">
+    <!--    https://nightcatsama.github.io/vue-slider-component/#/api/props    -->
+    <button
+        class="control-btn me-2"
+        @click="onInput(Math.round((innerValue - interval) * (1 / interval)) / (1 / interval))"
+    >
       <span class="material-icons-round">
         remove
       </span>
     </button>
-    <div class="alt-slider__container w-100 d-flex position-relative">
-      <div v-if="showValueTooltip" class="position-absolute value-tooltip" :style="'left: calc(' + valueTooltipPosition + '% - 25px)'">
-        {{currentValue}}
-      </div>
-      <div class="slider-line"></div>
-      <input
-          ref="input"
-          :max="max + ''"
-          :min="min + ''"
-          :step="step + ''"
-          :value="currentValue"
-          class="slider my-auto"
-          type="range"
-          @input="onInput"
-      >
-    </div>
-    <button class="control-btn ms-1" @click="onInput({target: {value: modelValue + parseFloat(step)}})">
+    <vue-slider :model-value="innerValue" :interval="interval" v-bind="$attrs" width="100%" @update:modelValue="onInput"></vue-slider>
+    <button
+        class="control-btn ms-2"
+        @click="onInput(Math.round((innerValue + interval) * (1 / interval)) / (1 / interval))"
+    >
       <span class="material-icons-round">
         add
       </span>
     </button>
-    <span v-if="showRange" class="alt-slider__range__max ms-2 my-auto">{{ max }}</span>
   </div>
 </template>
 
@@ -39,119 +29,86 @@ export default defineComponent({
     modelValue: {
       type: Number,
     },
-    min: {
-      default: 0
-    },
-    max: {
-      default: 100
-    },
-    step: {
-      default: 1,
-    },
-    showRange: {
-      type: Boolean,
-      default: false
-    },
-    showValueTooltip: {
-      type: Boolean,
-      default: false
-    },
     debounce: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
+    interval: {
+      type: Number,
+      default: 1,
+    },
   },
   data() {
     return {
-      currentValue: null,
-      debounceTimer: null
-    }
-  },
-  computed: {
-    valueTooltipPosition() {
-      return (this.currentValue - this.min) / (this.max - this.min) * 100;
+      debounceTimer: null,
+      innerValue: this.modelValue,
     }
   },
   methods: {
-    onInput(e) {
-      this.currentValue = parseFloat(e.target.value)
+    onInput(v) {
+      this.innerValue = v
       if (this.debounce) {
         clearTimeout(this.debounceTimer);
         this.debounceTimer = setTimeout(() => {
-          this.$emit('update:modelValue', this.currentValue)
+          this.$emit("update:modelValue", v)
+          this.$emit("input", v)
         }, this.debounce)
       } else {
-        this.$emit('update:modelValue', this.currentValue)
+        this.$emit("update:modelValue", v)
+        this.$emit("input", v)
       }
     }
-  },
-  mounted() {
-    this.currentValue = parseInt(this.modelValue)
   }
 })
 </script>
 
-<style lang="scss" scoped>
-.alt-slider__container {
-  .slider-line {
-    height: 2px;
-    border-radius: 100px;
+<style lang="scss">
+/*Vue Slider style override*/
+.alt-slider__wrapper {
+  /* rail style */
+  .vue-slider-rail {
     background-color: var(--text-secondary);
+    border-radius: 15px;
+  }
+
+  /* process style */
+  .vue-slider-process {
+    background-color: var(--accent-primary);
+    border-radius: 15px;
+  }
+
+  .vue-slider-dot-handle {
+    cursor: pointer;
     width: 100%;
-    top: 14px;
-    z-index: 0;
-    position: absolute;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32);
+    transition: all .3s ease;
   }
-  .slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 32px;
-    border-radius: 2px;
-    background: transparent;
-    outline: none;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
+  .vue-slider-dot-handle-focus {
+    background-color: var(--accent-primary);
+    box-shadow: 0px 0px 1px 2px rgba(52, 152, 219, 0.36);
+  }
 
-    &::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 15px;
-      position: relative;
-      z-index: 2;
-      height: 15px;
-      background: var(--accent-primary);
-      cursor: pointer;
-      border-radius: 500px;
-    }
 
-    &:hover + ::-moz-range-thumb {
-      opacity: 1;
-    }
+  .vue-slider-dot-tooltip-inner {
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 2px 5px;
+    min-width: 20px;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    border-color: var(--accent-primary);
+    background-color: var(--accent-primary);
+    box-sizing: content-box;
   }
 }
+</style>
 
-.value-tooltip {
-  text-align: center;
-  width: 50px;
-  top: -30px;
-  background: rgba(0, 0, 0, .6);
-  border-radius: 5px;
-  height: 0;
-  padding: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: opacity .3s ease;
-}
-
-.alt-slider__container:hover {
-  .value-tooltip {
-    padding: 5px;
-    height: auto;
-    opacity: 1;
-  }
-}
-
+<style lang="scss" scoped>
 .control-btn {
   aspect-ratio: 1;
   display: flex;

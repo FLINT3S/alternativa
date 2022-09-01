@@ -1,10 +1,10 @@
 <template>
   <div class="creator-appearance">
-    <alt-card style="height: 100%; padding-right: 12px">
-      <h5>Редактор внешности</h5>
+    <alt-card class="card" style="height: 100%; padding-right: 12px; padding-left: 0;">
+      <h5 class="mb-0">Редактор внешности</h5>
 
       <div class="container">
-        <div class="content">
+        <div class="content pt-2">
           <face-feature-slider
               v-for="(feature, index) in featureNames"
               :key="feature"
@@ -58,10 +58,19 @@ export default {
   right: 50px;
   text-align: center;
 
+  .card {
+    padding-right: 12px;
+  }
+
   .container {
     padding-right: 12px;
     height: calc(100% - 32px);
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .content {
+      padding-left: 24px;
+    }
   }
 }
 </style>
