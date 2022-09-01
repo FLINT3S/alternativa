@@ -1,12 +1,16 @@
 import {createRouter, createWebHashHistory, RouteRecordRaw} from 'vue-router'
+import AltRoot from "@/modules/AltRoot.vue";
+
+import Authorization from "@/modules/authorization/Authorization.vue";
+import WelcomeView from '../modules/authorization/views/WelcomeView.vue'
 import LoginView from '../modules/authorization/views/LoginView.vue'
 import RegistrationView from '../modules/authorization/views/RegistrationView.vue'
-import WelcomeView from '../modules/authorization/views/WelcomeView.vue'
 import LoaderView from '../modules/authorization/views/LoaderView.vue'
-import Authorization from "@/modules/authorization/Authorization.vue";
+
 import CharacterManager from "@/modules/character-manager/CharacterManager.vue";
 import CharacterSelect from "@/modules/character-manager/views/CharacterSelect.vue";
-import AltRoot from "@/modules/AltRoot.vue";
+import CharacterCreator from "@/modules/character-manager/views/CharacterCreator.vue";
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -49,6 +53,10 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "select-character",
             component: CharacterSelect
+          },
+          {
+            path: "create-character",
+            component: CharacterCreator
           }
         ]
       }

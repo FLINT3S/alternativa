@@ -17,6 +17,19 @@ namespace CharacterManager
             player.TriggerEvent(CharacterManagerEvents.CharacterCreationStart);
         }
 
+        [RemoteEvent(CharacterManagerEvents.ChangeGenderFromCef)]
+        public void ChangeGender(Player player, int gender)
+        {
+            if (gender == 0)
+            {
+                NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey("mp_m_freemode_01"));
+            }
+            else
+            {
+                NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey("mp_f_freemode_01"));
+            }
+        }
+
 
         [Command("createcharacter")]
         public void OnCreateCharacter(Player player)

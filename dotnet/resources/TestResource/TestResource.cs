@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AbstractResource;
 using Database.Models;
@@ -24,7 +25,8 @@ namespace TestResource
             //
             // var account = player.GetAccount();
             // account!.OnDisconnect();
-
+            throw new NotImplementedException();
+            
             List<Account>? onlinePlayers = LocalContext.EntityLists.OnlinePlayers;
             
             if (onlinePlayers.Any(a => a.SocialClubId == player.SocialClubId))
