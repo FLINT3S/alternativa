@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Database.Models;
 using Database.Models.AccountEvents;
@@ -9,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace Database
 {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public partial class AltContext : DbContext
     {
         private static readonly IConfigurationRoot Config;
@@ -28,8 +31,7 @@ namespace Database
         private static string ConnectionString => Config.GetConnectionString("AltDatabase");
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder
-                .UseNpgsql(ConnectionString);
+            optionsBuilder.UseNpgsql(ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
