@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
 
 namespace Database.Models
 {
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
     public partial class Account : AbstractModel
     {
+        // ReSharper disable once UnusedMember.Global
         protected Account()
         {
         }

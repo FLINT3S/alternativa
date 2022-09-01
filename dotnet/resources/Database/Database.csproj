@@ -14,21 +14,21 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.18" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.18" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.18"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.18"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.18">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.18" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
-        <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.18"/>
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0"/>
+        <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Logger\Logger.csproj" />
+        <ProjectReference Include="..\Logger\Logger.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -54,7 +54,7 @@
             <DependentUpon>Character.cs</DependentUpon>
         </Compile>
         <Compile Update="AltContextMethods.cs">
-          <DependentUpon>AltContext.cs</DependentUpon>
+            <DependentUpon>AltContext.cs</DependentUpon>
         </Compile>
     </ItemGroup>
 

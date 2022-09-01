@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using GTANetworkAPI;
 
 namespace Database.Models
 {
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
     public partial class Character : AbstractModel
     {
+        // ReSharper disable once UnusedMember.Global
         protected Character()
         {
         }
@@ -30,21 +33,21 @@ namespace Database.Models
 
         #region Main Data
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; }
 
-        public Account Account { get; private set; }
-        
+        public Account Account { get; }
+
         public TimeSpan InGameTime { get; private set; } = TimeSpan.Zero;
 
         #endregion
 
         #region Biography
 
-        public string FirstName { get; }
+        public string FirstName { get; private set; }
 
-        public string LastName { get; }
+        public string LastName { get; private set; }
 
-        public DateTime Birthday { get; }
+        public DateTime Birthday { get; private set; }
 
         #endregion
     }

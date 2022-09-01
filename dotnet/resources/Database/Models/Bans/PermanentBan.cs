@@ -1,7 +1,11 @@
-﻿namespace Database.Models.Bans
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Database.Models.Bans
 {
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
     public class PermanentBan : AbstractBan
     {
+        // ReSharper disable once UnusedMember.Global
         protected PermanentBan()
         {
         }
@@ -15,7 +19,7 @@
         }
 
         private ulong AccountId { get; set; }
-        
+
         public string HWID { get; private set; }
     }
 }

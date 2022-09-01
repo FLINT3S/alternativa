@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Models.Bans
 {
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
     public abstract class AbstractBan : AbstractModel
     {
         // EF Core .ctor
@@ -20,7 +22,7 @@ namespace Database.Models.Bans
 
         public Guid Id { get; private set; }
 
-        public BanReason Reason { get; private set;}
+        public BanReason Reason { get; private set; }
 
         public string Description { get; private set; }
 
