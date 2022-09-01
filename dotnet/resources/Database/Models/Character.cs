@@ -12,12 +12,13 @@ namespace Database.Models
         {
         }
 
-        public Character(Account account, string firstname, string lastname, DateTime birthday)
+        public Character(Account account, string firstname, string lastname, Sex sex, DateTime birthday)
         {
             Account = account;
             FirstName = firstname;
             LastName = lastname;
             Birthday = birthday;
+            Sex = sex;
             InGameTime = TimeSpan.Zero;
         }
 
@@ -46,6 +47,8 @@ namespace Database.Models
         public string FirstName { get; private set; }
 
         public string LastName { get; private set; }
+        
+        public Sex Sex { get; private set; }
 
         public DateTime Birthday { get; private set; }
 

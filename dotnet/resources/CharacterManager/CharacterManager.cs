@@ -18,16 +18,16 @@ namespace CharacterManager
         }
 
         [RemoteEvent(CharacterManagerEvents.ChangeGenderFromCef)]
-        public void ChangeGender(Player player, int gender)
+        public void ChangeGender(Player player, Sex gender)
         {
-            NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey(gender == 0 ? "mp_m_freemode_01" : "mp_f_freemode_01"));
+            NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey(gender == Sex.Male ? "mp_m_freemode_01" : "mp_f_freemode_01"));
         }
 
         [Command("createcharacter")]
         public void OnCreateCharacter(Player player)
         {
             var account = player.GetAccountFromDb()!;
-            var character = new Character(account, "Vasya", "Pupkin", DateTime.Now);
+            var character = new Character(account, "Vasya", "Pupkin", Sex.Male, DateTime.Now);
             account.AddCharacter(character);
         }
 
