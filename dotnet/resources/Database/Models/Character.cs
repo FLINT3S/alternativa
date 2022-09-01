@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Database.Models.Economics;
 using GTANetworkAPI;
 
 namespace Database.Models
@@ -28,6 +30,10 @@ namespace Database.Models
         #region Finances
 
         public long Cash { get; set; }
+
+        public List<BankAccount> BankAccounts { get; } = new List<BankAccount>();
+
+        public List<CryptoWallet> CryptoWallets { get; } = new List<CryptoWallet>();
 
         #endregion
 
