@@ -1,5 +1,4 @@
 using System;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using AbstractResource;
@@ -11,11 +10,11 @@ using Weather.WeatherProviders;
 
 namespace Weather
 {
-    public class Main : AltAbstractResource
+    public class Weather : AltAbstractResource
     {
         private readonly WeatherProvider weatherProvider;
 
-        public Main()
+        public Weather()
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -38,40 +37,55 @@ namespace Weather
             while (true)
             {
                 var weather = weatherProvider.GetWeather();
-                if (!IsWinter() && IsRaining(weather))
-                {
-                    SetWeather(weather);
-                    Thread.Sleep(600_000);
-                    SetWeather(weatherProvider.GetNotRainyWeather());
-                    Thread.Sleep(180_000);
-                }
-                else if (!IsWinter() && !IsRaining(weather))
-                {
-                    SetWeather(weather);
-                    Thread.Sleep(3600_000);
-                }
+                if (IsWinter())
+                    SetWinterWeather(weather);
                 else
-                {
-                    SetWeather(weatherProvider.GetWinterWeather());
-                    Thread.Sleep(3600_000);
-                }
+                    SetNotWinterWeather(weather);
             }
         }
 
         private static bool IsWinter() => DateTime.Now.Month < 3 || DateTime.Now.Month == 12;
 
-        private static bool IsRaining(GTANetworkAPI.Weather weather) =>
-            weather == GTANetworkAPI.Weather.RAIN || 
-            weather == GTANetworkAPI.Weather.CLEARING || 
-            weather == GTANetworkAPI.Weather.THUNDER;
+        private void SetWinterWeather(GTANetworkAPI.Weather weather)
+        {
+            SetWeather(weather);
+            Thread.Sleep((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
+        }
 
         private void SetWeather(GTANetworkAPI.Weather weather)
         {
-            NAPI.Task.Run(() => NAPI.World.SetWeather(weather));
-            NAPI.Task.Run(() => 
-                NAPI.ClientEvent.TriggerClientEventForAll(WeatherEvents.SetWeatherToClient, weather.ToString()));
-            AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Info, $"Set weather: {weather.ToString()}"));
+            NAPI.Task.Run(
+                    () =>
+                    {
+                        NAPI.World.SetWeather(weather);
+                        NAPI.ClientEvent.TriggerClientEventForAll(WeatherEvents.SetWeatherToClient, weather.ToString());
+                    }
+                );
+            AltLogger.Instance.LogResource(
+                    new AltResourceEvent(this, ResourceEventType.Info, $"Set weather: {weather.ToString()}")
+                );
         }
+
+        private void SetNotWinterWeather(GTANetworkAPI.Weather weather)
+        {
+            if (IsRaining(weather))
+            {
+                SetWeather(weather);
+                Thread.Sleep((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
+                SetWeather(weatherProvider.GetNotRainyWeather());
+                Thread.Sleep((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
+            }
+            else
+            {
+                SetWeather(weather);
+                Thread.Sleep((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
+            }
+        }
+
+        private static bool IsRaining(GTANetworkAPI.Weather weather) =>
+            weather == GTANetworkAPI.Weather.RAIN ||
+            weather == GTANetworkAPI.Weather.CLEARING ||
+            weather == GTANetworkAPI.Weather.THUNDER;
 
         private static void TimeUpdatingProcess()
         {

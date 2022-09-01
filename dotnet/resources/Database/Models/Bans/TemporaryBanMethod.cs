@@ -5,8 +5,8 @@ namespace Database.Models.Bans
 {
     public partial class TemporaryBan
     {
-        public bool IsActual() => StartDate + Duration > DateTime.Now;
-
         [NotMapped] public DateTime EndDate => StartDate + Duration;
+
+        public bool IsActual() => StartDate + Duration > DateTime.Now;
     }
 }

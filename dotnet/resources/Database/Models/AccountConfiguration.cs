@@ -9,19 +9,20 @@ namespace Database.Models
         public void Configure(EntityTypeBuilder<Account> builder)
         {
             builder.HasKey(a => a.SocialClubId);
-            
+
             builder.Property("PasswordHash");
             builder.Property("PasswordSalt");
-            
+            builder.Property("Email");
+            builder.Property("LastHwid");
+
             builder.HasMany(a => a.Characters)
                 .WithOne(c => c.Account)
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(a => a.ActiveCharacter);
-            
+
             builder.HasMany(a => a.Connections)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             builder.HasMany(a => a.TemporaryBans)
                 .WithOne(b => b.GivenTo)
                 .OnDelete(DeleteBehavior.Cascade);

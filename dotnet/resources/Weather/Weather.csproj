@@ -9,22 +9,22 @@
 
     <ItemGroup>
         <Reference Include="Bootstrapper">
-        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+            <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
         </Reference>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="OpenWeatherMap.Standard" Version="1.6.0" />
+        <PackageReference Include="OpenWeatherMap.Standard" Version="1.6.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="WeatherEvents.cs">
-        <DependentUpon>Weather.cs</DependentUpon>
-      </Compile>
+        <Compile Update="WeatherEvents.cs">
+            <DependentUpon>Weather.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 </Project>    
     

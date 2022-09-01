@@ -1,6 +1,5 @@
 ﻿using AbstractResource.Connects;
 using GTANetworkAPI;
-using LocalContext;
 using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
@@ -20,22 +19,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         protected override void _Handle(Player player)
         {
             var account = player.GetAccountFromDb()!;
-            player.SetAccount(account);
             account.OnConnect(player.Address, player.Serial);
-
-            #region Character Actions
-
-            // todo вынести весь регион в CharacterManager
-
-            var character = player.GetActiveCharacter();
-
-            if (account.IsSetActiveCharacter())
-                EntityLists.OnlinePlayers.Add(account);
-
-            if (character?.LastPosition != null)
-                player.Position = character.LastPosition;
-
-            #endregion
 
             Log(player);
             ClientConnect.Trigger(

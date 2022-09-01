@@ -1,11 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <Configurations>Debug;Release</Configurations>
+        <Configurations>Debug</Configurations>
         <Platforms>x64</Platforms>
         <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
         <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,14 +14,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Database\Database.csproj"/>
-        <ProjectReference Include="..\Logger\Logger.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Connects\MessageStatus.cs">
-            <DependentUpon>AbstractConnect.cs</DependentUpon>
-        </Compile>
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
+        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj"/>
     </ItemGroup>
 </Project>    
     

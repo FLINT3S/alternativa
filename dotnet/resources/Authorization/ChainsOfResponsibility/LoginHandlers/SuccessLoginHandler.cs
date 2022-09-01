@@ -1,9 +1,6 @@
 ﻿using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
-using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
@@ -19,7 +16,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
 
         protected override string EventName => "LoginSuccess";
 
-        protected override string EventDescription { get; }
+        protected override string EventDescription => "Login success";
 
         protected override bool CanHandle(Player player, Account? account, string login, string password) => true;
 
@@ -27,14 +24,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
             account!.UpdateHwid(player.Serial);
             ClientConnect.Trigger(player, LoginEvents.LoginSuccess, "Success!");
-            player.SetAccount(account);
-            var playerEvent = new AltPlayerEvent(
-                    player.ToString()!,
-                    this,
-                    "LoginSuccess",
-                    "Login success"
-                );
-            AltLogger.Instance.LogInfo(playerEvent);
+            Log(player);
         }
     }
 }

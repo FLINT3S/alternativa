@@ -14,29 +14,36 @@ namespace Database.Models
     {
         private string ip = null!, hwid = null!;
 
-        [NotMapped] public TimeSpan InGameTime => Characters
+        [NotMapped]
+        public TimeSpan InGameTime => Characters
             .Select(c => c.InGameTime)
             .Aggregate((t1, t2) => t1 + t2);
+
+        #region Characters
+
+        public void AddCharacter(Character character)
+        {
+            Characters.Add(character);
+            UpdateInContext();
+        }
+
+        #endregion
+
+        public override string ToString() => $"{Username}_[{SocialClubId}]";
 
         #region Simple user data
 
         public static bool IsSocialClubIdTaken(ulong socialClubId)
         {
-            lock (AltContext.Locker)
-            {
-                return AltContext
-                    .Instance
-                    .Accounts
-                    .Select(a => a.SocialClubId)
-                    .Any(u => u == socialClubId);
-            }
+            using var context = new AltContext();
+            return context.Accounts.Select(a => a.SocialClubId).Any(u => u == socialClubId);
         }
 
         public void UpdateUsername(string newUsername)
         {
-            if (IsUsernameTaken(newUsername)) 
+            if (IsUsernameTaken(newUsername))
                 throw new InvalidOperationException("This username already taken");
-            Username = newUsername != Username ? 
+            Username = newUsername != Username ?
                 newUsername : throw new InvalidOperationException("Usernames are same!");
             UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
@@ -44,36 +51,24 @@ namespace Database.Models
 
         public static bool IsUsernameTaken(string username)
         {
-            lock (AltContext.Locker)
-            {
-                return AltContext
-                    .Instance
-                    .Accounts
-                    .Select(a => a.Username)
-                    .Any(u => u == username);
-            }
+            using var context = new AltContext();
+            return context.Accounts.Select(a => a.Username).Any(u => u == username);
         }
 
         public void UpdateEmail(string newEmail)
         {
-            if (IsEmailTaken(newEmail)) 
+            if (IsEmailTaken(newEmail))
                 throw new InvalidOperationException("This email already taken");
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Emails are same!");
             UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
         }
-        
-        
+
+
         public static bool IsEmailTaken(string email)
         {
-            lock (AltContext.Locker)
-            {
-                return AltContext
-                    .Instance
-                    .Accounts
-                    .Select(a => a.Email)
-                    .Any(e => e == email);
-            }
+            using var context = new AltContext();
+            return context.Accounts.Select(a => a.Email).Any(e => e == email);
         }
 
         #endregion
@@ -120,7 +115,7 @@ namespace Database.Models
         }
 
         #endregion
-        
+
         #region HWID
 
         public bool IsSameLastHwid(string hwid) => LastHwid == hwid;
@@ -163,24 +158,7 @@ namespace Database.Models
                 default:
                     throw new ArgumentOutOfRangeException(nameof(ban));
             }
-            UpdateInContext();
-        }
 
-        #endregion
-
-        #region Characters
-
-        public void AddCharacter(Character character)
-        {
-            Characters.Add(character);
-            UpdateInContext();
-        }
-
-        public bool IsSetActiveCharacter() => ActiveCharacter != null;
-        
-        public void PeekCharacter(Character peekedCharacter)
-        {
-            ActiveCharacter = peekedCharacter;
             UpdateInContext();
         }
 
@@ -202,14 +180,11 @@ namespace Database.Models
 
         public void OnDisconnect()
         {
-            ActiveCharacter = null;
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
             UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", "Account disconnected."));
         }
 
         #endregion
-
-        public override string ToString() => $"{Username}_[{SocialClubId}]";
     }
 }

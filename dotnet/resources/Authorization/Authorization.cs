@@ -1,6 +1,8 @@
 using System.Reflection;
 using AbstractResource;
+using Authorization.ChainsOfResponsibility.LoginHandlers;
 using Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
+using Authorization.ChainsOfResponsibility.RegistrationHandlers;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
@@ -15,15 +17,28 @@ namespace Authorization
     {
         private readonly AbstractConnectionHandler connectHandlersChain;
 
-        private readonly ChainsOfResponsibility.RegistrationHandlers.AbstractRegistrationHandler registrationHandlersChain;
+        private readonly AbstractLoginHandler loginHandlersChain;
 
-        private readonly ChainsOfResponsibility.LoginHandlers.AbstractLoginHandler loginHandlersChain;
+        private readonly AbstractRegistrationHandler registrationHandlersChain;
 
         public Authorization()
         {
             connectHandlersChain = AbstractConnectionHandler.GetChain(ClientConnect);
-            registrationHandlersChain = ChainsOfResponsibility.RegistrationHandlers.AbstractRegistrationHandler.GetChain(ClientConnect, CefConnect);
-            loginHandlersChain = ChainsOfResponsibility.LoginHandlers.AbstractLoginHandler.GetChain(ClientConnect, CefConnect);
+            registrationHandlersChain = AbstractRegistrationHandler.GetChain(ClientConnect, CefConnect);
+            loginHandlersChain = AbstractLoginHandler.GetChain(ClientConnect, CefConnect);
+        }
+
+        public void OnAuthorizationStart()
+        {
+            NAPI.Server.SetAutoSpawnOnConnect(false);
+        }
+
+        [ServerEvent(Event.PlayerDisconnected)]
+        public void OnPlayerDisconnect(Player player, DisconnectionType type, string reason)
+        {
+            var character = player.GetCharacter();
+            character?.OnDisconnect(player.Position);
+            player.RemoveCharacter();
         }
 
         #region RemoteEvents

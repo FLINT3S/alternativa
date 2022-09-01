@@ -1,13 +1,13 @@
 using System;
-using System.Linq;
 using AbstractResource;
+using Database;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 
 namespace CharacterManager
 {
-    public class Main : AltAbstractResource
+    public class CharacterManager : AltAbstractResource
     {
         [RemoteEvent(CharacterManagerEvents.InitCharacterCreationFromClient)]
         public void InitCharacterCreation(Player player)
@@ -40,12 +40,32 @@ namespace CharacterManager
         }
 
         [Command("selectcharacter", GreedyArg = true)]
+        public void OnSelectCharacterCommand(Player player, string rawGuid)
+        {
+            var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
+            player.SetCharacter(character);
+        }
+
+        #region OnRemoteEvent
+
+        [RemoteEvent(CharacterManagerEvent.SelectCharacter)]
         public void OnSelectCharacter(Player player, string rawGuid)
         {
-            var account = player.GetAccountFromDb()!;
-            var character = account.Characters.FirstOrDefault(c => c.Id == Guid.Parse(rawGuid));
-            account.PeekCharacter(character);
-            LocalContext.EntityLists.OnlinePlayers.Add(account);
+            try
+            {
+                var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
+                player.SetCharacter(character);
+                NAPI.Task.Run(() => NAPI.Player.SpawnPlayer(player, character.LastPosition ?? Vector3.RandomXy()));
+                if (character.IsDead)
+                    NAPI.Task.Run(() => player.Health = 0);
+                ClientConnect.Trigger(player, "OnCharacterSpawned", character.IsDead);
+            }
+            catch (Exception ex)
+            {
+                LogException(ex);
+            }
         }
+
+        #endregion
     }
 }

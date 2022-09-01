@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Models.AccountEvents
 {
-    public partial class AccountEvent : AbstractModel
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+    public class AccountEvent : AbstractModel
     {
         // EF .ctor
         protected AccountEvent()

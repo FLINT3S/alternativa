@@ -1,8 +1,12 @@
-﻿namespace Database.Models.AccountEvents
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Database.Models.AccountEvents
 {
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
     public class ConnectionEvent : AccountEvent
     {
         // EF .ctor
+        // ReSharper disable once UnusedMember.Global
         protected ConnectionEvent()
         {
         }

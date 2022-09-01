@@ -17,7 +17,7 @@ namespace Logger
         public static AltLogger Instance { get; } = new AltLogger();
 
         #region Methods
-        
+
         public void LogInfo(AltAbstractEvent serverAltAbstractEvent)
         {
             fileLogger.LogInfo(serverAltAbstractEvent);
@@ -52,7 +52,7 @@ namespace Logger
             fileLogger.LogResource(resourceEvent);
             consoleLogger.LogResource(resourceEvent);
         }
-        
+
         #endregion
     }
 }
