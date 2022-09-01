@@ -14,21 +14,21 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.18" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.18" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.18"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.18"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.18">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.18" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
-        <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.18"/>
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.18"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0"/>
+        <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Logger\Logger.csproj" />
+        <ProjectReference Include="..\Logger\Logger.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -48,18 +48,18 @@
             <DependentUpon>AbstractBan.cs</DependentUpon>
         </Compile>
         <Compile Update="Models\Bans\TemporaryBanMethod.cs">
-          <DependentUpon>TemporaryBan.cs</DependentUpon>
+            <DependentUpon>TemporaryBan.cs</DependentUpon>
         </Compile>
         <Compile Update="Models\CharacterMethods.cs">
-          <DependentUpon>Character.cs</DependentUpon>
+            <DependentUpon>Character.cs</DependentUpon>
         </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\Secrets\appsettings.json">
-        <Link>appsettings.json</Link>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+        <Content Include="..\Secrets\appsettings.json">
+            <Link>appsettings.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 </Project>    
     

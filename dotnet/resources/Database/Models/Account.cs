@@ -22,22 +22,20 @@ namespace Database.Models
 
         public string Username { get; private set; }
 
-        public string PasswordHash { get; private set; } = null!;
+        private string PasswordHash { get; set; } = null!;
 
-        public string PasswordSalt { get; private set; } = null!;
+        private string PasswordSalt { get; set; } = null!;
 
-        public string Email { get; private set; }
+        private string Email { get; set; }
 
-        public string LastHwid { get; private set; } = null!;
+        private string LastHwid { get; set; } = null!;
 
-        public virtual List<TemporaryBan> TemporaryBans { get; } = new List<TemporaryBan>();
+        public List<TemporaryBan> TemporaryBans { get; } = new List<TemporaryBan>();
 
-        public virtual PermanentBan PermanentBan { get; protected set; }
+        public PermanentBan PermanentBan { get; private set; }
 
-        public virtual Character ActiveCharacter { get; protected set; }
+        public List<Character> Characters { get; } = new List<Character>();
 
-        public virtual List<Character> Characters { get; } = new List<Character>();
-
-        public virtual List<ConnectionEvent> Connections { get; } = new List<ConnectionEvent>();
+        public List<ConnectionEvent> Connections { get; } = new List<ConnectionEvent>();
     }
 }

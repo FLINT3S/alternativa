@@ -3,10 +3,15 @@
     public enum LogLevel
     {
         Info,
+
         Development,
+
         Warning,
+
         Critical,
+
         Event,
+
         Resource
     }
 }

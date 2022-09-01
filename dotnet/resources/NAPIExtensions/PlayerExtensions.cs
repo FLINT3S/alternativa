@@ -4,6 +4,7 @@ using Database;
 using Database.Models;
 using Database.Models.Bans;
 using GTANetworkMethods;
+using Microsoft.EntityFrameworkCore;
 using Player = GTANetworkAPI.Player;
 
 namespace NAPIExtensions
@@ -26,13 +27,8 @@ namespace NAPIExtensions
 
         public static PermanentBan? GetBanByHwid(this Player player)
         {
-            lock (AltContext.Locker)
-            {
-                return AltContext.Instance.Bans.FirstOrDefault(
-                            b => b is PermanentBan && ((PermanentBan)b).HWID == player.Serial
-                        )
-                    as PermanentBan;
-            }
+            using var context = new AltContext();
+            return context.Bans.OfType<PermanentBan>().FirstOrDefault(b => b.HWID == player.Serial);
         }
 
         public static bool HasAccountInDb(this Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
@@ -41,38 +37,32 @@ namespace NAPIExtensions
         /// <returns>Account из базы данных</returns>
         public static Account? GetAccountFromDb(this Player player)
         {
-            lock (AltContext.Locker)
-            {
-                return AltContext
-                    .Instance
-                    .Accounts
-                    .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
-            }
+            using var context = new AltContext();
+            return context
+                .Accounts
+                .Include(account => account.Characters)
+                .Include(account => account.TemporaryBans)
+                .Include(account => account.PermanentBan)
+                .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
         }
 
         /// <summary>
-        /// Аккаунт получается из Data и существует только в рантайме
-        /// Для получения аккаунта из базы данных нужно использовать <see cref="GetAccountFromDb"/>
+        ///     Аккаунт получается из Data и существует только в рантайме
+        ///     Для получения аккаунта из базы данных нужно использовать <see cref="GetAccountFromDb" />
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
-        public static Account? GetAccount(this Player player) => 
-            player.HasData(PlayerConstants.Account) ? 
-                player.GetData<Account>(PlayerConstants.Account) : null;
+        public static Character? GetCharacter(this Player player) =>
+            player.HasData(PlayerConstants.Character) ?
+                player.GetData<Character>(PlayerConstants.Character) : null;
 
-        public static void SetAccount(this Player player, Account account) => 
-            player.SetData(PlayerConstants.Account, account);
+        public static void SetCharacter(this Player player, Character character) =>
+            player.SetData(PlayerConstants.Character, character);
 
-        public static Character? GetActiveCharacter(this Player player) => 
-            player.GetAccount()!.ActiveCharacter;
-
-        public static void RemoveAccount(this Player player) => 
-            player.ResetData(PlayerConstants.Account);
-
-        public static IEnumerable<Account> GetActiveAccounts(this Pools pools) =>
-            pools.GetAllPlayers().Select(p => p.GetAccount()).Where(a => a != null)!;
+        public static void RemoveCharacter(this Player player) =>
+            player.ResetData(PlayerConstants.Character);
 
         public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>
-            pools.GetActiveAccounts().Select(a => a.ActiveCharacter).Where(c => c != null);
+            pools.GetAllPlayers().Select(a => a.GetCharacter()).Where(c => c != null)!;
     }
 }

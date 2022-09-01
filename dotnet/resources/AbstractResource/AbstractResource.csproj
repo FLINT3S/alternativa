@@ -1,28 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
-        <PropertyGroup>
-            <TargetFramework>netcoreapp3.1</TargetFramework>
-            <Configurations>Debug;Release</Configurations>
-            <Platforms>x64</Platforms>
-            <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
-            <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
-            <Nullable>enable</Nullable>
-        </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>x64</Platforms>
+        <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+        <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-        <ItemGroup>
-          <Reference Include="Bootstrapper">
+    <ItemGroup>
+        <Reference Include="Bootstrapper">
             <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
-          </Reference>
-        </ItemGroup>
+        </Reference>
+    </ItemGroup>
 
-        <ItemGroup>
-          <ProjectReference Include="..\Database\Database.csproj" />
-          <ProjectReference Include="..\Logger\Logger.csproj" />
-        </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Database\Database.csproj"/>
+        <ProjectReference Include="..\Logger\Logger.csproj"/>
+    </ItemGroup>
 
-        <ItemGroup>
-          <Compile Update="Connects\MessageStatus.cs">
+    <ItemGroup>
+        <Compile Update="Connects\MessageStatus.cs">
             <DependentUpon>AbstractConnect.cs</DependentUpon>
-          </Compile>
-        </ItemGroup>
-    </Project>    
+        </Compile>
+    </ItemGroup>
+</Project>    
     

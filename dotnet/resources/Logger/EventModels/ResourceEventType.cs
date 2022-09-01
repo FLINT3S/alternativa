@@ -3,8 +3,11 @@
     public enum ResourceEventType
     {
         Started,
+
         Shutdown,
+
         Error,
+
         Info
     }
 }

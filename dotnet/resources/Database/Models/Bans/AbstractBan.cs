@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database.Models.Bans
 {
-    public abstract partial class AbstractBan : AbstractModel
+    public abstract class AbstractBan : AbstractModel
     {
         // EF Core .ctor
         protected AbstractBan()
@@ -24,9 +24,9 @@ namespace Database.Models.Bans
 
         public string Description { get; private set; }
 
-        public virtual Account GivenTo { get; private set; }
+        public Account GivenTo { get; private set; }
 
-        public virtual Account GivenBy { get; private set; }
+        public Account GivenBy { get; private set; }
 
         [NotMapped] public DateTime StartDate => CreatedDate;
     }

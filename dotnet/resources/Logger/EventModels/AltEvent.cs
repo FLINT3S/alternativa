@@ -4,7 +4,7 @@
     {
         private static object? _lockObj;
 
-        public AltEvent(object module, string eventName, string eventDescription) : 
+        public AltEvent(object module, string eventName, string eventDescription) :
             base("logs/events/event.log", module, eventName, eventDescription)
         {
         }

@@ -3,12 +3,20 @@
     public class AltResourceEvent : AltAbstractEvent
     {
         public AltResourceEvent(object module, ResourceEventType eventType, string eventDescription) :
-            base($"logs/resources/{module.GetType().Name.ToLower()}.log", module,
-                eventType.ToString(), eventDescription)
+            base(
+                    $"logs/resources/{module.GetType().Name.ToLower()}.log",
+                    module,
+                    eventType.ToString(),
+                    eventDescription
+                )
         {
         }
 
-        public AltResourceEvent(object module, ResourceEventType eventType) : this(module, eventType, GetEventDescription(eventType, module))
+        public AltResourceEvent(object module, ResourceEventType eventType) : this(
+                module,
+                eventType,
+                GetEventDescription(eventType, module)
+            )
         {
         }
 

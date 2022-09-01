@@ -9,18 +9,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace Database
 {
-    public class AltContext : DbContext
+    public partial class AltContext : DbContext
     {
-        public static object Locker { get; }
-        
-        public static AltContext Instance { get; }
-
-        protected AltContext()
-        {
-        }
-        
         private static readonly IConfigurationRoot Config;
-        
+
+        static AltContext() => Config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+
         public DbSet<Account> Accounts { get; private set; }
 
         public DbSet<Character> Characters { get; private set; }
@@ -28,22 +24,12 @@ namespace Database
         public DbSet<AccountEvent> AccountEvents { get; private set; }
 
         public DbSet<AbstractBan> Bans { get; private set; }
-        
+
         private static string ConnectionString => Config.GetConnectionString("AltDatabase");
 
-        static AltContext()
-        {
-            Instance = new AltContext();
-            Locker = new object();
-            
-            Config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-        }
-        
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
             optionsBuilder
-                .UseLazyLoadingProxies()
+                //.UseLazyLoadingProxies()
                 .UseNpgsql(ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,10 +37,10 @@ namespace Database
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
             modelBuilder.ApplyConfiguration(new CharacterConfigurations());
-            
+
             modelBuilder.ApplyConfiguration<AccountEvent>(new EventConfigurations());
             modelBuilder.ApplyConfiguration<ConnectionEvent>(new EventConfigurations());
-            
+
             modelBuilder.ApplyConfiguration<AbstractBan>(new BanConfigurations());
             modelBuilder.ApplyConfiguration<TemporaryBan>(new BanConfigurations());
             modelBuilder.ApplyConfiguration<PermanentBan>(new BanConfigurations());
