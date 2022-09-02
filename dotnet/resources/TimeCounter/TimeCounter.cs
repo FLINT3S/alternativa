@@ -17,6 +17,7 @@ namespace TimeCounter
         public void OnTimeCounterStart()
         {
             Task.Run(CommonTimeCounter);
+            Task.Run(EconomicsCounter);
         }
 
         #region Common Counter
@@ -45,12 +46,12 @@ namespace TimeCounter
         {
             while (true)
             {
-                Task.Run(RecalculateCredits);
+                Task.Run(RecalculateAccounts);
                 Thread.Sleep((int)TimeSpan.FromHours(1).TotalMilliseconds);
             }
         }
 
-        private static void RecalculateCredits()
+        private static void RecalculateAccounts()
         {
             IEnumerable<BankAccount> accounts = Bank.GetAccounts();
             foreach (var account in accounts)
