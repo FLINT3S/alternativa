@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Database.Models.Economics.Banks
 {
-    public class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
+    internal class BankAccountConfiguration : IEntityTypeConfiguration<BankAccount>
     {
         public void Configure(EntityTypeBuilder<BankAccount> builder)
         {

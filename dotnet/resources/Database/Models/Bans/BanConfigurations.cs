@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Database.Models.Bans
 {
-    public class BanConfigurations :
+    internal class BanConfigurations :
         IEntityTypeConfiguration<AbstractBan>,
         IEntityTypeConfiguration<PermanentBan>,
         IEntityTypeConfiguration<TemporaryBan>
