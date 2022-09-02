@@ -4,6 +4,8 @@ using System.Linq;
 using Database.Models;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
+using Database.Models.Economics.Banks;
+using Database.Models.Economics.CryptoWallets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
@@ -19,14 +21,30 @@ namespace Database
         static AltContext() => Config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();
+        
+        #region Account
 
         public DbSet<Account> Accounts { get; private set; }
 
+        public DbSet<AccountEvent> AccountEvents { get; private set; }
+        
+        public DbSet<AbstractBan> Bans { get; private set; }
+        
         public DbSet<Character> Characters { get; private set; }
 
-        public DbSet<AccountEvent> AccountEvents { get; private set; }
+        #endregion
 
-        public DbSet<AbstractBan> Bans { get; private set; }
+        #region Economics
+
+        public DbSet<BankAccount> BankAccounts { get; private set; }
+        
+        public DbSet<BankTransaction> BankTransactions { get; private set; }
+        
+        public DbSet<CryptoWallet> CryptoWallets { get; private set; }
+        
+        public DbSet<CryptoTransaction> CryptoTransactions { get; private set; }
+
+        #endregion
 
         private static string ConnectionString => Config.GetConnectionString("AltDatabase");
 
@@ -42,9 +60,21 @@ namespace Database
             modelBuilder.ApplyConfiguration<AccountEvent>(new EventConfigurations());
             modelBuilder.ApplyConfiguration<ConnectionEvent>(new EventConfigurations());
 
+            #region Bans
+            
             modelBuilder.ApplyConfiguration<AbstractBan>(new BanConfigurations());
             modelBuilder.ApplyConfiguration<TemporaryBan>(new BanConfigurations());
             modelBuilder.ApplyConfiguration<PermanentBan>(new BanConfigurations());
+
+            #endregion
+
+            #region Economics
+
+            modelBuilder.ApplyConfiguration(new BankConfiguration());
+            modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
+            modelBuilder.ApplyConfiguration(new CryptoWalletConfiguration());
+            
+            #endregion
         }
 
         public override int SaveChanges()
