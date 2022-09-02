@@ -33,6 +33,8 @@ namespace Database.Models
         public long Cash { get; set; }
 
         public List<BankAccount> BankAccounts { get; } = new List<BankAccount>();
+        
+        public BankAccount MainBankAccount { get; protected set; }
 
         public List<CryptoWallet> CryptoWallets { get; } = new List<CryptoWallet>();
 

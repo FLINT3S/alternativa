@@ -21,30 +21,6 @@ namespace Database
         static AltContext() => Config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();
-        
-        #region Account
-
-        public DbSet<Account> Accounts { get; private set; }
-
-        public DbSet<AccountEvent> AccountEvents { get; private set; }
-        
-        public DbSet<AbstractBan> Bans { get; private set; }
-        
-        public DbSet<Character> Characters { get; private set; }
-
-        #endregion
-
-        #region Economics
-
-        public DbSet<BankAccount> BankAccounts { get; private set; }
-        
-        public DbSet<BankTransaction> BankTransactions { get; private set; }
-        
-        public DbSet<CryptoWallet> CryptoWallets { get; private set; }
-        
-        public DbSet<CryptoTransaction> CryptoTransactions { get; private set; }
-
-        #endregion
 
         private static string ConnectionString => Config.GetConnectionString("AltDatabase");
 
@@ -61,7 +37,7 @@ namespace Database
             modelBuilder.ApplyConfiguration<ConnectionEvent>(new EventConfigurations());
 
             #region Bans
-            
+
             modelBuilder.ApplyConfiguration<AbstractBan>(new BanConfigurations());
             modelBuilder.ApplyConfiguration<TemporaryBan>(new BanConfigurations());
             modelBuilder.ApplyConfiguration<PermanentBan>(new BanConfigurations());
@@ -73,7 +49,7 @@ namespace Database
             modelBuilder.ApplyConfiguration(new BankConfiguration());
             modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
             modelBuilder.ApplyConfiguration(new CryptoWalletConfiguration());
-            
+
             #endregion
         }
 
@@ -95,5 +71,29 @@ namespace Database
 
             return base.SaveChanges();
         }
+
+        #region Account
+
+        public DbSet<Account> Accounts { get; private set; }
+
+        public DbSet<AccountEvent> AccountEvents { get; private set; }
+
+        public DbSet<AbstractBan> Bans { get; private set; }
+
+        public DbSet<Character> Characters { get; private set; }
+
+        #endregion
+
+        #region Economics
+
+        public DbSet<BankAccount> BankAccounts { get; private set; }
+
+        public DbSet<BankTransaction> BankTransactions { get; private set; }
+
+        public DbSet<CryptoWallet> CryptoWallets { get; private set; }
+
+        public DbSet<CryptoTransaction> CryptoTransactions { get; private set; }
+
+        #endregion
     }
 }

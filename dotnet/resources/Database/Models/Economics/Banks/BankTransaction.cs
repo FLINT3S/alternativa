@@ -5,10 +5,7 @@ namespace Database.Models.Economics.Banks
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     public class BankTransaction : AbstractTransaction
     {
-        public BankAccount From { get; protected set; }
-        
-        public BankAccount To { get; protected set; }
-
+        // ReSharper disable once UnusedMember.Global
         protected BankTransaction()
         {
         }
@@ -19,5 +16,9 @@ namespace Database.Models.Economics.Banks
             From = from;
             To = to;
         }
+
+        public BankAccount From { get; protected set; }
+
+        public BankAccount To { get; protected set; }
     }
 }

@@ -6,15 +6,13 @@ namespace Database.Models.Economics.CryptoWallets
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
     public class CryptoWallet : AbstractAccount
     {
-        public List<CryptoTransaction> Transactions { get; } = new List<CryptoTransaction>();
-
+        // ReSharper disable once UnusedMember.Global
         protected CryptoWallet()
         {
         }
-        
-        public CryptoWallet(double startSum)
-        {
-            Sum = startSum;
-        }
+
+        public CryptoWallet(double startSum) => Sum = startSum;
+
+        public List<CryptoTransaction> Transactions { get; } = new List<CryptoTransaction>();
     }
 }

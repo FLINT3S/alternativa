@@ -51,7 +51,7 @@ namespace DeathAndReborn
             while (true)
             {
                 Task.Run(DecreaseTimeToReborn);
-                Thread.Sleep(1_000);
+                Thread.Sleep((int)TimeSpan.FromSeconds(1).TotalMilliseconds);
             }
         }
 
