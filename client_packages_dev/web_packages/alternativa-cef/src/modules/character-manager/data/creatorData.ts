@@ -1,7 +1,54 @@
-const fathers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 42, 43, 44];
-const mothers = [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 45];
-const fatherNames = ["Benjamin", "Daniel", "Joshua", "Noah", "Andrew", "Juan", "Alex", "Isaac", "Evan", "Ethan", "Vincent", "Angel", "Diego", "Adrian", "Gabriel", "Michael", "Santiago", "Kevin", "Louis", "Samuel", "Anthony", "Claude", "Niko", "John"];
-const motherNames = ["Hannah", "Aubrey", "Jasmine", "Gisele", "Amelia", "Isabella", "Zoe", "Ava", "Camila", "Violet", "Sophia", "Evelyn", "Nicole", "Ashley", "Gracie", "Brianna", "Natalie", "Olivia", "Elizabeth", "Charlotte", "Emma", "Misty"];
+export const fathers = [
+  {name: "Benjamin", id: 0},
+  {name: "Daniel", id: 1},
+  {name: "Joshua", id: 2},
+  {name: "Noah", id: 3},
+  {name: "Andrew", id: 4},
+  {name: "Juan", id: 5},
+  {name: "Alex", id: 6},
+  {name: "Isaac", id: 7},
+  {name: "Evan", id: 8},
+  {name: "Ethan", id: 9},
+  {name: "Vincent", id: 10},
+  {name: "Angel", id: 11},
+  {name: "Diego", id: 12},
+  {name: "Adrian", id: 13},
+  {name: "Gabriel", id: 14},
+  {name: "Michael", id: 15},
+  {name: "Santiago", id: 16},
+  {name: "Kevin", id: 17},
+  {name: "Louis", id: 18},
+  {name: "Samuel", id: 19},
+  {name: "Anthony", id: 20},
+  {name: "Claude", id: 42},
+  {name: "Niko", id: 43},
+  {name: "John", id: 44}
+];
+export const mothers = [
+  {name: "Hannah", id: 21},
+  {name: "Audrey", id: 22},
+  {name: "Jasmine", id: 23},
+  {name: "Giselle", id: 24},
+  {name: "Amelia", id: 25},
+  {name: "Isabella", id: 26},
+  {name: "Zoe", id: 27},
+  {name: "Ava", id: 28},
+  {name: "Camila", id: 29},
+  {name: "Violet", id: 30},
+  {name: "Sophia", id: 31},
+  {name: "Evelyn", id: 32},
+  {name: "Nicole", id: 33},
+  {name: "Ashley", id: 34},
+  {name: "Grace", id: 35},
+  {name: "Brianna", id: 36},
+  {name: "Natalie", id: 37},
+  {name: "Olivia", id: 38},
+  {name: "Elizabeth", id: 39},
+  {name: "Charlotte", id: 40},
+  {name: "Emma", id: 41},
+  {name: "Misty", id: 45}
+]
+
 export const featureNames = [
   "Nose Width",
   "Nose Bottom Height",

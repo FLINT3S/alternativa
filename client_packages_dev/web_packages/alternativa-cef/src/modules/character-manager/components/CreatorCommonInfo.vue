@@ -60,6 +60,10 @@ export default {
     onSetGender(gender) {
       altMpCM.triggerServer("ChangeGender", gender)
       this.characterData.gender = gender
+      this.sendParentsChanges()
+    },
+    sendParentsChanges() {
+      altMpCM.triggerClient("UpdateParents", JSON.stringify(this.characterData.parents))
     }
   }
 }

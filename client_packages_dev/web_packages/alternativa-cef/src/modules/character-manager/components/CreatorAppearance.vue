@@ -1,19 +1,26 @@
 <template>
   <div class="creator-appearance">
-    <alt-card class="card" style="height: 100%; padding-right: 12px; padding-left: 0;">
+    <alt-card class="card" style="height: 100%; padding-right: 12px; padding-left: 24px;">
       <h5 class="mb-0">Редактор внешности</h5>
 
-      <div class="container">
-        <div class="content pt-2">
-          <face-feature-slider
-              v-for="(feature, index) in featureNames"
-              :key="feature"
-              :model-value="characterData.faceFeatures[index]"
-              @update:modelValue="v => onFaceFeatureChange(index, v)"
+      <div class="section-pills__wrapper">
+        <div class="section-pills">
+          <alt-pill
+              v-for="section in sections"
+              :key="section"
+              :disabled="section !== activeSection"
+              @click="activeSection = section"
           >
-            {{ feature }}
-          </face-feature-slider>
+            {{ section }}
+          </alt-pill>
         </div>
+      </div>
+
+      <div class="container">
+        <transition mode="out-in" name="fade">
+          <component :is="activeSectionComponentName" :key="activeSectionComponentName"
+                     :character-data="characterData"></component>
+        </transition>
       </div>
     </alt-card>
   </div>
@@ -22,16 +29,17 @@
 <script>
 import {CharacterData} from "@/modules/character-manager/data/CharacterData";
 import AltCard from "@/components/core/AltCard";
-import FaceFeatureSlider from "@/modules/character-manager/components/FaceFeatureSlider";
-import {featureNames} from "@/modules/character-manager/data/creatorData";
-import {altMpCM} from "@/modules/character-manager/data/altMpCM";
+import AltPill from "@/components/core/AltPill";
+import FaceFeatures from "@/modules/character-manager/components/FaceFeatures";
+import ParentsEditor from "@/modules/character-manager/components/ParentsEditor";
 
 export default {
   name: "CreatorAppearance",
-  components: {FaceFeatureSlider, AltCard},
+  components: {AltPill, AltCard, FaceFeatures, ParentsEditor},
   data() {
     return {
-      featureNames: featureNames,
+      sections: ["Родители", "Внешность", "Особенности"],
+      activeSection: "Родители",
     }
   },
   props: {
@@ -40,14 +48,30 @@ export default {
       required: true
     }
   },
-  methods: {
-    onFaceFeatureChange(index, value) {
-      this.characterData.faceFeatures[index] = value
-      altMpCM.triggerClient("UpdateFaceFeature", index, value)
+  computed: {
+    activeSectionComponentName() {
+      switch (this.activeSection) {
+        case "Родители":
+          return "parents-editor"
+        case "Внешность":
+          return "face-features"
+        case "Особенности":
+          return "Features"
+        default:
+          return "parents-editor"
+      }
     }
   }
 }
 </script>
+
+<style>
+.content-scroll {
+  padding-right: 12px;
+  height: 100%;
+  overflow-y: auto;
+}
+</style>
 
 <style lang="scss" scoped>
 .creator-appearance {
@@ -63,13 +87,26 @@ export default {
   }
 
   .container {
-    padding-right: 12px;
-    height: calc(100% - 32px);
+    //padding-right: 12px;
+    height: calc(100% - 120px);
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
+  }
 
-    .content {
-      padding-left: 24px;
+  .section-pills__wrapper {
+    padding-left: 24px;
+    padding-right: 12px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  .section-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .alt-pill {
+      margin: 6px 6px 0 6px;
     }
   }
 }

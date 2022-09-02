@@ -53,9 +53,10 @@ mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_START, () => {
 })
 
 mp.events.add(CharacterManagerEvents.UPDATE_PARENTS_FROM_CEF, (parentsData) => {
+  parentsData = JSON.parse(parentsData)
   localPlayer.setHeadBlendData(
-    parentsData.father, parentsData.mother, 0,
-    parentsData.father, parentsData.mother, 0,
+    parentsData.father.id, parentsData.mother.id, 0,
+    parentsData.father.id, parentsData.mother.id, 0,
     parentsData.similarity, parentsData.skinSimilarity, 0,
     false
   );
