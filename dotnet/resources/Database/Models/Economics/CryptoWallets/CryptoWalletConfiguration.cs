@@ -9,7 +9,7 @@ namespace Database.Models.Economics.CryptoWallets
         {
             builder.HasKey(cw => cw.Id);
 
-            builder.HasMany(cw => cw.Transactions).WithOne();
+            builder.HasMany(cw => cw.Transactions).WithOne(t => t.From);
         }
     }
 }
