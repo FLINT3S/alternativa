@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Database.Models.Economics;
 using Database.Models.Economics.Banks;
+using Database.Models.Economics.CryptoWallets;
 using GTANetworkAPI;
 
 namespace Database.Models
 {
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
-    public partial class Character : AbstractModel
+    public partial class Character : AbstractModel, IBankClient
     {
         // ReSharper disable once UnusedMember.Global
         protected Character()

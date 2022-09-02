@@ -1,18 +1,25 @@
-﻿namespace Database.Models.Economics.Banks
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+namespace Database.Models.Economics.Banks
 {
-    public class BankAccount : AbstractModel
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
+    public class BankAccount : AbstractAccount
     {
         protected BankAccount()
         {
         }
         
-        public BankAccount(Bank bank)
+        public BankAccount(IBankClient client, Bank bank)
         {
             Bank = bank;
-        }
+            Owner = client;
+        } 
         
-        public long Id { get; set; }     
+        public IBankClient Owner { get; protected set; }
         
-        public Bank Bank { get; private set; }
+        public Bank Bank { get; protected set; }
+
+        public List<BankTransaction> Transactions { get; } = new List<BankTransaction>();
     }
 }
