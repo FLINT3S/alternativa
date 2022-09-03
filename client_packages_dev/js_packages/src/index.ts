@@ -1,6 +1,7 @@
 import "./BrowserManager/index.ts"
 import "./utils/virtualKeys.ts"
 import "./utils/formatters/index.ts"
+import "./utils/animPlayer.js"
 
 import "./Managers/cursorManager.ts"
 import "./Authorization/authorization.ts"

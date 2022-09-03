@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using AbstractResource;
 using Authorization.ChainsOfResponsibility.LoginHandlers;
@@ -39,6 +40,7 @@ namespace Authorization
             var character = player.GetCharacter();
             character?.OnDisconnect(player.Position);
             player.RemoveCharacter();
+            throw new NotImplementedException();
         }
 
         #region RemoteEvents

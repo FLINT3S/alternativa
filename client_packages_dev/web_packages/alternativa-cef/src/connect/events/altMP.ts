@@ -48,11 +48,11 @@ export class altMP extends ModuleDependent {
    * */
   triggerServerWithAnswerPending(eventName: string, ...data: Array<number|string>) {
     return new Promise((resolve, reject) => {
-      const answerEventName = `${eventName}Answered`
-      this.on(answerEventName, (...data) => {
+      const answerEs = new EventString("CEF", "SERVER", this.moduleName, `${eventName}Answered`)
+      this.onRaw(answerEs.eventString, (...data) => {
         resolve(data)
         window.altListeners?.delete(answerEventName)
-      })
+      }, this.moduleName, "SERVER")
 
       this.triggerServer(eventName, ...data)
     })
@@ -69,6 +69,11 @@ export class altMP extends ModuleDependent {
    * */
   on(eventName: string, callback: (...data: any) => void, moduleName: string = null, eventFrom: eventFrom = "CLIENT") {
     const es = new EventString(eventFrom, "CEF", moduleName || this.moduleName, eventName)
+    this.onRaw(es.eventString, callback)
+  }
+
+  onRaw(eventString, callback) {
+    const es = new EventString(eventString)
     new AltEvent(es, AltEventType.REGISTER_LISTENER)
 
     const currentListeners = window.altListeners.get(es.eventString)
@@ -86,6 +91,10 @@ export class altMP extends ModuleDependent {
    * */
   onServer(eventName: string, callback: (...data: any) => void, moduleName: string = null) {
     this.on(eventName, callback, moduleName, "SERVER")
+  }
+
+  onServerRawEventString(eventString: EventString, callback: (...data: any) => void, moduleName: string = null) {
+    this.onServer(eventString.name, callback, moduleName)
   }
 
   /**

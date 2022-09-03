@@ -8,13 +8,11 @@ import {rotateCameraSafeZone, setActiveRotateCamera} from "../Managers/rotateCam
 
 const characterManagerBrowser = new ModuleBrowser("CharacterManager", "/character-manager/select-character")
 let characterCreationCamera: CameraMp = mp.cameras.new('default', new mp.Vector3(-752.297, 316.276, 176), new mp.Vector3(0, 0, 0), 45);
-let activeCamera = null;
 const localPlayer = mp.players.local;
 
 mp.events.add(AuthorizationEvents.GO_TO_CHARACTER_MANAGER, () => {
   characterManagerBrowser.setAsActive()
 })
-
 
 mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_FROM_CEF, () => {
   characterManagerBrowser.browser.closeOverlay().then(() => {
@@ -23,12 +21,25 @@ mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_FROM_CEF, () => {
 })
 
 mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_START, () => {
-  loginCam.destroy();
-  activeCamera = "character"
+  mp.game.streaming.requestAnimDict("misshair_shop@barbers")
 
-  mp.events.call("moveSkyCamera", mp.players.local, "down", 3, true)
-  mp.players.local.freezePosition(true);
-  mp.players.local.clearTasksImmediately();
+  const animLoaderInterval = setInterval(() => {
+    if (mp.game.streaming.hasAnimDictLoaded("misshair_shop@barbers")) {
+      logger.log("Animation dict loaded, playing animation")
+      localPlayer.taskPlayAnim("misshair_shop@barbers", "idle_a_cam", 8, 1, -1, 1, 0, false, false, false)
+      clearInterval(animLoaderInterval)
+    } else {
+      logger.log("Animation dict not loaded")
+    }
+  }, 100)
+
+
+  loginCam.destroy();
+  mp.game.cam.setCinematicModeActive(false);
+
+  mp.events.call("moveSkyCamera", localPlayer, "down", 3, true)
+  localPlayer.freezePosition(true);
+  // localPlayer.clearTasksImmediately();
 
   characterCreationCamera.setActive(true);
   characterCreationCamera.setCoord(-751.958, 318.39, 176);
@@ -45,7 +56,7 @@ mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_START, () => {
     characterManagerBrowser.browser.openOverlay(true)
   }, 5000)
 
-  // mp.players.local.freezePosition(false);
+  // localPlayer.freezePosition(false);
   // mp.game.ui.setMinimapVisible(false);
   // mp.gui.chat.activate(true);
   // mp.gui.chat.show(true);
@@ -73,6 +84,6 @@ mp.events.add(CharacterManagerEvents.EXECUTE_CHARACTER_CREATION, (localPlayerExe
 })
 
 mp.keys.bind(VirtualKey.VK_F4, true, () => {
-  logger.log(JSON.stringify(mp.players.local.position))
+  logger.log(JSON.stringify(localPlayer.position))
   logger.log(JSON.stringify(characterCreationCamera.getCoord()))
 })
