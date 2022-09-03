@@ -4,6 +4,7 @@
       <slot></slot>
     </div>
     <alt-slider
+        class="mt-1"
         @input="v => $emit('update:modelValue', v)"
         :model-value="modelValue"
         :max="1"
@@ -15,6 +16,7 @@
         show-range
         show-value-tooltip
     />
+    <hr class="mt-4">
   </div>
 </template>
 

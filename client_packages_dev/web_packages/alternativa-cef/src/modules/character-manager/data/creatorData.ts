@@ -49,28 +49,62 @@ export const mothers = [
   {name: "Misty", id: 45}
 ]
 
-export const featureNames = [
-  "Nose Width",
-  "Nose Bottom Height",
-  "Nose Tip Length",
-  "Nose Bridge Depth",
-  "Nose Tip Height",
-  "Nose Broken",
-  "Brow Height",
-  "Brow Depth",
-  "Cheekbone Height",
-  "Cheekbone Width",
-  "Cheek Depth",
-  "Eye Size",
-  "Lip Thickness",
-  "Jaw Width",
-  "Jaw Shape",
-  "Chin Height",
-  "Chin Depth",
-  "Chin Width",
-  "Chin Indent",
-  "Neck Width"
-];
+export const featuresByGroup:
+  {
+    name: string,
+    items:
+      {
+        id: number,
+        name: string
+      }[]
+  }[] =
+  [
+    {
+      name: "Нос",
+      items: [
+        {id: 0, name: "Ширина носа"},
+        {id: 1, name: "Высота носа"},
+        {id: 2, name: "Длина кончика носа"},
+        {id: 3, name: "Выступ на носу"},
+        {id: 4, name: "Восота кончика носа"},
+        {id: 5, name: "Сломанный нос"},
+      ]
+    },
+    {
+      name: "Брови",
+      items: [
+        {id: 6, name: "Высота бровей"},
+        {id: 7, name: "Выступ бровей"},
+      ]
+    },
+    {
+      name: "Овал лица",
+      items: [
+        {id: 8, name: "Высота скул"},
+        {id: 9, name: "Ширина скул"},
+        {id: 10, name: "Глубина щёк"},
+        {id: 19, name: "Ширина шеи"}
+      ]
+    },
+    {
+      name: "Глаза",
+      items: [
+        {id: 11, name: "Размер глаз"},
+      ]
+    },
+    {
+      name: "Рот",
+      items: [
+        {id: 12, name: "Толщина губ"},
+        {id: 13, name: "Ширина челюсти"},
+        {id: 14, name: "Форма челюсти"},
+        {id: 15, name: "Высота подбородка"},
+        {id: 16, name: "Выступ подбородка"},
+        {id: 17, name: "Ширина подбородка"},
+        {id: 18, name: "Глубина подбородка"},
+      ]
+    }
+  ];
 
 const appearanceItemNames = {
   "Blemishes":

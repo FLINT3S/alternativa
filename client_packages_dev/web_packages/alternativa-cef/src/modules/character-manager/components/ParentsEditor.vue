@@ -2,8 +2,8 @@
   <div class="parents-editor content-scroll">
     <div class="selected-parents d-flex justify-content-center">
       <div class="parent-avatar text-center d-flex flex-column align-items-center mx-2">
-        <img :src="`parents/female_${characterData.parents.mother.name}.png`" class="avatar-img">
-        <span class="parent-name">{{ characterData.parents.mother.name }}</span>
+        <img :src="`parents/male_${characterData.parents.father.name}.png`" class="avatar-img large">
+        <span class="parent-name">{{ characterData.parents.father.name }}</span>
       </div>
 
       <div class="and my-auto">
@@ -11,8 +11,8 @@
       </div>
 
       <div class="parent-avatar text-center d-flex flex-column align-items-center mx-2">
-        <img :src="`parents/male_${characterData.parents.father.name}.png`" class="avatar-img">
-        <span class="parent-name">{{ characterData.parents.father.name }}</span>
+        <img :src="`parents/female_${characterData.parents.mother.name}.png`" class="avatar-img large">
+        <span class="parent-name">{{ characterData.parents.mother.name }}</span>
       </div>
     </div>
 
@@ -21,27 +21,29 @@
     <h5 class="mt-3">Настройки</h5>
     <alt-slider
         v-model="characterData.parents.similarity"
-        :min="0"
-        :max="1"
-        :interval="0.01"
         :debounce="100"
-        :tooltip="'none'"
+        :interval="0.02"
         :marks="{'0': 'Отец', '1': 'Мать'}"
+        :max="1"
+        :min="0"
+        :process="false"
+        :tooltip="'none'"
         @input="onSimilarityChange"
     />
     <div class="tiny-text mt-4">Степень похожести внешности на родителей</div>
     <alt-slider
-        class="mt-3"
         v-model="characterData.parents.skinSimilarity"
-        :min="0"
-        :max="1"
-        :interval="0.01"
         :debounce="100"
-        :tooltip="'none'"
+        :interval="0.02"
         :marks="{'0': 'Отец', '1': 'Мать'}"
+        :max="1"
+        :min="0"
+        :process="false"
+        :tooltip="'none'"
+        class="mt-3"
         @input="onSkinSimilarityChange"
     />
-    <div class="tiny-text mt-4">Похожесть тона кожи</div>
+    <div class="tiny-text mt-4">Похожесть тона кожи на родителей</div>
 
     <hr>
 
@@ -51,9 +53,11 @@
       </div>
       <alt-horizontal-scroll>
         <div v-for="mother in mothers"
-             :key="mother.id" class="parent-avatar text-center d-flex flex-column align-items-center me-2" @click="onSelectMother(mother)"
+             :key="mother.id" class="parent-avatar text-center d-flex flex-column align-items-center me-2"
+             @click="onSelectMother(mother)"
         >
-          <img :class="{'inactive': characterData.parents.mother.id !== mother.id}" :src="`parents/female_${mother.name}.png`"
+          <img :class="{'inactive': characterData.parents.mother.id !== mother.id}"
+               :src="`parents/female_${mother.name}.png`"
                class="avatar-img">
           <span class="parent-name">{{ mother.name }}</span>
         </div>
@@ -66,9 +70,11 @@
       </div>
       <alt-horizontal-scroll>
         <div v-for="father in fathers"
-             :key="father.id" class="parent-avatar text-center d-flex flex-column align-items-center me-2" @click="onSelectFather(father)"
+             :key="father.id" class="parent-avatar text-center d-flex flex-column align-items-center me-2"
+             @click="onSelectFather(father)"
         >
-          <img :class="{'inactive': characterData.parents.father.id !== father.id}" :src="`parents/male_${father.name}.png`"
+          <img :class="{'inactive': characterData.parents.father.id !== father.id}"
+               :src="`parents/male_${father.name}.png`"
                class="avatar-img">
           <span class="parent-name">{{ father.name }}</span>
         </div>
@@ -140,6 +146,11 @@ export default defineComponent({
     opacity: 1;
     filter: grayscale(0);
     transition: all .3s ease;
+
+    &.large {
+      width: 85px;
+      height: 85px;
+    }
 
     &.inactive {
       opacity: 0.9;

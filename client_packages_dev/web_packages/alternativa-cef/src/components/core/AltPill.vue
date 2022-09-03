@@ -1,5 +1,5 @@
 <template>
-  <div class="alt-pill" :class="{'disabled': disabled}">
+  <div class="alt-pill" :class="{'disabled': disabled, [size]: true}">
     <slot></slot>
   </div>
 </template>
@@ -13,6 +13,10 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    size: {
+      type: String,
+      default: "medium"
     }
   },
 })
@@ -25,6 +29,12 @@ export default defineComponent({
   color: white;
   font-size: 16px;
   padding: 5px 10px;
+  transition: background-color .3s ease;
+
+  &.small {
+    font-size: 14px;
+    padding: 4px 6px;
+  }
 }
 
 .disabled {

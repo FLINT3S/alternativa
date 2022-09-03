@@ -58,9 +58,10 @@ export default {
   },
   methods: {
     onSetGender(gender) {
-      altMpCM.triggerServer("ChangeGender", gender)
-      this.characterData.gender = gender
-      this.sendParentsChanges()
+      altMpCM.triggerServerWithAnswerPending("ChangeGender", "OnGenderChanged", gender).then(() => {
+        this.sendParentsChanges()
+        this.characterData.gender = gender
+      })
     },
     sendParentsChanges() {
       altMpCM.triggerClient("UpdateParents", JSON.stringify(this.characterData.parents))

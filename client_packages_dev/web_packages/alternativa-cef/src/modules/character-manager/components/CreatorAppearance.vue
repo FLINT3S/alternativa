@@ -1,20 +1,23 @@
 <template>
   <div class="creator-appearance">
-    <alt-card class="card" style="height: 100%; padding-right: 12px; padding-left: 24px;">
-      <h5 class="mb-0">Редактор внешности</h5>
-
-      <div class="section-pills__wrapper">
-        <div class="section-pills">
-          <alt-pill
-              v-for="section in sections"
-              :key="section"
-              :disabled="section !== activeSection"
-              @click="activeSection = section"
-          >
-            {{ section }}
-          </alt-pill>
-        </div>
+    <div class="section-toggles text-start">
+      <div :class="{active: activeSection === 'Родители'}" class="section-toggle" @click="activeSection = 'Родители'">
+        <span class="material-icons-round">
+          supervisor_account
+        </span>
       </div>
+      <div :class="{active: activeSection === 'Внешность'}" class="section-toggle" @click="activeSection = 'Внешность'">
+        <span class="material-icons-round">
+          face
+        </span>
+      </div>
+    </div>
+    <alt-card class="card" style="height: 100%; padding-right: 12px; padding-left: 24px;">
+      <h5 class="mb-0">
+        {{ activeSection }}
+      </h5>
+
+      <hr class="mb-1 mt-1">
 
       <div class="container">
         <transition mode="out-in" name="fade">
@@ -30,7 +33,7 @@
 import {CharacterData} from "@/modules/character-manager/data/CharacterData";
 import AltCard from "@/components/core/AltCard";
 import AltPill from "@/components/core/AltPill";
-import FaceFeatures from "@/modules/character-manager/components/FaceFeatures";
+import FaceFeatures from "@/modules/character-manager/components/face/FaceFeatures";
 import ParentsEditor from "@/modules/character-manager/components/ParentsEditor";
 
 export default {
@@ -71,13 +74,17 @@ export default {
   height: 100%;
   overflow-y: auto;
 }
+
+.content-no-scroll {
+  padding-right: 12px;
+}
 </style>
 
 <style lang="scss" scoped>
 .creator-appearance {
   position: absolute;
-  top: 20%;
-  height: 60vh;
+  top: calc((100% - 650px) / 2);
+  height: 650px;
   width: 350px;
   right: 50px;
   text-align: center;
@@ -88,7 +95,7 @@ export default {
 
   .container {
     //padding-right: 12px;
-    height: calc(100% - 120px);
+    height: calc(100% - 32px);
     overflow-x: hidden;
     overflow-y: hidden;
   }
@@ -107,6 +114,32 @@ export default {
 
     .alt-pill {
       margin: 6px 6px 0 6px;
+    }
+  }
+}
+
+.section-toggles {
+  position: absolute;
+  top: 50px;
+  left: -50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .section-toggle {
+    display: flex;
+    margin-bottom: 4px;
+    padding: 8px;
+    border-radius: 100px;
+    background-color: var(--color-background-primary);
+    transition: all .3s ease;
+
+    &.active {
+      background-color: var(--accent-primary);
+    }
+
+    .material-icons-round {
+      font-size: 32px;
     }
   }
 }

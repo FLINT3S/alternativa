@@ -41,6 +41,23 @@ export class altMP extends ModuleDependent {
     mp.trigger("CEF:SERVER", es.eventString, ...data)
   }
 
+  /**
+   * @method triggerServerWithAnswerPending
+   *
+   * Отправляет событие серверу и ожидает ответа
+   * */
+  triggerServerWithAnswerPending(eventName: string, ...data: Array<number|string>) {
+    return new Promise((resolve, reject) => {
+      const answerEventName = `${eventName}Answered`
+      this.on(answerEventName, (...data) => {
+        resolve(data)
+        window.altListeners?.delete(answerEventName)
+      })
+
+      this.triggerServer(eventName, ...data)
+    })
+  }
+
   triggerServerRawEvent(eventString: string, data?: Array<number|string>) {
     mp.trigger("CEF:SERVER", eventString, JSON.stringify(data))
   }
