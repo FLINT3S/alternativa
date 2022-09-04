@@ -17,8 +17,8 @@ mp.events.add("playerReady", () => {
 
   mp.players.local.freezePosition(true);
   mp.game.ui.setMinimapVisible(true);
-  // mp.gui.chat.activate(false);
-  // mp.gui.chat.show(false);
+  mp.gui.chat.activate(false);
+  mp.gui.chat.show(false);
   mp.game.ui.displayRadar(false);
 
   loginCam.setActive(true);
@@ -59,8 +59,6 @@ mp.events.add(AuthorizationEvents.LOGIN_SUCCESS_FROM_SERVER, () => {
   authorizationBrowser.execClient("LoginSuccess")
   mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
 
-  mp.events.call(CharacterManagerEvents.CREATE_CHARACTER_FROM_CEF)
-
   showCursor()
 })
 
@@ -69,7 +67,7 @@ mp.events.add(AuthorizationEvents.REGISTER_SUCCESS_FROM_SERVER, () => {
   mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
 })
 
-mp.events.add("SERVER:CLIENT:CharacterManager:OnCharacterSpawned", (isDead) => {
+mp.events.add(AuthorizationEvents.CHARACTER_SPAWNED_FROM_SERVER, (isDead) => {
   loginCam.destroy();
 
   mp.game.cam.renderScriptCams(false, false, 0, false, false);
