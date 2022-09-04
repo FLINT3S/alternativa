@@ -4,11 +4,13 @@ import {CharacterManagerEvents} from "./CharacterManagerEvents";
 import {loginCam} from "../Authorization/authorization";
 import {VirtualKey} from "../utils/virtualKeys";
 import {logger} from "../utils/logger";
-import {rotateCameraSafeZone, setActiveRotateCamera} from "../Managers/rotateCameraManager";
+import {removeRotateCamera, rotateCameraSafeZone, setActiveRotateCamera} from "../Managers/rotateCameraManager";
+import {CharacterData} from "./data/CharacterData";
 
 const characterManagerBrowser = new ModuleBrowser("CharacterManager", "/character-manager/select-character")
 let characterCreationCamera: CameraMp = mp.cameras.new('default', new mp.Vector3(-752.297, 316.276, 176), new mp.Vector3(0, 0, 0), 45);
 const localPlayer = mp.players.local;
+const characterData = new CharacterData();
 
 mp.events.add(AuthorizationEvents.GO_TO_CHARACTER_MANAGER, () => {
   characterManagerBrowser.setAsActive()
@@ -55,16 +57,12 @@ mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_START, () => {
     characterManagerBrowser.browser.overlayBackdrop = false
     characterManagerBrowser.browser.openOverlay(true)
   }, 5000)
-
-  // localPlayer.freezePosition(false);
-  // mp.game.ui.setMinimapVisible(false);
-  // mp.gui.chat.activate(true);
-  // mp.gui.chat.show(true);
-  // mp.game.ui.displayRadar(true);
 })
 
 mp.events.add(CharacterManagerEvents.UPDATE_PARENTS_FROM_CEF, (parentsData) => {
   parentsData = JSON.parse(parentsData)
+  characterData.parents = parentsData
+
   localPlayer.setHeadBlendData(
     parentsData.father.id, parentsData.mother.id, 0,
     parentsData.father.id, parentsData.mother.id, 0,
@@ -75,9 +73,41 @@ mp.events.add(CharacterManagerEvents.UPDATE_PARENTS_FROM_CEF, (parentsData) => {
 
 mp.events.add(CharacterManagerEvents.UPDATE_FACE_FEATURES_FROM_CEF, (faceFeaturesData) => {
   faceFeaturesData = JSON.parse(faceFeaturesData)
+  characterData.faceFeatures = faceFeaturesData
+
   for (let i = 0; i < faceFeaturesData.length; i++) {
     localPlayer.setFaceFeature(i, faceFeaturesData[i])
   }
+})
+
+mp.events.add(CharacterManagerEvents.CHARACTER_CREATED_SUBMIT_FROM_CEF, (commonCharacterInfo) => {
+  characterManagerBrowser.browser.closeOverlay()
+  mp.game.cam.doScreenFadeOut(500)
+
+  setTimeout(() => {
+    logger.log("Character created submit from CEF")
+    characterData.setCommonInfo(commonCharacterInfo)
+    mp.events.callRemote(CharacterManagerEvents.CREATE_CHARACTER_FINISH_TO_SERVER, characterData.dto)
+    removeRotateCamera()
+    characterCreationCamera.destroy(true)
+  }, 2500)
+})
+
+mp.events.add(CharacterManagerEvents.GENDER_CHANGED_FROM_SERVER, (gender) => {
+  characterData.gender = gender
+})
+
+mp.events.add(CharacterManagerEvents.CHARACTER_CREATED_FROM_SERVER, () => {
+  mp.game.cam.renderScriptCams(false, false, 0, true, false);
+  localPlayer.freezePosition(false);
+  mp.game.ui.setMinimapVisible(false);
+  mp.gui.chat.activate(true);
+  mp.gui.chat.show(true);
+  mp.game.ui.displayRadar(true);
+
+  setTimeout(() => {
+    mp.game.cam.doScreenFadeIn(500);
+  }, 300)
 })
 
 mp.events.add(CharacterManagerEvents.EXECUTE_CHARACTER_CREATION, (localPlayerExecData) => {

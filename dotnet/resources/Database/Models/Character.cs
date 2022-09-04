@@ -25,6 +25,17 @@ namespace Database.Models
             InGameTime = TimeSpan.Zero;
         }
 
+        public Character(Account account, CharacterCreatorDto characterCreatorDto)
+        {
+            Account = account;
+            FirstName = characterCreatorDto.name;
+            LastName = characterCreatorDto.surname;
+            Birthday = DateTime.Today.AddYears(-1 * characterCreatorDto.age);
+            Sex = (Sex)characterCreatorDto.gender;
+            InGameTime = TimeSpan.Zero;
+            Appearance = new CharacterAppearance(characterCreatorDto);
+        }
+
         public Vector3 LastPosition { get; private set; }
 
         private TimeSpan TimeToReborn { get; set; } = TimeSpan.Zero;
@@ -60,6 +71,8 @@ namespace Database.Models
         public Sex Sex { get; private set; }
 
         public DateTime Birthday { get; private set; }
+        
+        public CharacterAppearance Appearance { get; private set; }
 
         #endregion
     }

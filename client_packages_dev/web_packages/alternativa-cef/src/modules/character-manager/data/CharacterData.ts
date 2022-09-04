@@ -1,7 +1,7 @@
 import {fathers, mothers} from "@/modules/character-manager/data/creatorData";
 import {getRandomFloat} from "@/utils/randoms";
 import {altMpCM} from "@/modules/character-manager/data/altMpCM";
-import {email, helpers, maxLength, maxValue, minLength, minValue, required} from "@vuelidate/validators";
+import {helpers, maxValue, minLength, minValue, required} from "@vuelidate/validators";
 
 export class CharacterData {
   public gender = 0
@@ -81,5 +81,13 @@ export class CharacterData {
       min: helpers.withMessage("Минимальный возраст - 18", minValue(18)),
       max: helpers.withMessage("Максимальный возраст - 120", maxValue(120))
     }
+  }
+
+  get commonInfo() {
+    return JSON.stringify({
+      name: this.name,
+      surname: this.surname,
+      age: this.age
+    })
   }
 }

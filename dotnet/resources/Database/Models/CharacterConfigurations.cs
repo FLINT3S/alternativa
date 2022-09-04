@@ -17,6 +17,10 @@ namespace Database.Models
                         s => JsonConvert.DeserializeObject<Vector3>(s)
                     );
             builder.HasMany(c => c.BankAccounts).WithOne(ba => ba.Owner as Character);
+            builder
+                .HasOne(c => c.Appearance)
+                .WithOne(a => a.Character)
+                .HasForeignKey<CharacterAppearance>(a => a.CharacterId);
         }
     }
 }

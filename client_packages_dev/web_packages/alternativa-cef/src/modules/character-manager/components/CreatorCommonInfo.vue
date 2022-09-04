@@ -94,7 +94,7 @@ export default {
       })
     },
     onCharacterSubmit() {
-      console.log("onCharacterSubmit")
+      altMpCM.triggerClient("CharacterCreatedSubmit", this.characterData.commonInfo)
     }
   }
 }

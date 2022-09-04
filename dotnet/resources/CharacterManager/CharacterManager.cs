@@ -23,6 +23,20 @@ namespace CharacterManager
         {
             NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey((Sex)gender == Sex.Male ? "mp_m_freemode_01" : "mp_f_freemode_01"));
             CefConnect.TriggerRaw(player, CharacterManagerEvents.ChangeGenderFromCef + "Answered");
+            ClientConnect.Trigger(player, "GenderChanged", gender);
+        }
+
+        [RemoteEvent(CharacterManagerEvents.CharacterCreatedSubmitFromClient)]
+        public void CharacterCreated(Player player, string characterDto)
+        {
+            var characterCreatorInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CharacterCreatorDto>(characterDto);
+            var account = player.GetAccountFromDb()!;
+            var character = new Character(account, characterCreatorInfo);
+            account.AddCharacter(character);
+            player.SetCharacter(character);
+            // TODO: Вынести в константы или вообще в БД (но точку спавна наверное в константы все-таки)
+            player.Position = new Vector3(-1041.3, -2744.6, 21.36);
+            ClientConnect.Trigger(player, "CharacterCreated");
         }
 
         [Command("createcharacter")]
@@ -42,6 +56,7 @@ namespace CharacterManager
             {
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
+                player.Position = character.LastPosition ?? Vector3.RandomXy();
                 NAPI.Task.Run(() => NAPI.Player.SpawnPlayer(player, character.LastPosition ?? Vector3.RandomXy()));
                 if (character.IsDead)
                     NAPI.Task.Run(() => player.Health = 0);
