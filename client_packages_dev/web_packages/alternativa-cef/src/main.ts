@@ -10,6 +10,7 @@ import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
 // @ts-ignore
 import VueDragscroll from "vue-dragscroll";
+import "@/utils/extensions.ts"
 
 // @ts-ignore
 window.altMp = new altMP("Root", "1")

@@ -25,7 +25,7 @@ export default defineComponent({
     },
     size: {
       type: String,
-      default: "l",
+      default: "m",
       validator(value) {
         return ["xs", "s", "m", "l", "xl"].includes(value);
       }

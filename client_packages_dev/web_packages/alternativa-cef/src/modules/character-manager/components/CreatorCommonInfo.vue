@@ -25,17 +25,32 @@
       <alt-input
           v-model="characterData.name"
           placeholder="Имя"
+          :pattern="/^[A-Za-z]*$/"
+          show-validation-tooltip
+          :validation="v$.characterData.name"
+          :process-value="(v) => v[0].toUpperCase() + v.slice(1, v.length).toLowerCase()"
       />
       <alt-input
           v-model="characterData.surname"
           class="mt-1"
           placeholder="Фамилия"
+          :pattern="/^[A-Za-z]*$/"
+          show-validation-tooltip
+          :validation="v$.characterData.surname"
+          :process-value="(v) => v[0].toUpperCase() + v.slice(1, v.length).toLowerCase()"
       />
       <alt-input
           v-model="characterData.age"
           class="mt-1"
           placeholder="Возраст"
+          :pattern="/^[0-9]*$/"
+          type="number"
+          show-validation-tooltip
+          :validation="v$.characterData.age"
       />
+      <alt-button stretched class="mt-3" :disabled="v$.characterData.$invalid" @click="onCharacterSubmit">
+        Создать персонажа
+      </alt-button>
     </alt-card>
   </div>
 </template>
@@ -46,25 +61,40 @@ import AltCard from "@/components/core/AltCard";
 import GenderButton from "@/modules/character-manager/components/GenderButton";
 import {CharacterData} from "@/modules/character-manager/data/CharacterData";
 import {altMpCM} from "@/modules/character-manager/data/altMpCM";
+import useVuelidate from "@vuelidate/core";
+import {RegistrationDTO} from "@/modules/authorization/data/RegistrationDTO";
+import AltButton from "@/components/core/AltButton";
+import loginView from "@/modules/authorization/views/LoginView";
 
 export default {
   name: "CreatorCommonInfo",
-  components: {GenderButton, AltCard, AltInput},
+  components: {AltButton, GenderButton, AltCard, AltInput},
   props: {
     characterData: {
       type: CharacterData,
       required: true
     }
   },
+  setup() {
+    return {v$: useVuelidate()}
+  },
+  validations() {
+    return {
+      characterData: {
+        ...CharacterData.validators
+      }
+    }
+  },
   methods: {
     onSetGender(gender) {
       altMpCM.triggerServerWithAnswerPending("ChangeGender", gender).then(() => {
-        this.sendParentsChanges()
+        this.characterData.updateParentsData()
+        this.characterData.updateFaceFeaturesData()
         this.characterData.gender = gender
       })
     },
-    sendParentsChanges() {
-      altMpCM.triggerClient("UpdateParents", JSON.stringify(this.characterData.parents))
+    onCharacterSubmit() {
+      console.log("onCharacterSubmit")
     }
   }
 }

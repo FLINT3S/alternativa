@@ -28,7 +28,6 @@
         :min="0"
         :process="false"
         :tooltip="'none'"
-        @input="onSimilarityChange"
     />
     <div class="tiny-text mt-4">Степень похожести внешности на родителей</div>
     <alt-slider
@@ -41,9 +40,12 @@
         :process="false"
         :tooltip="'none'"
         class="mt-3"
-        @input="onSkinSimilarityChange"
     />
     <div class="tiny-text mt-4">Похожесть тона кожи на родителей</div>
+
+    <alt-button size="xs" stretched class="mt-2" @click="characterData.randomizeParents()">
+      Случайные родители
+    </alt-button>
 
     <hr>
 
@@ -90,10 +92,11 @@ import {fathers, mothers} from "@/modules/character-manager/data/creatorData";
 import AltHorizontalScroll from "@/components/core/AltHorizontalScroll";
 import AltSlider from "@/components/core/AltSlider";
 import {altMpCM} from "@/modules/character-manager/data/altMpCM";
+import AltButton from "@/components/core/AltButton";
 
 export default defineComponent({
   name: "ParentsEditor",
-  components: {AltSlider, AltHorizontalScroll},
+  components: {AltButton, AltSlider, AltHorizontalScroll},
   props: {
     characterData: {
       type: CharacterData,
@@ -103,26 +106,27 @@ export default defineComponent({
   data() {
     return {
       fathers: fathers,
-      mothers: mothers
+      mothers: mothers,
+      updateDebounceTimer: null
+    }
+  },
+  watch: {
+    "characterData.parents": {
+      handler: function () {
+        clearTimeout(this.updateDebounceTimer);
+        this.updateDebounceTimer = setTimeout(() => {
+          this.characterData.updateParentsData()
+        }, 100);
+      },
+      deep: true
     }
   },
   methods: {
     onSelectMother(mother) {
       this.characterData.parents.mother = mother
-      this.sendParentsChanges()
     },
     onSelectFather(father) {
       this.characterData.parents.father = father
-      this.sendParentsChanges()
-    },
-    onSimilarityChange() {
-      this.sendParentsChanges()
-    },
-    onSkinSimilarityChange() {
-      this.sendParentsChanges()
-    },
-    sendParentsChanges() {
-      altMpCM.triggerClient("UpdateParents", JSON.stringify(this.characterData.parents))
     }
   }
 })

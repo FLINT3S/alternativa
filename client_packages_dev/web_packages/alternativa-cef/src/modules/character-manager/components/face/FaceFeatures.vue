@@ -1,6 +1,6 @@
 <template>
   <div class="face-features h-100">
-    <div class="controls d-flex flex-wrap justify-content-center mb-3 content-no-scroll">
+    <div class="controls d-flex flex-wrap justify-content-center mb-2 content-no-scroll">
       <alt-pill
           v-for="group in featuresByGroup"
           :key="group.name"
@@ -13,7 +13,13 @@
       </alt-pill>
     </div>
 
-    <transition class="content-scroll" style="padding-bottom: 32px;" mode="out-in" name="fade">
+    <div class="content-no-scroll mb-3">
+      <alt-button size="xs" stretched @click="randomizeGroup(activeGroupId)">
+        Рандомизировать {{activeTabGroupName.toLowerCase()}}
+      </alt-button>
+    </div>
+
+    <transition class="content-scroll" style="padding-bottom: 75px;" mode="out-in" name="fade">
       <features-tab
           key="Рот"
           v-if="activeTabGroupName === 'Рот'"
@@ -54,10 +60,12 @@ import {defineComponent} from "vue";
 import {CharacterData} from "@/modules/character-manager/data/CharacterData";
 import AltPill from "@/components/core/AltPill";
 import FeaturesTab from "@/modules/character-manager/components/face/FeaturesTab";
+import AltButton from "@/components/core/AltButton";
+import {altMpCM} from "@/modules/character-manager/data/altMpCM";
 
 export default defineComponent({
   name: "FaceFeatures",
-  components: {FeaturesTab, AltPill},
+  components: {AltButton, FeaturesTab, AltPill},
   props: {
     characterData: {
       type: CharacterData,
@@ -68,13 +76,30 @@ export default defineComponent({
     return {
       featuresByGroup: featuresByGroup,
       activeTabGroupName: "Нос",
-      activeTabGroupItems: featuresByGroup[0].items
+      activeGroupId: 0,
+      activeTabGroupItems: featuresByGroup[0].items,
+      updateDebounceTimer: null,
+      previousFaceFeatures: []
+    }
+  },
+  watch: {
+    "characterData.faceFeatures": {
+      handler() {
+        clearTimeout(this.updateDebounceTimer);
+        this.updateDebounceTimer = setTimeout(() => {
+          this.characterData.updateFaceFeaturesData()
+        }, 100);
+      },
+      deep: true
     }
   },
   methods: {
     onSelectActiveTab(group) {
       this.activeTabGroupName = group.name
       this.activeTabGroupItems = group.items
+    },
+    randomizeGroup() {
+      this.characterData.randomizeFeatures(this.activeTabGroupItems.map(g => g.id))
     }
   }
 })

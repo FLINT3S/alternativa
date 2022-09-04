@@ -3,16 +3,24 @@
     <!--    https://nightcatsama.github.io/vue-slider-component/#/api/props    -->
     <button
         class="control-btn me-2"
-        @click="onInput(Math.round((innerValue - interval) * (1 / interval)) / (1 / interval))"
+        @click="onDecrease"
     >
       <span class="material-icons-round">
         remove
       </span>
     </button>
-    <vue-slider :model-value="innerValue" :interval="interval" v-bind="$attrs" width="100%" @update:modelValue="onInput"></vue-slider>
+    <vue-slider
+        :model-value="innerValue"
+        :interval="interval"
+        v-bind="$attrs"
+        :min="min"
+        :max="max"
+        width="100%"
+        @update:modelValue="onInput"
+    />
     <button
         class="control-btn ms-2"
-        @click="onInput(Math.round((innerValue + interval) * (1 / interval)) / (1 / interval))"
+        @click="onIncrease"
     >
       <span class="material-icons-round">
         add
@@ -37,11 +45,24 @@ export default defineComponent({
       type: Number,
       default: 1,
     },
+    min: {
+      type: Number,
+      default: undefined,
+    },
+    max: {
+      type: Number,
+      default: undefined,
+    },
   },
   data() {
     return {
       debounceTimer: null,
       innerValue: this.modelValue,
+    }
+  },
+  watch: {
+    modelValue(value) {
+      this.innerValue = value;
     }
   },
   methods: {
@@ -56,6 +77,18 @@ export default defineComponent({
       } else {
         this.$emit("update:modelValue", v)
         this.$emit("input", v)
+      }
+    },
+    onDecrease() {
+      const v = Math.round((this.innerValue - this.interval) * (1 / this.interval)) / (1 / this.interval)
+      if (this.min !== undefined && v >= this.min) {
+        this.onInput(v)
+      }
+    },
+    onIncrease() {
+      const v = Math.round((this.innerValue + this.interval) * (1 / this.interval)) / (1 / this.interval)
+      if (this.max !== undefined && v <= this.max) {
+        this.onInput(v)
       }
     }
   }

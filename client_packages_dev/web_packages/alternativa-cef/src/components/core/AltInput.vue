@@ -116,6 +116,10 @@ export default defineComponent({
         return ["s", "m", "l"].includes(value);
       }
     },
+    processValue: {
+      type: Function,
+      default: null
+    }
   },
   data() {
     return {
@@ -162,6 +166,7 @@ export default defineComponent({
   methods: {
     onInput(e) {
       if (this.pattern && this.pattern instanceof RegExp) {
+        // console.log(e.target.value, this.pattern, this.pattern.test(e.target.value))
         if (!this.pattern.test(e.target.value)) {
           e.target.value = this.inputValue;
           e.preventDefault()
@@ -172,15 +177,25 @@ export default defineComponent({
       this.inputValue = e.target.value;
       this.validation?.$touch();
 
+      let resVal = e.target.value
+
+      if (this.type === "number") {
+        resVal = Number(e.target.value)
+      }
+
+      if (this.processValue) {
+        resVal = this.processValue(resVal)
+      }
+
       if (this.debounce) {
         if (this.debounceTimer) {
           clearTimeout(this.debounceTimer);
         }
         this.debounceTimer = setTimeout(() => {
-          this.$emit("update:modelValue", e.target.value);
+          this.$emit("update:modelValue", resVal);
         }, this.debounce);
       } else {
-        this.$emit("update:modelValue", e.target.value);
+        this.$emit("update:modelValue", resVal);
       }
     },
     onFocus() {
@@ -227,6 +242,10 @@ export default defineComponent({
 
   input::placeholder {
     color: var(--color-background-tertiary);
+  }
+
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
   }
 
   &.focused {

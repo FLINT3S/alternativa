@@ -12,7 +12,6 @@
         :min="-1"
         :process="false"
         :interval="0.1"
-        :debounce="100"
         show-range
         show-value-tooltip
     />

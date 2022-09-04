@@ -3,8 +3,7 @@
     <face-feature-slider
         v-for="feature in items"
         :key="feature.id"
-        :model-value="characterData.faceFeatures[feature.id]"
-        @update:modelValue="v => onFaceFeatureChange(feature.id, v)"
+        v-model="characterData.faceFeatures[feature.id]"
     >
       {{ feature.name }}
     </face-feature-slider>
@@ -29,12 +28,6 @@ export default defineComponent({
       type: Array,
       required: true
     }
-  },
-  methods: {
-    onFaceFeatureChange(index, value) {
-      this.characterData.faceFeatures[index] = value
-      altMpCM.triggerClient("UpdateFaceFeature", index, value)
-    },
   }
 })
 </script>

@@ -73,8 +73,11 @@ mp.events.add(CharacterManagerEvents.UPDATE_PARENTS_FROM_CEF, (parentsData) => {
   );
 })
 
-mp.events.add(CharacterManagerEvents.UPDATE_FACE_FEATURE_FROM_CEF, (index, value) => {
-  localPlayer.setFaceFeature(index, value)
+mp.events.add(CharacterManagerEvents.UPDATE_FACE_FEATURES_FROM_CEF, (faceFeaturesData) => {
+  faceFeaturesData = JSON.parse(faceFeaturesData)
+  for (let i = 0; i < faceFeaturesData.length; i++) {
+    localPlayer.setFaceFeature(i, faceFeaturesData[i])
+  }
 })
 
 mp.events.add(CharacterManagerEvents.EXECUTE_CHARACTER_CREATION, (localPlayerExecData) => {

@@ -26,6 +26,9 @@
         </transition>
       </div>
     </alt-card>
+    <alt-button stretched size="m" class="rounded-3 mt-2" @click="randomizeAppearance">
+      Случайная внешность
+    </alt-button>
   </div>
 </template>
 
@@ -35,10 +38,11 @@ import AltCard from "@/components/core/AltCard";
 import AltPill from "@/components/core/AltPill";
 import FaceFeatures from "@/modules/character-manager/components/face/FaceFeatures";
 import ParentsEditor from "@/modules/character-manager/components/ParentsEditor";
+import AltButton from "@/components/core/AltButton";
 
 export default {
   name: "CreatorAppearance",
-  components: {AltPill, AltCard, FaceFeatures, ParentsEditor},
+  components: {AltButton, AltPill, AltCard, FaceFeatures, ParentsEditor},
   data() {
     return {
       sections: ["Родители", "Внешность", "Особенности"],
@@ -64,6 +68,14 @@ export default {
           return "parents-editor"
       }
     }
+  },
+  methods: {
+    randomizeAppearance() {
+      this.characterData.randomizeAppearance(
+          this.activeSection !== "Родители",
+          this.activeSection !== "Внешность"
+      )
+    }
   }
 }
 </script>
@@ -83,7 +95,7 @@ export default {
 <style lang="scss" scoped>
 .creator-appearance {
   position: absolute;
-  top: calc((100% - 650px) / 2);
+  top: calc((100% - 650px - 32px) / 2);
   height: 650px;
   width: 350px;
   right: 50px;
