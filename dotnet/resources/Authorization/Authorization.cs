@@ -40,7 +40,6 @@ namespace Authorization
             var character = player.GetCharacter();
             character?.OnDisconnect(player.Position);
             player.RemoveCharacter();
-            throw new NotImplementedException();
         }
 
         #region RemoteEvents

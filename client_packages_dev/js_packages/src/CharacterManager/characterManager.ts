@@ -59,7 +59,7 @@ mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_START, () => {
   }, 5000)
 })
 
-mp.events.add(CharacterManagerEvents.UPDATE_PARENTS_FROM_CEF, (parentsData) => {
+const applyParents = (parentsData) => {
   parentsData = JSON.parse(parentsData)
   characterData.parents = parentsData
 
@@ -68,17 +68,21 @@ mp.events.add(CharacterManagerEvents.UPDATE_PARENTS_FROM_CEF, (parentsData) => {
     parentsData.father.id, parentsData.mother.id, 0,
     parentsData.similarity, parentsData.skinSimilarity, 0,
     false
-  );
-})
+  )
+}
 
-mp.events.add(CharacterManagerEvents.UPDATE_FACE_FEATURES_FROM_CEF, (faceFeaturesData) => {
+mp.events.add(CharacterManagerEvents.UPDATE_PARENTS_FROM_CEF, applyParents)
+
+const applyFaceFeatures = (faceFeaturesData) => {
   faceFeaturesData = JSON.parse(faceFeaturesData)
   characterData.faceFeatures = faceFeaturesData
 
   for (let i = 0; i < faceFeaturesData.length; i++) {
     localPlayer.setFaceFeature(i, faceFeaturesData[i])
   }
-})
+}
+
+mp.events.add(CharacterManagerEvents.UPDATE_FACE_FEATURES_FROM_CEF, applyFaceFeatures)
 
 mp.events.add(CharacterManagerEvents.CHARACTER_CREATED_SUBMIT_FROM_CEF, (commonCharacterInfo) => {
   characterManagerBrowser.browser.closeOverlay()
@@ -108,6 +112,24 @@ mp.events.add(CharacterManagerEvents.CHARACTER_CREATED_FROM_SERVER, () => {
   setTimeout(() => {
     mp.game.cam.doScreenFadeIn(500);
   }, 300)
+})
+
+mp.events.add(CharacterManagerEvents.APPLY_CHARACTER_FROM_SERVER, (characterData) => {
+  characterData = JSON.parse(characterData)
+
+  const parentsData = {
+    father: {
+      id: characterData.FatherId,
+    },
+    mother: {
+      id: characterData.MotherId,
+    },
+    similarity: characterData.Similarity,
+    skinSimilarity: characterData.SkinSimilarity,
+  }
+
+  applyFaceFeatures(JSON.stringify(characterData.FaceFeatures))
+  applyParents(JSON.stringify(parentsData))
 })
 
 mp.events.add(CharacterManagerEvents.EXECUTE_CHARACTER_CREATION, (localPlayerExecData) => {

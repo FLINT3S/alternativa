@@ -12,4 +12,5 @@ export enum CharacterManagerEvents {
   CREATE_CHARACTER_START = "SERVER:CLIENT:CharacterManager:CharacterCreationStart",
   GENDER_CHANGED_FROM_SERVER = "SERVER:CLIENT:CharacterManager:GenderChanged",
   CHARACTER_CREATED_FROM_SERVER = "SERVER:CLIENT:CharacterManager:CharacterCreated",
+  APPLY_CHARACTER_FROM_SERVER = "SERVER:CLIENT:CharacterManager:ApplyCharacter",
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using Database;
 using Database.Models;
 using Database.Models.Bans;
+using GTANetworkAPI;
 using GTANetworkMethods;
 using Microsoft.EntityFrameworkCore;
 using Player = GTANetworkAPI.Player;
@@ -53,8 +54,7 @@ namespace NAPIExtensions
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
         public static Character? GetCharacter(this Player player) =>
-            player.HasData(PlayerConstants.Character) ?
-                player.GetData<Character>(PlayerConstants.Character) : null;
+            player.HasData(PlayerConstants.Character) ? player.GetData<Character>(PlayerConstants.Character) : null;
 
         public static void SetCharacter(this Player player, Character character) =>
             player.SetData(PlayerConstants.Character, character);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Database.Models
 {
@@ -22,7 +23,11 @@ namespace Database.Models
             FaceFeatures = characterCreatorDto.faceFeatures;
         }
 
+        [JsonIgnore]
+
         public Guid Id { get; set; }
+        
+        [JsonIgnore]
         public Character Character { get; set; }
         public Guid CharacterId { get; set; }
         public int MotherId { get; set; }
@@ -30,5 +35,10 @@ namespace Database.Models
         public float Similarity { get; set; }
         public float SkinSimilarity { get; set; }
         public List<float> FaceFeatures { get; set; }
+        
+        public string ToJsonString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

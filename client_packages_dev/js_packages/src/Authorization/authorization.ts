@@ -5,7 +5,6 @@ import {AuthorizationEvents} from "./AuthorizationEvents";
 import {logger} from "../utils/logger";
 import {browserManager} from "../BrowserManager/browserManager";
 import {showCursor} from "../Managers/cursorManager";
-import {CharacterManagerEvents} from "../CharacterManager/CharacterManagerEvents";
 
 export let loginCam
 let authorizationBrowser = new ModuleBrowser("Authorization", "/login/loader")
@@ -17,8 +16,8 @@ mp.events.add("playerReady", () => {
 
   mp.players.local.freezePosition(true);
   mp.game.ui.setMinimapVisible(true);
-  mp.gui.chat.activate(false);
-  mp.gui.chat.show(false);
+  // mp.gui.chat.activate(false);
+  // mp.gui.chat.show(false);
   mp.game.ui.displayRadar(false);
 
   loginCam.setActive(true);
