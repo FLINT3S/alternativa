@@ -22,7 +22,6 @@ namespace CharacterManager
             var character = player.GetCharacter()!;
             NAPI.Task.Run(() =>
                     {
-                        player.Name = character.Fullname;
                         player.Position = coords;
                         NAPI.Player.SpawnPlayer(player, coords);
                         if (character.IsDead) player.Health = 0;

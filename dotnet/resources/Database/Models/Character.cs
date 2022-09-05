@@ -55,6 +55,8 @@ namespace Database.Models
         #region Main Data
 
         public Guid Id { get; }
+        
+        public long StaticId { get; }
 
         public Account Account { get; }
 

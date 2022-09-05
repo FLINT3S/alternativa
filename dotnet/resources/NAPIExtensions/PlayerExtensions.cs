@@ -63,10 +63,11 @@ namespace NAPIExtensions
 
         public static void ApplyCharacter(this Player player, Character character)
         {
+            player.Name = character.Fullname;
             player.ApplyCharacterAppearance(character);
         }
-        
-        public static void ApplyCharacterAppearance(this Player player, Character character)
+
+        private static void ApplyCharacterAppearance(this Player player, Character? character)
         {
             if (character?.Appearance == null)
             {
@@ -76,26 +77,26 @@ namespace NAPIExtensions
             }
             
             #region SetHeadBlend
-            Console.WriteLine(character!.Appearance.ToJsonString());
+            Console.WriteLine(character!.Appearance?.ToJsonString());
             
-            var headBlend = new HeadBlend();
-            headBlend.ShapeFirst = (byte)character!.Appearance.MotherId;
-            headBlend.ShapeSecond = (byte)character.Appearance.FatherId;
-            headBlend.ShapeThird = 0;
-
-            headBlend.SkinFirst = (byte)character.Appearance.MotherId;
-            headBlend.SkinSecond = (byte)character.Appearance.FatherId;
-            headBlend.SkinThird = 0;
-
-            headBlend.ShapeMix = character.Appearance.Similarity;
-            headBlend.SkinMix = character.Appearance.SkinSimilarity;
-            headBlend.ThirdMix = 0.0f;
+            var headBlend = new HeadBlend
+            {
+                ShapeFirst = (byte)character.Appearance!.MotherId,
+                ShapeSecond = (byte)character.Appearance.FatherId,
+                ShapeThird = 0,
+                SkinFirst = (byte)character.Appearance.MotherId,
+                SkinSecond = (byte)character.Appearance.FatherId,
+                SkinThird = 0,
+                ShapeMix = character.Appearance.Similarity,
+                SkinMix = character.Appearance.SkinSimilarity,
+                ThirdMix = 0.0f
+            };
 
             NAPI.Player.SetPlayerHeadBlend(player, headBlend);
             #endregion
             
             #region SetFaceFeatures
-            for (int i = 0; i < character.Appearance.FaceFeatures.Count(); i++)
+            for (int i = 0; i < character.Appearance.FaceFeatures.Count; i++)
                 NAPI.Player.SetPlayerFaceFeature(player, i, character.Appearance.FaceFeatures[i]);
             #endregion
         }

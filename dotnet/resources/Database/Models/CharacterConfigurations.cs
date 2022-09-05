@@ -10,6 +10,7 @@ namespace Database.Models
         public void Configure(EntityTypeBuilder<Character> builder)
         {
             builder.HasKey(c => c.Id);
+            builder.Property(c => c.StaticId).ValueGeneratedOnAdd();
             builder
                 .Property(c => c.LastPosition)
                 .HasConversion(
