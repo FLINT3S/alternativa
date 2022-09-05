@@ -45,7 +45,7 @@ namespace Database.Models
         public long Cash { get; set; }
 
         public List<BankAccount> BankAccounts { get; } = new List<BankAccount>();
-        
+
         public BankAccount MainBankAccount { get; protected set; }
 
         public List<CryptoWallet> CryptoWallets { get; } = new List<CryptoWallet>();
@@ -67,11 +67,11 @@ namespace Database.Models
         public string FirstName { get; private set; }
 
         public string LastName { get; private set; }
-        
+
         public Sex Sex { get; private set; }
 
         public DateTime Birthday { get; private set; }
-        
+
         public CharacterAppearance Appearance { get; private set; }
 
         #endregion

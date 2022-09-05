@@ -1,14 +1,10 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
 using Database.Models;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
 using Database.Models.Economics.Banks;
 using Database.Models.Economics.CryptoWallets;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Configuration;
 
 namespace Database
 {
@@ -16,17 +12,6 @@ namespace Database
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public partial class AltContext : DbContext
     {
-        private static readonly IConfigurationRoot Config;
-
-        static AltContext() => Config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-        private static string ConnectionString => Config.GetConnectionString("AltDatabase");
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder.UseNpgsql(ConnectionString);
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -51,25 +36,6 @@ namespace Database
             modelBuilder.ApplyConfiguration(new CryptoWalletConfiguration());
 
             #endregion
-        }
-
-        public override int SaveChanges()
-        {
-            IQueryable<EntityEntry<AbstractModel>> entries = ChangeTracker.Entries<AbstractModel>().AsQueryable();
-            IQueryable<EntityEntry<AbstractModel>> models = entries.Where(entityEntry => entityEntry.Entity != null);
-            IQueryable<EntityEntry<AbstractModel>> editedModels = models.Where(
-                    e => e.State == EntityState.Added || e.State == EntityState.Modified
-                );
-
-            foreach (EntityEntry<AbstractModel> entityEntry in editedModels)
-            {
-                entityEntry.Entity.UpdatedDate = DateTime.Now;
-
-                if (entityEntry.State == EntityState.Added)
-                    entityEntry.Entity.CreatedDate = DateTime.Now;
-            }
-
-            return base.SaveChanges();
         }
 
         #region Account
