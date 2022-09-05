@@ -28,10 +28,10 @@ namespace Database.Models
         public Character(Account account, CharacterCreatorDto characterCreatorDto)
         {
             Account = account;
-            FirstName = characterCreatorDto.name;
-            LastName = characterCreatorDto.surname;
-            Birthday = DateTime.Today.AddYears(-1 * characterCreatorDto.age);
-            Sex = (Sex)characterCreatorDto.gender;
+            FirstName = characterCreatorDto.Name;
+            LastName = characterCreatorDto.Surname;
+            Birthday = DateTime.Today.AddYears(-1 * characterCreatorDto.Age);
+            Sex = (Sex)characterCreatorDto.Gender;
             InGameTime = TimeSpan.Zero;
             Appearance = new CharacterAppearance(characterCreatorDto);
         }

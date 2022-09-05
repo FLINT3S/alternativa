@@ -1,17 +1,36 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Database.Models
 {
     public class CharacterCreatorDto
     {
-        public string name { get; set; }
-        public string surname { get; set; }
-        public int age { get; set; }
-        public int gender { get; set; }
-        public List<float> faceFeatures { get; set; }
-        public int motherId { get; set; }
-        public int fatherId { get; set; }
-        public float similarity { get; set; }
-        public float skinSimilarity { get; set; }
+        
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        
+        [JsonProperty("surname")]
+        public string Surname { get; set; }
+        
+        [JsonProperty("age")]
+        public int Age { get; set; }
+        
+        [JsonProperty("gender")]
+        public int Gender { get; set; }
+        
+        [JsonProperty("faceFeatures")]
+        public List<float> FaceFeatures { get; set; }
+        
+        [JsonProperty("motherId")]
+        public int MotherId { get; set; }
+        
+        [JsonProperty("fatherId")]
+        public int FatherId { get; set; }
+        
+        [JsonProperty("similarity")]
+        public float Similarity { get; set; }
+        
+        [JsonProperty("skinSimilarity")]
+        public float SkinSimilarity { get; set; }
     }
 }

@@ -16,11 +16,11 @@ namespace Database.Models
         }
         public CharacterAppearance(CharacterCreatorDto characterCreatorDto)
         {
-            MotherId = characterCreatorDto.motherId;
-            FatherId = characterCreatorDto.fatherId;
-            Similarity = characterCreatorDto.similarity;
-            SkinSimilarity = characterCreatorDto.skinSimilarity;
-            FaceFeatures = characterCreatorDto.faceFeatures;
+            MotherId = characterCreatorDto.MotherId;
+            FatherId = characterCreatorDto.FatherId;
+            Similarity = characterCreatorDto.Similarity;
+            SkinSimilarity = characterCreatorDto.SkinSimilarity;
+            FaceFeatures = characterCreatorDto.FaceFeatures;
         }
 
         [JsonIgnore]
@@ -30,10 +30,20 @@ namespace Database.Models
         [JsonIgnore]
         public Character Character { get; set; }
         public Guid CharacterId { get; set; }
+        
+        [JsonProperty("motherId")]
         public int MotherId { get; set; }
+        
+        [JsonProperty("fatherId")]
         public int FatherId { get; set; }
+        
+        [JsonProperty("similarity")]
         public float Similarity { get; set; }
+        
+        [JsonProperty("skinSimilarity")]
         public float SkinSimilarity { get; set; }
+        
+        [JsonProperty("faceFeatures")]
         public List<float> FaceFeatures { get; set; }
         
         public string ToJsonString()

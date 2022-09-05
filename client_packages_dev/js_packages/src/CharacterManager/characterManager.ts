@@ -119,16 +119,16 @@ mp.events.add(CharacterManagerEvents.APPLY_CHARACTER_FROM_SERVER, (characterData
 
   const parentsData = {
     father: {
-      id: characterData.FatherId,
+      id: characterData.fatherId,
     },
     mother: {
-      id: characterData.MotherId,
+      id: characterData.motherId,
     },
-    similarity: characterData.Similarity,
-    skinSimilarity: characterData.SkinSimilarity,
+    similarity: characterData.similarity,
+    skinSimilarity: characterData.skinSimilarity,
   }
 
-  applyFaceFeatures(JSON.stringify(characterData.FaceFeatures))
+  applyFaceFeatures(JSON.stringify(characterData.faceFeatures))
   applyParents(JSON.stringify(parentsData))
 })
 

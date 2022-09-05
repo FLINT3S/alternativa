@@ -119,7 +119,7 @@ export class AltBrowser {
   }
 
   execEvent(event: string, ...data: Array<string | number | boolean>) {
-    logger.log(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
+    // logger.log(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
     this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
   }
 

@@ -8,6 +8,5 @@ export const logger = {
         mp.gui.chat.push(line)
       })
     }
-    mp.gui.chat.push(`========================`)
   }
 }
