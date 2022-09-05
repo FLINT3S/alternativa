@@ -57,7 +57,6 @@ namespace CharacterManager
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
                 ClientConnect.Trigger(player, "ApplyCharacter", character.Appearance.ToJsonString());
-                Console.WriteLine(character.Appearance.ToJsonString());
                 player.Position = character.LastPosition ?? Vector3.RandomXy();
                 NAPI.Task.Run(() => NAPI.Player.SpawnPlayer(player, character.LastPosition ?? Vector3.RandomXy()));
                 if (character.IsDead)
