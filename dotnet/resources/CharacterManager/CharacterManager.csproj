@@ -14,20 +14,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
-        <ProjectReference Include="..\LocalContext\LocalContext.csproj" />
-        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
+        <ProjectReference Include="..\LocalContext\LocalContext.csproj"/>
+        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="CharacterManagerEvent.cs">
+        <Compile Update="CharacterManagerEvents.cs">
             <DependentUpon>CharacterManager.cs</DependentUpon>
         </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="CharacterManagerEvents.cs">
-        <DependentUpon>CharacterManager.cs</DependentUpon>
-      </Compile>
     </ItemGroup>
 </Project>

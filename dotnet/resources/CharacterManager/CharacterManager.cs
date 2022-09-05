@@ -10,9 +10,16 @@ namespace CharacterManager
 {
     public class CharacterManager : AltAbstractResource
     {
+        private static string GetEntityModel(int gender) => (Sex)gender switch
+        {
+            Sex.Male => "mp_m_freemode_01",
+            Sex.Female => "mp_f_freemode_01",
+            _ => throw new ArgumentException()
+        };
+
         #region OnRemoteEvent
 
-        [RemoteEvent(CharacterManagerEvent.SelectCharacter)]
+        [RemoteEvent(CharacterManagerEvents.SelectCharacter)]
         public void OnSelectCharacter(Player player, string rawGuid)
         {
             try
@@ -31,7 +38,7 @@ namespace CharacterManager
                 LogException(ex);
             }
         }
-        
+
         [RemoteEvent(CharacterManagerEvents.InitCharacterCreationFromClient)]
         public void InitCharacterCreation(Player player)
         {
@@ -61,14 +68,7 @@ namespace CharacterManager
             player.Position = new Vector3(-1041.3, -2744.6, 21.36);
             ClientConnect.Trigger(player, "CharacterCreated");
         }
-        
-        #endregion
 
-        private static string GetEntityModel(int gender) => (Sex)gender switch
-        {
-            Sex.Male => "mp_m_freemode_01",
-            Sex.Female => "mp_f_freemode_01",
-            _ => throw new ArgumentException()
-        };
+        #endregion
     }
 }
