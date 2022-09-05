@@ -4,19 +4,12 @@ using Database;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
+using Newtonsoft.Json;
 
 namespace CharacterManager
 {
     public class CharacterManager : AltAbstractResource
     {
-        [Command("createcharacter")]
-        public void OnCreateCharacter(Player player)
-        {
-            var account = player.GetAccountFromDb()!;
-            var character = new Character(account, "Vasya", "Pupkin", Sex.Male, DateTime.Now);
-            account.AddCharacter(character);
-        }
-
         #region OnRemoteEvent
 
         [RemoteEvent(CharacterManagerEvent.SelectCharacter)]
@@ -51,7 +44,7 @@ namespace CharacterManager
         [RemoteEvent(CharacterManagerEvents.ChangeGenderFromCef)]
         public void ChangeGender(Player player, int gender)
         {
-            NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey((Sex)gender == Sex.Male ? "mp_m_freemode_01" : "mp_f_freemode_01"));
+            NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey(GetEntityModel(gender)));
             CefConnect.TriggerRaw(player, CharacterManagerEvents.ChangeGenderFromCef + "Answered");
             ClientConnect.Trigger(player, "GenderChanged", gender);
         }
@@ -59,7 +52,7 @@ namespace CharacterManager
         [RemoteEvent(CharacterManagerEvents.CharacterCreatedSubmitFromClient)]
         public void CharacterCreated(Player player, string characterDto)
         {
-            var characterCreatorInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CharacterCreatorDto>(characterDto);
+            var characterCreatorInfo = JsonConvert.DeserializeObject<CharacterCreatorDto>(characterDto);
             var account = player.GetAccountFromDb()!;
             var character = new Character(account, characterCreatorInfo);
             account.AddCharacter(character);
@@ -70,5 +63,12 @@ namespace CharacterManager
         }
         
         #endregion
+
+        private static string GetEntityModel(int gender) => (Sex)gender switch
+        {
+            Sex.Male => "mp_m_freemode_01",
+            Sex.Female => "mp_f_freemode_01",
+            _ => throw new ArgumentException()
+        };
     }
 }
