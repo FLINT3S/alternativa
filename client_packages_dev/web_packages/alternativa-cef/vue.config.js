@@ -3,6 +3,11 @@ const path = require("path");
 
 module.exports = {
     publicPath: process.env.NODE_ENV === "production" ? "./" : "/",
+    pluginOptions: {
+        webpackBundleAnalyzer: {
+            openAnalyzer: false
+        }
+    },
     // pages: {
     //     "SettingsPanel": {
     //         title: "Settings Panel",

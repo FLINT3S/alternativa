@@ -60,6 +60,7 @@ mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_START, () => {
 })
 
 const applyParents = (parentsData) => {
+  logger.log(parentsData)
   parentsData = JSON.parse(parentsData)
   characterData.parents = parentsData
 

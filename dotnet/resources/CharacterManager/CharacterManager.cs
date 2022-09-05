@@ -39,7 +39,7 @@ namespace CharacterManager
             {
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
-                ClientConnect.Trigger(player, "ApplyCharacter", character.Appearance.ToJsonString());
+                player.ApplyCharacter(character);
                 SpawnCharacter(player, character.LastPosition ?? new Vector3(-1041.3, -2744.6, 21.36));
                 ClientConnect.Trigger(player, "OnCharacterSpawned", character.IsDead);
             }
@@ -73,6 +73,7 @@ namespace CharacterManager
             var account = player.GetAccountFromDb()!;
             var character = new Character(account, characterCreatorInfo);
             account.AddCharacter(character);
+            player.SetCharacter(character);
             SpawnCharacter(player, new Vector3(-1041.3, -2744.6, 21.36));
             ClientConnect.Trigger(player, "CharacterCreated");
         }

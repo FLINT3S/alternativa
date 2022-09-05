@@ -37,8 +37,8 @@ export class CharacterData {
       faceFeatures: this.faceFeatures,
       motherId: this.parents.mother.id,
       fatherId: this.parents.father.id,
-      similarity: this.parents.similarity,
-      skinSimilarity: this.parents.skinSimilarity,
+      similarity: Math.abs(this.parents.similarity - 1),
+      skinSimilarity: Math.abs(this.parents.skinSimilarity - 1),
     }
 
     return JSON.stringify(dto)
