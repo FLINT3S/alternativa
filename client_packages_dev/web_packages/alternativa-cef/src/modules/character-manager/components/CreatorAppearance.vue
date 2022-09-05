@@ -76,6 +76,9 @@ export default {
           this.activeSection !== "Внешность"
       )
     }
+  },
+  mounted() {
+    this.characterData.updateAppearance()
   }
 }
 </script>

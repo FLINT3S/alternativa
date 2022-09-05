@@ -6,17 +6,15 @@
 </template>
 
 <script>
-import {CharacterData} from "@/modules/character-manager/data/CharacterData";
 import CreatorCommonInfo from "@/modules/character-manager/components/CreatorCommonInfo";
 import CreatorAppearance from "@/modules/character-manager/components/CreatorAppearance";
+import {mapGetters} from "vuex";
 
 export default {
   name: "CharacterCreator",
   components: {CreatorAppearance, CreatorCommonInfo},
-  data() {
-    return {
-      characterData: new CharacterData()
-    }
+  computed: {
+    ...mapGetters(["characterData"])
   }
 }
 </script>

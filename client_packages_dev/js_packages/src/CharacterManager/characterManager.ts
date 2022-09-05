@@ -4,8 +4,16 @@ import {CharacterManagerEvents} from "./CharacterManagerEvents";
 import {loginCam} from "../Authorization/authorization";
 import {VirtualKey} from "../utils/virtualKeys";
 import {logger} from "../utils/logger";
-import {removeRotateCamera, rotateCameraSafeZone, setActiveRotateCamera} from "../Managers/rotateCameraManager";
+import {
+  removeRotateCamera,
+  rotateCameraSafeZone,
+  rotateCameraSettings,
+  rotateCameraVariables,
+  setActiveRotateCamera
+} from "../Managers/rotateCameraManager";
 import {CharacterData} from "./data/CharacterData";
+import {IsCameraInAir} from "../Authorization/spawnCamera.js";
+import {animationManager} from "../Managers/animationManager";
 
 const characterManagerBrowser = new ModuleBrowser("CharacterManager", "/character-manager/select-character")
 let characterCreationCamera: CameraMp = mp.cameras.new('default', new mp.Vector3(-752.297, 316.276, 176), new mp.Vector3(0, 0, 0), 45);
@@ -23,25 +31,12 @@ mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_FROM_CEF, () => {
 })
 
 mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_START, () => {
-  mp.game.streaming.requestAnimDict("misshair_shop@barbers")
-
-  const animLoaderInterval = setInterval(() => {
-    if (mp.game.streaming.hasAnimDictLoaded("misshair_shop@barbers")) {
-      logger.log("Animation dict loaded, playing animation")
-      localPlayer.taskPlayAnim("misshair_shop@barbers", "idle_a_cam", 8, 1, -1, 1, 0, false, false, false)
-      clearInterval(animLoaderInterval)
-    } else {
-      logger.log("Animation dict not loaded")
-    }
-  }, 100)
-
-
   loginCam.destroy();
   mp.game.cam.setCinematicModeActive(false);
 
   mp.events.call("moveSkyCamera", localPlayer, "down", 3, true)
   localPlayer.freezePosition(true);
-  // localPlayer.clearTasksImmediately();
+  localPlayer.clearTasksImmediately();
 
   characterCreationCamera.setActive(true);
   characterCreationCamera.setCoord(-751.958, 318.39, 176);
@@ -52,15 +47,19 @@ mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_START, () => {
 
   mp.game.cam.renderScriptCams(true, false, 0, true, false);
 
-  setTimeout(() => {
-    characterManagerBrowser.browser.goTo("/character-manager/create-character")
-    characterManagerBrowser.browser.overlayBackdrop = false
-    characterManagerBrowser.browser.openOverlay(true)
-  }, 5000)
+  let showCharacterCreatorInterfaceInterval = setInterval(() => {
+    if (!IsCameraInAir()) {
+      clearInterval(showCharacterCreatorInterfaceInterval)
+      characterManagerBrowser.browser.goTo("/character-manager/create-character")
+      characterManagerBrowser.browser.overlayBackdrop = false
+      characterManagerBrowser.browser.openOverlay(true)
+      animationManager.playIdleStay()
+      rotateCameraVariables.forceRenderOnce = true
+    }
+  }, 300)
 })
 
 const applyParents = (parentsData) => {
-  logger.log(parentsData)
   parentsData = JSON.parse(parentsData)
   characterData.parents = parentsData
 
@@ -90,7 +89,6 @@ mp.events.add(CharacterManagerEvents.CHARACTER_CREATED_SUBMIT_FROM_CEF, (commonC
   mp.game.cam.doScreenFadeOut(500)
 
   setTimeout(() => {
-    logger.log("Character created submit from CEF")
     characterData.setCommonInfo(commonCharacterInfo)
     mp.events.callRemote(CharacterManagerEvents.CREATE_CHARACTER_FINISH_TO_SERVER, characterData.dto)
     removeRotateCamera()
@@ -100,6 +98,17 @@ mp.events.add(CharacterManagerEvents.CHARACTER_CREATED_SUBMIT_FROM_CEF, (commonC
 
 mp.events.add(CharacterManagerEvents.GENDER_CHANGED_FROM_SERVER, (gender) => {
   characterData.gender = gender
+  animationManager.playIdleStay()
+
+  if (gender === 0) {
+    rotateCameraSettings.pointingPosition.z = 176
+    characterCreationCamera.pointAtCoord(localPlayer.position.x, localPlayer.position.y, 176)
+  } else {
+    rotateCameraSettings.pointingPosition.z = 176.15
+    characterCreationCamera.pointAtCoord(localPlayer.position.x, localPlayer.position.y, 176.15)
+  }
+
+  rotateCameraVariables.forceRenderOnce = true
 })
 
 mp.events.add(CharacterManagerEvents.CHARACTER_CREATED_FROM_SERVER, () => {

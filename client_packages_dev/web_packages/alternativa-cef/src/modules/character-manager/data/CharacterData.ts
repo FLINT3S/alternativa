@@ -67,6 +67,11 @@ export class CharacterData {
     altMpCM.triggerClient("UpdateFaceFeatures", JSON.stringify(this.faceFeatures))
   }
 
+  updateAppearance() {
+    this.updateParentsData()
+    this.updateFaceFeaturesData()
+  }
+
   public static validators = {
     name: {
       required: helpers.withMessage("Введите имя", required),

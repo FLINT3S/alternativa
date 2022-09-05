@@ -1,0 +1,4 @@
+<meta>
+    <info name="AnimationManager" type="script" version="0.0.1"/>
+    <script src="bin/x64/Debug/netcoreapp3.1/AnimationManager.dll"/>
+</meta>

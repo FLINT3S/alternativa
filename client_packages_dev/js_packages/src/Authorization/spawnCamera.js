@@ -51,3 +51,7 @@ function checkCamInAir() {
         gui = 'true';
     }
 }
+
+export const IsCameraInAir = () => {
+    return mp.game.invoke(Natives.IS_PLAYER_SWITCH_IN_PROGRESS)
+}

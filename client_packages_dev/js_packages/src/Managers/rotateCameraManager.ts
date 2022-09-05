@@ -8,12 +8,20 @@ export const rotateCameraSettings = {
   maxZoom: 75.0,
   radius: 1.7,
   angleDiv: 0.5,
-  pointingPosition: {x: 754.459, y: 318.391, z: 176.0}
+  pointingPosition: {x: 754.459, y: 318.391, z: 176.0},
+  limits: {
+    zAngleMin: -0.4,
+    zAngleMax: 0.7,
+    angleMin: -2,
+    angleMax: 0.3
+  },
+  checkFunc: () => true
 }
 
 export const rotateCameraVariables = {
   angle: 0,
   zAngle: 0,
+  forceRenderOnce: false
 }
 
 export const rotateCameraSafeZone = {xGe: 250, xLe: mp.game.graphics.getScreenResolution().x,yGe: 0, yLe: mp.game.graphics.getScreenResolution().y};
@@ -46,15 +54,21 @@ const rotateCameraRenderHandler = () => {
       lmbHoldCoords.x < rotateCameraSafeZone.xLe &&
       lmbHoldCoords.y > rotateCameraSafeZone.yGe &&
       lmbHoldCoords.y < rotateCameraSafeZone.yLe
-    if (lmbPressed && allowControlHold) {
 
-      rotateCameraVariables.angle -= (x / (300 / rotateCameraSettings.angleDiv))
+    if ((lmbPressed && allowControlHold && rotateCameraSettings.checkFunc()) || rotateCameraVariables.forceRenderOnce) {
+      rotateCameraVariables.forceRenderOnce = false
+
+      const angleDelta = x / (300 / rotateCameraSettings.angleDiv);
+      if (rotateCameraVariables.angle < rotateCameraSettings.limits.angleMax && x < 0) {
+        rotateCameraVariables.angle -= angleDelta
+      } else if (rotateCameraVariables.angle > rotateCameraSettings.limits.angleMin && x > 0) {
+        rotateCameraVariables.angle -= angleDelta
+      }
 
       const zAngleDelta = (-y / (500 / rotateCameraSettings.angleDiv))
-
-      if (rotateCameraVariables.zAngle < 0.7 && y > 0) {
+      if (rotateCameraVariables.zAngle < rotateCameraSettings.limits.zAngleMax && y > 0) {
         rotateCameraVariables.zAngle -= zAngleDelta
-      } else if (rotateCameraVariables.zAngle > -0.4 && y < 0) {
+      } else if (rotateCameraVariables.zAngle > rotateCameraSettings.limits.zAngleMin && y < 0) {
         rotateCameraVariables.zAngle -= zAngleDelta
       }
 
