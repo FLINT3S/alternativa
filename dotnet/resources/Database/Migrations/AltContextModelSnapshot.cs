@@ -158,6 +158,9 @@ namespace Database.Migrations
                     b.Property<int>("Sex")
                         .HasColumnType("integer");
 
+                    b.Property<TimeSpan>("TimeToReborn")
+                        .HasColumnType("interval");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 

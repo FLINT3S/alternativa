@@ -26,7 +26,10 @@ module.exports = {
     },
     entry: "./src/index.ts",
     optimization: {
-        minimize: false
+        minimize: false,
+        splitChunks: {
+            chunks: "all"
+        }
     },
     resolve: {
         extensions: [".ts"]

@@ -3,9 +3,11 @@ import {logger} from "../utils/logger";
 
 mp.events.add("browserDomReady", (browser) => {
   const abr = browserManager.getByUrl(browser.url)
-  abr.loaded = true
-  mp.events.call("AltBrowserLoaded_" + abr.name)
-  logger.log("AltBrowserLoaded_" + browserManager.getByUrl(browser.url).name)
+  if (abr) {
+    abr.loaded = true
+    mp.events.call("AltBrowserLoaded_" + abr.name)
+    logger.log("AltBrowserLoaded_" + browserManager.getByUrl(browser.url).name)
+  }
 })
 
 export class browserManager {

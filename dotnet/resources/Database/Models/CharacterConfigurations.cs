@@ -16,7 +16,10 @@ namespace Database.Models
                         v => JsonConvert.SerializeObject(v),
                         s => JsonConvert.DeserializeObject<Vector3>(s)
                     );
-            builder.HasMany(c => c.BankAccounts).WithOne(ba => ba.Owner as Character);
+            builder.Property("TimeToReborn");
+            builder
+                .HasMany(c => c.BankAccounts)
+                .WithOne(ba => ba.Owner as Character);
             builder
                 .HasOne(c => c.Appearance)
                 .WithOne(a => a.Character)
