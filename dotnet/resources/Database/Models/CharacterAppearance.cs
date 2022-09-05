@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace Database.Models
 {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class CharacterAppearance
     {
-        public CharacterAppearance(int motherId, int fatherId, float similarity, float skinSimilarity, List<float> faceFeatures)
+        public CharacterAppearance(int motherId, int fatherId, float similarity, float skinSimilarity,
+            List<float> faceFeatures)
         {
             MotherId = motherId;
             FatherId = fatherId;
@@ -14,6 +17,7 @@ namespace Database.Models
             SkinSimilarity = skinSimilarity;
             FaceFeatures = faceFeatures;
         }
+
         public CharacterAppearance(CharacterCreatorDto characterCreatorDto)
         {
             MotherId = characterCreatorDto.MotherId;
@@ -23,32 +27,22 @@ namespace Database.Models
             FaceFeatures = characterCreatorDto.FaceFeatures;
         }
 
-        [JsonIgnore]
+        [JsonIgnore] public Guid Id { get; set; }
 
-        public Guid Id { get; set; }
-        
-        [JsonIgnore]
-        public Character Character { get; set; }
+        [JsonIgnore] public Character Character { get; set; }
+
         public Guid CharacterId { get; set; }
-        
-        [JsonProperty("motherId")]
-        public int MotherId { get; set; }
-        
-        [JsonProperty("fatherId")]
-        public int FatherId { get; set; }
-        
-        [JsonProperty("similarity")]
-        public float Similarity { get; set; }
-        
-        [JsonProperty("skinSimilarity")]
-        public float SkinSimilarity { get; set; }
-        
-        [JsonProperty("faceFeatures")]
-        public List<float> FaceFeatures { get; set; }
-        
-        public string ToJsonString()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
+
+        [JsonProperty("motherId")] public int MotherId { get; set; }
+
+        [JsonProperty("fatherId")] public int FatherId { get; set; }
+
+        [JsonProperty("similarity")] public float Similarity { get; set; }
+
+        [JsonProperty("skinSimilarity")] public float SkinSimilarity { get; set; }
+
+        [JsonProperty("faceFeatures")] public List<float> FaceFeatures { get; set; }
+
+        public string ToJsonString() => JsonConvert.SerializeObject(this);
     }
 }

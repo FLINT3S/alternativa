@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Database.Models
 {
-    public class CharacterAppearanceConfiguration: IEntityTypeConfiguration<CharacterAppearance>
+    public class CharacterAppearanceConfiguration : IEntityTypeConfiguration<CharacterAppearance>
     {
         public void Configure(EntityTypeBuilder<CharacterAppearance> builder)
         {
