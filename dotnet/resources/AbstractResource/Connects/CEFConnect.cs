@@ -17,6 +17,12 @@ namespace AbstractResource.Connects
             player.TriggerEvent(FromTo, ModuleName, fullEventName, args);
         }
 
+        public void TriggerRaw(Player player, string eventRawString, params object?[] args)
+        {
+            LogEvent(eventRawString);
+            player.TriggerEvent(FromTo, ModuleName, eventRawString, args);
+        }
+
         protected override void TriggerMessage(Player player, MessageStatus status, string message, params object[] args)
         {
             string fullEventName = $"{FromTo}:Root:ShowMessage";

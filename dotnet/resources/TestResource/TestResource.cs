@@ -1,4 +1,4 @@
-﻿using AbstractResource;
+using AbstractResource;
 using GTANetworkAPI;
 
 namespace TestResource

@@ -7,10 +7,17 @@
     />
     <alt-button :invalid-feedback="badFeedback"
                 size="m"
-                @click="selectCharacter"
+                @click="onSelectCharacter"
                 @invalid-feedback-end="badFeedback = false"
     >
       Выбрать персонажа
+    </alt-button>
+    <hr>
+    <alt-button
+        size="m"
+        @click="onCreateCharacter"
+    >
+      Создать персонажа
     </alt-button>
   </alt-card>
 </template>
@@ -31,9 +38,12 @@ export default {
     }
   },
   methods: {
-    selectCharacter() {
+    onSelectCharacter() {
       this.badFeedback = true;
       altMpCM.triggerServer('SelectCharacter', this.characterId)
+    },
+    onCreateCharacter() {
+      altMpCM.triggerClient("CreateCharacter")
     }
   }
 }

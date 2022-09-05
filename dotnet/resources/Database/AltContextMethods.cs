@@ -14,6 +14,7 @@ namespace Database
             return context
                 .Accounts
                 .Include(a => a.Characters)
+                .ThenInclude(c => c.Appearance)
                 .First(a => a.SocialClubId == player.SocialClubId)
                 .Characters
                 .FirstOrDefault(c => c.Id == guid);

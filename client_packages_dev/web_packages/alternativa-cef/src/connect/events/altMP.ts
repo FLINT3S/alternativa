@@ -22,11 +22,11 @@ export class altMP extends ModuleDependent {
    *
    * Отправляет событие клиенту
    * */
-  triggerClient(eventName: string, data: object) {
+  triggerClient(eventName: string, ...data?: Array<number|string>) {
     const es = new EventString("CEF", "CLIENT", this.moduleName, eventName)
     new AltEvent(es, AltEventType.SEND, data)
 
-    mp.trigger(eventString, data)
+    mp.trigger(es.eventString, ...data)
   }
 
   /**
@@ -41,6 +41,23 @@ export class altMP extends ModuleDependent {
     mp.trigger("CEF:SERVER", es.eventString, ...data)
   }
 
+  /**
+   * @method triggerServerWithAnswerPending
+   *
+   * Отправляет событие серверу и ожидает ответа
+   * */
+  triggerServerWithAnswerPending(eventName: string, ...data: Array<number|string>) {
+    return new Promise((resolve, reject) => {
+      const answerEs = new EventString("CEF", "SERVER", this.moduleName, `${eventName}Answered`)
+      this.onRaw(answerEs.eventString, (...data) => {
+        resolve(data)
+        window.altListeners?.delete(answerEventName)
+      }, this.moduleName, "SERVER")
+
+      this.triggerServer(eventName, ...data)
+    })
+  }
+
   triggerServerRawEvent(eventString: string, data?: Array<number|string>) {
     mp.trigger("CEF:SERVER", eventString, JSON.stringify(data))
   }
@@ -52,6 +69,11 @@ export class altMP extends ModuleDependent {
    * */
   on(eventName: string, callback: (...data: any) => void, moduleName: string = null, eventFrom: eventFrom = "CLIENT") {
     const es = new EventString(eventFrom, "CEF", moduleName || this.moduleName, eventName)
+    this.onRaw(es.eventString, callback)
+  }
+
+  onRaw(eventString, callback) {
+    const es = new EventString(eventString)
     new AltEvent(es, AltEventType.REGISTER_LISTENER)
 
     const currentListeners = window.altListeners.get(es.eventString)
@@ -69,6 +91,10 @@ export class altMP extends ModuleDependent {
    * */
   onServer(eventName: string, callback: (...data: any) => void, moduleName: string = null) {
     this.on(eventName, callback, moduleName, "SERVER")
+  }
+
+  onServerRawEventString(eventString: EventString, callback: (...data: any) => void, moduleName: string = null) {
+    this.onServer(eventString.name, callback, moduleName)
   }
 
   /**
