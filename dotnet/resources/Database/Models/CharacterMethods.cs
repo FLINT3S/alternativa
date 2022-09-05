@@ -8,6 +8,8 @@ namespace Database.Models
     {
         [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
 
+        [NotMapped] public string Fullname => $"{FirstName} {LastName}";
+
         public void IncreaseInGameTime(TimeSpan time)
         {
             InGameTime += time;

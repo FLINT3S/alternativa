@@ -27,10 +27,14 @@ namespace CharacterManager
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
                 ClientConnect.Trigger(player, "ApplyCharacter", character.Appearance.ToJsonString());
-                player.Position = character.LastPosition ?? Vector3.RandomXy();
-                NAPI.Task.Run(() => NAPI.Player.SpawnPlayer(player, character.LastPosition ?? Vector3.RandomXy()));
-                if (character.IsDead)
-                    NAPI.Task.Run(() => player.Health = 0);
+                NAPI.Task.Run(() =>
+                        {
+                            player.Name = character.Fullname;
+                            NAPI.Player.SpawnPlayer(player, character.LastPosition ?? new Vector3(-1041.3, -2744.6, 21.36));
+                            if (character.IsDead)
+                                player.Health = 0;
+                        }
+                    );
                 ClientConnect.Trigger(player, "OnCharacterSpawned", character.IsDead);
             }
             catch (Exception ex)
@@ -64,8 +68,13 @@ namespace CharacterManager
             var character = new Character(account, characterCreatorInfo);
             account.AddCharacter(character);
             player.SetCharacter(character);
-            // TODO: Вынести в константы или вообще в БД (но точку спавна наверное в константы все-таки)
-            player.Position = new Vector3(-1041.3, -2744.6, 21.36);
+            NAPI.Task.Run(() =>
+                    {
+                        player.Name = character.Fullname;
+                        // TODO: Вынести в константы или вообще в БД (но точку спавна наверное в константы все-таки)
+                        NAPI.Player.SpawnPlayer(player, new Vector3(-1041.3, -2744.6, 21.36));
+                    }
+                );
             ClientConnect.Trigger(player, "CharacterCreated");
         }
 
