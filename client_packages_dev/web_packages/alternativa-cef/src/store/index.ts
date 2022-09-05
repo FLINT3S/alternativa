@@ -1,5 +1,6 @@
 import {createStore} from 'vuex'
 import {RegistrationDTO} from "@/modules/authorization/data/RegistrationDTO";
+import {gameInfoStore} from "@/store/modules/gameInfoStore";
 
 export default createStore({
   state: {
@@ -14,5 +15,7 @@ export default createStore({
   actions: {
 
   },
-  modules: {}
+  modules: {
+    gameInfo: gameInfoStore
+  }
 })

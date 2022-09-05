@@ -123,6 +123,10 @@ export class AltBrowser {
     this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
   }
 
+  executeCode(code: string) {
+    this.instance.execute(code)
+  }
+
   execClient(moduleName: string, eventName: string, ...data: Array<string | number | boolean>) {
     logger.log(`CLIENT:CEF:${moduleName}:${eventName}`, "ExecClient")
     this.execEvent(`CLIENT:CEF:${moduleName}:${eventName}`, ...data)

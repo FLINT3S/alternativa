@@ -6,22 +6,27 @@
       </transition>
     </alt-overlay>
   </router-view>
+  <info-hud/>
 </template>
 
 <script>
 import {altMP} from "@/connect/events/altMP";
 import {defineComponent} from "vue";
 import AltOverlay from "@/components/core/AltOverlay";
+import InfoHud from "@/modules/debug-hud/InfoHud";
 
 export default defineComponent({
   name: "AltRoot",
-  components: {AltOverlay},
+  components: {InfoHud, AltOverlay},
   data() {
     return {
       altMpRoot: new altMP("Root", "1"),
       isOverlayOpen: true,
       overlayBackdrop: true
     }
+  },
+  provide: {
+    alrMpRoot: () => this.altMpRoot
   },
   mounted() {
     this.altMpRoot.on("GoTo", (location) => {
