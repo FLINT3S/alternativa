@@ -4,6 +4,7 @@ using AbstractResource.Connects;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
+using NAPIExtensions;
 
 /*
  * wiki: https://www.notion.so/AltAbstractResource-AbstractEvents-65bd6dfdbf2e48b9bd3295ded2e9cc28
@@ -24,6 +25,12 @@ namespace AbstractResource
         protected ClientConnect ClientConnect { get; }
 
         #region Logs
+
+        protected void LogPlayer(Player player, string eventName, string eventDescription)
+        {
+            var altPlayerEvent = new AltPlayerEvent(player.GetString(), this, eventName, eventDescription);
+            AltLogger.Instance.LogInfo(altPlayerEvent);
+        }
         
         protected void LogEvent(MethodBase @event)
         {

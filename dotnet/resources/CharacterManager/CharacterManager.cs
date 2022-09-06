@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using AbstractResource;
 using Database;
 using Database.Models;
@@ -17,16 +18,28 @@ namespace CharacterManager
             _ => throw new ArgumentException()
         };
 
-        private static void SpawnCharacter(Player player, Vector3 coords)
+        private void SpawnCharacter(Player player, Vector3 coords)
         {
             var character = player.GetCharacter()!;
-            NAPI.Task.Run(() =>
+            player.ApplyCharacter(character);
+            NAPI.Task.Run(
+                    () =>
                     {
                         player.Position = coords;
                         NAPI.Player.SpawnPlayer(player, coords);
                         if (character.IsDead) player.Health = 0;
                     }
                 );
+            LogPlayer(player, "PlayerSpawned", $"Player spawned at {coords}");
+        }
+
+        private static Character CreateCharacter(Player player, string characterDto)
+        {
+            var characterCreatorInfo = JsonConvert.DeserializeObject<CharacterCreatorDto>(characterDto);
+            var account = player.GetAccountFromDb()!;
+            var character = new Character(account, characterCreatorInfo);
+            account.AddCharacter(character);
+            return character;
         }
 
         #region OnRemoteEvent
@@ -34,11 +47,11 @@ namespace CharacterManager
         [RemoteEvent(CharacterManagerEvents.SelectCharacter)]
         public void OnSelectCharacter(Player player, string rawGuid)
         {
+            LogEvent(MethodBase.GetCurrentMethod()!);
             try
             {
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
-                player.ApplyCharacter(character);
                 SpawnCharacter(player, character.LastPosition ?? new Vector3(-1041.3, -2744.6, 21.36));
                 ClientConnect.Trigger(player, "OnCharacterSpawned", character.IsDead);
             }
@@ -51,15 +64,18 @@ namespace CharacterManager
         [RemoteEvent(CharacterManagerEvents.InitCharacterCreationFromClient)]
         public void InitCharacterCreation(Player player)
         {
+            LogEvent(MethodBase.GetCurrentMethod()!);
             player.Position = new Vector3(-754.459, 318.391, 175.401);
             player.Rotation = new Vector3(-1.7809, 0, -137.35375);
             AnimationManager.AnimationManager.PlayAnimation(player, "misshair_shop@barbers", "idle_a_cam", 1);
             player.TriggerEvent(CharacterManagerEvents.CharacterCreationStart);
+            LogPlayer(player, "InitCharacterCreation", "Player was started character creation");
         }
 
         [RemoteEvent(CharacterManagerEvents.ChangeGenderFromCef)]
         public void ChangeGender(Player player, int gender)
         {
+            LogEvent(MethodBase.GetCurrentMethod()!);
             NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey(GetEntityModel(gender)));
             AnimationManager.AnimationManager.PlayAnimation(player, "misshair_shop@barbers", "idle_a_cam", 1);
             CefConnect.TriggerRaw(player, CharacterManagerEvents.ChangeGenderFromCef + "Answered");
@@ -69,13 +85,12 @@ namespace CharacterManager
         [RemoteEvent(CharacterManagerEvents.CharacterCreatedSubmitFromClient)]
         public void CharacterCreated(Player player, string characterDto)
         {
-            var characterCreatorInfo = JsonConvert.DeserializeObject<CharacterCreatorDto>(characterDto);
-            var account = player.GetAccountFromDb()!;
-            var character = new Character(account, characterCreatorInfo);
-            account.AddCharacter(character);
+            LogEvent(MethodBase.GetCurrentMethod()!);
+            var character = CreateCharacter(player, characterDto);
             player.SetCharacter(character);
             SpawnCharacter(player, new Vector3(-1041.3, -2744.6, 21.36));
             ClientConnect.Trigger(player, "CharacterCreated");
+            LogPlayer(player, "InitCharacterCreation", "Player was started character creation");
         }
 
         #endregion

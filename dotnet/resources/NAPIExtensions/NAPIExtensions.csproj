@@ -15,13 +15,14 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <Compile Update="PlayerConstants.cs">
             <DependentUpon>PlayerExtensions.cs</DependentUpon>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Database\Database.csproj" />
+      <ProjectReference Include="..\Logger\Logger.csproj" />
     </ItemGroup>
 </Project>    
     
