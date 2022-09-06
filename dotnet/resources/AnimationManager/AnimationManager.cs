@@ -7,15 +7,7 @@ namespace AnimationManager
     public class AnimationManager : AltAbstractResource
     {
         [Command("playanim")]
-        [RemoteEvent("CLIENT:SERVER:Animations:PlayAnimation")]
-        public void OnPlayAnimation(Player player, string dict, string name, int flag) =>
-            PlayAnimation(player, dict, name, flag);
-
-        [Command("stopanim")]
-        [RemoteEvent("CLIENT:SERVER:Animations:StopAnimation")]
-        public void OnStopAnimation(Player player) =>
-            StopAnimation(player);
-
+        [RemoteEvent(AnimationManagerEvents.PlayAnimationFromClient)]
         public static void PlayAnimation(Player player, string dict, string name, int flag)
         {
             player.SetData(PlayerConstants.AnimationPlaying, true);
@@ -23,6 +15,8 @@ namespace AnimationManager
             player.PlayAnimation(dict, name, flag);
         }
 
+        [Command("stopanim")]
+        [RemoteEvent(AnimationManagerEvents.StopAnimationFromClient)]
         public static void StopAnimation(Player player)
         {
             if (!player.HasData(PlayerConstants.AnimationPlaying)) return;

@@ -9,12 +9,18 @@
 
     <ItemGroup>
         <Reference Include="Bootstrapper">
-        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+            <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
         </Reference>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
-        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
+        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="AnimationManagerEvents.cs">
+            <DependentUpon>AnimationManager.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 </Project>
