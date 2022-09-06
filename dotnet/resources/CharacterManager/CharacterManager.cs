@@ -90,7 +90,6 @@ namespace CharacterManager
             player.SetCharacter(character);
             SpawnCharacter(player, new Vector3(-1041.3, -2744.6, 21.36));
             ClientConnect.Trigger(player, "CharacterCreated");
-            LogPlayer(player, "InitCharacterCreation", "Player was started character creation");
         }
 
         #endregion
