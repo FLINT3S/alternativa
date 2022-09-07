@@ -25,11 +25,12 @@ namespace CharacterManager
             NAPI.Task.Run(
                     () =>
                     {
+                        player.Heading = character.SpawnData.Heading;
+                        player.Position = character.SpawnData.Position;
+                        NAPI.Player.SpawnPlayer(player, player.Position);
+                        
                         player.Armor = character.SpawnData.Armor;
                         player.Health = character.SpawnData.Health;
-                        player.Position = character.SpawnData.Position;
-                        player.Heading = character.SpawnData.Heading;
-                        NAPI.Player.SpawnPlayer(player, player.Position);
                     }
                 );
             LogPlayer(player, "PlayerSpawned", $"Player spawned at {character.SpawnData.Position}");
