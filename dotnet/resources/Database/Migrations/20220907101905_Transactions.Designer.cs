@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(AltContext))]
-    partial class AltContextModelSnapshot : ModelSnapshot
+    [Migration("20220907101905_Transactions")]
+    partial class Transactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,6 +136,9 @@ namespace Database.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<long>("Cash")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -145,6 +150,12 @@ namespace Database.Migrations
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
+
+                    b.Property<string>("LastPosition")
+                        .HasColumnType("text");
+
+                    b.Property<long?>("MainBankAccountId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Sex")
                         .HasColumnType("integer");
@@ -164,6 +175,8 @@ namespace Database.Migrations
 
                     b.HasIndex("AccountSocialClubId");
 
+                    b.HasIndex("MainBankAccountId");
+
                     b.ToTable("Characters");
                 });
 
@@ -171,6 +184,9 @@ namespace Database.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CharacterId")
                         .HasColumnType("uuid");
 
                     b.Property<List<float>>("FaceFeatures")
@@ -182,9 +198,6 @@ namespace Database.Migrations
                     b.Property<int>("MotherId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("OwnderId")
-                        .HasColumnType("uuid");
-
                     b.Property<float>("Similarity")
                         .HasColumnType("real");
 
@@ -193,64 +206,10 @@ namespace Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnderId")
+                    b.HasIndex("CharacterId")
                         .IsUnique();
 
                     b.ToTable("CharacterAppearance");
-                });
-
-            modelBuilder.Entity("Database.Models.CharacterFinances", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<long>("Cash")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("MainBankAccountId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MainBankAccountId");
-
-                    b.HasIndex("OwnerId")
-                        .IsUnique();
-
-                    b.ToTable("CharacterFinances");
-                });
-
-            modelBuilder.Entity("Database.Models.CharacterSpawnData", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Armor")
-                        .HasColumnType("integer");
-
-                    b.Property<float>("Heading")
-                        .HasColumnType("real");
-
-                    b.Property<int>("Health")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Position")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OwnerId")
-                        .IsUnique();
-
-                    b.ToTable("CharacterSpawnData");
                 });
 
             modelBuilder.Entity("Database.Models.Economics.Banks.Bank", b =>
@@ -290,7 +249,7 @@ namespace Database.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<Guid?>("OwnerFinancesId")
+                    b.Property<Guid?>("OwnerId")
                         .HasColumnType("uuid");
 
                     b.Property<double>("Rate")
@@ -311,7 +270,7 @@ namespace Database.Migrations
 
                     b.HasIndex("BankId1");
 
-                    b.HasIndex("OwnerFinancesId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("BankAccounts");
                 });
@@ -384,7 +343,7 @@ namespace Database.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<Guid?>("CharacterFinancesId")
+                    b.Property<Guid?>("CharacterId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
@@ -398,7 +357,7 @@ namespace Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacterFinancesId");
+                    b.HasIndex("CharacterId");
 
                     b.ToTable("CryptoWallets");
                 });
@@ -485,35 +444,17 @@ namespace Database.Migrations
                         .WithMany("Characters")
                         .HasForeignKey("AccountSocialClubId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Database.Models.Economics.Banks.BankAccount", "MainBankAccount")
+                        .WithMany()
+                        .HasForeignKey("MainBankAccountId");
                 });
 
             modelBuilder.Entity("Database.Models.CharacterAppearance", b =>
                 {
-                    b.HasOne("Database.Models.Character", "Owner")
+                    b.HasOne("Database.Models.Character", "Character")
                         .WithOne("Appearance")
-                        .HasForeignKey("Database.Models.CharacterAppearance", "OwnderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Database.Models.CharacterFinances", b =>
-                {
-                    b.HasOne("Database.Models.Economics.Banks.BankAccount", "MainBankAccount")
-                        .WithMany()
-                        .HasForeignKey("MainBankAccountId");
-
-                    b.HasOne("Database.Models.Character", "Owner")
-                        .WithOne("Finances")
-                        .HasForeignKey("Database.Models.CharacterFinances", "OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Database.Models.CharacterSpawnData", b =>
-                {
-                    b.HasOne("Database.Models.Character", "Owner")
-                        .WithOne("SpawnData")
-                        .HasForeignKey("Database.Models.CharacterSpawnData", "OwnerId")
+                        .HasForeignKey("Database.Models.CharacterAppearance", "CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -528,9 +469,9 @@ namespace Database.Migrations
                         .WithMany()
                         .HasForeignKey("BankId1");
 
-                    b.HasOne("Database.Models.CharacterFinances", "OwnerFinances")
+                    b.HasOne("Database.Models.Character", "Owner")
                         .WithMany("BankAccounts")
-                        .HasForeignKey("OwnerFinancesId");
+                        .HasForeignKey("OwnerId");
                 });
 
             modelBuilder.Entity("Database.Models.Economics.Banks.Transactions.AbstractBankTransaction", b =>
@@ -553,9 +494,9 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.Economics.CryptoWallets.CryptoWallet", b =>
                 {
-                    b.HasOne("Database.Models.CharacterFinances", null)
+                    b.HasOne("Database.Models.Character", null)
                         .WithMany("CryptoWallets")
-                        .HasForeignKey("CharacterFinancesId");
+                        .HasForeignKey("CharacterId");
                 });
 
             modelBuilder.Entity("Database.Models.AccountEvents.ConnectionEvent", b =>

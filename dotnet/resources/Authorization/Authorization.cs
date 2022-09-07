@@ -38,7 +38,7 @@ namespace Authorization
         public void OnPlayerDisconnect(Player player, DisconnectionType type, string reason)
         {
             var character = player.GetCharacter();
-            character?.OnDisconnect(player.Position);
+            character?.OnDisconnect(player);
             player.RemoveCharacter();
         }
 

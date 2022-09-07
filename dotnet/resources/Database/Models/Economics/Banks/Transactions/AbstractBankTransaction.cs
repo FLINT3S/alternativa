@@ -1,24 +1,21 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Database.Models.Economics.Banks
+namespace Database.Models.Economics.Banks.Transactions
 {
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
-    public class BankTransaction : AbstractTransaction
+    public abstract class AbstractBankTransaction : AbstractTransaction
     {
         // ReSharper disable once UnusedMember.Global
-        protected BankTransaction()
+        protected AbstractBankTransaction()
         {
         }
 
-        public BankTransaction(double sum, BankAccount from, BankAccount to)
+        protected AbstractBankTransaction(double sum, BankAccount from)
         {
             Sum = sum;
             From = from;
-            To = to;
         }
 
         public BankAccount From { get; protected set; }
-
-        public BankAccount To { get; protected set; }
     }
 }

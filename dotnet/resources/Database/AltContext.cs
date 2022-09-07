@@ -3,6 +3,7 @@ using Database.Models;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
 using Database.Models.Economics.Banks;
+using Database.Models.Economics.Banks.Transactions;
 using Database.Models.Economics.CryptoWallets;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,13 +16,13 @@ namespace Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            #region Account
+            
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
-            modelBuilder.ApplyConfiguration(new CharacterConfigurations());
 
             modelBuilder.ApplyConfiguration<AccountEvent>(new EventConfigurations());
             modelBuilder.ApplyConfiguration<ConnectionEvent>(new EventConfigurations());
-
-            #region Bans
 
             modelBuilder.ApplyConfiguration<AbstractBan>(new BanConfigurations());
             modelBuilder.ApplyConfiguration<TemporaryBan>(new BanConfigurations());
@@ -29,10 +30,24 @@ namespace Database
 
             #endregion
 
+            #region Character
+
+            modelBuilder.ApplyConfiguration(new CharacterConfigurations());
+            modelBuilder.ApplyConfiguration(new CharacterAppearanceConfiguration());
+            modelBuilder.ApplyConfiguration(new CharacterFinancesConfiguration());
+            modelBuilder.ApplyConfiguration(new CharacterSpawnDataConfiguration());
+
+            #endregion
+            
             #region Economics
 
             modelBuilder.ApplyConfiguration(new BankConfiguration());
             modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
+            modelBuilder.ApplyConfiguration<AbstractBankTransaction>(new TransactionConfiguration());
+            modelBuilder.ApplyConfiguration<BetweenCharactersTransaction>(new TransactionConfiguration());
+            modelBuilder.ApplyConfiguration<DutyTransaction>(new TransactionConfiguration());
+            modelBuilder.ApplyConfiguration<PurchaseTransaction>(new TransactionConfiguration());
+            
             modelBuilder.ApplyConfiguration(new CryptoWalletConfiguration());
 
             #endregion
@@ -54,7 +69,7 @@ namespace Database
 
         public DbSet<BankAccount> BankAccounts { get; private set; }
 
-        public DbSet<BankTransaction> BankTransactions { get; private set; }
+        public DbSet<AbstractBankTransaction> BankTransactions { get; private set; }
 
         public DbSet<CryptoWallet> CryptoWallets { get; private set; }
 

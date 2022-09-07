@@ -18,19 +18,22 @@ namespace CharacterManager
             _ => throw new ArgumentException()
         };
 
-        private void SpawnCharacter(Player player, Vector3 coords)
+        private void SpawnCharacter(Player player)
         {
             var character = player.GetCharacter()!;
             player.ApplyCharacter(character);
             NAPI.Task.Run(
                     () =>
                     {
-                        player.Position = coords;
-                        NAPI.Player.SpawnPlayer(player, coords);
-                        if (character.IsDead) player.Health = 0;
+                        player.Heading = character.SpawnData.Heading;
+                        player.Position = character.SpawnData.Position;
+                        NAPI.Player.SpawnPlayer(player, player.Position);
+                        
+                        player.Armor = character.SpawnData.Armor;
+                        player.Health = character.SpawnData.Health;
                     }
                 );
-            LogPlayer(player, "PlayerSpawned", $"Player spawned at {coords}");
+            LogPlayer(player, "PlayerSpawned", $"Player spawned at {character.SpawnData.Position}");
         }
 
         private static Character CreateCharacter(Player player, string characterDto)
@@ -52,7 +55,7 @@ namespace CharacterManager
             {
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
-                SpawnCharacter(player, character.LastPosition ?? new Vector3(-1041.3, -2744.6, 21.36));
+                SpawnCharacter(player);
                 ClientConnect.Trigger(player, "OnCharacterSpawned", character.IsDead);
             }
             catch (Exception ex)
@@ -88,7 +91,8 @@ namespace CharacterManager
             LogEvent(MethodBase.GetCurrentMethod()!);
             var character = CreateCharacter(player, characterDto);
             player.SetCharacter(character);
-            SpawnCharacter(player, new Vector3(-1041.3, -2744.6, 21.36));
+            character.SpawnData.Position = new Vector3(-1041.3, -2744.6, 21.36);
+            SpawnCharacter(player);
             ClientConnect.Trigger(player, "CharacterCreated");
         }
 

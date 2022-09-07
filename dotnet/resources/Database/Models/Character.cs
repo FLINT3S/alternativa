@@ -3,26 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Database.Models.Economics.Banks;
 using Database.Models.Economics.CryptoWallets;
-using GTANetworkAPI;
 
 namespace Database.Models
 {
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
-    public partial class Character : AbstractModel, IBankClient
+    public partial class Character : AbstractModel
     {
         // ReSharper disable once UnusedMember.Global
         protected Character()
         {
-        }
-
-        public Character(Account account, string firstname, string lastname, Sex sex, DateTime birthday)
-        {
-            Account = account;
-            FirstName = firstname;
-            LastName = lastname;
-            Birthday = birthday;
-            Sex = sex;
-            InGameTime = TimeSpan.Zero;
         }
 
         public Character(Account account, CharacterCreatorDto characterCreatorDto)
@@ -34,23 +23,13 @@ namespace Database.Models
             Sex = (Sex)characterCreatorDto.Gender;
             InGameTime = TimeSpan.Zero;
             Appearance = new CharacterAppearance(characterCreatorDto);
+            Finances = new CharacterFinances();
+            SpawnData = new CharacterSpawnData();
         }
-
-        public Vector3 LastPosition { get; private set; }
+        
+        public CharacterSpawnData SpawnData { get; protected set; }
 
         private TimeSpan TimeToReborn { get; set; } = TimeSpan.Zero;
-
-        #region Finances
-
-        public long Cash { get; set; }
-
-        public List<BankAccount> BankAccounts { get; } = new List<BankAccount>();
-
-        public BankAccount MainBankAccount { get; protected set; }
-
-        public List<CryptoWallet> CryptoWallets { get; } = new List<CryptoWallet>();
-
-        #endregion
 
         #region Main Data
 
@@ -75,6 +54,8 @@ namespace Database.Models
         public DateTime Birthday { get; private set; }
 
         public CharacterAppearance Appearance { get; private set; }
+        
+        public CharacterFinances Finances { get; private set; }
 
         #endregion
     }

@@ -29,9 +29,9 @@ namespace Database.Models
 
         [JsonIgnore] public Guid Id { get; set; }
 
-        [JsonIgnore] public Character Character { get; set; }
+        [JsonIgnore] public Character Owner { get; set; }
 
-        public Guid CharacterId { get; set; }
+        public Guid OwnderId { get; set; }
 
         [JsonProperty("motherId")] public int MotherId { get; set; }
 
