@@ -34,6 +34,11 @@ namespace Database
 
             modelBuilder.ApplyConfiguration(new BankConfiguration());
             modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
+            modelBuilder.ApplyConfiguration<AbstractBankTransaction>(new TransactionConfiguration());
+            modelBuilder.ApplyConfiguration<BetweenCharactersTransaction>(new TransactionConfiguration());
+            modelBuilder.ApplyConfiguration<DutyTransaction>(new TransactionConfiguration());
+            modelBuilder.ApplyConfiguration<PurchaseTransaction>(new TransactionConfiguration());
+            
             modelBuilder.ApplyConfiguration(new CryptoWalletConfiguration());
 
             #endregion

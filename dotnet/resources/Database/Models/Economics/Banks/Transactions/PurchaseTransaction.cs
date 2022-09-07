@@ -1,6 +1,6 @@
 ﻿namespace Database.Models.Economics.Banks.Transactions
 {
-    public class PurchaseTransaction
+    public class PurchaseTransaction : AbstractBankTransaction
     {
         
     }
