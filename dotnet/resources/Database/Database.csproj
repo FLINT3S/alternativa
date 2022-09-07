@@ -103,7 +103,6 @@
         <Compile Update="Models\CharacterSpawnDataMethods.cs">
           <DependentUpon>CharacterSpawnData.cs</DependentUpon>
         </Compile>
-        <Compile Remove="Models\CharacterFinances.cs" />
         <Compile Update="Models\CharacterSex.cs">
           <DependentUpon>Character.cs</DependentUpon>
         </Compile>
