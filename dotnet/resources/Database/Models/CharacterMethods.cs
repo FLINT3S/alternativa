@@ -26,10 +26,10 @@ namespace Database.Models
 
         #region OnEvents
 
-        public void OnDisconnect(Vector3 position)
+        public void OnDisconnect(Player player)
         {
             Account.OnDisconnect();
-            LastPosition = position;
+            SpawnData.OnDisconnect(player);
             UpdateInContext();
         }
 

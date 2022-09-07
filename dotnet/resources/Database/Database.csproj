@@ -88,6 +88,21 @@
         <Compile Update="Models\CharacterSex.cs">
           <DependentUpon>Character.cs</DependentUpon>
         </Compile>
+        <Compile Update="Models\CharacterSpawnDataConfiguration.cs">
+          <DependentUpon>CharacterSpawnData.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\CharacterFinancesConfiguration.cs">
+          <DependentUpon>CharacterFinances.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\CharacterFinances.cs">
+          <DependentUpon>Character.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\CharacterSpawnData.cs">
+          <DependentUpon>Character.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\CharacterSpawnDataMethods.cs">
+          <DependentUpon>CharacterSpawnData.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>

@@ -17,14 +17,14 @@ namespace Database.Models.Economics.Banks
             Bank = bank;
             Type = type;
             Rate = rate;
-            Owner = client;
+            OwnerFinances = client.Finances;
         }
 
         public double Rate { get; protected set; }
 
         public BankAccountType Type { get; protected set; }
 
-        public Character Owner { get; protected set; }
+        private CharacterFinances OwnerFinances { get; set; }
 
         public Bank Bank { get; protected set; }
 

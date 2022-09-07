@@ -16,13 +16,13 @@ namespace Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            #region Account
+            
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
-            modelBuilder.ApplyConfiguration(new CharacterConfigurations());
 
             modelBuilder.ApplyConfiguration<AccountEvent>(new EventConfigurations());
             modelBuilder.ApplyConfiguration<ConnectionEvent>(new EventConfigurations());
-
-            #region Bans
 
             modelBuilder.ApplyConfiguration<AbstractBan>(new BanConfigurations());
             modelBuilder.ApplyConfiguration<TemporaryBan>(new BanConfigurations());
@@ -30,6 +30,15 @@ namespace Database
 
             #endregion
 
+            #region Character
+
+            modelBuilder.ApplyConfiguration(new CharacterConfigurations());
+            modelBuilder.ApplyConfiguration(new CharacterAppearanceConfiguration());
+            modelBuilder.ApplyConfiguration(new CharacterFinancesConfiguration());
+            modelBuilder.ApplyConfiguration(new CharacterSpawnDataConfiguration());
+
+            #endregion
+            
             #region Economics
 
             modelBuilder.ApplyConfiguration(new BankConfiguration());

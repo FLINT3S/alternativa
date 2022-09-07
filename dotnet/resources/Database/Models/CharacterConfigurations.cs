@@ -1,7 +1,5 @@
-﻿using GTANetworkAPI;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
 
 namespace Database.Models
 {
@@ -11,20 +9,19 @@ namespace Database.Models
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.StaticId).ValueGeneratedOnAdd();
-            builder
-                .Property(c => c.LastPosition)
-                .HasConversion(
-                        v => JsonConvert.SerializeObject(v),
-                        s => JsonConvert.DeserializeObject<Vector3>(s)
-                    );
             builder.Property("TimeToReborn");
             builder
-                .HasMany(c => c.BankAccounts)
-                .WithOne(ba => ba.Owner as Character);
-            builder
                 .HasOne(c => c.Appearance)
-                .WithOne(a => a.Character)
-                .HasForeignKey<CharacterAppearance>(a => a.CharacterId);
+                .WithOne(a => a.Owner)
+                .HasForeignKey<CharacterAppearance>(a => a.OwnderId);
+            builder
+                .HasOne(c => c.Finances)
+                .WithOne(a => a.Owner)
+                .HasForeignKey<CharacterFinances>(a => a.OwnerId);
+            builder
+                .HasOne(c => c.SpawnData)
+                .WithOne(a => a.Owner)
+                .HasForeignKey<CharacterSpawnData>(a => a.OwnerId);
         }
     }
 }
