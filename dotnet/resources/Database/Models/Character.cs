@@ -23,7 +23,8 @@ namespace Database.Models
             Sex = (Sex)characterCreatorDto.Gender;
             InGameTime = TimeSpan.Zero;
             Appearance = new CharacterAppearance(characterCreatorDto);
-            
+            Finances = new CharacterFinances();
+            SpawnData = new CharacterSpawnData();
         }
         
         public CharacterSpawnData SpawnData { get; protected set; }

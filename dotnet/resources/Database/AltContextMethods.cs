@@ -15,6 +15,10 @@ namespace Database
                 .Accounts
                 .Include(a => a.Characters)
                 .ThenInclude(c => c.Appearance)
+                .Include(a => a.Characters)
+                .ThenInclude(c => c.Finances)
+                .Include(a => a.Characters)
+                .ThenInclude(c => c.SpawnData)
                 .First(a => a.SocialClubId == player.SocialClubId)
                 .Characters
                 .FirstOrDefault(c => c.Id == guid);
