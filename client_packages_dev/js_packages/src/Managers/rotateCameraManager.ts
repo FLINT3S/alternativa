@@ -24,6 +24,7 @@ export const rotateCameraVariables = {
   forceRenderOnce: false
 }
 
+// @ts-ignore
 export const rotateCameraSafeZone = {xGe: 250, xLe: mp.game.graphics.getScreenResolution().x,yGe: 0, yLe: mp.game.graphics.getScreenResolution().y};
 
 export let activeRotateCamera: CameraMp = null;
