@@ -3,6 +3,7 @@ using Database.Models;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
 using Database.Models.Economics.Banks;
+using Database.Models.Economics.Banks.Transactions;
 using Database.Models.Economics.CryptoWallets;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,7 +55,7 @@ namespace Database
 
         public DbSet<BankAccount> BankAccounts { get; private set; }
 
-        public DbSet<BankTransaction> BankTransactions { get; private set; }
+        public DbSet<AbstractBankTransaction> BankTransactions { get; private set; }
 
         public DbSet<CryptoWallet> CryptoWallets { get; private set; }
 

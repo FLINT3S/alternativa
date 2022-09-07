@@ -8,7 +8,7 @@ using GTANetworkAPI;
 namespace Database.Models
 {
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
-    public partial class Character : AbstractModel, IBankClient
+    public partial class Character : AbstractModel
     {
         // ReSharper disable once UnusedMember.Global
         protected Character()
