@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using GTANetworkAPI;
 
 namespace AbstractResource.Connects

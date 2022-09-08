@@ -19,7 +19,7 @@ Write-Output "Building server resources...
 "
 Pop-Location
 Push-Location dotnet\resources
+dotnet clean
 dotnet build
 
 Pop-Location
-./ragemp-server.exe

@@ -26,3 +26,4 @@ packages/_rage-console
 package-lock.json
 **/appsettings.json
 **/appsettings.*.json
+linux_release

@@ -95,6 +95,21 @@ namespace CharacterManager
             SpawnCharacter(player);
             ClientConnect.Trigger(player, "CharacterCreated");
         }
+        
+        [RemoteEvent(CharacterManagerEvents.GetOwnCharacters)]
+        public void GetOwnCharacters(Player player)
+        {
+            LogEvent(MethodBase.GetCurrentMethod()!);
+            var account = player.GetAccountFromDb()!;
+            
+            using var db = new AltContext();
+            db.Attach(account);
+            db.Entry(account).Collection(a => a.Characters).Load();
+            var characters = account.Characters.ConvertAll(c => new GetCharacterDto(c));
+            CefConnect.TriggerRaw(player,
+                CharacterManagerEvents.GetOwnCharacters + "Answered",
+                JsonConvert.SerializeObject(characters));
+        }
 
         #endregion
     }

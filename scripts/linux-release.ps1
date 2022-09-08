@@ -30,7 +30,4 @@ Robocopy.exe ./dotnet/resources ./linux_release/dotnet/resources /s /xd obj bin 
 
 Copy-Item ./dotnet/settings.xml ./linux_release/dotnet/settings.xml
 Copy-Item ./conf.json ./linux_release/conf.json 
-
-Push-Location ./linux_release/dotnet/resources
-dotnet build
-Pop-Location
+Copy-Item ./scripts/linux-build.sh /linux_release/build.sh

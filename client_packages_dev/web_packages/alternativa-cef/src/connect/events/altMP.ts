@@ -1,5 +1,12 @@
-// @ts-nocheck
 // Проверка отключена из-за использования window.и mp в коде плагина
+
+declare global {
+  interface Window {
+    altListeners: Map<string, Set<AltEventCallback>>
+  }
+
+  let mp: any;
+}
 
 import {AltEvent} from "@/connect/events/altEvent";
 import {ModuleDependent} from "@/connect/moduleDependent";
@@ -22,7 +29,7 @@ export class altMP extends ModuleDependent {
    *
    * Отправляет событие клиенту
    * */
-  triggerClient(eventName: string, ...data?: Array<number|string>) {
+  triggerClient(eventName: string, ...data: Array<number | string>) {
     const es = new EventString("CEF", "CLIENT", this.moduleName, eventName)
     new AltEvent(es, AltEventType.SEND, data)
 
@@ -34,7 +41,7 @@ export class altMP extends ModuleDependent {
    *
    * Отправляет событие серверу
    * */
-  triggerServer(eventName: string, ...data?: Array<number|string>) {
+  triggerServer(eventName: string, ...data: Array<number | string>) {
     const es = new EventString("CEF", "SERVER", this.moduleName, eventName)
     new AltEvent(es, AltEventType.SEND, data)
 
@@ -46,19 +53,23 @@ export class altMP extends ModuleDependent {
    *
    * Отправляет событие серверу и ожидает ответа
    * */
-  triggerServerWithAnswerPending(eventName: string, ...data: Array<number|string>) {
+  triggerServerWithAnswerPending(eventName: string, ...data: Array<number | string>) {
     return new Promise((resolve, reject) => {
       const answerEs = new EventString("CEF", "SERVER", this.moduleName, `${eventName}Answered`)
-      this.onRaw(answerEs.eventString, (...data) => {
+      const rejectTimeout = setTimeout(() => {
+        reject(new Error(`No answer for event ${eventName}`))
+      }, 10000)
+
+      this.onRaw(answerEs.eventString, (...data: any[]) => {
         resolve(data)
-        window.altListeners?.delete(answerEventName)
-      }, this.moduleName, "SERVER")
+        window.altListeners?.delete(answerEs.eventString)
+      })
 
       this.triggerServer(eventName, ...data)
     })
   }
 
-  triggerServerRawEvent(eventString: string, data?: Array<number|string>) {
+  triggerServerRawEvent(eventString: string, data?: Array<number | string>) {
     mp.trigger("CEF:SERVER", eventString, JSON.stringify(data))
   }
 
@@ -67,12 +78,12 @@ export class altMP extends ModuleDependent {
    *
    * Добавляет обработчик события от клиента
    * */
-  on(eventName: string, callback: (...data: any) => void, moduleName: string = null, eventFrom: eventFrom = "CLIENT") {
+  on(eventName: string, callback: (...data: any) => void, moduleName = "", eventFrom: eventFrom = "CLIENT") {
     const es = new EventString(eventFrom, "CEF", moduleName || this.moduleName, eventName)
     this.onRaw(es.eventString, callback)
   }
 
-  onRaw(eventString, callback) {
+  onRaw(eventString: string, callback: (...data: any) => void) {
     const es = new EventString(eventString)
     new AltEvent(es, AltEventType.REGISTER_LISTENER)
 
@@ -80,6 +91,7 @@ export class altMP extends ModuleDependent {
     if (!currentListeners) {
       window.altListeners.set(es.eventString, new Set([callback]))
     } else {
+      // @ts-ignore
       window.altListeners.set(es.eventString, new Set([...currentListeners, callback]))
     }
   }
@@ -89,11 +101,11 @@ export class altMP extends ModuleDependent {
    *
    * Добавляет обработчик события сервера
    * */
-  onServer(eventName: string, callback: (...data: any) => void, moduleName: string = null) {
+  onServer(eventName: string, callback: (...data: any) => void, moduleName = "") {
     this.on(eventName, callback, moduleName, "SERVER")
   }
 
-  onServerRawEventString(eventString: EventString, callback: (...data: any) => void, moduleName: string = null) {
+  onServerRawEventString(eventString: EventString, callback: (...data: any) => void, moduleName = "") {
     this.onServer(eventString.name, callback, moduleName)
   }
 
@@ -102,14 +114,17 @@ export class altMP extends ModuleDependent {
    *
    * Фунция для вызова локального события. Используется на клиенте для триггера событий через execute
    */
-  call(eventString: string, data: object) {
+  call(eventString: string, data: any[]) {
     altLog.warning(eventString)
 
     const es = new EventString(eventString)
     new AltEvent(es, AltEventType.RECEIVED, data)
 
-    const eventListeners: Array<AltEventCallback> = window.altListeners.get(eventString)
-    if (!eventListeners || eventListeners.length === 0) altLog.warning(`No listeners for event ${eventString}`)
-    else eventListeners.forEach(listener => listener(...data))
+    const eventListeners = window.altListeners.get(eventString)
+    if (!eventListeners || eventListeners.size === 0) altLog.warning(`No listeners for event ${eventString}`)
+    else {
+      // @ts-ignore
+      eventListeners.forEach(listener => listener(...data))
+    }
   }
 }

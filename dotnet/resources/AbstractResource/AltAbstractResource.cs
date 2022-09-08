@@ -32,10 +32,11 @@ namespace AbstractResource
             AltLogger.Instance.LogInfo(altPlayerEvent);
         }
         
-        protected void LogEvent(MethodBase @event)
+        protected void LogEvent(MethodBase @event, string additionalInfo = "")
         {
             string eventName = GetEventString(@event);
-            var altEvent = new AltEvent(this, eventName, $"{eventName} fetched");
+            var altEvent = new AltEvent(this, eventName, 
+                $"{eventName} fetched{(additionalInfo.Length > 0 ? $"; {additionalInfo}" : string.Empty)}");
             AltLogger.Instance.LogEvent(altEvent);
         }
 

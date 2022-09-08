@@ -4,6 +4,8 @@ namespace CharacterManager
     {
         #region Character Select
 
+        public const string GetOwnCharacters = "CEF:SERVER:CharacterManager:GetOwnCharacters";
+        
         public const string SelectCharacter = "CEF:SERVER:CharacterManager:SelectCharacter";
 
         #endregion
@@ -17,7 +19,7 @@ namespace CharacterManager
         public const string ChangeGenderFromCef = "CEF:SERVER:CharacterManager:ChangeGender";
 
         public const string CharacterCreatedSubmitFromClient = "CLIENT:SERVER:CharacterManager:CharacterCreationFinish";
-
+        
         #endregion
     }
 }
