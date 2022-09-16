@@ -2,9 +2,9 @@ import {createApp} from 'vue'
 import App from './modules/AltApp.vue'
 import router from './router'
 import store from './store'
-import "@/assets/style/bootstrap/bootstrap-utilities.min.css"
-import "@/assets/style/bootstrap/bootstrap-reboot.min.css"
-import "@/assets/style/main.scss"
+import "@/../../../../../alternativa-ui/src/styles/bootstrap/bootstrap-utilities.min.css"
+import "@/../../../../../alternativa-ui/src/styles/bootstrap/bootstrap-reboot.min.css"
+import "../../../../../alternativa-ui/src/styles/main.scss"
 import {altMP} from "@/connect/events/altMP";
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'

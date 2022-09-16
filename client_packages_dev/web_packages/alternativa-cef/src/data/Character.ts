@@ -24,7 +24,7 @@ export class Character extends BaseModel<ICharacter>{
 
   get inGameTimeFormatted(): string {
     let minutes = this.inGameTime / 60
-    const hours = Math.floor(this.inGameTime / 60)
+    const hours = Math.floor(minutes / 60)
     minutes = Math.floor(minutes - hours * 60)
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`
   }

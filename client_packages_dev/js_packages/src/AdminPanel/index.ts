@@ -1,6 +1,13 @@
 import {VirtualKey} from "../utils/virtualKeys";
 import "./noclip.js"
 import {logger} from "../utils/logger";
+import {ModuleBrowser} from "../BrowserManager/altBrowser";
+
+const characterManagerBrowser = new ModuleBrowser("AdminPanel", "/admin-panel/index")
+
+mp.keys.bind(VirtualKey.VK_F3, true, () => {
+  characterManagerBrowser.setAsActive()
+})
 
 // let adminPanelBrowser: AltOverlayBrowser = new AltOverlayBrowser("http://package/web_packages/admin-panel.html", "AdminPanel", {toggleCursor: true});
 //

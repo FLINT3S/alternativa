@@ -11,6 +11,9 @@ import CharacterManager from "@/modules/character-manager/CharacterManager.vue";
 import CharacterSelect from "@/modules/character-manager/views/CharacterSelect.vue";
 import CharacterCreator from "@/modules/character-manager/views/CharacterCreator.vue";
 
+import AdminPanel from "@/modules/admin-panel/AdminPanel.vue";
+import AdminIndex from "@/modules/admin-panel/views/AdminIndex.vue";
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -57,6 +60,17 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "create-character",
             component: CharacterCreator
+          }
+        ]
+      },
+      {
+        path: "admin-panel",
+        component: AdminPanel,
+        redirect: "admin-panel/index",
+        children: [
+          {
+            path: "index",
+            component: AdminIndex
           }
         ]
       }

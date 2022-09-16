@@ -21,18 +21,20 @@ namespace CharacterManager
         private void SpawnCharacter(Player player)
         {
             var character = player.GetCharacter()!;
+            
+            // Чтобы персонаж при спавне не проваливался под землю
+            character.SpawnData.Position.Z += 0.3f;
+            
             player.ApplyCharacter(character);
-            NAPI.Task.Run(
-                    () =>
-                    {
-                        player.Heading = character.SpawnData.Heading;
-                        player.Position = character.SpawnData.Position;
-                        NAPI.Player.SpawnPlayer(player, player.Position);
-                        
-                        player.Armor = character.SpawnData.Armor;
-                        player.Health = character.SpawnData.Health;
-                    }
-                );
+            
+            player.Heading = character.SpawnData.Heading;
+            player.Position = character.SpawnData.Position;
+            
+            NAPI.Player.SpawnPlayer(player, player.Position);
+            
+            player.Armor = character.SpawnData.Armor;
+            player.Health = character.SpawnData.Health;
+            
             LogPlayer(player, "PlayerSpawned", $"Player spawned at {character.SpawnData.Position}");
         }
 

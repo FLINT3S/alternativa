@@ -16,5 +16,12 @@ namespace TestResource
         {
             NAPI.Task.Run(() => player.Health = 0);
         }
+        
+        [RemoteProc("CEF:SERVER:TestResource:Test")]
+        public string RemoteProcTest(Player player, string test)
+        {
+            player.SendChatMessage("Test: " + test);
+            return player.Name;
+        }
     }
 }
