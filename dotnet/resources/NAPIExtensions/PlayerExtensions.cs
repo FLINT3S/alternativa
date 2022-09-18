@@ -34,7 +34,7 @@ namespace NAPIExtensions
 
         /// <summary>
         ///     Аккаунт получается из Data и существует только в рантайме
-        ///     Для получения аккаунта из базы данных нужно использовать <see cref="AltContext.GetAccount(player)" />
+        ///     Для получения аккаунта из базы данных нужно использовать <see cref="AltContext.GetAccount(Player)" />
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
