@@ -62,9 +62,7 @@ import GenderButton from "@/modules/character-manager/components/GenderButton";
 import {CharacterData} from "@/modules/character-manager/data/CharacterData";
 import {altMpCM} from "@/modules/character-manager/data/altMpCM";
 import useVuelidate from "@vuelidate/core";
-import {RegistrationDTO} from "@/modules/authorization/data/RegistrationDTO";
 import AltButton from "@/components/core/AltButton";
-import loginView from "@/modules/authorization/views/LoginView";
 
 export default {
   name: "CreatorCommonInfo",

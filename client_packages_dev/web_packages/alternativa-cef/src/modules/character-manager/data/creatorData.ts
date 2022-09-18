@@ -106,6 +106,7 @@ export const featuresByGroup:
     }
   ];
 
+// eslint-disable-next-line
 const appearanceItemNames = {
   "Blemishes":
     ["None", "Measles", "Pimples", "Spots", "Break Out", "Blackheads", "Build Up", "Pustules", "Zits", "Full Acne", "Acne", "Cheek Rash", "Face Rash", "Picker", "Puberty", "Eyesore", "Chin Rash", "Two Face", "T Zone", "Greasy", "Marked", "Acne Scarring", "Full Acne Scarring", "Cold Sores", "Impetigo"],

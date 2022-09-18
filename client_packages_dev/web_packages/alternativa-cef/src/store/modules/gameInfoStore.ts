@@ -1,5 +1,4 @@
 import {InfoHudData} from "@/modules/debug-hud/InfoHudData";
-import {Vector3} from "@/data/Vector3";
 
 export const gameInfoStore = {
   state: () => ({

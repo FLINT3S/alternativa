@@ -61,6 +61,7 @@ export class altMP extends ModuleDependent {
       }, 10000)
 
       this.onRaw(answerEs.eventString, (...data: any[]) => {
+        clearTimeout(rejectTimeout)
         resolve(data)
         window.altListeners?.delete(answerEs.eventString)
       })

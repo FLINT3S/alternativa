@@ -91,7 +91,6 @@ import {CharacterData} from "@/modules/character-manager/data/CharacterData";
 import {fathers, mothers} from "@/modules/character-manager/data/creatorData";
 import AltHorizontalScroll from "@/components/core/AltHorizontalScroll";
 import AltSlider from "@/components/core/AltSlider";
-import {altMpCM} from "@/modules/character-manager/data/altMpCM";
 import AltButton from "@/components/core/AltButton";
 
 export default defineComponent({

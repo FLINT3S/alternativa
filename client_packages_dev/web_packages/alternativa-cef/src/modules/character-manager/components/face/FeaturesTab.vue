@@ -13,7 +13,6 @@
 <script>
 import {defineComponent} from "vue";
 import FaceFeatureSlider from "@/modules/character-manager/components/face/FaceFeatureSlider";
-import {altMpCM} from "@/modules/character-manager/data/altMpCM";
 import {CharacterData} from "@/modules/character-manager/data/CharacterData";
 
 export default defineComponent({

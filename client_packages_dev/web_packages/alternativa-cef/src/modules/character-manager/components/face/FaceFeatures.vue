@@ -61,7 +61,6 @@ import {CharacterData} from "@/modules/character-manager/data/CharacterData";
 import AltPill from "@/components/core/AltPill";
 import FeaturesTab from "@/modules/character-manager/components/face/FeaturesTab";
 import AltButton from "@/components/core/AltButton";
-import {altMpCM} from "@/modules/character-manager/data/altMpCM";
 
 export default defineComponent({
   name: "FaceFeatures",
