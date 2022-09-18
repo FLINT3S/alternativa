@@ -42,7 +42,7 @@ namespace CharacterManager
         private static Character CreateCharacter(Player player, string characterDto)
         {
             var characterCreatorInfo = JsonConvert.DeserializeObject<CharacterCreatorDto>(characterDto);
-            var account = player.GetAccountFromDb()!;
+            var account = AltContext.GetAccount(player)!;
             var character = new Character(account, characterCreatorInfo);
             account.AddCharacter(character);
             return character;
@@ -71,7 +71,8 @@ namespace CharacterManager
         public void InitCharacterCreation(Player player)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            var account = player.GetAccountFromDb()!;
+            
+            var account = AltContext.GetAccount(player)!;
             if (account.CanCreateCharacter())
             {
                 LogException(new InvalidOperationException("Exceeding the characters count"));
@@ -109,7 +110,7 @@ namespace CharacterManager
         public void GetOwnCharacters(Player player)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            var account = player.GetAccountFromDb()!;
+            var account = AltContext.GetAccount(player)!;
             var contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy

@@ -6,7 +6,6 @@ using Database.Models;
 using Database.Models.Bans;
 using GTANetworkAPI;
 using GTANetworkMethods;
-using Microsoft.EntityFrameworkCore;
 using Player = GTANetworkAPI.Player;
 
 namespace NAPIExtensions
@@ -33,24 +32,9 @@ namespace NAPIExtensions
             return context.Bans.OfType<PermanentBan>().FirstOrDefault(b => b.HWID == player.Serial);
         }
 
-        public static bool HasAccountInDb(this Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
-
-        /// <param name="player">Объект игрока</param>
-        /// <returns>Account из базы данных</returns>
-        public static Account? GetAccountFromDb(this Player player)
-        {
-            using var context = new AltContext();
-            return context
-                .Accounts
-                .Include(account => account.Characters)
-                .Include(account => account.TemporaryBans)
-                .Include(account => account.PermanentBan)
-                .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
-        }
-
         /// <summary>
         ///     Аккаунт получается из Data и существует только в рантайме
-        ///     Для получения аккаунта из базы данных нужно использовать <see cref="GetAccountFromDb" />
+        ///     Для получения аккаунта из базы данных нужно использовать <see cref="AltContext.GetAccount(player)" />
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
