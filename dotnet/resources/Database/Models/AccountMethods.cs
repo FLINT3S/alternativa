@@ -21,6 +21,8 @@ namespace Database.Models
 
         #region Characters
 
+        public bool CanCreateCharacter() => Characters.Count > 3;
+
         public void AddCharacter(Character character)
         {
             Characters.Add(character);

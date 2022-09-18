@@ -23,5 +23,12 @@ namespace Database.Models
             context.Update(this);
             context.SaveChanges();
         }
+
+        public void UpdateFromContext()
+        {
+            using var context = new AltContext();
+            context.Attach(this);
+            context.Entry(this).Reload();
+        }
     }
 }
