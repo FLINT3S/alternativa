@@ -14,7 +14,7 @@ namespace CharacterManager
             Guid = character.Id.ToString();
             FirstName = character.FirstName;
             LastName = character.LastName;
-            TimeSpan ageSpan = DateTime.Today - character.Birthday;
+            var ageSpan = DateTime.Today - character.Birthday;
             Age = (new DateTime(1, 1, 1) + ageSpan).Year - 1;
             StaticId = character.StaticId;
             InGameTime = (long)character.InGameTime.TotalSeconds;

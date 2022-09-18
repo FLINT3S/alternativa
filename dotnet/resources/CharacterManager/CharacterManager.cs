@@ -6,6 +6,7 @@ using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace CharacterManager
 {
@@ -103,14 +104,21 @@ namespace CharacterManager
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
             var account = player.GetAccountFromDb()!;
-            
-            using var db = new AltContext();
-            db.Attach(account);
-            db.Entry(account).Collection(a => a.Characters).Load();
-            var characters = account.Characters.ConvertAll(c => new GetCharacterDto(c));
+            var contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            };
             CefConnect.TriggerRaw(player,
                 CharacterManagerEvents.GetOwnCharacters + "Answered",
-                JsonConvert.SerializeObject(characters));
+                JsonConvert.SerializeObject(account.Characters, new JsonSerializerSettings
+                {
+                    DefaultValueHandling = DefaultValueHandling.Ignore,
+                    ContractResolver = contractResolver,
+                    Formatting = Formatting.Indented
+                }));
         }
 
         #endregion

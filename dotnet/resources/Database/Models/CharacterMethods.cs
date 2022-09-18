@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using GTANetworkAPI;
+using Newtonsoft.Json;
 
 namespace Database.Models
 {
@@ -9,6 +10,18 @@ namespace Database.Models
         [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
 
         [NotMapped] public string Fullname => $"{FirstName} {LastName}";
+
+        [NotMapped] [JsonProperty("age")] public int Age
+        {
+            get 
+            { 
+                var today = DateTime.Today;
+                int age = today.Year - Birthday.Year;
+                if (Birthday.Date > today.AddYears(-age)) 
+                    age--;
+                return age;
+            }
+        }
 
         public void IncreaseInGameTime(TimeSpan time)
         {
