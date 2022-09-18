@@ -68,13 +68,6 @@ namespace NAPIExtensions
 
         private static void ApplyCharacterAppearance(this Player player, Character? character)
         {
-            if (character?.Appearance == null)
-            {
-                using var context = new AltContext();
-                context.Attach(character);
-                context.Entry(character).Reference(c => c!.Appearance).Load();
-            }
-            
             #region SetHeadBlend
             Console.WriteLine(character!.Appearance?.ToJsonString());
             
