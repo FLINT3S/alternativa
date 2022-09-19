@@ -19,7 +19,8 @@ namespace DeathAndReborn
                     () =>
                     {
                         var player = NAPI.Pools.GetAllPlayers().First(p => p.SocialClubId == account.SocialClubId);
-                        NAPI.Player.SpawnPlayer(player, Vector3.RandomXy());
+                        player.Position = Vector3.RandomXy() + new Vector3(0, 0, 0.3);
+                        NAPI.Player.SpawnPlayer(player, player.Position);
                         ClientConnect.Trigger(player, "Reborn");
                     }
                 );
