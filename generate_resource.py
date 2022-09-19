@@ -29,10 +29,11 @@ def generate_server_resource(resource_name):
     # region Generate resource files
     with open(f"{CURRENT_RESOURCE_PATH}/{resource_name}.cs", "w+") as f:
         f.write("""using GTANetworkAPI;
+using AbstractResource;
 
 namespace %s
 {
-public class Main : AltAbstractResource
+    public class Main : AltAbstractResource
     {
 
     }
@@ -57,7 +58,6 @@ public class Main : AltAbstractResource
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
-        <ProjectReference Include="..\EventString\EventString.csproj" />
     </ItemGroup>
 </Project>    
     """)
@@ -82,9 +82,10 @@ EndProject""".format(
             resource_name=resource_name
         )
 
-        new_project_build = """    {{{config_uuid}}}.Debug|x64.ActiveCfg = Debug|x64
-        {{{config_uuid}}}.Debug|x64.Build.0 = Debug|x64
-EndGlobalSection""".format(config_uuid=config_uuid)
+        new_project_build = """    
+    {{{config_uuid}}}.Debug|x64.Build.0 = Debug|x64
+EndGlobalSection
+""".format(config_uuid=config_uuid)
 
         solution_text = r.read()
         solution_text = _rreplace(solution_text, "EndProject", new_project_config, 1)
