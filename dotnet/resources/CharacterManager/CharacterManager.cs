@@ -111,21 +111,13 @@ namespace CharacterManager
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
             var account = AltContext.GetAccount(player)!;
-            var contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy
-                {
-                    OverrideSpecifiedNames = false
-                }
-            };
-            CefConnect.TriggerRaw(player,
-                CharacterManagerEvents.GetOwnCharacters + "Answered",
-                JsonConvert.SerializeObject(account.Characters, new JsonSerializerSettings
-                {
-                    DefaultValueHandling = DefaultValueHandling.Ignore,
-                    ContractResolver = contractResolver,
-                    Formatting = Formatting.Indented
-                }));
+            string characters = JsonConvert.SerializeObject(account.Characters, new JsonSerializerSettings
+                    {
+                        DefaultValueHandling = DefaultValueHandling.Ignore,
+                        Formatting = Formatting.Indented
+                    }
+                );
+            CefConnect.TriggerRaw(player, CharacterManagerEvents.GetOwnCharacters + "Answered", characters);
         }
 
         #endregion
