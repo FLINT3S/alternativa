@@ -2,7 +2,7 @@ using System;
 using AbstractResource;
 using Database;
 using GTANetworkAPI;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace TestResource
 {
@@ -12,8 +12,12 @@ namespace TestResource
         public void OnInternalResourceStart()
         {
             Console.WriteLine("TestResource started");
-            using var db = new AltContext(); 
-            db.Database.Migrate();
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            bool needApplyMigration = config.GetValue<bool>("ApplyMigrationWithStartup");
+            if (needApplyMigration)
+                AltContext.ApplyMigration();
         }
         
         [Command("spawncar")]
