@@ -22,9 +22,9 @@ mp.events.add("CEF:SERVER", (eventString: string, ...data: Array<number | string
   mp.events.callRemote(eventString, ...data)
 })
 
-mp.events.addProc("CEF:SERVER", async (eventString: string, ...data: Array<number | string>) => {
-  return await mp.events.callRemoteProc(eventString, ...data)
-})
+// mp.events.addProc("CEF:SERVER", async (eventString: string, ...data: Array<number | string>) => {
+//   return await mp.events.callRemoteProc(eventString, ...data)
+// })
 
 // mp.keys.bind(VirtualKey.VK_ESCAPE, true, () => {
 //   Object.values(browserManager.getAllBrowsers()).forEach((browser: AltBrowser) => {
