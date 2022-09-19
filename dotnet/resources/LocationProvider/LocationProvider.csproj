@@ -9,14 +9,18 @@
 
     <ItemGroup>
         <Reference Include="Bootstrapper">
-            <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
         </Reference>
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
-        <ProjectReference Include="..\LocationProvider\LocationProvider.csproj" />
-        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="hospitalsCoords.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>    
     

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AbstractResource;
 using Database.Models;
 using GTANetworkAPI;
+using LocationProvider;
 using NAPIExtensions;
 
 namespace DeathAndReborn
@@ -19,7 +20,7 @@ namespace DeathAndReborn
                     () =>
                     {
                         var player = NAPI.Pools.GetAllPlayers().First(p => p.SocialClubId == account.SocialClubId);
-                        player.Position = Vector3.RandomXy() + new Vector3(0, 0, 0.3);
+                        player.Position = HospitalLocationProvider.GetNearestHospitalCoords(player.Position);
                         NAPI.Player.SpawnPlayer(player, player.Position);
                         ClientConnect.Trigger(player, "Reborn");
                     }
