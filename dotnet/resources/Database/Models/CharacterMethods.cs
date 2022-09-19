@@ -40,7 +40,7 @@ namespace Database.Models
             UpdateInContext();
         }
 
-        public override string ToString() => $"{Id}: [{FirstName} {LastName}]";
+        public override string ToString() => $"{Id}_[{FirstName} {LastName}]";
 
         #region OnEvents
 
