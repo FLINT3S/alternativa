@@ -1,10 +1,21 @@
+using System;
 using AbstractResource;
+using Database;
 using GTANetworkAPI;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestResource
 {
     public class TestResource : AltAbstractResource
     {
+        [ServerEvent(Event.ResourceStart)]
+        public void OnInternalResourceStart()
+        {
+            Console.WriteLine("TestResource started");
+            using var db = new AltContext(); 
+            db.Database.Migrate();
+        }
+        
         [Command("spawncar")]
         public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
         {

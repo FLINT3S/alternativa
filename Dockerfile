@@ -1,25 +1,47 @@
+FROM node:16.17-alpine3.15 AS web_builder
+
+WORKDIR ./server
+
+COPY ./client_packages_dev ./client_packages_dev
+COPY ./client_packages ./client_packages
+
+RUN cd ./client_packages_dev/js_packages && \
+    npm install && \
+    npm run client:build
+
+RUN cd ./client_packages_dev/web_packages/alternativa && \
+    npm install && \
+    npm run cef:build
+
+
+
+# =====================================
+FROM ubuntu:20.04 AS setup
+
+RUN apt-get update && apt-get install -y wget
+
+RUN wget https://cdn.rage.mp/updater/prerelease/server-files/linux_x64.tar.gz && \
+    tar -xvzf linux_x64.tar.gz && \
+    rm linux_x64.tar.gz
+
+
+
+# =====================================
 FROM ubuntu:20.04
 
 USER root
 
+COPY --from=setup /ragemp-srv/ ./server/
+
 WORKDIR ./server
 
+RUN chmod +x ./ragemp-server
+
+
 # region setup
-RUN apt-get update && apt-get install -y wget && apt-get install -y curl
+RUN apt-get update && apt-get install -y curl
 # endregion
 
-# region install nodejs
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash && apt-get install -y nodejs
-RUN apt-get install -y build-essential
-
-RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
-    dpkg -i packages-microsoft-prod.deb && \
-    rm packages-microsoft-prod.deb
-
-#RUN apt-get update && apt-get install -y dotnet-sdk-3.1
-#
-#RUN apt-get update && apt-get install -y dotnet-runtime-3.1
-# endregion
 
 # region install dotnet
 ENV \
@@ -56,16 +78,6 @@ RUN sdk_version=3.1.422 \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 # endregion
 
-# regon setup ragemp server
-RUN wget https://cdn.rage.mp/updater/prerelease/server-files/linux_x64.tar.gz && \
-    tar -xvzf linux_x64.tar.gz && \
-    rm linux_x64.tar.gz
-
-RUN cp -a /server/ragemp-srv/. ./ && \
-    rm -rf ragemp-srv
-
-RUN chmod +x ./ragemp-server
-# endregion
 
 # region expose ports
 EXPOSE 22005/udp
@@ -75,27 +87,14 @@ EXPOSE 22006/tcp
 # endregion
 
 # region copy resources
-COPY ./client_packages_dev ./client_packages_dev
-COPY ./client_packages ./client_packages
+COPY --from=web_builder ./server/client_packages ./client_packages
 COPY ./packages ./packages
 COPY ./dotnet/resources ./dotnet/resources
+COPY ./appsettings.json ./dotnet/runtime/appsettings.json
+COPY ./dotnet/settings.xml ./dotnet/settings.xml
+COPY ./conf.json ./conf.json
 # endregion
 
-# reguin build client and CEF
-RUN cd ./client_packages_dev/js_packages && \
-    npm install && \
-    npm run build
-
-RUN cd ./client_packages_dev/web_packages/alternativa-cef && \
-    npm install && \
-    npm run build
-# endregion
-
-#region build dotnet
-RUN cd ./dotnet/resources && \
-    dotnet build
-
-COPY ./dotnet/resources/Secrets/appsettings.json ./dotnet/runtime
-# endregion
+RUN cd ./dotnet/resources && dotnet build
 
 CMD ["./ragemp-server"]

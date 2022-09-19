@@ -15,4 +15,5 @@
     <resource src="LocalContext" />
     <resource src="Weather" />
     <resource src="DeathAndReborn" />
-<resource src="AnimationManager" /></config>
+    <resource src="AnimationManager" />
+</config>
