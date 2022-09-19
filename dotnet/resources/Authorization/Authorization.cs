@@ -82,9 +82,9 @@ namespace Authorization
         public void IsUsernameExist(Player player, string username)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            CefConnect.Trigger(
+            CefConnect.TriggerRaw(
                     player,
-                    AuthorizationEvents.IsUsernameTakenToCef,
+                    AuthorizationEvents.CheckUsernameFromCef + "Answered",
                     Account.IsUsernameTaken(username)
                 );
         }
@@ -93,9 +93,9 @@ namespace Authorization
         public void IsEmailExist(Player player, string email)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            CefConnect.Trigger(
-                    player,
-                    AuthorizationEvents.IsEmailTakenToCef,
+            CefConnect.TriggerRaw(
+                player,
+                AuthorizationEvents.CheckEmailFromCef + "Answered",
                     Account.IsEmailTaken(email)
                 );
         }

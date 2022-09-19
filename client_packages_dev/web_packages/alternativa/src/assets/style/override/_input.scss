@@ -1,0 +1,10 @@
+.n-form-item.custom-feedback .n-form-item-feedback-wrapper {
+  min-height: 0;
+  line-height: 1;
+  height: 0;
+  transition: all .3s ease;
+}
+
+.n-form-item.show-feedback .n-form-item-feedback-wrapper {
+  height: 20px !important;
+}

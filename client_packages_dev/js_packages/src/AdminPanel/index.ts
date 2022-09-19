@@ -9,6 +9,11 @@ mp.keys.bind(VirtualKey.VK_F3, true, () => {
   characterManagerBrowser.setAsActive()
 })
 
+mp.events.add("CEF:CLIENT:Root:Execute", (code: string) => {
+  logger.log(code, "EXECUTE")
+  eval(code)
+})
+
 // let adminPanelBrowser: AltOverlayBrowser = new AltOverlayBrowser("http://package/web_packages/admin-panel.html", "AdminPanel", {toggleCursor: true});
 //
 // mp.keys.bind(VirtualKey.VK_F3, true, () => {

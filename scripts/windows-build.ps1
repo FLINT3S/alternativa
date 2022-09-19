@@ -9,7 +9,7 @@ npm run build
 Write-Output "Installing CEF packages...
 "
 Pop-Location
-Push-Location client_packages_dev\web_packages\alternativa-cef
+Push-Location client_packages_dev\web_packages\alternativa
 npm i
 Write-Output "Building CEF packages...
 "

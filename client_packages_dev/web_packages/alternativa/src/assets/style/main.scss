@@ -1,0 +1,30 @@
+@import 'override/override.scss';
+
+@import 'animations.scss';
+@import 'variables.scss';
+@import 'utils.scss';
+@import 'fonts/manrope-stylesheet.scss';
+
+html, body {
+  background: transparent!important;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Manrope', sans-serif;
+}
+
+.n-card.width-sm {
+  width: 430px;
+}
+
+.n-card.width-md {
+  width: 530px;
+}
+
+.n-card.width-lg {
+  width: 620px;
+}
+
+.n-card.width-xl {
+  width: 750px;
+}

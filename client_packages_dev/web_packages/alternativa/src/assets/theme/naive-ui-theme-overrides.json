@@ -1,0 +1,35 @@
+{
+  "common": {
+    "primaryColor": "#198AEAFF",
+    "primaryColorHover": "#339DF8FF",
+    "borderRadius": "5px",
+    "fontSizeMedium": "16px",
+    "fontSizeHuge": "20px",
+    "lineHeight": "1",
+    "baseColor": "#FFFFFFFF",
+    "primaryColorPressed": "#1477CBFF",
+    "primaryColorSuppl": "rgba(22, 110, 184, 1)",
+    "successColor": "#28C638FF",
+    "successColorHover": "#2DE440FF",
+    "successColorPressed": "#10991EFF",
+    "successColorSuppl": "#1D9C2AFF",
+    "warningColor": "#D1C12CFF",
+    "warningColorHover": "#F7E651FF",
+    "warningColorPressed": "#968A1AFF",
+    "warningColorSuppl": "rgba(160, 148, 31, 1)",
+    "errorColor": "#E43E3EFF",
+    "errorColorHover": "#FC6060FF",
+    "errorColorPressed": "#A91919FF",
+    "errorColorSuppl": "#8E0909FF",
+    "fontSizeLarge": "18px",
+    "fontSize": "16px",
+    "fontSizeMini": "14px",
+    "fontFamily": "'Manrope', sans-serif"
+  },
+  "Card": {
+    "borderRadius": "10px"
+  },
+  "Typography": {
+    "headerFontWeight": "300"
+  }
+}
