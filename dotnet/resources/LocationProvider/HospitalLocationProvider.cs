@@ -12,7 +12,7 @@ namespace LocationProvider
         
         static HospitalLocationProvider()
         {
-            string file = File.ReadAllText("dotnet/runtime/hospitalsCoords.json");
+            string file = File.ReadAllText("places/hospitals.json");
             HospitalPositions = JsonConvert.DeserializeObject<List<Vector3>>(file);
         }
 

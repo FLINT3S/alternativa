@@ -3,6 +3,7 @@ using AbstractResource;
 using Database;
 using GTANetworkAPI;
 using Microsoft.Extensions.Configuration;
+using NAPIExtensions;
 
 namespace TestResource
 {
@@ -30,6 +31,13 @@ namespace TestResource
         public void CMDOnKillMe(Player player)
         {
             NAPI.Task.Run(() => player.Health = 0);
+        }
+
+        [Command("respawn")]
+        public void CMDOnRespawnMe(Player player)
+        {
+            var character = player.GetCharacter()!;
+            character.Resurrect();
         }
         
         [RemoteProc("CEF:SERVER:TestResource:Test")]
