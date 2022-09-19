@@ -14,10 +14,9 @@ namespace Database.Models
         [NotMapped] [JsonProperty("age")] public int Age
         {
             get 
-            { 
-                var today = DateTime.Today;
-                int age = today.Year - Birthday.Year;
-                if (Birthday.Date > today.AddYears(-age)) 
+            {
+                int age = DateTime.Today.Year - Birthday.Year;
+                if (Birthday.Date > DateTime.Today.AddYears(-age)) 
                     age--;
                 return age;
             }
