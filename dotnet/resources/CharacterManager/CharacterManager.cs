@@ -6,6 +6,7 @@ using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace CharacterManager
 {
@@ -41,7 +42,7 @@ namespace CharacterManager
         private static Character CreateCharacter(Player player, string characterDto)
         {
             var characterCreatorInfo = JsonConvert.DeserializeObject<CharacterCreatorDto>(characterDto);
-            var account = player.GetAccountFromDb()!;
+            var account = AltContext.GetAccount(player)!;
             var character = new Character(account, characterCreatorInfo);
             account.AddCharacter(character);
             return character;
@@ -70,6 +71,13 @@ namespace CharacterManager
         public void InitCharacterCreation(Player player)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
+            
+            var account = AltContext.GetAccount(player)!;
+            if (account.CanCreateCharacter())
+            {
+                LogException(new InvalidOperationException("Exceeding the characters count"));
+                return;
+            }
             player.Position = new Vector3(-754.459, 318.391, 175.401);
             player.Rotation = new Vector3(-1.7809, 0, -137.35375);
             AnimationManager.AnimationManager.PlayAnimation(player, "misshair_shop@barbers", "idle_a_cam", 1);
@@ -102,15 +110,22 @@ namespace CharacterManager
         public void GetOwnCharacters(Player player)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            var account = player.GetAccountFromDb()!;
-            
-            using var db = new AltContext();
-            db.Attach(account);
-            db.Entry(account).Collection(a => a.Characters).Load();
-            var characters = account.Characters.ConvertAll(c => new GetCharacterDto(c));
+            var account = AltContext.GetAccount(player)!;
+            var contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = false
+                }
+            };
             CefConnect.TriggerRaw(player,
                 CharacterManagerEvents.GetOwnCharacters + "Answered",
-                JsonConvert.SerializeObject(characters));
+                JsonConvert.SerializeObject(account.Characters, new JsonSerializerSettings
+                {
+                    DefaultValueHandling = DefaultValueHandling.Ignore,
+                    ContractResolver = contractResolver,
+                    Formatting = Formatting.Indented
+                }));
         }
 
         #endregion

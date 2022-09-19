@@ -4,6 +4,7 @@ using AbstractResource;
 using Authorization.ChainsOfResponsibility.LoginHandlers;
 using Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
 using Authorization.ChainsOfResponsibility.RegistrationHandlers;
+using Database;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
@@ -57,7 +58,7 @@ namespace Authorization
         public void OnLoginSubmitFromCef(Player player, string login, string password)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            loginHandlersChain.Handle(player, player.GetAccountFromDb(), login, password);
+            loginHandlersChain.Handle(player, AltContext.GetAccount(player), login, password);
         }
 
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]

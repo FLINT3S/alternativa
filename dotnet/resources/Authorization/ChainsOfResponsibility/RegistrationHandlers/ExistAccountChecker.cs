@@ -1,6 +1,6 @@
 ﻿using AbstractResource.Connects;
+using Database;
 using GTANetworkAPI;
-using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
@@ -18,7 +18,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         protected override string EventDescription => "Register failure cause";
 
         protected override bool CanHandle(Player player, string login, string password, string email) =>
-            player.HasAccountInDb();
+            AltContext.HasAccount(player);
 
         protected override void _Handle(Player player, string login, string password, string email)
         {

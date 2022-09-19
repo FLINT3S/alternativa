@@ -1,4 +1,5 @@
 ﻿using AbstractResource.Connects;
+using Database;
 using GTANetworkAPI;
 using NAPIExtensions;
 
@@ -18,7 +19,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
         protected override void _Handle(Player player)
         {
-            var account = player.GetAccountFromDb()!;
+            var account = AltContext.GetAccount(player);
             account.OnConnect(player.Address, player.Serial);
 
             Log(player);

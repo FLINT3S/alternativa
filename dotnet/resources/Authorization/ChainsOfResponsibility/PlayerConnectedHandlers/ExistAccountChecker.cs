@@ -1,4 +1,5 @@
 ﻿using AbstractResource.Connects;
+using Database;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
@@ -17,7 +18,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
         protected override string EventDescription => "";
 
-        protected override bool CanHandle(Player player) => !player.HasAccountInDb();
+        protected override bool CanHandle(Player player) => !AltContext.HasAccount(player);
 
         protected override void _Handle(Player player)
         {

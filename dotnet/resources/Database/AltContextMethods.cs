@@ -8,6 +8,19 @@ namespace Database
 {
     public partial class AltContext
     {
+        public static bool HasAccount(Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
+        
+        public static Account GetAccount(Player player)
+        {
+            using var context = new AltContext();
+            return context
+                .Accounts
+                .Include(account => account.Characters)
+                .Include(account => account.TemporaryBans)
+                .Include(account => account.PermanentBan)
+                .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
+        }
+
         public static Character GetCharacter(Player player, Guid guid)
         {
             using var context = new AltContext();

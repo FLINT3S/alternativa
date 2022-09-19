@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Database.Models.Economics.Banks;
-using Database.Models.Economics.CryptoWallets;
+using Newtonsoft.Json;
 
 namespace Database.Models
 {
@@ -33,21 +31,21 @@ namespace Database.Models
 
         #region Main Data
 
-        public Guid Id { get; }
+        [JsonProperty("guid")] public Guid Id { get; }
         
-        public long StaticId { get; }
+        [JsonProperty("staticId")] public long StaticId { get; }
 
         public Account Account { get; }
 
-        public TimeSpan InGameTime { get; private set; } = TimeSpan.Zero;
+        [JsonProperty("inGameTime")] public TimeSpan InGameTime { get; private set; } = TimeSpan.Zero;
 
         #endregion
 
         #region Biography
 
-        public string FirstName { get; private set; }
+        [JsonProperty("firstName")] public string FirstName { get; private set; }
 
-        public string LastName { get; private set; }
+        [JsonProperty("lastName")] public string LastName { get; private set; }
 
         public Sex Sex { get; private set; }
 

@@ -1,4 +1,5 @@
 ﻿using AbstractResource.Connects;
+using Database;
 using GTANetworkAPI;
 using NAPIExtensions;
 
@@ -15,12 +16,12 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
         protected override string EventDescription => "Connect failure caused Social Club ID permanently banned";
 
-        protected override bool CanHandle(Player player) => player.GetAccountFromDb()?.PermanentBan != null;
+        protected override bool CanHandle(Player player) => AltContext.GetAccount(player)?.PermanentBan != null;
 
         protected override void _Handle(Player player)
         {
             Log(player);
-            var ban = player.GetAccountFromDb()!.PermanentBan!;
+            var ban = AltContext.GetAccount(player)!.PermanentBan!;
             ClientConnect.Trigger(player, PlayerConnectedEvents.PermanentlyBanned, ban.Reason, ban.Description);
         }
     }
