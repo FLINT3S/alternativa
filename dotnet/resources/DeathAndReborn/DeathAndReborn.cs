@@ -20,7 +20,7 @@ namespace DeathAndReborn
                     () =>
                     {
                         var player = NAPI.Pools.GetAllPlayers().First(p => p.SocialClubId == account.SocialClubId);
-                        player.Position = HospitalLocationProvider.GetNearestHospitalCoords(player.Position);
+                        player.Position = HospitalLocationProvider.GetNearest(player.Position);
                         NAPI.Player.SpawnPlayer(player, player.Position);
                         ClientConnect.Trigger(player, "Reborn");
                     }

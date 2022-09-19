@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AbstractResource;
 using GTANetworkAPI;
 using Newtonsoft.Json;
 
@@ -19,10 +18,8 @@ namespace LocationProvider
             HospitalPositions = serializer.Deserialize<List<Vector3>>(jsonReader);
         }
 
-        public static Vector3 GetNearestHospitalCoords(Vector3 position) => HospitalPositions
-            .ToDictionary(hospitalPosition => hospitalPosition.DistanceTo2D(position))
-            .OrderBy(pair => pair.Key)
-            .First()
-            .Value;
+        public static Vector3 GetNearest(Vector3 playerPosition) => HospitalPositions
+            .OrderBy(hospitalPosition => hospitalPosition.DistanceTo2D(playerPosition))
+            .First();
     }
 }
