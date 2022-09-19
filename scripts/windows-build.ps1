@@ -4,7 +4,7 @@ Push-Location client_packages_dev\js_packages
 npm i
 Write-Output "Building client packages...
 "
-npm run build
+npm run client:build
 
 Write-Output "Installing CEF packages...
 "
@@ -13,7 +13,7 @@ Push-Location client_packages_dev\web_packages\alternativa
 npm i
 Write-Output "Building CEF packages...
 "
-npm run build
+npm run cef:build
 
 Write-Output "Building server resources...
 "

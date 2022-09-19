@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "webpack",
-    "dev": "webpack --watch"
+    "client:build": "webpack",
+    "client:dev": "webpack --watch"
   },
   "dependencies": {
     "circular-dependency-plugin": "^5.2.2"
