@@ -12,10 +12,8 @@ namespace LocationProvider
         
         static HospitalLocationProvider()
         {
-            using var file = File.OpenText("dotnet/runtime/hospitalsCoords.json");
-            var serializer = new JsonSerializer();
-            var jsonReader = new JsonTextReader(file);
-            HospitalPositions = serializer.Deserialize<List<Vector3>>(jsonReader);
+            string file = File.ReadAllText("dotnet/runtime/hospitalsCoords.json");
+            HospitalPositions = JsonConvert.DeserializeObject<List<Vector3>>(file);
         }
 
         public static Vector3 GetNearest(Vector3 playerPosition) => HospitalPositions
