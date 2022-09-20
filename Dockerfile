@@ -8,7 +8,6 @@ COPY ./client_packages ./client_packages
 RUN apt-get update && apt-get install git
 
 RUN cd ./client_packages_dev/js_packages && \
-    rm -f ./client_packages_dev/js_packages/yarn.lock && \
     npm install && \
     npm run client:build
 
@@ -98,6 +97,6 @@ COPY ./dotnet/settings.xml ./dotnet/settings.xml
 COPY ./conf.json ./conf.json
 # endregion
 
-RUN cd ./dotnet/resources && dotnet build
+RUN cd ./dotnet/resources && dotnet clean && dotnet build
 
 CMD ["./ragemp-server"]
