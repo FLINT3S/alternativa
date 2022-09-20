@@ -93,6 +93,7 @@ COPY --from=web_builder ./server/client_packages ./client_packages
 COPY ./packages ./packages
 COPY ./dotnet/resources ./dotnet/resources
 COPY ./appsettings.json ./dotnet/runtime/appsettings.json
+COPY ./appsettings.json ./dotnet/resources/Secrets/appsettings.json
 COPY ./dotnet/settings.xml ./dotnet/settings.xml
 COPY ./conf.json ./conf.json
 # endregion
