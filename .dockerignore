@@ -3,3 +3,5 @@ client_packages/js_packages
 client_packages/web_packages
 **/package-lock.json
 **/yarn.lock
+dotnet/**/obj
+dotnet/**/bin

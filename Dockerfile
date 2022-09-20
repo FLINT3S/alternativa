@@ -1,6 +1,6 @@
 FROM node:16.17-buster AS web_builder
 
-WORKDIR ./server
+WORKDIR /server
 
 COPY ./client_packages_dev ./client_packages_dev
 COPY ./client_packages ./client_packages
@@ -35,7 +35,7 @@ USER root
 
 COPY --from=setup /ragemp-srv/ ./server/
 
-WORKDIR ./server
+WORKDIR /server
 
 RUN chmod +x ./ragemp-server
 
