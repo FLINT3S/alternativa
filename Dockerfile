@@ -1,11 +1,14 @@
-FROM node:16.17-alpine3.15 AS web_builder
+FROM node:16.17-buster AS web_builder
 
 WORKDIR ./server
 
 COPY ./client_packages_dev ./client_packages_dev
 COPY ./client_packages ./client_packages
 
+RUN apt-get update && apt-get install git
+
 RUN cd ./client_packages_dev/js_packages && \
+    rm -f ./client_packages_dev/js_packages/yarn.lock && \
     npm install && \
     npm run client:build
 
