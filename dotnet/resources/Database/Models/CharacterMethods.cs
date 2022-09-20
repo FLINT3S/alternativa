@@ -34,7 +34,13 @@ namespace Database.Models
             UpdateInContext();
         }
 
-        public override string ToString() => $"{Id}: [{FirstName} {LastName}]";
+        public void Resurrect()
+        {
+            TimeToReborn = TimeSpan.FromSeconds(1);
+            UpdateInContext();
+        }
+
+        public override string ToString() => $"{Id}_[{FirstName} {LastName}]";
 
         #region OnEvents
 

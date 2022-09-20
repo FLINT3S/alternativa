@@ -18,9 +18,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="hospitalsCoords.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+      <Content Include="..\..\..\places\hospitals.json">
+        <Link>hospitals.json</Link>
+      </Content>
     </ItemGroup>
 </Project>    
     
