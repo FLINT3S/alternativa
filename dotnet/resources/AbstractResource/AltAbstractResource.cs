@@ -1,6 +1,8 @@
 using System;
 using System.Reflection;
+using AbstractResource.Annotations;
 using AbstractResource.Connects;
+using Castle.Core.Internal;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
@@ -23,6 +25,14 @@ namespace AbstractResource
         protected CefConnect CefConnect { get; }
 
         protected ClientConnect ClientConnect { get; }
+
+        protected bool PlayerHasAccessToMethod(Player player, MethodBase method)
+        {
+            (int playerVipLevel, int playerAdminLevel)  = player.GetAccessLevels();
+            int methodVipLevel = method.GetAttribute<NeedVipRightsAttribute>().Level;
+            int methodAdminLevel = method.GetAttribute<NeedAdminRightAttribute>().Level;
+            return playerVipLevel >= methodVipLevel && playerAdminLevel >= methodAdminLevel;
+        }
 
         #region Logs
 
