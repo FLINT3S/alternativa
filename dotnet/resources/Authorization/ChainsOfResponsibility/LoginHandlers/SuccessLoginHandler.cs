@@ -1,6 +1,7 @@
 ﻿using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
+using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.LoginHandlers
 {
@@ -23,6 +24,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         protected override void _Handle(Player player, Account? account, string login, string password)
         {
             account!.UpdateHwid(player.Serial);
+            player.SetAccessLevels(account.VipLevel, account.AdminLevel);
             ClientConnect.Trigger(player, LoginEvents.LoginSuccess, "Success!");
             Log(player);
         }

@@ -33,6 +33,19 @@ namespace NAPIExtensions
             return context.Bans.OfType<PermanentBan>().FirstOrDefault(b => b.HWID == player.Serial);
         }
 
+
+        public static (int VipLevel, int AdminLevel) GetAccessLevels(this Player player) => 
+        (
+            player.GetSharedData<int>(PlayerConstants.VipLevel), 
+            player.GetSharedData<int>(PlayerConstants.AdminLevel)
+            );
+
+        public static void SetAccessLevels(this Player player, int vipLevel, int adminLevel)
+        {
+            player.SetOwnSharedData(PlayerConstants.VipLevel, vipLevel);
+            player.SetOwnSharedData(PlayerConstants.AdminLevel, adminLevel);
+        }
+
         #region Character
         
         /// <summary>
@@ -85,7 +98,7 @@ namespace NAPIExtensions
 
         public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>
             pools.GetAllPlayers().Select(a => a.GetCharacter()).Where(c => c != null)!;
-        
+
         #endregion
     }
 }

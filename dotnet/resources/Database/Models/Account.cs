@@ -33,6 +33,10 @@ namespace Database.Models
 
         private string LastHwid { get; set; } = null!;
 
+        public int AdminLevel { get; protected set; } = 0;
+        
+        public int VipLevel { get; protected set; } = 0;
+
         public List<TemporaryBan> TemporaryBans { get; } = new List<TemporaryBan>();
 
         public PermanentBan PermanentBan { get; private set; }
