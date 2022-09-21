@@ -24,15 +24,15 @@ namespace Database.Models
             Finances = new CharacterFinances();
             SpawnData = new CharacterSpawnData();
         }
-        
+
         public CharacterSpawnData SpawnData { get; protected set; }
 
-        private TimeSpan TimeToReborn { get; set; } = TimeSpan.Zero;
+        public TimeSpan TimeToReborn { get; set; } = TimeSpan.Zero;
 
         #region Main Data
 
         [JsonProperty("guid")] public Guid Id { get; }
-        
+
         [JsonProperty("staticId")] public long StaticId { get; }
 
         [JsonIgnore] public Account Account { get; }
@@ -52,7 +52,7 @@ namespace Database.Models
         public DateTime Birthday { get; private set; }
 
         public CharacterAppearance Appearance { get; private set; }
-        
+
         public CharacterFinances Finances { get; private set; }
 
         #endregion

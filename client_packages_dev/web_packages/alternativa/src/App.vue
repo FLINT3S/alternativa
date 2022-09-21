@@ -3,7 +3,6 @@
     <n-global-style/>
     <n-message-provider>
       <router-view v-slot="{ Component }">
-<!--        TODO: Есть проп overlayBackdropTransition для отключения анимации бэкдропа, можно его вынести в стор (для резких переходов) -->
         <alt-overlay :is-overlay-open="isOverlayShown" :overlay-backdrop="isOverlayBackdropVisible" :overlay-backdrop-transition="overlayBackdropTransition">
           <transition mode="out-in" name="fade">
             <component :is="Component"/>
@@ -13,7 +12,6 @@
     </n-message-provider>
 
     <debug-drawer/>
-
 
   </n-config-provider>
 </template>
@@ -33,13 +31,18 @@ import {useRootStore} from "@/store"
 import AltOverlay from "@/components/AltOverlay.vue"
 import useRootOverlay from "@/data/useRootOverlay"
 import DebugDrawer from "@/DebugDrawer.vue";
+import {useDeathAndRebornStore} from "@/store/deathAndReborn";
 
 const {theme, altMpRoot} = storeToRefs(useRootStore())
+const {registerDeathListeners} = useDeathAndRebornStore()
+
 
 const router = useRouter()
 altMpRoot.value.on("GoTo", (location) => {
   router.push(location);
 });
+
+registerDeathListeners()
 
 const locale = ref<NLocale>(ruRU)
 const {isOverlayShown, isOverlayBackdropVisible, overlayBackdropTransition} = useRootOverlay()

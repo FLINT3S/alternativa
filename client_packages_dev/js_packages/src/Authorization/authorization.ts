@@ -9,8 +9,9 @@ import {showCursor} from "../Managers/cursorManager";
 export let loginCam
 let authorizationBrowser = new ModuleBrowser("Authorization", "/login/loader")
 
+mp.game.gameplay.setFadeOutAfterDeath(false);
+
 mp.events.add("playerReady", () => {
-  mp.game.gameplay.setFadeOutAfterDeath(false);
   loginCam = mp.cameras.new('default', new mp.Vector3(0, 0, 0), new mp.Vector3(0, 0, 0), 40);
   mp.players.local.position = new mp.Vector3(-1757.12, -739.53, 10);
 
