@@ -1,8 +1,7 @@
 using System;
 using System.Reflection;
-using AbstractResource.Annotations;
+using AbstractResource.Attributes;
 using AbstractResource.Connects;
-using Castle.Core.Internal;
 using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;

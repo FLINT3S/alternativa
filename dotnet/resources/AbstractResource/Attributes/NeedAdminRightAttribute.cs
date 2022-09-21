@@ -1,7 +1,8 @@
 ﻿using System;
 
-namespace AbstractResource.Annotations
+namespace AbstractResource.Attributes
 {
+    [AttributeUsage(AttributeTargets.Method)]
     public class NeedAdminRightAttribute : Attribute
     {
         public int Level { get; }
