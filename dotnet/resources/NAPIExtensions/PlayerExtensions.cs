@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Database;
 using Database.Models;
 using Database.Models.Bans;
@@ -32,6 +33,8 @@ namespace NAPIExtensions
             return context.Bans.OfType<PermanentBan>().FirstOrDefault(b => b.HWID == player.Serial);
         }
 
+        #region Character
+        
         /// <summary>
         ///     Аккаунт получается из Data и существует только в рантайме
         ///     Для получения аккаунта из базы данных нужно использовать <see cref="AltContext.GetAccount(Player)" />
@@ -82,5 +85,7 @@ namespace NAPIExtensions
 
         public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>
             pools.GetAllPlayers().Select(a => a.GetCharacter()).Where(c => c != null)!;
+        
+        #endregion
     }
 }
