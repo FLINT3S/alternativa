@@ -37,7 +37,7 @@ namespace Database.Models
 
         [JsonIgnore] public Account Account { get; }
 
-        [JsonProperty("inGameTime")] public TimeSpan InGameTime { get; private set; } = TimeSpan.Zero;
+        public TimeSpan InGameTime { get; private set; } = TimeSpan.Zero;
 
         #endregion
 

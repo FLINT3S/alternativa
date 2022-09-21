@@ -11,7 +11,7 @@ namespace Database.Models
 
         [NotMapped] public string Fullname => $"{FirstName} {LastName}";
 
-        [NotMapped] [JsonProperty("age")] public int Age
+        [NotMapped, JsonProperty("age")] public int Age
         {
             get 
             {
@@ -21,6 +21,9 @@ namespace Database.Models
                 return age;
             }
         }
+
+        [NotMapped, JsonProperty("inGameTime")]
+        public long InGameSeconds => (long)InGameTime.TotalSeconds;
 
         public void IncreaseInGameTime(TimeSpan time)
         {
