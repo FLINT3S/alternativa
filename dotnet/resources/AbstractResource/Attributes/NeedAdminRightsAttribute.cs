@@ -3,11 +3,11 @@
 namespace AbstractResource.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class NeedAdminRightAttribute : Attribute
+    public class NeedAdminRightsAttribute : Attribute
     {
         public int Level { get; }
 
-        public NeedAdminRightAttribute(int level = 0)
+        public NeedAdminRightsAttribute(int level = 0)
         {
             Level = level;
         }
