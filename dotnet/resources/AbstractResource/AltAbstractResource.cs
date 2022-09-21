@@ -28,9 +28,9 @@ namespace AbstractResource
 
         protected bool PlayerHasAccessToMethod(Player player, MethodBase method)
         {
-            (int playerVipLevel, int playerAdminLevel)  = player.GetAccessLevels();
-            int methodVipLevel = method.GetAttribute<NeedVipRightsAttribute>().Level;
-            int methodAdminLevel = method.GetAttribute<NeedAdminRightAttribute>().Level;
+            (int playerVipLevel, int playerAdminLevel) = player.GetAccessLevels();
+            int methodVipLevel = method.GetCustomAttribute<NeedVipRightsAttribute>()?.Level ?? -1;
+            int methodAdminLevel = method.GetCustomAttribute<NeedAdminRightAttribute>()?.Level ?? -1;
             return playerVipLevel >= methodVipLevel && playerAdminLevel >= methodAdminLevel;
         }
 
