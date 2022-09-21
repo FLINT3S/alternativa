@@ -2,17 +2,19 @@
     <acl_enabled>false</acl_enabled>
     <log_console>true</log_console>
     <log_chat>true</log_chat>
-    <resource src="Logger" />
-    <resource src="AbstractResource" />
-    <resource src="Database" />
-    <resource src="TestResource" />
-    <resource src="AdminPanel" />
-    <resource src="Authorization" />
-    <resource src="NAPIExtensions" />
-    <resource src="CharacterManager" />
-    <resource src="TypeConverters" />
-    <resource src="TimeCounter" />
-    <resource src="LocalContext" />
-    <resource src="Weather" />
-    <resource src="DeathAndReborn" />
-<resource src="AnimationManager" /><resource src="LocationProvider" /></config>
+    <resource src="Logger"/>
+    <resource src="AbstractResource"/>
+    <resource src="Database"/>
+    <resource src="TestResource"/>
+    <resource src="AdminPanel"/>
+    <resource src="Authorization"/>
+    <resource src="NAPIExtensions"/>
+    <resource src="CharacterManager"/>
+    <resource src="TypeConverters"/>
+    <resource src="TimeCounter"/>
+    <resource src="LocalContext"/>
+    <resource src="Weather"/>
+    <resource src="DeathAndReborn"/>
+    <resource src="AnimationManager"/>
+    <resource src="LocationProvider"/>
+</config>

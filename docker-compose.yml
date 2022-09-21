@@ -1,0 +1,57 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: alternativa_db
+    image: postgres:14.5
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_DB: "alt"
+      POSTGRES_USER: "alt"
+      POSTGRES_PASSWORD: "1804"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./docker/pgdata:/docker-entrypoint-initdb.d
+      - ./docker/pgdata/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+        - postgres
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:6.13
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "sia.ilya.dev@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "alternativaPassword!2022"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./docker/pgadmindata:/var/lib/pgadmin
+    ports:
+      - 5050:80
+    restart: unless-stopped
+    networks:
+      - postgres
+
+  ragemp:
+    container_name: alternativa_server
+    build: .
+    ports:
+      - 22005:22005/tcp
+      - 22005:22005/udp
+      - 22006:22006/tcp
+      - 22006:22006/udp
+    volumes:
+      - ./docker/ragedata/logs:/server/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge

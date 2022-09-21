@@ -35,7 +35,7 @@ namespace Database.Models
         
         [JsonProperty("staticId")] public long StaticId { get; }
 
-        public Account Account { get; }
+        [JsonIgnore] public Account Account { get; }
 
         [JsonProperty("inGameTime")] public TimeSpan InGameTime { get; private set; } = TimeSpan.Zero;
 

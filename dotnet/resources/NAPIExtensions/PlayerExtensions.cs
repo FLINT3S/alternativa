@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Database;
 using Database.Models;
 using Database.Models.Bans;
@@ -31,6 +32,7 @@ namespace NAPIExtensions
             using var context = new AltContext();
             return context.Bans.OfType<PermanentBan>().FirstOrDefault(b => b.HWID == player.Serial);
         }
+
 
         public static (int VipLevel, int AdminLevel) GetAccessLevels(this Player player) => 
         (

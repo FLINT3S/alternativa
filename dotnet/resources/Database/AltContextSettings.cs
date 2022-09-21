@@ -38,5 +38,11 @@ namespace Database
 
             return base.SaveChanges();
         }
+
+        public static void ApplyMigration()
+        {
+            using var db = new AltContext(); 
+            db.Database.Migrate();
+        }
     }
 }
