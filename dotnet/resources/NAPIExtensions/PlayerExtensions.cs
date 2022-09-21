@@ -32,8 +32,7 @@ namespace NAPIExtensions
             using var context = new AltContext();
             return context.Bans.OfType<PermanentBan>().FirstOrDefault(b => b.HWID == player.Serial);
         }
-
-
+        
         public static (int VipLevel, int AdminLevel) GetAccessLevels(this Player player) => 
         (
             player.GetSharedData<int>(PlayerConstants.VipLevel), 
@@ -73,11 +72,11 @@ namespace NAPIExtensions
             
             var headBlend = new HeadBlend
             {
-                ShapeFirst = (byte)character.Appearance!.MotherId,
-                ShapeSecond = (byte)character.Appearance.FatherId,
+                ShapeFirst = character.Appearance!.MotherId,
+                ShapeSecond = character.Appearance.FatherId,
                 ShapeThird = 0,
-                SkinFirst = (byte)character.Appearance.MotherId,
-                SkinSecond = (byte)character.Appearance.FatherId,
+                SkinFirst = character.Appearance.MotherId,
+                SkinSecond = character.Appearance.FatherId,
                 SkinThird = 0,
                 ShapeMix = character.Appearance.Similarity,
                 SkinMix = character.Appearance.SkinSimilarity,

@@ -8,7 +8,7 @@ namespace Database.Models
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class CharacterAppearance
     {
-        public CharacterAppearance(int motherId, int fatherId, float similarity, float skinSimilarity,
+        public CharacterAppearance(byte motherId, byte fatherId, float similarity, float skinSimilarity,
             List<float> faceFeatures)
         {
             MotherId = motherId;
@@ -31,11 +31,11 @@ namespace Database.Models
 
         [JsonIgnore] public Character Owner { get; set; }
 
-        public Guid OwnderId { get; set; }
+        public Guid OwnerId { get; set; }
 
-        [JsonProperty("motherId")] public int MotherId { get; set; }
+        [JsonProperty("motherId")] public byte MotherId { get; set; }
 
-        [JsonProperty("fatherId")] public int FatherId { get; set; }
+        [JsonProperty("fatherId")] public byte FatherId { get; set; }
 
         [JsonProperty("similarity")] public float Similarity { get; set; }
 

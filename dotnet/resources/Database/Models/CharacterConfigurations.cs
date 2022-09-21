@@ -13,7 +13,7 @@ namespace Database.Models
             builder
                 .HasOne(c => c.Appearance)
                 .WithOne(a => a.Owner)
-                .HasForeignKey<CharacterAppearance>(a => a.OwnderId);
+                .HasForeignKey<CharacterAppearance>(a => a.OwnerId);
             builder
                 .HasOne(c => c.Finances)
                 .WithOne(a => a.Owner)

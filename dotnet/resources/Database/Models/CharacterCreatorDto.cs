@@ -15,9 +15,9 @@ namespace Database.Models
 
         [JsonProperty("faceFeatures")] public List<float> FaceFeatures { get; set; }
 
-        [JsonProperty("motherId")] public int MotherId { get; set; }
+        [JsonProperty("motherId")] public byte MotherId { get; set; }
 
-        [JsonProperty("fatherId")] public int FatherId { get; set; }
+        [JsonProperty("fatherId")] public byte FatherId { get; set; }
 
         [JsonProperty("similarity")] public float Similarity { get; set; }
 
