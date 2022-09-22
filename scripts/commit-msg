@@ -1,0 +1,35 @@
+#!/bin/sh
+
+commit_msg = "$(grep '^Signed-off-by: ' "$1" |
+	 sort | uniq -c | sed -e '/^[ 	]*1[ 	]/d')" || {
+	echo >&2 Duplicate Signed-off-by lines.
+	exit 1
+}
+
+protected_branch='dev'
+
+allow_force_prefix = "hotfix:"
+
+policy='[Policy] '$protected_branch' branch is restricted to push! Use hotfix: in msg to force commit or create another branch. (Prevented with commit-msg hook.)'
+
+current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
+push_command=$(ps -ocommand= -p $PPID)
+
+do_exit(){
+  echo $policy
+  exit 1
+}
+
+case "$myvar" in
+*string*) echo yes ;;
+*       ) echo no ;;
+esac
+
+if [ $current_branch = $protected_branch ] && [ "$commit_msg" != *"$allow_force_prefix"* ]; then
+  do_exit
+fi
+
+unset do_exit
+
+exit 0
