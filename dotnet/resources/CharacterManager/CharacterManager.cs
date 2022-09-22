@@ -59,7 +59,7 @@ namespace CharacterManager
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
                 SpawnCharacter(player);
-                ClientConnect.Trigger(player, "OnCharacterSpawned", character.IsDead);
+                ClientConnect.Trigger(player, "OnCharacterSpawned", character.TimeToReborn.TotalSeconds);
             }
             catch (Exception ex)
             {
