@@ -23,10 +23,9 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
             account.OnConnect(player.Address, player.Serial);
 
             Log(player);
-            ClientConnect.Trigger(
-                    player,
-                    account.IsSameLastHwid(player.Serial) ? PlayerConnectedEvents.LoginSuccess
-                        : PlayerConnectedEvents.NeedLogin
+            player.SetAccessLevels(account.VipLevel, account.AdminLevel);
+            ClientConnect.Trigger(player, account.IsSameLastHwid(player.Serial) ? 
+                    PlayerConnectedEvents.LoginSuccess : PlayerConnectedEvents.NeedLogin
                 );
         }
     }

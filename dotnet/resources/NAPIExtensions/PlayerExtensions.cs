@@ -35,8 +35,8 @@ namespace NAPIExtensions
         
         public static (int VipLevel, int AdminLevel) GetAccessLevels(this Player player) => 
         (
-            player.GetSharedData<int>(PlayerConstants.VipLevel), 
-            player.GetSharedData<int>(PlayerConstants.AdminLevel)
+            player.GetOwnSharedData<int>(PlayerConstants.VipLevel), 
+            player.GetOwnSharedData<int>(PlayerConstants.AdminLevel)
             );
 
         public static void SetAccessLevels(this Player player, int vipLevel, int adminLevel)

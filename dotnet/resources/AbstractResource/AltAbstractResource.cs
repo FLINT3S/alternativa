@@ -25,7 +25,7 @@ namespace AbstractResource
 
         protected ClientConnect ClientConnect { get; }
 
-        private static bool PlayerHasAccessToMethod(Player player, MethodBase method)
+        private static bool PlayerHasAccessToMember(Player player, MemberInfo method)
         {
             (int playerVipLevel, int playerAdminLevel) = player.GetAccessLevels();
             int methodVipLevel = method.GetCustomAttribute<NeedVipRightsAttribute>()?.Level ?? -1;
@@ -33,12 +33,12 @@ namespace AbstractResource
             return playerVipLevel >= methodVipLevel && playerAdminLevel >= methodAdminLevel;
         }
 
-        protected void CheckPermissionsAndExecute(Player player, MethodBase method, Action actions)
+        protected void CheckPermissionsAndExecute(Player player, MethodBase method, Action methodBody)
         {
-            if (PlayerHasAccessToMethod(player, method))
-                actions();
+            if (PlayerHasAccessToMember(player, method))
+                methodBody();
             else
-                ClientConnect.TriggerMessage(player, MessageStatus.Error, "You're hasn't access to this method");
+                CefConnect.TriggerMessage(player, MessageStatus.Error, "You're hasn't access to this method");
         }
 
         #region Logs

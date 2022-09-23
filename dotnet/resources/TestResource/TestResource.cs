@@ -1,9 +1,9 @@
 using System;
+using System.Reflection;
 using AbstractResource;
+using AbstractResource.Attributes;
 using Database;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
 using Microsoft.Extensions.Configuration;
 using NAPIExtensions;
 
@@ -23,11 +23,11 @@ namespace TestResource
                 AltContext.ApplyMigration();
         }
         
-        [Command("spawncar")]
-        public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
-        {
-            NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
-        }
+        [Command("spawncar"), NeedAdminRights(2)]
+        public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste) => 
+            CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () => 
+                    NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131)
+            );
 
         [Command("killme")]
         public void CMDOnKillMe(Player player)
@@ -35,12 +35,13 @@ namespace TestResource
             NAPI.Task.Run(() => player.Health = 0);
         }
 
-        [Command("respawn")]
-        public void CMDOnRespawnMe(Player player)
-        {
-            var character = player.GetCharacter()!;
-            character.Resurrect();
-        }
+        [Command("respawn"), NeedAdminRights(1)]
+        public void CMDOnRespawnMe(Player player) => 
+            CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () =>
+            {
+                var character = player.GetCharacter()!;
+                character.Resurrect();
+            });
 
         [Command("myposition")]
         public void CMDOnMyPosition(Player player)
