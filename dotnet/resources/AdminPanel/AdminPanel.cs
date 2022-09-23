@@ -117,10 +117,17 @@ namespace AdminPanel
         
         [RemoteEvent(AdminPanelEvents.SlapPlayerFromCef), NeedAdminRights(1)]
         public void OnSlapPlayerEvent(Player admin, long staticId) =>
-            CheckPermissionsAndExecute(
-                admin, 
-                MethodBase.GetCurrentMethod()!, 
-                () => throw new NotImplementedException());
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var player = (Player)AltContext.GetCharacter(staticId);
+                        NAPI.Task.Run(
+                            () =>
+                            {
+                                player.StopAnimation();
+                                player.WarpOutOfVehicle();
+                            });
+                    }
+                );
         
         [RemoteEvent(AdminPanelEvents.GetPunishmentsFromCef), NeedAdminRights(1)]
         public void OnGetPunishmentsEvent(Player admin, long staticId) =>
@@ -131,17 +138,21 @@ namespace AdminPanel
         
         [RemoteEvent(AdminPanelEvents.RepairCarFromCef), NeedAdminRights(1)]
         public void OnRepairCarEvent(Player admin, long staticId) =>
-            CheckPermissionsAndExecute(
-                admin, 
-                MethodBase.GetCurrentMethod()!, 
-                () => throw new NotImplementedException());
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var player = (Player)AltContext.GetCharacter(staticId);
+                        NAPI.Task.Run(() => player.Vehicle.Repair());
+                    }
+                );
         
         [RemoteEvent(AdminPanelEvents.GetWeaponFromCef), NeedAdminRights(1)]
-        public void OnGetWeaponEvent(Player admin, long staticId) =>
-            CheckPermissionsAndExecute(
-                admin, 
-                MethodBase.GetCurrentMethod()!, 
-                () => throw new NotImplementedException());
+        public void OnGetWeaponEvent(Player admin, long staticId, WeaponHash weapon = WeaponHash.Molotov, int weaponAmmo = 5) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var player = (Player)AltContext.GetCharacter(staticId);
+                        NAPI.Task.Run(() => player.GiveWeapon(weapon, weaponAmmo));
+                    }
+                );
         
         [RemoteEvent(AdminPanelEvents.RemoveWeaponFromCef), NeedAdminRights(1)]
         public void OnRemoveWeaponEvent(Player admin, long staticId) =>
