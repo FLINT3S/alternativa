@@ -35,6 +35,7 @@ namespace AbstractResource
 
         protected void CheckPermissionsAndExecute(Player player, MethodBase method, Action methodBody)
         {
+            LogEvent(method);
             if (PlayerHasAccessToMember(player, method))
                 methodBody();
             else

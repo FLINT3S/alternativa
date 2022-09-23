@@ -16,7 +16,7 @@ namespace AdminPanel
         
         /*
             TODO - список прав администратора
-         
+            
             Убить
             Воскресить
             100 Хп
@@ -25,17 +25,17 @@ namespace AdminPanel
             N брони
             Переместить к себе
             Переместиться к нему
-            Переместить в точку
-            Переместить в локацию
-            Добавить/убавить деньги (+по счетам)
-            Забанить
-            Замутить
-            Запросить статы игрока
-            Слапнуть
-            Список наказаний
-            Починить машину
-            Выдать оружие
-            Забрать оружие
+            todo Переместить в точку
+            todo Переместить в локацию
+            todo Добавить/убавить деньги (+по счетам)
+            todo Забанить
+            todo Замутить
+            todo Запросить статы игрока
+            todo Слапнуть
+            todo Список наказаний
+            todo Починить машину
+            todo Выдать оружие
+            todo Забрать оружие
         */
 
         [RemoteEvent(AdminPanelEvents.KillPlayerFromCef), NeedAdminRights(1)]
@@ -44,6 +44,51 @@ namespace AdminPanel
                     {
                         var player = (Player)AltContext.GetCharacter(staticId);
                         NAPI.Task.Run(() => player.Health = 0);
+                    }
+                );
+
+        [RemoteEvent(AdminPanelEvents.ResurrectPlayerFromCef), NeedAdminRights(1)]
+        public void OnResurrectPlayerEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var character = AltContext.GetCharacter(staticId);
+                        character.Resurrect();
+                    }
+                );
+        
+        [RemoteEvent(AdminPanelEvents.SetPlayerHealthFromCef), NeedAdminRights(1)]
+        public void OnSetPlayerHealthEvent(Player admin, long staticId, int health = 100) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var player = (Player)AltContext.GetCharacter(staticId);
+                        NAPI.Task.Run(() => player.Health = health);
+                    }
+                );
+        
+        [RemoteEvent(AdminPanelEvents.SetPlayerArmorFromCef), NeedAdminRights(1)]
+        public void OnSetPlayerArmorEvent(Player admin, long staticId, int armor = 100) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var player = (Player)AltContext.GetCharacter(staticId);
+                        NAPI.Task.Run(() => player.Armor = armor);
+                    }
+                );
+        
+        [RemoteEvent(AdminPanelEvents.TeleportPlayerHereFromCef), NeedAdminRights(1)]
+        public void OnTeleportPlayerHereEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var player = (Player)AltContext.GetCharacter(staticId);
+                        NAPI.Task.Run(() => player.Position = admin.Position);
+                    }
+                );
+        
+        [RemoteEvent(AdminPanelEvents.TeleportToPlayerFromCef), NeedAdminRights(1)]
+        public void OnTeleportToPlayerEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var player = (Player)AltContext.GetCharacter(staticId);
+                        NAPI.Task.Run(() => admin.Position = player.Position);
                     }
                 );
     }
