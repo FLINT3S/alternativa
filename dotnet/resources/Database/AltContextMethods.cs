@@ -36,5 +36,16 @@ namespace Database
                 .Characters
                 .FirstOrDefault(c => c.Id == guid);
         }
+
+        public static Character GetCharacter(long staticId)
+        {
+            using var context = new AltContext();
+            return context
+                .Characters
+                .Include(c => c.Appearance)
+                .Include(c => c.Finances)
+                .Include(c => c.SpawnData)
+                .FirstOrDefault(c => c.StaticId == staticId);
+        }
     }
 }

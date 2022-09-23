@@ -2,6 +2,6 @@
 {
     public static class AdminPanelEvents
     {
-        public const string RandomDamageFromCef = "CEF:SERVER:AdminPanel:randomDamage";
+        public const string KillPlayerFromCef = "CEF:SERVER:AdminPanel:KillPlayer";
     }
 }

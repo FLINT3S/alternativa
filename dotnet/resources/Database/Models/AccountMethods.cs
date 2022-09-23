@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
+using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 
@@ -30,6 +31,11 @@ namespace Database.Models
         }
 
         #endregion
+        
+        public static explicit operator Player (Account character) => 
+            NAPI.Pools.GetAllPlayers().FirstOrDefault(p => p.SocialClubId == character.SocialClubId);
+        
+        public static explicit operator Account (Player player) => AltContext.GetAccount(player);
 
         public override string ToString() => $"{Username}_[{SocialClubId}]";
 

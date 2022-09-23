@@ -13,19 +13,13 @@ namespace DeathAndReborn
 {
     public class DeathAndReborn : AltAbstractResource
     {
-        private void Respawn(Character character)
-        {
-            var account = character.Account;
-            NAPI.Task.Run(
-                    () =>
-                    {
-                        var player = NAPI.Pools.GetAllPlayers().First(p => p.SocialClubId == account.SocialClubId);
-                        player.Position = HospitalLocationProvider.GetNearest(player.Position);
-                        NAPI.Player.SpawnPlayer(player, player.Position);
-                        ClientConnect.Trigger(player, "Reborn");
-                    }
-                );
-        }
+        private void Respawn(Character character) => NAPI.Task.Run(() =>
+                {
+                    var player = (Player)character;
+                    player.Position = HospitalLocationProvider.GetNearest(player.Position);
+                    NAPI.Player.SpawnPlayer(player, player.Position);
+                    ClientConnect.Trigger(player, "Reborn");
+                });
 
         #region Server Events
 
