@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using AbstractResource;
 using AbstractResource.Attributes;
@@ -14,29 +15,7 @@ namespace AdminPanel
             CefConnect.Trigger(player, "onOpenOverlay");
         }
         
-        /*
-            TODO - список прав администратора
-            
-            Убить
-            Воскресить
-            100 Хп
-            N Хп
-            100 брони
-            N брони
-            Переместить к себе
-            Переместиться к нему
-            todo Переместить в точку
-            todo Переместить в локацию
-            todo Добавить/убавить деньги (+по счетам)
-            todo Забанить
-            todo Замутить
-            todo Запросить статы игрока
-            todo Слапнуть
-            todo Список наказаний
-            todo Починить машину
-            todo Выдать оружие
-            todo Забрать оружие
-        */
+        // Список методов: https://www.notion.so/AdminPanel-6f674297202c477087e826165f60178f
 
         [RemoteEvent(AdminPanelEvents.KillPlayerFromCef), NeedAdminRights(1)]
         public void OnKillPlayerEvent(Player admin, long staticId) =>
@@ -91,5 +70,84 @@ namespace AdminPanel
                         NAPI.Task.Run(() => admin.Position = player.Position);
                     }
                 );
+        
+        [RemoteEvent(AdminPanelEvents.TeleportPlayerToPointFromCef), NeedAdminRights(1)]
+        public void OnTeleportPlayerToPointEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
+        
+        [RemoteEvent(AdminPanelEvents.TeleportPlayerToLocationFromCef), NeedAdminRights(1)]
+        public void OnTeleportPlayerToLocationEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
+        
+        [RemoteEvent(AdminPanelEvents.ChangePlayerMoneyFromCef), NeedAdminRights(1)]
+        public void OnChangePlayerMoneyEvent(Player admin, long staticId, long sum) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var character = AltContext.GetCharacter(staticId);
+                        character.AddSumToCash(sum);
+                    }
+                );
+        
+        [RemoteEvent(AdminPanelEvents.BanPlayerFromCef), NeedAdminRights(1)]
+        public void OnBanPlayerEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
+        
+        [RemoteEvent(AdminPanelEvents.MutePlayerFromCef), NeedAdminRights(1)]
+        public void OnMutePlayerEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
+        
+        [RemoteEvent(AdminPanelEvents.GetPlayerStatsFromCef), NeedAdminRights(1)]
+        public void OnGetPlayerStatsEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
+        
+        [RemoteEvent(AdminPanelEvents.SlapPlayerFromCef), NeedAdminRights(1)]
+        public void OnSlapPlayerEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
+        
+        [RemoteEvent(AdminPanelEvents.GetPunishmentsFromCef), NeedAdminRights(1)]
+        public void OnGetPunishmentsEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
+        
+        [RemoteEvent(AdminPanelEvents.RepairCarFromCef), NeedAdminRights(1)]
+        public void OnRepairCarEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
+        
+        [RemoteEvent(AdminPanelEvents.GetWeaponFromCef), NeedAdminRights(1)]
+        public void OnGetWeaponEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
+        
+        [RemoteEvent(AdminPanelEvents.RemoveWeaponFromCef), NeedAdminRights(1)]
+        public void OnRemoveWeaponEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => throw new NotImplementedException());
     }
 }

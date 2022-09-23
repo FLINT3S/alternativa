@@ -44,6 +44,12 @@ namespace Database.Models
             UpdateInContext();
         }
 
+        public void AddSumToCash(long sum)
+        {
+            Finances.Cash += sum;
+            UpdateInContext();
+        }
+
         public static explicit operator Player (Character character) => (Player)character.Account;
 
         public override string ToString() => $"{Id}_[{FirstName} {LastName}]";
