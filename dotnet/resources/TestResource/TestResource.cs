@@ -29,7 +29,7 @@ namespace TestResource
                     NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131)
             );
 
-        [Command("killme")]
+        [Command("killme"), NeedAdminRights(1)]
         public void CMDOnKillMe(Player player)
         {
             NAPI.Task.Run(() => player.Health = 0);
@@ -43,7 +43,7 @@ namespace TestResource
                 character.Resurrect();
             });
 
-        [Command("myposition")]
+        [Command("myposition"), NeedAdminRights(1)]
         public void CMDOnMyPosition(Player player)
         {
             NAPI.Chat.SendChatMessageToPlayer(player, $"Position: {player.Position}, Rotation: {player.Rotation}");
