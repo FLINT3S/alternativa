@@ -26,14 +26,12 @@ namespace TestResource
         [Command("spawncar"), NeedAdminRights(2)]
         public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste) => 
             CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () => 
-                    NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131)
-            );
+                    NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131));
 
         [Command("killme"), NeedAdminRights(1)]
-        public void CMDOnKillMe(Player player)
-        {
-            NAPI.Task.Run(() => player.Health = 0);
-        }
+        public void CMDOnKillMe(Player player) =>
+            CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () => 
+                NAPI.Task.Run(() => player.Health = 0));
 
         [Command("respawn"), NeedAdminRights(1)]
         public void CMDOnRespawnMe(Player player) => 
@@ -44,10 +42,9 @@ namespace TestResource
             });
 
         [Command("myposition"), NeedAdminRights(1)]
-        public void CMDOnMyPosition(Player player)
-        {
-            NAPI.Chat.SendChatMessageToPlayer(player, $"Position: {player.Position}, Rotation: {player.Rotation}");
-        }
+        public void CMDOnMyPosition(Player player) =>
+            CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () => 
+                NAPI.Chat.SendChatMessageToPlayer(player, $"Position: {player.Position}, Rotation: {player.Rotation}"));
         
         [RemoteProc("CEF:SERVER:TestResource:Test")]
         public string RemoteProcTest(Player player, string test)
