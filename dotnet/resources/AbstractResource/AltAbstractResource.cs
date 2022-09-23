@@ -25,12 +25,20 @@ namespace AbstractResource
 
         protected ClientConnect ClientConnect { get; }
 
-        protected bool PlayerHasAccessToMethod(Player player, MethodBase method)
+        private static bool PlayerHasAccessToMethod(Player player, MethodBase method)
         {
             (int playerVipLevel, int playerAdminLevel) = player.GetAccessLevels();
             int methodVipLevel = method.GetCustomAttribute<NeedVipRightsAttribute>()?.Level ?? -1;
             int methodAdminLevel = method.GetCustomAttribute<NeedAdminRightsAttribute>()?.Level ?? -1;
             return playerVipLevel >= methodVipLevel && playerAdminLevel >= methodAdminLevel;
+        }
+
+        protected void CheckPermissionsAndExecute(Player player, MethodBase method, Action actions)
+        {
+            if (PlayerHasAccessToMethod(player, method))
+                actions();
+            else
+                ClientConnect.TriggerMessage(player, MessageStatus.Error, "You're hasn't access to this method");
         }
 
         #region Logs
