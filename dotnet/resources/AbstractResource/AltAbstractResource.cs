@@ -33,10 +33,10 @@ namespace AbstractResource
             return playerVipLevel >= methodVipLevel && playerAdminLevel >= methodAdminLevel;
         }
 
-        protected void CheckPermissionsAndExecute(Player player, MethodBase method, Action methodBody)
+        protected void CheckPermissionsAndExecute(Player player, MethodBase @event, Action methodBody)
         {
-            LogEvent(method);
-            if (PlayerHasAccessToMember(player, method))
+            LogEvent(@event);
+            if (PlayerHasAccessToMember(player, @event))
                 methodBody();
             else
                 CefConnect.TriggerMessage(player, MessageStatus.Error, "You're hasn't access to this method");
