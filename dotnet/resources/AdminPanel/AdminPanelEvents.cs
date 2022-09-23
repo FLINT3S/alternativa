@@ -20,7 +20,9 @@
         
         public const string ChangePlayerMoneyFromCef = "CEF:SERVER:AdminPanel:ChangePlayerMoney";
         
-        public const string BanPlayerFromCef = "CEF:SERVER:AdminPanel:BanPlayer";
+        public const string TemporaryBanPlayerFromCef = "CEF:SERVER:AdminPanel:TemporaryBanPlayer";
+        
+        public const string PermanentBanPlayerFromCef = "CEF:SERVER:AdminPanel:PermanentBanPlayer";
         
         public const string MutePlayerFromCef = "CEF:SERVER:AdminPanel:MutePlayer";
         

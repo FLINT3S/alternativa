@@ -150,7 +150,6 @@ namespace Database.Models
 
         public void Ban(AbstractBan ban)
         {
-            ban.AddToContext();
             switch (ban)
             {
                 case PermanentBan permanentBan:

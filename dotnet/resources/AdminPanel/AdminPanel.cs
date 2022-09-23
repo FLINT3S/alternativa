@@ -3,6 +3,8 @@ using System.Reflection;
 using AbstractResource;
 using AbstractResource.Attributes;
 using Database;
+using Database.Models;
+using Database.Models.Bans;
 using GTANetworkAPI;
 
 namespace AdminPanel
@@ -94,12 +96,26 @@ namespace AdminPanel
                     }
                 );
         
-        [RemoteEvent(AdminPanelEvents.BanPlayerFromCef), NeedAdminRights(1)]
-        public void OnBanPlayerEvent(Player admin, long staticId) =>
-            CheckPermissionsAndExecute(
-                admin, 
-                MethodBase.GetCurrentMethod()!, 
-                () => throw new NotImplementedException());
+        [RemoteEvent(AdminPanelEvents.TemporaryBanPlayerFromCef), NeedAdminRights(1)]
+        public void OnTemporaryBanPlayerEvent(Player admin, long staticId, BanReason reason, long seconds = 0, string? message = null) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var account = AltContext.GetCharacter(staticId).Account;
+                        var duration = TimeSpan.FromSeconds(seconds);
+                        account.Ban(new TemporaryBan(duration, (Account)admin, account, reason, message));
+                        ((Player)account).Ban(reason.ToString());
+                    }
+                );
+        
+        [RemoteEvent(AdminPanelEvents.PermanentBanPlayerFromCef), NeedAdminRights(1)]
+        public void OnPermanentBanPlayerEvent(Player admin, long staticId, BanReason reason, string? message = null) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var account = AltContext.GetCharacter(staticId).Account;
+                        account.Ban(new PermanentBan((Account)admin, account, reason, message));
+                        ((Player)account).Ban(reason.ToString());
+                    }
+                );
         
         [RemoteEvent(AdminPanelEvents.MutePlayerFromCef), NeedAdminRights(1)]
         public void OnMutePlayerEvent(Player admin, long staticId) =>

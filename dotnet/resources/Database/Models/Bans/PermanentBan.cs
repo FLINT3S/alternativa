@@ -18,6 +18,11 @@ namespace Database.Models.Bans
             HWID = hwid;
         }
 
+        public PermanentBan(Account givenBy, Account givenTo, BanReason reason = BanReason.Other, string description = null) :
+            this(givenTo.LastHwid, givenBy, givenTo, reason, description)
+        {
+        }
+
         private ulong AccountId { get; set; }
 
         public string HWID { get; private set; }
