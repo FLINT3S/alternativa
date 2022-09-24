@@ -3,7 +3,6 @@ using System.Reflection;
 using AbstractResource;
 using AbstractResource.Attributes;
 using Database;
-using Database.Models;
 using Database.Models.Bans;
 using GTANetworkAPI;
 
