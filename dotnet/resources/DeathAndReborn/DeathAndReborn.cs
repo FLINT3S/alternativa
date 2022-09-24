@@ -28,10 +28,10 @@ namespace DeathAndReborn
                 );
         }
 
-        private TimeSpan GetTimeToReborn(Player player)
+        private static TimeSpan GetTimeToReborn(Player player)
         {
             float distance = RestrictDistance(HospitalLocationProvider.GetLeastDistance(player.Position));
-            return TimeSpan.FromMinutes(distance / 500) +TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4);
+            return TimeSpan.FromMinutes(distance / 500) + TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4);
         }
 
         private static float RestrictDistance(float distance)
