@@ -102,7 +102,8 @@ namespace AdminPanel
                     {
                         var account = AltContext.GetCharacter(staticId).Account;
                         var duration = TimeSpan.FromSeconds(seconds);
-                        account.Ban(new TemporaryBan(duration, admin, account, reason, message));
+                        var ban = new TemporaryBan(duration, admin, account, reason, message);
+                        account.Ban(ban);
                     }
                 );
         
@@ -111,7 +112,8 @@ namespace AdminPanel
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                     {
                         var account = AltContext.GetCharacter(staticId).Account;
-                        account.Ban(new PermanentBan(admin, account, reason, message));
+                        var ban = new PermanentBan(admin, account, reason, message);
+                        account.Ban(ban);
                         ((Player)account).Ban(reason.ToString());
                     }
                 );
