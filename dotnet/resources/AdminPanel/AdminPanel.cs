@@ -102,7 +102,6 @@ namespace AdminPanel
                         var account = AltContext.GetCharacter(staticId).Account;
                         var duration = TimeSpan.FromSeconds(seconds);
                         account.Ban(new TemporaryBan(duration, admin, account, reason, message));
-                        ((Player)account).Ban(reason.ToString());
                     }
                 );
         
