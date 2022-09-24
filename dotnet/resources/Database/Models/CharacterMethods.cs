@@ -7,8 +7,6 @@ namespace Database.Models
 {
     public partial class Character
     {
-        [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
-
         [NotMapped] public string Fullname => $"{FirstName} {LastName}";
 
         [NotMapped, JsonProperty("age")] public int Age
@@ -25,15 +23,19 @@ namespace Database.Models
         [NotMapped, JsonProperty("inGameTime")]
         public long InGameSeconds => (long)InGameTime.TotalSeconds;
 
-        [NotMapped]
-        public int SecondsToReborn => (int)TimeToReborn.TotalSeconds;
-
         public void IncreaseInGameTime(TimeSpan time)
         {
             InGameTime += time;
             UpdateInContext();
         }
 
+        #region DeathAndReborn
+        
+        [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
+
+        [NotMapped]
+        public int SecondsToReborn => (int)TimeToReborn.TotalSeconds;
+        
         public void DecreaseTimeToReborn(TimeSpan time)
         {
             TimeToReborn -= time;
@@ -46,7 +48,9 @@ namespace Database.Models
             UpdateInContext();
         }
 
-        public override string ToString() => $"{Id}_[{FirstName} {LastName}]";
+        #endregion
+
+        public override string ToString() => $"{Id}_[{Fullname}]";
 
         #region OnEvents
 
