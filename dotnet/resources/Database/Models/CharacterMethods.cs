@@ -25,6 +25,9 @@ namespace Database.Models
         [NotMapped, JsonProperty("inGameTime")]
         public long InGameSeconds => (long)InGameTime.TotalSeconds;
 
+        [NotMapped]
+        public int SecondsToReborn => (int)TimeToReborn.TotalSeconds;
+
         public void IncreaseInGameTime(TimeSpan time)
         {
             InGameTime += time;

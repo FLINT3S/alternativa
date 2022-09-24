@@ -42,9 +42,10 @@ namespace DeathAndReborn
         {
             // TODO: Вынести константу времени возрождения, либо сделать её динамической.
             // На клиент отправлять время до возрождения и причину
-            if (player.GetCharacter()!.IsDead) return;
-            player.GetCharacter()!.OnDeath();
-            ClientConnect.Trigger(player, "Death", 300);
+            var character = player.GetCharacter()!;
+            if (character.IsDead) return;
+            character.OnDeath();
+            ClientConnect.Trigger(player, "Death", character.SecondsToReborn, reason);
         }
 
         #endregion

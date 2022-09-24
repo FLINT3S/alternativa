@@ -27,7 +27,7 @@ namespace Database.Models
 
         public CharacterSpawnData SpawnData { get; protected set; }
 
-        public TimeSpan TimeToReborn { get; set; } = TimeSpan.Zero;
+        private TimeSpan TimeToReborn { get; set; } = TimeSpan.Zero;
 
         #region Main Data
 
