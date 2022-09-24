@@ -5,6 +5,7 @@ using AbstractResource.Attributes;
 using Database;
 using Database.Models.Bans;
 using GTANetworkAPI;
+using NAPIExtensions;
 
 namespace AdminPanel
 {
@@ -19,19 +20,19 @@ namespace AdminPanel
         // Список методов: https://www.notion.so/AdminPanel-6f674297202c477087e826165f60178f
 
         [RemoteEvent(AdminPanelEvents.KillPlayerFromCef), NeedAdminRights(1)]
-        public void OnKillPlayerEvent(Player admin, long staticId) =>
+        public void OnKillPlayerEvent(Player admin, long? staticId = null) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                     {
-                        var player = (Player)AltContext.GetCharacter(staticId);
+                        var player = (Player)AltContext.GetCharacter(staticId ?? admin.GetCharacter()!.StaticId);
                         NAPI.Task.Run(() => player.Health = 0);
                     }
                 );
 
         [RemoteEvent(AdminPanelEvents.ResurrectPlayerFromCef), NeedAdminRights(1)]
-        public void OnResurrectPlayerEvent(Player admin, long staticId) =>
+        public void OnResurrectPlayerEvent(Player admin, long? staticId = null) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                     {
-                        var character = AltContext.GetCharacter(staticId);
+                        var character = AltContext.GetCharacter(staticId ?? admin.GetCharacter()!.StaticId);
                         character.Resurrect();
                     }
                 );
@@ -130,10 +131,10 @@ namespace AdminPanel
                 () => throw new NotImplementedException());
         
         [RemoteEvent(AdminPanelEvents.SlapPlayerFromCef), NeedAdminRights(1)]
-        public void OnSlapPlayerEvent(Player admin, long staticId) =>
+        public void OnSlapPlayerEvent(Player admin, long? staticId = null) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                     {
-                        var player = (Player)AltContext.GetCharacter(staticId);
+                        var player = (Player)AltContext.GetCharacter(staticId ?? admin.GetCharacter()!.StaticId);
                         NAPI.Task.Run(
                             () =>
                             {
@@ -151,10 +152,10 @@ namespace AdminPanel
                 () => throw new NotImplementedException());
         
         [RemoteEvent(AdminPanelEvents.RepairCarFromCef), NeedAdminRights(1)]
-        public void OnRepairCarEvent(Player admin, long staticId) =>
+        public void OnRepairCarEvent(Player admin, long? staticId = null) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                     {
-                        var player = (Player)AltContext.GetCharacter(staticId);
+                        var player = (Player)AltContext.GetCharacter(staticId ?? admin.GetCharacter()!.StaticId);
                         NAPI.Task.Run(() => player.Vehicle.Repair());
                     }
                 );
