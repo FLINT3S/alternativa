@@ -9,12 +9,19 @@ namespace Database.Models
     {
         [NotMapped] public string Fullname => $"{FirstName} {LastName}";
 
-        [NotMapped, JsonProperty("age")] public int Age => 
-            Birthday.Date > DateTime.Today.AddYears(Birthday.Year - DateTime.Today.Year) ? 
-                DateTime.Today.Year - Birthday.Year - 1 : 
+        [NotMapped]
+        [JsonProperty("age")]
+        public int Age =>
+            Birthday.Date > DateTime.Today.AddYears(Birthday.Year - DateTime.Today.Year) ?
+                DateTime.Today.Year - Birthday.Year - 1 :
                 DateTime.Today.Year - Birthday.Year;
 
-        [NotMapped, JsonProperty("inGameTime")]
+        public override string ToString() => $"{Id}_[{Fullname}]";
+
+        #region In Game Time
+
+        [NotMapped]
+        [JsonProperty("inGameTime")]
         public long InGameSeconds => (long)InGameTime.TotalSeconds;
 
         public void IncreaseInGameTime(TimeSpan time)
@@ -23,13 +30,14 @@ namespace Database.Models
             UpdateInContext();
         }
 
-        #region DeathAndReborn
-        
+        #endregion
+
+        #region Death And Reborn
+
         [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
 
-        [NotMapped]
-        public int SecondsToReborn => (int)TimeToReborn.TotalSeconds;
-        
+        [NotMapped] public int SecondsToReborn => (int)TimeToReborn.TotalSeconds;
+
         public void DecreaseTimeToReborn(TimeSpan time)
         {
             TimeToReborn -= time;
@@ -44,9 +52,7 @@ namespace Database.Models
 
         #endregion
 
-        public override string ToString() => $"{Id}_[{Fullname}]";
-
-        #region OnEvents
+        #region On Events
 
         public void OnDisconnect(Player player)
         {
