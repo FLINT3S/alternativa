@@ -28,6 +28,20 @@ namespace DeathAndReborn
                 );
         }
 
+        private TimeSpan GetTimeToReborn(Player player)
+        {
+            float distance = RestrictDistance(HospitalLocationProvider.GetLeastDistance(player.Position));
+            return TimeSpan.FromMinutes(distance / 500) +TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4);
+        }
+
+        private static float RestrictDistance(float distance)
+        {
+            float restrictedDistance = distance;
+            if (distance < 500) restrictedDistance = 500;
+            if (distance > 2500) restrictedDistance = 2500;
+            return restrictedDistance;
+        }
+
         #region Server Events
 
         [ServerEvent(Event.ResourceStart)]
@@ -38,15 +52,18 @@ namespace DeathAndReborn
         }
 
         [ServerEvent(Event.PlayerDeath)]
-        public void OnPlayerDeath(Player victim, Player? killer, uint reason)
+        public void OnPlayerDeath(Player victim, Player? killer, DeathReason reason)
         {
             // TODO: Вынести константу времени возрождения, либо сделать её динамической.
             // На клиент отправлять время до возрождения и причину
             var victimСharacter = victim.GetCharacter()!;
-            var killerCharacter = killer?.GetCharacter();
             if (victimСharacter.IsDead) return;
-            victimСharacter.OnDeath();
-            ClientConnect.Trigger(victim, "Death", victimСharacter.SecondsToReborn, reason, killerCharacter?.Fullname);
+            
+            var timeToReborn = GetTimeToReborn(victim);
+            victimСharacter.OnDeath(timeToReborn);
+            
+            string deathReason = DeathReasonStringBuilder.GetDeathReason(reason, killer);
+            ClientConnect.Trigger(victim, "Death", victimСharacter.SecondsToReborn, deathReason);
         }
 
         #endregion
