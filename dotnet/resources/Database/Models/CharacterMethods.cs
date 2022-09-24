@@ -9,16 +9,10 @@ namespace Database.Models
     {
         [NotMapped] public string Fullname => $"{FirstName} {LastName}";
 
-        [NotMapped, JsonProperty("age")] public int Age
-        {
-            get 
-            {
-                int age = DateTime.Today.Year - Birthday.Year;
-                if (Birthday.Date > DateTime.Today.AddYears(-age)) 
-                    age--;
-                return age;
-            }
-        }
+        [NotMapped, JsonProperty("age")] public int Age => 
+            Birthday.Date > DateTime.Today.AddYears(Birthday.Year - DateTime.Today.Year) ? 
+                DateTime.Today.Year - Birthday.Year - 1 : 
+                DateTime.Today.Year - Birthday.Year;
 
         [NotMapped, JsonProperty("inGameTime")]
         public long InGameSeconds => (long)InGameTime.TotalSeconds;
