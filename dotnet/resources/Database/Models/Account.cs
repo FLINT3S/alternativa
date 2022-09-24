@@ -31,7 +31,7 @@ namespace Database.Models
 
         private string Email { get; set; }
 
-        private string LastHwid { get; set; } = null!;
+        public string LastHwid { get; private set; } = null!;
 
         public int AdminLevel { get; protected set; } = 0;
         

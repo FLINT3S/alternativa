@@ -109,14 +109,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="..\Secrets\appsettings.json">
-            <Link>appsettings.json</Link>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+        <Folder Include="Migrations" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Migrations" />
+      <Content Include="..\..\runtime\appsettings.json">
+        <Link>appsettings.json</Link>
+      </Content>
     </ItemGroup>
 </Project>    
     

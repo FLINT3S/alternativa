@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using GTANetworkAPI;
 using Newtonsoft.Json;
 
@@ -42,6 +43,14 @@ namespace Database.Models
             TimeToReborn = TimeSpan.FromSeconds(1);
             UpdateInContext();
         }
+
+        public void AddSumToCash(long sum)
+        {
+            Finances.Cash += sum;
+            UpdateInContext();
+        }
+
+        public static explicit operator Player (Character character) => (Player)character.Account;
 
         public override string ToString() => $"{Id}_[{FirstName} {LastName}]";
 

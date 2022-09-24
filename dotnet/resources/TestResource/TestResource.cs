@@ -1,9 +1,9 @@
 using System;
+using System.Reflection;
 using AbstractResource;
+using AbstractResource.Attributes;
 using Database;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
 using Microsoft.Extensions.Configuration;
 using NAPIExtensions;
 
@@ -23,30 +23,28 @@ namespace TestResource
                 AltContext.ApplyMigration();
         }
         
-        [Command("spawncar")]
-        public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste)
-        {
-            NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131);
-        }
+        [Command("spawncar"), NeedAdminRights(2)]
+        public void CMDOnSpawnCar(Player player, VehicleHash vehicleId = VehicleHash.Deveste) => 
+            CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () => 
+                    NAPI.Vehicle.CreateVehicle(vehicleId, player.Position, player.Heading, 131, 131));
 
-        [Command("killme")]
-        public void CMDOnKillMe(Player player)
-        {
-            NAPI.Task.Run(() => player.Health = 0);
-        }
+        [Command("killme"), NeedAdminRights(1)]
+        public void CMDOnKillMe(Player player) =>
+            CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () => 
+                NAPI.Task.Run(() => player.Health = 0));
 
-        [Command("respawn")]
-        public void CMDOnRespawnMe(Player player)
-        {
-            var character = player.GetCharacter()!;
-            character.Resurrect();
-        }
+        [Command("respawn"), NeedAdminRights(1)]
+        public void CMDOnRespawnMe(Player player) => 
+            CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () =>
+            {
+                var character = player.GetCharacter()!;
+                character.Resurrect();
+            });
 
-        [Command("myposition")]
-        public void CMDOnMyPosition(Player player)
-        {
-            NAPI.Chat.SendChatMessageToPlayer(player, $"Position: {player.Position}, Rotation: {player.Rotation}");
-        }
+        [Command("myposition"), NeedAdminRights(1)]
+        public void CMDOnMyPosition(Player player) =>
+            CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () => 
+                NAPI.Chat.SendChatMessageToPlayer(player, $"Position: {player.Position}, Rotation: {player.Rotation}"));
         
         [RemoteProc("CEF:SERVER:TestResource:Test")]
         public string RemoteProcTest(Player player, string test)
