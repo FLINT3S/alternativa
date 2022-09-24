@@ -32,10 +32,10 @@ namespace Database.Models
 
         #endregion
         
-        public static explicit operator Player (Account character) => 
-            NAPI.Pools.GetAllPlayers().FirstOrDefault(p => p.SocialClubId == character.SocialClubId);
+        public static implicit operator Player (Account account) => 
+            NAPI.Pools.GetAllPlayers().FirstOrDefault(p => p.SocialClubId == account.SocialClubId);
         
-        public static explicit operator Account (Player player) => AltContext.GetAccount(player);
+        public static implicit operator Account (Player player) => AltContext.GetAccount(player);
 
         public override string ToString() => $"{Username}_[{SocialClubId}]";
 
