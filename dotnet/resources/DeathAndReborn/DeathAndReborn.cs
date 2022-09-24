@@ -38,14 +38,15 @@ namespace DeathAndReborn
         }
 
         [ServerEvent(Event.PlayerDeath)]
-        public void OnPlayerDeath(Player player, Player killer, uint reason)
+        public void OnPlayerDeath(Player victim, Player? killer, uint reason)
         {
             // TODO: Вынести константу времени возрождения, либо сделать её динамической.
             // На клиент отправлять время до возрождения и причину
-            var character = player.GetCharacter()!;
-            if (character.IsDead) return;
-            character.OnDeath();
-            ClientConnect.Trigger(player, "Death", character.SecondsToReborn, reason);
+            var victimСharacter = victim.GetCharacter()!;
+            var killerCharacter = killer?.GetCharacter();
+            if (victimСharacter.IsDead) return;
+            victimСharacter.OnDeath();
+            ClientConnect.Trigger(victim, "Death", victimСharacter.SecondsToReborn, reason, killerCharacter?.Fullname);
         }
 
         #endregion
