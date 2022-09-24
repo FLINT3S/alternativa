@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AbstractResource;
+using Database;
 using Database.Models;
 using GTANetworkAPI;
 using LocationProvider;
@@ -33,9 +34,12 @@ namespace DeathAndReborn
         [ServerEvent(Event.PlayerDeath)]
         public void OnPlayerDeath(Player player, Player killer, uint reason)
         {
-            if (player.GetCharacter()!.IsDead) return;
-            player.GetCharacter()!.OnDeath();
-            ClientConnect.Trigger(player, "Death");
+            // TODO: Вынести константу времени возрождения, либо сделать её динамической.
+            // На клиент отправлять время до возрождения и причину
+            var character = player.GetCharacter()!;
+            if (character.IsDead) return;
+            character.OnDeath();
+            ClientConnect.Trigger(player, "Death", character.SecondsToReborn, reason);
         }
 
         #endregion

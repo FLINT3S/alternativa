@@ -13,6 +13,8 @@ import CharacterCreator from '../module/character-manager/views/CharacterCreator
 import AdminPanel from '../module/admin-panel/AdminPanel.vue';
 import AdminIndex from '../module/admin-panel/views/AdminIndex.vue';
 
+import DeathAndReborn from '../module/death-and-reborn/DeathAndReborn.vue';
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -68,6 +70,10 @@ const router = createRouter({
           component: AdminIndex
         }
       ]
+    },
+    {
+      path: '/death-and-reborn',
+      component: DeathAndReborn
     }
   ]
 })

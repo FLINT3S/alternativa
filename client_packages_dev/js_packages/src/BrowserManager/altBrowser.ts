@@ -13,6 +13,14 @@ type AltBrowserOptions = {
   level: AltBrowserLevel
 }
 
+export enum AltBrowserBlock {
+  NONE,
+  LOW,
+  MEDIUM,
+  HIGH,
+  FULL
+}
+
 export class AltBrowser {
   protected readonly instance: BrowserMp;
   // name - название браузера, должно быть таким же как и название ресурса
@@ -21,6 +29,7 @@ export class AltBrowser {
   public loaded: boolean;
   private overlayTimeout: Timer;
   private isOverlayOpen: boolean = true
+  public blockLevel: AltBrowserBlock = AltBrowserBlock.NONE
 
   constructor(url: string, name: string, options?: object) {
     this.instance = mp.browsers.new(url)
@@ -93,6 +102,11 @@ export class AltBrowser {
   }
 
   closeOverlay(forceHide: boolean = false, hideCursor: boolean = true): Promise<boolean> {
+    if (this.blockLevel === AltBrowserBlock.FULL) {
+      logger.log(`Browser ${this.name} is blocked`, "AltBrowser")
+      return
+    }
+
     return new Promise((resolve) => {
       this.execEvent("CLIENT:CEF:Root:onCloseOverlay")
       this.isOverlayOpen = false
@@ -152,6 +166,11 @@ export class ModuleBrowser {
   }
 
   setAsActive() {
+    if (this.browser.blockLevel === AltBrowserBlock.FULL) {
+      logger.log(`Attempt to set in blocked browser ${this.moduleName}`, "ModuleBrowser")
+      return
+    }
+
     this.browser.goTo(this.path)
   }
 

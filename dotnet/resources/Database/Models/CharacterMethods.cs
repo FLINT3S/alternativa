@@ -8,22 +8,29 @@ namespace Database.Models
 {
     public partial class Character
     {
-        [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
-
         [NotMapped] public string Fullname => $"{FirstName} {LastName}";
 
-        [NotMapped, JsonProperty("age")] public int Age
+        [NotMapped]
+        [JsonProperty("age")]
+        public int Age =>
+            Birthday.Date > DateTime.Today.AddYears(Birthday.Year - DateTime.Today.Year) ?
+                DateTime.Today.Year - Birthday.Year - 1 :
+                DateTime.Today.Year - Birthday.Year;
+        
+        public void AddSumToCash(long sum)
         {
-            get 
-            {
-                int age = DateTime.Today.Year - Birthday.Year;
-                if (Birthday.Date > DateTime.Today.AddYears(-age)) 
-                    age--;
-                return age;
-            }
+            Finances.Cash += sum;
+            UpdateInContext();
         }
 
-        [NotMapped, JsonProperty("inGameTime")]
+        public static explicit operator Player (Character character) => character.Account;
+
+        public override string ToString() => $"{Id}_[{Fullname}]";
+
+        #region In Game Time
+
+        [NotMapped]
+        [JsonProperty("inGameTime")]
         public long InGameSeconds => (long)InGameTime.TotalSeconds;
 
         public void IncreaseInGameTime(TimeSpan time)
@@ -31,6 +38,14 @@ namespace Database.Models
             InGameTime += time;
             UpdateInContext();
         }
+
+        #endregion
+
+        #region Death And Reborn
+
+        [NotMapped] public bool IsDead => TimeToReborn > TimeSpan.Zero;
+
+        [NotMapped] public int SecondsToReborn => (int)TimeToReborn.TotalSeconds;
 
         public void DecreaseTimeToReborn(TimeSpan time)
         {
@@ -43,16 +58,8 @@ namespace Database.Models
             TimeToReborn = TimeSpan.FromSeconds(1);
             UpdateInContext();
         }
-
-        public void AddSumToCash(long sum)
-        {
-            Finances.Cash += sum;
-            UpdateInContext();
-        }
-
-        public static explicit operator Player (Character character) => (Player)character.Account;
-
-        public override string ToString() => $"{Id}_[{FirstName} {LastName}]";
+        
+        #endregion
 
         #region OnEvents
 
