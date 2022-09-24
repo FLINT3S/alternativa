@@ -2,8 +2,6 @@ using System;
 using AbstractResource;
 using Database;
 using GTANetworkAPI;
-using Logger;
-using Logger.EventModels;
 using Microsoft.Extensions.Configuration;
 using NAPIExtensions;
 
