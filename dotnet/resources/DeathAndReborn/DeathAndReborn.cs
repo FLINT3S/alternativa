@@ -47,17 +47,6 @@ namespace DeathAndReborn
             ClientConnect.Trigger(player, "Death", 300);
         }
 
-        [Command("respawn")]
-        public void RespawnCommand(Player player)
-        {
-            var db = new AltContext();
-            var c = player.GetCharacter()!;
-            db.Attach(c);
-            c.TimeToReborn = TimeSpan.Zero;
-            db.SaveChanges();
-            Respawn(c);
-        }
-
         #endregion
 
         #region Counter
