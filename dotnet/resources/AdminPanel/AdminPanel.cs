@@ -140,7 +140,7 @@ namespace AdminPanel
                         NAPI.Task.Run(
                             () =>
                             {
-                                player.StopAnimation();
+                                AnimationManager.AnimationManager.StopAnimation(player);
                                 player.WarpOutOfVehicle();
                             });
                     }
