@@ -25,6 +25,7 @@ mp.events.add(AuthorizationEvents.GO_TO_CHARACTER_MANAGER, () => {
 })
 
 mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_FROM_CEF, () => {
+  characterManagerBrowser.browser.settings.canCloseOverlay = true
   characterManagerBrowser.browser.closeOverlay().then(() => {
     mp.events.callRemote(CharacterManagerEvents.CREATE_CHARACTER_INIT_TO_SERVER)
   })
@@ -53,6 +54,8 @@ mp.events.add(CharacterManagerEvents.CREATE_CHARACTER_START, () => {
       characterManagerBrowser.browser.goTo("/character-manager/create-character")
       characterManagerBrowser.browser.overlayBackdrop = false
       characterManagerBrowser.browser.openOverlay(true)
+      characterManagerBrowser.browser.settings.canCloseOverlay = false
+
       animationManager.playIdleStay()
       rotateCameraVariables.forceRenderOnce = true
     }
@@ -85,6 +88,7 @@ const applyFaceFeatures = (faceFeaturesData) => {
 mp.events.add(CharacterManagerEvents.UPDATE_FACE_FEATURES_FROM_CEF, applyFaceFeatures)
 
 mp.events.add(CharacterManagerEvents.CHARACTER_CREATED_SUBMIT_FROM_CEF, (commonCharacterInfo) => {
+  characterManagerBrowser.browser.settings.canCloseOverlay = true
   characterManagerBrowser.browser.closeOverlay()
   mp.game.cam.doScreenFadeOut(500)
 

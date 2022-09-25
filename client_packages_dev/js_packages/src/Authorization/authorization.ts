@@ -67,7 +67,8 @@ mp.events.add(AuthorizationEvents.REGISTER_SUCCESS_FROM_SERVER, () => {
   mp.events.call(AuthorizationEvents.GO_TO_CHARACTER_MANAGER)
 })
 
-mp.events.add(AuthorizationEvents.CHARACTER_SPAWNED_FROM_SERVER, (isDead) => {
+mp.events.add(AuthorizationEvents.CHARACTER_SPAWNED_FROM_SERVER, (secondsToReborn: number) => {
+  logger.log(JSON.stringify(secondsToReborn))
   loginCam.destroy();
 
   mp.game.cam.renderScriptCams(false, false, 0, false, false);
@@ -79,8 +80,10 @@ mp.events.add(AuthorizationEvents.CHARACTER_SPAWNED_FROM_SERVER, (isDead) => {
 
   mp.events.call("moveSkyCamera", mp.players.local, "down", 1, true)
 
+  authorizationBrowser.browser.settings.canCloseOverlay = true
   authorizationBrowser.browser.closeOverlay()
 
-  if (isDead)
-    mp.game.graphics.startScreenEffect("DeathFailMPIn", 300_000, false)
+  if (secondsToReborn > 0) {
+    mp.events.call("SERVER:CLIENT:DeathAndReborn:Death", secondsToReborn, "")
+  }
 })

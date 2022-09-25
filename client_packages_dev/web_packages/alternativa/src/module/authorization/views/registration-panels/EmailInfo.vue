@@ -21,7 +21,6 @@
         <n-input
             ref="emailRef"
             v-model:value="registrationData.email"
-            :get-show="getShowOptions"
             :input-props="{autocomplete: 'disabled'}"
             :loading="registrationData.emailCheck.loading"
             :options="emailOptions"
@@ -85,7 +84,6 @@ const debounceEmailCheck = debounce((email: string) => {
         emailRef.value?.blur()
         // @ts-ignore
         emailRef.value?.focus()
-        emailRef.value?.validate({trigger: 'input'})
       })
 }, 500)
 
