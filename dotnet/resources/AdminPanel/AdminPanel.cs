@@ -1,11 +1,15 @@
 using System;
+using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using AbstractResource;
 using AbstractResource.Attributes;
 using Database;
 using Database.Models.Bans;
 using GTANetworkAPI;
 using NAPIExtensions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AdminPanel
 {
@@ -18,6 +22,26 @@ namespace AdminPanel
         }
         
         // Список методов: https://www.notion.so/AdminPanel-6f674297202c477087e826165f60178f
+
+        [RemoteEvent(AdminPanelEvents.GetOnlineCharacterFromCef), NeedAdminRights(1)]
+        public void OnGetOnlineCharacterEvent(Player admin) => 
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                    {
+                        var characters = NAPI.Pools.GetActiveCharacters()
+                            .Select(c => new { c.StaticId, c.Fullname, c.InGameTime, c.Age });
+                        var settings = new JsonSerializerSettings
+                        {
+                            ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
+                            Formatting = Formatting.Indented
+                        };
+                        string jsonCharacters = JsonConvert.SerializeObject(characters, settings);
+                        CefConnect.TriggerRaw(admin, AdminPanelEvents.GetOnlineCharacterFromCef + "Answered", jsonCharacters);
+                    }
+                );
+        
+        
+
+        #region Admin Events
 
         [RemoteEvent(AdminPanelEvents.KillPlayerFromCef), NeedAdminRights(1)]
         public void OnKillPlayerEvent(Player admin, long? staticId = null) =>
@@ -188,5 +212,7 @@ namespace AdminPanel
                 admin, 
                 MethodBase.GetCurrentMethod()!, 
                 () => throw new NotImplementedException());
+
+        #endregion
     }
 }
