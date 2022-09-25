@@ -11,6 +11,8 @@
     "cef:type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@sentry/tracing": "^7.13.0",
+    "@sentry/vue": "^7.13.0",
     "naive-ui": "^2.33.3",
     "pinia": "^2.0.22",
     "vue": "^3.2.38",

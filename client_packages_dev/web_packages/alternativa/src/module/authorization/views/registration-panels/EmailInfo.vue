@@ -8,8 +8,9 @@
       require-mark-placement="right-hanging"
       size="medium"
   >
-    <n-p depth="3" class="text-small">
-      Почта необходима для восстановления пароля и дополнительной идентификации. Мы не рассылаем спам и не передаем данные третьим лицам
+    <n-p class="text-small" depth="3">
+      Почта необходима для восстановления пароля и дополнительной идентификации. Мы не рассылаем спам и не передаем
+      данные третьим лицам
     </n-p>
     <n-space vertical>
       <n-form-item
@@ -17,30 +18,32 @@
           label="Почта"
           path="email"
       >
-        <n-auto-complete
+        <n-input
+            ref="emailRef"
             v-model:value="registrationData.email"
             :get-show="getShowOptions"
             :input-props="{autocomplete: 'disabled'}"
-            :options="emailOptions"
-            placeholder="Электронная почта"
-            @input="onEmailInput"
             :loading="registrationData.emailCheck.loading"
+            :options="emailOptions"
+            blur-after-select
+            placeholder="Электронная почта"
+            @update:value="onEmailInput"
         />
       </n-form-item>
       <n-checkbox
-          class="mb-2"
           v-model:checked="registrationData.promoAgreement"
+          class="mb-15"
       >
         Хочу получать на почту новости сервера, акции и специальные предложения
       </n-checkbox>
     </n-space>
 
     <n-button
-        class="mt-auto"
+        :disabled="!registrationData.validate.fields.email.isValid || registrationData.emailCheck.loading || !registrationData.emailCheck.available"
         block
+        class="mt-auto"
         size="large"
         type="primary"
-        :disabled="!registrationData.validate.fields.email.isValid"
         @click="onSubmit"
     >
       Дальше
@@ -49,12 +52,13 @@
 </template>
 
 <script lang="ts" setup>
-import {NAutoComplete, NForm, NFormItem, NSpace, NCheckbox, NP, NButton} from "naive-ui";
+import type {FormItemInst} from "naive-ui";
+import {NButton, NCheckbox, NForm, NFormItem, NInput, NP, NSpace} from "naive-ui";
 import {storeToRefs} from "pinia";
 import {useAuthStore} from "@/store/auth";
 import type {RegistrationDTO} from "@/module/authorization/data/RegistrationDTO";
 import type {Ref} from "vue";
-import {computed, reactive} from "vue";
+import {computed, ref} from "vue";
 import {debounce} from "@/data/debounce";
 import type {altMP} from "@/connect/events/altMP";
 
@@ -63,18 +67,25 @@ const {
   altMpAuth
 }: { registrationData: Ref<RegistrationDTO>, altMpAuth: Ref<altMP> } = storeToRefs(useAuthStore())
 
+const emailRef = ref<FormItemInst | null>(null)
+
 const debounceEmailCheck = debounce((email: string) => {
-  registrationData.value.emailCheck.loading = true
   altMpAuth.value.triggerServerWithAnswerPending('CheckEmail', email)
       .then(([result]) => {
-        registrationData.value.emailCheck.loading = false
         registrationData.value.emailCheck.available = result === false
         registrationData.value.emailCheck.error = false
       })
       .catch(() => {
-        registrationData.value.emailCheck.loading = false
         registrationData.value.emailCheck.available = false
         registrationData.value.emailCheck.error = true
+      })
+      .finally(() => {
+        registrationData.value.emailCheck.loading = false
+        // @ts-ignore
+        emailRef.value?.blur()
+        // @ts-ignore
+        emailRef.value?.focus()
+        emailRef.value?.validate({trigger: 'input'})
       })
 }, 500)
 
@@ -97,6 +108,7 @@ const emailOptions = computed(() => {
 
 const onEmailInput = (value: string) => {
   if (value.includes('@')) {
+    registrationData.value.emailCheck.loading = true
     debounceEmailCheck(value)
   }
 }

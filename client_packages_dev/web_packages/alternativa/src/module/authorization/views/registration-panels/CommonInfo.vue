@@ -9,17 +9,20 @@
       size="medium"
   >
     <n-space vertical>
-      <!--      TODO: Проверка на уникальность логина-->
       <n-form-item
-          :class="{'show-feedback': registrationData.validate.fields.login.touchedInvalid}"
+          :class="{'show-feedback': registrationData.validate.fields.login.touchedInvalid ||
+          (registrationData.loginCheck.available === false && registrationData.loginCheck.loading === false && registrationData.validate.fields.login.touched)}"
           class="custom-feedback"
           label="Логин"
           path="login"
+          ref="loginInputRef"
       >
         <n-input
             v-model:value="registrationData.login"
             :allow-input="loginAllowInput"
+            :loading="registrationData.loginCheck.loading"
             placeholder="Логин"
+            @input="onLoginInput"
             @keydown.enter.prevent
         />
       </n-form-item>
@@ -60,7 +63,7 @@
         />
       </n-form-item>
 
-      <n-collapse-transition :show="showPasswordHints" class="mb-2">
+      <n-collapse-transition :show="showPasswordHints" class="mb-10">
         <n-card bordered embedded size="small" style="--n-color-embedded: rgb(44, 44, 50)">
           <n-space vertical>
             <alt-password-err-item v-if="!passwordChecks[0]">
@@ -106,7 +109,7 @@
     </n-space>
 
     <n-button
-        :disabled="!(passwordChecks[0] && passwordChecks[1])"
+        :disabled="!(passwordChecks[0] && passwordChecks[1]) || (!registrationData.loginCheck.available && !registrationData.loginCheck.loading) || registrationData.loginCheck.loading"
         block
         class="mt-auto"
         size="large"
@@ -120,12 +123,15 @@
 
 <script lang="ts" setup>
 import {NButton, NCard, NCollapseTransition, NForm, NFormItem, NIcon, NInput, NSpace} from "naive-ui";
+import type {FormItemInst} from "naive-ui";
 import {storeToRefs} from "pinia";
 import {useAuthStore} from "@/store/auth";
 import type {RegistrationDTO} from "@/module/authorization/data/RegistrationDTO";
 import type {Ref} from "vue";
 import {computed, ref} from "vue";
 import AltPasswordErrItem from "@/module/authorization/views/registration-panels/AltPasswordErrItem.vue";
+import type {altMP} from "@/connect/events/altMP";
+import {debounce} from "@/data/debounce";
 
 const emit = defineEmits<{
   (e: 'next-step'): void
@@ -133,11 +139,37 @@ const emit = defineEmits<{
 
 const loginAllowInput = (value: string) => /^[0-9A-z\.\-_]*$/.test(value)
 const passwordAllowInput = (value: string) => /^[0-9A-z\.\-_!@#$%^&*()]*$/.test(value)
-const {registrationData}: { registrationData: Ref<RegistrationDTO> } = storeToRefs(useAuthStore())
+const {
+  registrationData,
+  altMpAuth
+}: { registrationData: Ref<RegistrationDTO>, altMpAuth: Ref<altMP> } = storeToRefs(useAuthStore())
 
 const isPasswordFieldsFocused = ref(false)
 const changeHuntsTimeout: Ref = ref(null)
 const passwordFieldTouched = ref(false)
+
+const loginInputRef = ref<FormItemInst | null>(null)
+
+const onLoginInput = () => {
+  registrationData.value.loginCheck.loading = true
+  debounceCheckAvailable(registrationData.value.login)
+}
+
+const debounceCheckAvailable = debounce((value: string) => {
+  altMpAuth.value.triggerServerWithAnswerPending("CheckUsername", value)
+      .then(([result]) => {
+        registrationData.value.loginCheck.available = result === false
+        registrationData.value.loginCheck.error = false
+      })
+      .catch(() => {
+        registrationData.value.loginCheck.available = false
+        registrationData.value.loginCheck.error = true
+      })
+      .finally(() => {
+        registrationData.value.loginCheck.loading = false
+        loginInputRef.value?.validate({trigger: 'input'})
+      })
+}, 500)
 
 const passwordChecks = computed(() => {
   const password = registrationData.value.password
