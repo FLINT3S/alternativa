@@ -63,7 +63,6 @@ const router = createRouter({
     {
       path: '/admin-panel',
       component: AdminPanel,
-      redirect: '/admin-panel/index',
       children: [
         {
           path: 'index',
