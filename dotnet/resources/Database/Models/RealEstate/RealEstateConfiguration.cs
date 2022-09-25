@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Database.Models.RealEstate
 {
-    public class RealEstateConfiguration : 
+    internal class RealEstateConfiguration : 
         IEntityTypeConfiguration<AbstractRealEstate>,
         IEntityTypeConfiguration<House>,
         IEntityTypeConfiguration<Garage>
