@@ -52,5 +52,17 @@ namespace TestResource
             player.SendChatMessage("Test: " + test);
             return player.Name;
         }
+        
+        [RemoteEvent("CLIENT:SERVER:Root:Error")]
+        public void RemoteEventError(Player player, string message)
+        {
+            Console.WriteLine($"Error from {player.Name}: {message}");
+        }
+        
+        [RemoteEvent("CLIENT:SERVER:Root:Warning")]
+        public void RemoteEventWarning(Player player, string message)
+        {
+            Console.WriteLine($"Warning from {player.Name}: {message}");
+        }
     }
 }
