@@ -23,8 +23,9 @@ namespace AdminPanel
         public void OnKillPlayerEvent(Player admin, long? staticId = null) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                     {
-                        var player = (Player)AltContext.GetCharacter(staticId ?? admin.GetCharacter()!.StaticId);
+                        var player = (Player)AltContext.GetCharacter(staticId ?? admin.GetCharacter().StaticId);
                         NAPI.Task.Run(() => player.Health = 0);
+                        LogPlayer(admin, "KillPlayerAsAdmin", $"Kill player with static ID {staticId}");
                     }
                 );
 
@@ -32,8 +33,9 @@ namespace AdminPanel
         public void OnResurrectPlayerEvent(Player admin, long? staticId = null) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                     {
-                        var character = AltContext.GetCharacter(staticId ?? admin.GetCharacter()!.StaticId);
+                        var character = AltContext.GetCharacter(staticId ?? admin.GetCharacter().StaticId);
                         character.Resurrect();
+                        LogPlayer(admin, "ResurrectPlayer", $"Resurrect player with static ID {staticId}");
                     }
                 );
         
@@ -43,6 +45,7 @@ namespace AdminPanel
                     {
                         var player = (Player)AltContext.GetCharacter(staticId);
                         NAPI.Task.Run(() => player.Health = health);
+                        LogPlayer(admin, "SetHealth", $"Set health to player with static ID {staticId}");
                     }
                 );
         
@@ -52,6 +55,7 @@ namespace AdminPanel
                     {
                         var player = (Player)AltContext.GetCharacter(staticId);
                         NAPI.Task.Run(() => player.Armor = armor);
+                        LogPlayer(admin, "SetArmor", $"Set armor to player with static ID {staticId}");
                     }
                 );
         
@@ -61,6 +65,7 @@ namespace AdminPanel
                     {
                         var player = (Player)AltContext.GetCharacter(staticId);
                         NAPI.Task.Run(() => player.Position = admin.Position);
+                        LogPlayer(admin, "TeleportPlayer", $"Teleported player with static ID {staticId} to self");
                     }
                 );
         
@@ -70,6 +75,7 @@ namespace AdminPanel
                     {
                         var player = (Player)AltContext.GetCharacter(staticId);
                         NAPI.Task.Run(() => admin.Position = player.Position);
+                        LogPlayer(admin, "TeleportToPlayer", $"Teleported to player with static ID {staticId}");
                     }
                 );
         
@@ -93,6 +99,7 @@ namespace AdminPanel
                     {
                         var character = AltContext.GetCharacter(staticId);
                         character.AddSumToCash(sum);
+                        LogPlayer(admin, "ChangePlayersMoney", $"Change money of player with static ID {staticId}");
                     }
                 );
         
@@ -104,6 +111,7 @@ namespace AdminPanel
                         var duration = TimeSpan.FromSeconds(seconds);
                         var ban = new TemporaryBan(duration, admin, account, reason, message);
                         account.Ban(ban);
+                        LogPlayer(admin, "TemporaryBanPlayer", $"Temporary ban player with static ID {staticId} for {duration} caused {reason}");
                     }
                 );
         
@@ -114,6 +122,7 @@ namespace AdminPanel
                         var account = AltContext.GetCharacter(staticId).Account;
                         var ban = new PermanentBan(admin, account, reason, message);
                         account.Ban(ban);
+                        LogPlayer(admin, "PermanentBanPlayer", $"Permanently ban player with static ID {staticId} caused {reason}");
                         ((Player)account).Ban(reason.ToString());
                     }
                 );
@@ -142,6 +151,7 @@ namespace AdminPanel
                             {
                                 AnimationManager.AnimationManager.StopAnimation(player);
                                 player.WarpOutOfVehicle();
+                                LogPlayer(admin, "SlapPlayer", $"Slap player with static ID {staticId}");
                             });
                     }
                 );
@@ -159,6 +169,7 @@ namespace AdminPanel
                     {
                         var player = (Player)AltContext.GetCharacter(staticId ?? admin.GetCharacter()!.StaticId);
                         NAPI.Task.Run(() => player.Vehicle.Repair());
+                        LogPlayer(admin, "RepairCar", $"Repair car to player with static ID {staticId}");
                     }
                 );
         
