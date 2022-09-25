@@ -13,18 +13,26 @@ namespace DeathAndReborn
 {
     public class DeathAndReborn : AltAbstractResource
     {
-        private void Respawn(Character character)
+        private void Respawn(Character character) => NAPI.Task.Run(() =>
+                {
+                    var player = (Player)character;
+                    player.Position = HospitalLocationProvider.GetNearest(player.Position);
+                    NAPI.Player.SpawnPlayer(player, player.Position);
+                    ClientConnect.Trigger(player, "Reborn");
+                });
+
+        private static TimeSpan GetTimeToReborn(Player player)
         {
-            var account = character.Account;
-            NAPI.Task.Run(
-                    () =>
-                    {
-                        var player = NAPI.Pools.GetAllPlayers().First(p => p.SocialClubId == account.SocialClubId);
-                        player.Position = HospitalLocationProvider.GetNearest(player.Position);
-                        NAPI.Player.SpawnPlayer(player, player.Position);
-                        ClientConnect.Trigger(player, "Reborn");
-                    }
-                );
+            float distance = RestrictDistance(HospitalLocationProvider.GetLeastDistance(player.Position));
+            return TimeSpan.FromMinutes(distance / 500) + TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4);
+        }
+
+        private static float RestrictDistance(float distance)
+        {
+            float restrictedDistance = distance;
+            if (distance < 500) restrictedDistance = 500;
+            if (distance > 2500) restrictedDistance = 2500;
+            return restrictedDistance;
         }
 
         #region Server Events
@@ -37,11 +45,17 @@ namespace DeathAndReborn
         }
 
         [ServerEvent(Event.PlayerDeath)]
-        public void OnPlayerDeath(Player player, Player killer, uint reason)
+        public void OnPlayerDeath(Player victim, Player? killer, DeathReason reason)
         {
-            if (player.GetCharacter()!.IsDead) return;
-            player.GetCharacter()!.OnDeath();
-            ClientConnect.Trigger(player, "Death");
+            var victimСharacter = victim.GetCharacter();
+            var killerСharacter = killer?.GetCharacter();
+            if (victimСharacter.IsDead) return;
+            
+            var timeToReborn = GetTimeToReborn(victim);
+            victimСharacter.OnDeath(timeToReborn);
+            
+            string deathReason = DeathReasonStringBuilder.GetDeathReason(reason, killerСharacter);
+            ClientConnect.Trigger(victim, "Death", victimСharacter.SecondsToReborn, deathReason);
         }
 
         #endregion

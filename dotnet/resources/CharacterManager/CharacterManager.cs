@@ -6,7 +6,6 @@ using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace CharacterManager
 {
@@ -21,7 +20,7 @@ namespace CharacterManager
 
         private void SpawnCharacter(Player player)
         {
-            var character = player.GetCharacter()!;
+            var character = player.GetCharacter();
             
             // Чтобы персонаж при спавне не проваливался под землю
             character.SpawnData.Position.Z += 0.3f;
@@ -42,7 +41,7 @@ namespace CharacterManager
         private static Character CreateCharacter(Player player, string characterDto)
         {
             var characterCreatorInfo = JsonConvert.DeserializeObject<CharacterCreatorDto>(characterDto);
-            var account = AltContext.GetAccount(player)!;
+            var account = ((Account)player)!;
             var character = new Character(account, characterCreatorInfo);
             account.AddCharacter(character);
             return character;
@@ -110,7 +109,7 @@ namespace CharacterManager
         public void GetOwnCharacters(Player player)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            var account = AltContext.GetAccount(player)!;
+            var account = ((Account)player)!;
             string characters = JsonConvert.SerializeObject(account.Characters, new JsonSerializerSettings
                     {
                         DefaultValueHandling = DefaultValueHandling.Ignore,

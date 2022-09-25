@@ -1,6 +1,8 @@
 <template>
-  <n-button style="z-index: 2" @click="drawerActive = !drawerActive">debug</n-button>
-  <span>{{buildMode}}</span>
+  <n-button type="primary" secondary style="z-index: 2" @click="drawerActive = !drawerActive">debug</n-button>
+
+  <span class="ml-10">{{buildMode}}</span>
+
   <n-drawer v-model:show="drawerActive" height="350" placement="top">
     <n-drawer-content title="Debug">
       <n-form

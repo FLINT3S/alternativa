@@ -1,5 +1,6 @@
-﻿using AbstractResource.Connects;
+using AbstractResource.Connects;
 using Database;
+using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 
@@ -19,14 +20,12 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
         protected override void _Handle(Player player)
         {
-            var account = AltContext.GetAccount(player);
+            var account = (Account)player;
             account.OnConnect(player.Address, player.Serial);
-
             Log(player);
-            ClientConnect.Trigger(
-                    player,
-                    account.IsSameLastHwid(player.Serial) ? PlayerConnectedEvents.LoginSuccess
-                        : PlayerConnectedEvents.NeedLogin
+            player.SetAccessLevels(account.VipLevel, account.AdminLevel);
+            ClientConnect.Trigger(player, account.IsSameLastHwid(player.Serial) ? 
+                    PlayerConnectedEvents.LoginSuccess : PlayerConnectedEvents.NeedLogin
                 );
         }
     }

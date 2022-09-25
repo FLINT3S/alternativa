@@ -13,7 +13,7 @@ namespace Database.Models
             builder.Property("PasswordHash");
             builder.Property("PasswordSalt");
             builder.Property("Email");
-            builder.Property("LastHwid");
+            builder.Property(a => a.LastHwid);
 
             builder.HasMany(a => a.Characters)
                 .WithOne(c => c.Account)

@@ -35,8 +35,8 @@ namespace NAPIExtensions
         
         public static (int VipLevel, int AdminLevel) GetAccessLevels(this Player player) => 
         (
-            player.GetSharedData<int>(PlayerConstants.VipLevel), 
-            player.GetSharedData<int>(PlayerConstants.AdminLevel)
+            player.GetOwnSharedData<int>(PlayerConstants.VipLevel), 
+            player.GetOwnSharedData<int>(PlayerConstants.AdminLevel)
             );
 
         public static void SetAccessLevels(this Player player, int vipLevel, int adminLevel)
@@ -53,8 +53,7 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
-        public static Character? GetCharacter(this Player player) =>
-            player.HasData(PlayerConstants.Character) ? player.GetData<Character>(PlayerConstants.Character) : null;
+        public static Character GetCharacter(this Player player) => player.GetData<Character>(PlayerConstants.Character);
 
         public static void SetCharacter(this Player player, Character character) =>
             player.SetData(PlayerConstants.Character, character);
@@ -96,7 +95,7 @@ namespace NAPIExtensions
             player.ResetData(PlayerConstants.Character);
 
         public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>
-            pools.GetAllPlayers().Select(a => a.GetCharacter()).Where(c => c != null)!;
+            pools.GetAllPlayers().Where(a => a.HasData(PlayerConstants.Character)).Select(a => a.GetCharacter());
 
         #endregion
     }

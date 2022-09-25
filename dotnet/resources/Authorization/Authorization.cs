@@ -58,7 +58,7 @@ namespace Authorization
         public void OnLoginSubmitFromCef(Player player, string login, string password)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            loginHandlersChain.Handle(player, AltContext.GetAccount(player), login, password);
+            loginHandlersChain.Handle(player, (Account)player, login, password);
         }
 
         [RemoteEvent(AuthorizationEvents.RegisterSubmitFromCef)]

@@ -19,5 +19,8 @@ namespace LocationProvider
         public static Vector3 GetNearest(Vector3 playerPosition) => HospitalPositions
             .OrderBy(hospitalPosition => hospitalPosition.DistanceTo2D(playerPosition))
             .First();
+
+        public static float GetLeastDistance(Vector3 playerPosition) => HospitalPositions
+            .Min(hospitalPosition => hospitalPosition.DistanceTo2D(playerPosition));
     }
 }
