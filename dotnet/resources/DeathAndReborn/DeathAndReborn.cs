@@ -14,17 +14,20 @@ namespace DeathAndReborn
     public class DeathAndReborn : AltAbstractResource
     {
         private void Respawn(Character character) => NAPI.Task.Run(() =>
-                {
-                    var player = (Player)character;
-                    player.Position = HospitalLocationProvider.GetNearest(player.Position);
-                    NAPI.Player.SpawnPlayer(player, player.Position);
-                    ClientConnect.Trigger(player, "Reborn");
-                });
+        {
+            var player = (Player)character;
+            player.Position = HospitalLocationProvider.GetNearest(player.Position);
+            NAPI.Player.SpawnPlayer(player, player.Position);
+            ClientConnect.Trigger(player, "Reborn");
+        });
 
         private static TimeSpan GetTimeToReborn(Player player)
         {
             float distance = RestrictDistance(HospitalLocationProvider.GetLeastDistance(player.Position));
-            return TimeSpan.FromMinutes(distance / 500) + TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4);
+            return TimeSpan.FromSeconds(
+                (TimeSpan.FromMinutes(distance / 500) +
+                 TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4)).TotalSeconds
+            );
         }
 
         private static float RestrictDistance(float distance)
@@ -50,10 +53,10 @@ namespace DeathAndReborn
             var victimСharacter = victim.GetCharacter();
             var killerСharacter = killer?.GetCharacter();
             if (victimСharacter.IsDead) return;
-            
+
             var timeToReborn = GetTimeToReborn(victim);
             victimСharacter.OnDeath(timeToReborn);
-            
+
             string deathReason = DeathReasonStringBuilder.GetDeathReason(reason, killerСharacter);
             ClientConnect.Trigger(victim, "Death", victimСharacter.SecondsToReborn, deathReason);
         }
@@ -73,7 +76,8 @@ namespace DeathAndReborn
 
         private void DecreaseTimeToReborn()
         {
-            List<Character> deadCharacters = NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
+            List<Character> deadCharacters =
+                NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
             foreach (var deadCharacter in deadCharacters)
             {
                 deadCharacter.DecreaseTimeToReborn(TimeSpan.FromSeconds(1));

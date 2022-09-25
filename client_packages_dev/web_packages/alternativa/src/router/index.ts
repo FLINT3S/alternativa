@@ -73,7 +73,8 @@ const router = createRouter({
     },
     {
       path: '/death-and-reborn',
-      component: DeathAndReborn
+      component: DeathAndReborn,
+      name: 'DeathAndReborn'
     }
   ]
 })

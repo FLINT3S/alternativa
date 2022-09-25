@@ -21,7 +21,7 @@ export class AltBrowser {
 
   public settings = {
     active: true,
-    closeOverlay: false,
+    canCloseOverlay: false,
     openOverlay: true,
     execute: true,
     backdrop: true,
@@ -119,7 +119,7 @@ export class AltBrowser {
   }
 
   closeOverlay(hideCursor: boolean = true): Promise<boolean> {
-    if (!this.settings.closeOverlay) {
+    if (!this.settings.canCloseOverlay) {
       altError.captureWarning("Attempt to close overlay, but it's disabled")
       return
     }

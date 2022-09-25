@@ -21,20 +21,20 @@ namespace CharacterManager
         private void SpawnCharacter(Player player)
         {
             var character = player.GetCharacter();
-            
+
             // Чтобы персонаж при спавне не проваливался под землю
             character.SpawnData.Position.Z += 0.3f;
-            
+
             player.ApplyCharacter(character);
-            
+
             player.Heading = character.SpawnData.Heading;
             player.Position = character.SpawnData.Position;
-            
+
             NAPI.Player.SpawnPlayer(player, player.Position);
-            
+
             player.Armor = character.SpawnData.Armor;
             player.Health = character.SpawnData.Health;
-            
+
             LogPlayer(player, "PlayerSpawned", $"Player spawned at {character.SpawnData.Position}");
         }
 
@@ -58,7 +58,7 @@ namespace CharacterManager
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
                 SpawnCharacter(player);
-                ClientConnect.Trigger(player, "OnCharacterSpawned", character.TimeToReborn.TotalSeconds);
+                ClientConnect.Trigger(player, "OnCharacterSpawned", (int)character.TimeToReborn.TotalSeconds);
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace CharacterManager
         public void InitCharacterCreation(Player player)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            
+
             var account = AltContext.GetAccount(player)!;
             if (account.CanCreateCharacter())
             {
@@ -104,7 +104,7 @@ namespace CharacterManager
             SpawnCharacter(player);
             ClientConnect.Trigger(player, "CharacterCreated");
         }
-        
+
         [RemoteEvent(CharacterManagerEvents.GetOwnCharacters)]
         public void GetOwnCharacters(Player player)
         {
