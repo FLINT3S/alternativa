@@ -70,9 +70,9 @@ namespace Database.Models
             UpdateInContext();
         }
 
-        public void OnDeath()
+        public void OnDeath(TimeSpan timeToReborn)
         {
-            TimeToReborn += TimeSpan.FromMinutes(5);
+            TimeToReborn += timeToReborn;
             UpdateInContext();
         }
 

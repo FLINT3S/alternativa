@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AbstractResource;
-using Database;
 using Database.Models;
 using GTANetworkAPI;
 using LocationProvider;
@@ -22,6 +21,20 @@ namespace DeathAndReborn
                     ClientConnect.Trigger(player, "Reborn");
                 });
 
+        private static TimeSpan GetTimeToReborn(Player player)
+        {
+            float distance = RestrictDistance(HospitalLocationProvider.GetLeastDistance(player.Position));
+            return TimeSpan.FromMinutes(distance / 500) + TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4);
+        }
+
+        private static float RestrictDistance(float distance)
+        {
+            float restrictedDistance = distance;
+            if (distance < 500) restrictedDistance = 500;
+            if (distance > 2500) restrictedDistance = 2500;
+            return restrictedDistance;
+        }
+
         #region Server Events
 
         [ServerEvent(Event.ResourceStart)]
@@ -32,14 +45,17 @@ namespace DeathAndReborn
         }
 
         [ServerEvent(Event.PlayerDeath)]
-        public void OnPlayerDeath(Player player, Player killer, uint reason)
+        public void OnPlayerDeath(Player victim, Player? killer, DeathReason reason)
         {
-            // TODO: Вынести константу времени возрождения, либо сделать её динамической.
-            // На клиент отправлять время до возрождения и причину
-            var character = player.GetCharacter()!;
-            if (character.IsDead) return;
-            character.OnDeath();
-            ClientConnect.Trigger(player, "Death", character.SecondsToReborn, reason);
+            var victimСharacter = victim.GetCharacter();
+            var killerСharacter = killer?.GetCharacter();
+            if (victimСharacter.IsDead) return;
+            
+            var timeToReborn = GetTimeToReborn(victim);
+            victimСharacter.OnDeath(timeToReborn);
+            
+            string deathReason = DeathReasonStringBuilder.GetDeathReason(reason, killerСharacter);
+            ClientConnect.Trigger(victim, "Death", victimСharacter.SecondsToReborn, deathReason);
         }
 
         #endregion

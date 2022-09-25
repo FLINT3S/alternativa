@@ -111,11 +111,5 @@
     <ItemGroup>
         <Folder Include="Migrations" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="..\..\runtime\appsettings.json">
-        <Link>appsettings.json</Link>
-      </Content>
-    </ItemGroup>
 </Project>    
     

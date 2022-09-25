@@ -6,7 +6,6 @@ using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace CharacterManager
 {
@@ -21,7 +20,7 @@ namespace CharacterManager
 
         private void SpawnCharacter(Player player)
         {
-            var character = player.GetCharacter()!;
+            var character = player.GetCharacter();
             
             // Чтобы персонаж при спавне не проваливался под землю
             character.SpawnData.Position.Z += 0.3f;

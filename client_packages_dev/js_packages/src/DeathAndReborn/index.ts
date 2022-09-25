@@ -2,11 +2,11 @@ import {AltBrowserBlock, ModuleBrowser} from "../BrowserManager/altBrowser";
 
 let DRBrowser = new ModuleBrowser("DeathAndReborn", "/death-and-reborn")
 
-mp.events.add("SERVER:CLIENT:DeathAndReborn:Death", (timeToReborn: number) => {
+mp.events.add("SERVER:CLIENT:DeathAndReborn:Death", (secondsToReborn: number) => {
   mp.game.gameplay.setFadeOutAfterDeath(false);
 
   DRBrowser.setAsActive()
-  DRBrowser.execClient("Death", timeToReborn)
+  DRBrowser.execClient("Death", secondsToReborn)
   DRBrowser.browser.openOverlay(true)
   DRBrowser.browser.blockLevel = AltBrowserBlock.FULL
 

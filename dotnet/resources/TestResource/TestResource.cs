@@ -32,7 +32,7 @@ namespace TestResource
         public void CMDOnKillMe(Player player) =>
             CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () => 
                 NAPI.Task.Run(() => player.Health = 0));
-
+                
         [Command("respawn"), NeedAdminRights(1)]
         public void CMDOnRespawnMe(Player player) => 
             CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () =>

@@ -1,4 +1,4 @@
-﻿using AbstractResource.Connects;
+using AbstractResource.Connects;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
@@ -22,7 +22,6 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         {
             var account = (Account)player;
             account.OnConnect(player.Address, player.Serial);
-
             Log(player);
             player.SetAccessLevels(account.VipLevel, account.AdminLevel);
             ClientConnect.Trigger(player, account.IsSameLastHwid(player.Serial) ? 
