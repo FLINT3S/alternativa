@@ -1,26 +1,33 @@
 import {browserManager} from "./browserManager";
 import {logger} from "../utils/logger";
+import {altError} from "../ErrorCaptures/errorCaptures";
 import Timer = NodeJS.Timer;
 
-export enum AltBrowserLevel {
-  DEFAULT,
-  IMPORTANT
-}
 
 type AltBrowserOptions = {
   toggleCursor?: boolean,
   overlayCloseTimeout?: number,
-  level: AltBrowserLevel
 }
 
 export class AltBrowser {
   protected readonly instance: BrowserMp;
-  // name - название браузера, должно быть таким же как и название ресурса
-  public name: string;
-  public options: AltBrowserOptions = {toggleCursor: false, overlayCloseTimeout: 500, level: AltBrowserLevel.DEFAULT}
-  public loaded: boolean;
   private overlayTimeout: Timer;
   private isOverlayOpen: boolean = true
+
+  public name: string
+  public options: AltBrowserOptions = {toggleCursor: false, overlayCloseTimeout: 500}
+  public loaded: boolean
+  public path: string = ""
+
+  public settings = {
+    active: false,
+    closeOverlay: false,
+    openOverlay: true,
+    execute: true,
+    backdrop: true,
+    goTo: true,
+    goToAnotherModule: true,
+  }
 
   constructor(url: string, name: string, options?: object) {
     this.instance = mp.browsers.new(url)
@@ -30,11 +37,20 @@ export class AltBrowser {
     browserManager.addBrowser(this)
   }
 
+  captureBrowserIncident(err: string, type: string = "ERROR") {
+    if (type === "ERROR") {
+      altError.captureError(err)
+    } else if (type === "WARNING") {
+      altError.captureWarning(err)
+    }
+  }
+
   get active(): boolean {
     return this.instance.active
   }
 
   set active(value: boolean) {
+    if (!this.settings.active) return
     this.instance.active = value
   }
 
@@ -47,6 +63,11 @@ export class AltBrowser {
   }
 
   set overlayBackdrop(show: boolean) {
+    if (!this.settings.backdrop) {
+      altError.captureWarning("Attempt to set overlay backdrop, but it's disabled")
+      return
+    }
+
     if (show) {
       this.execEvent("CLIENT:CEF:Root:turnOnBackdrop")
     } else {
@@ -75,6 +96,11 @@ export class AltBrowser {
   }
 
   openOverlay(showCursor: boolean = true): Promise<boolean> {
+    if (!this.settings.openOverlay) {
+      altError.captureWarning("Attempt to open overlay, but it's disabled")
+      return
+    }
+
     clearTimeout(this.overlayTimeout)
 
     return new Promise((resolve) => {
@@ -92,15 +118,16 @@ export class AltBrowser {
     })
   }
 
-  closeOverlay(forceHide: boolean = false, hideCursor: boolean = true): Promise<boolean> {
+  closeOverlay(hideCursor: boolean = true): Promise<boolean> {
+    if (!this.settings.closeOverlay) {
+      altError.captureWarning("Attempt to close overlay, but it's disabled")
+      return
+    }
+
     return new Promise((resolve) => {
       this.execEvent("CLIENT:CEF:Root:onCloseOverlay")
       this.isOverlayOpen = false
       this.overlayTimeout = setTimeout(() => {
-        if (forceHide) {
-          this.hide(!hideCursor)
-        }
-
         if (hideCursor) {
           mp.gui.cursor.visible = false
         }
@@ -118,13 +145,17 @@ export class AltBrowser {
     }
   }
 
-  execEvent(event: string, ...data: Array<string | number | boolean>) {
-    // logger.log(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
-    this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
+  executeCode(code: string) {
+    if (!this.settings.execute) {
+      this.captureBrowserIncident("Attempt to execute code, but it's disabled", "WARNING")
+      return
+    }
+
+    this.instance.execute(code)
   }
 
-  executeCode(code: string) {
-    this.instance.execute(code)
+  execEvent(event: string, ...data: Array<string | number | boolean>) {
+    this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
   }
 
   execClient(moduleName: string, eventName: string, ...data: Array<string | number | boolean>) {
@@ -133,6 +164,21 @@ export class AltBrowser {
   }
 
   goTo(path: string) {
+    this.path = path
+    const [currentModule, ...currentRest] = this.path.split("/").filter((item) => item !== "")
+    const [goToModule, ...goToRest] = path.split("/").filter((item) => item !== "")
+
+    if (!this.settings.goTo) {
+      this.captureBrowserIncident(`Attempt to go to ${path}, but it's disabled`, "WARNING")
+      return
+    }
+
+    if (currentModule !== goToModule && !this.settings.goToAnotherModule) {
+      this.captureBrowserIncident("Attempt to go to another module, but it's disabled", "WARNING")
+      logger.log(`Err: ${currentModule} -> ${goToModule}`, "GoTo")
+      return
+    }
+
     this.execEvent("CLIENT:CEF:Root:GoTo", path)
   }
 }
@@ -143,7 +189,6 @@ altBrowser.show()
 export class ModuleBrowser {
   public moduleName: string;
   public browser: AltBrowser = altBrowser;
-  private isOverlayOpen: boolean;
   private readonly path: string;
 
   constructor(moduleName: string, path: string) {
@@ -155,7 +200,7 @@ export class ModuleBrowser {
     this.browser.goTo(this.path)
   }
 
-  execEvent(eventString: string, ...data: Array<string | number>) {
+  execRawEvent(eventString: string, ...data: Array<string | number>) {
     this.browser.execEvent(eventString, ...data)
   }
 
