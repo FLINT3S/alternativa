@@ -21,7 +21,7 @@ namespace DeathAndReborn
             DeathReason.RunOverByCar => throw new NotImplementedException(),
             
             DeathReason.Fall when killer != null => $"Разбился из-за {killer.Fullname}",
-            DeathReason.Fall => "Разбился",
+            DeathReason.Fall => "Упал и разбился насмерть",
             
             DeathReason.Animal when killer != null => throw new NotImplementedException(),
             DeathReason.Animal => throw new NotImplementedException(),
@@ -47,20 +47,20 @@ namespace DeathAndReborn
             DeathReason.Drowning when killer != null => $"Утоплен игроком {killer.Fullname}",
             DeathReason.Drowning => "Захлебнулся",
             
-            DeathReason.DrowningInVehicle when killer != null => $"Утоплен с транспортом игроком {killer.Fullname}",
+            DeathReason.DrowningInVehicle when killer != null => $"Утоплен в транспорте игроком {killer.Fullname}",
             DeathReason.DrowningInVehicle => "Захлебнулся в транспорте",
             
             DeathReason.Explosion when killer != null => $"Вас взорвал {killer.Fullname}",
             DeathReason.Explosion => "Взорвался",
             
-            DeathReason.Exhaustion when killer != null => throw new NotImplementedException(),
-            DeathReason.Exhaustion => throw new NotImplementedException(),
+            DeathReason.Exhaustion when killer != null => $"Замучан игроком {killer.Fullname}",
+            DeathReason.Exhaustion => "Устал",
             
-            DeathReason.Fire when killer != null => throw new NotImplementedException(),
-            DeathReason.Fire => throw new NotImplementedException(),
+            DeathReason.Fire when killer != null => $"Сожжён игроком {killer.Fullname}",
+            DeathReason.Fire => "Сгорел",
             
-            DeathReason.HeliCrash when killer != null => throw new NotImplementedException(),
-            DeathReason.HeliCrash => throw new NotImplementedException(),
+            DeathReason.HeliCrash when killer != null => $"Перерублен лопостями вертолёта игрока {killer.Fullname}",
+            DeathReason.HeliCrash => "Перерублен лопастями вертолёта",
             
             DeathReason.VehicleRocket when killer != null => throw new NotImplementedException(),
             DeathReason.VehicleRocket => throw new NotImplementedException(),
