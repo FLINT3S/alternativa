@@ -68,6 +68,7 @@ export class altMP extends ModuleDependent {
       const answerEs = new EventString("CEF", "SERVER", this.moduleName, `${eventName}Answered`)
       const rejectTimeout = setTimeout(() => {
         reject(new Error(`No answer for event ${eventName}`))
+        window.altListeners?.delete(answerEs.eventString)
       }, 10000)
 
       this.onRaw(answerEs.eventString, (...data: any[]) => {

@@ -3,7 +3,7 @@
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2018", "dom"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

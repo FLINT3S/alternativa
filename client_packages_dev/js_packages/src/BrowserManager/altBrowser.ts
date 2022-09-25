@@ -20,7 +20,7 @@ export class AltBrowser {
   public path: string = ""
 
   public settings = {
-    active: false,
+    active: true,
     closeOverlay: false,
     openOverlay: true,
     execute: true,
