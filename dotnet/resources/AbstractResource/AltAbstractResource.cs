@@ -59,7 +59,7 @@ namespace AbstractResource
         }
 
         private static string GetEventString(MethodBase methodBase) =>
-            methodBase.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString;
+            methodBase.GetCustomAttribute<RemoteEventAttribute>()?.RemoteEventString ?? methodBase.GetCustomAttribute<CommandAttribute>()?.CommandString ?? "NoProvided";
 
         protected void LogException(Exception exception)
         {
