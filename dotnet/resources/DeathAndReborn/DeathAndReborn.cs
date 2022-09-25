@@ -53,8 +53,6 @@ namespace DeathAndReborn
         [ServerEvent(Event.PlayerDeath)]
         public void OnPlayerDeath(Player victim, Player? killer, DeathReason reason)
         {
-            // TODO: Вынести константу времени возрождения, либо сделать её динамической.
-            // На клиент отправлять время до возрождения и причину
             var victimСharacter = victim.GetCharacter();
             var killerСharacter = killer?.GetCharacter();
             if (victimСharacter.IsDead) return;
