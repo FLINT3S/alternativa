@@ -6,7 +6,6 @@ using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace CharacterManager
 {

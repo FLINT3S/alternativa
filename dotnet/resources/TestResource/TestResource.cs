@@ -36,7 +36,7 @@ namespace TestResource
         [Command("respawn")]
         public void CMDOnRespawnMe(Player player)
         {
-            var character = player.GetCharacter()!;
+            var character = player.GetCharacter();
             character.Resurrect();
         }
 
