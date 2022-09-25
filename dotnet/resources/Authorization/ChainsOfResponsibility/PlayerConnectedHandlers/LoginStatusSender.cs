@@ -21,8 +21,9 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         {
             var account = AltContext.GetAccount(player);
             account.OnConnect(player.Address, player.Serial);
-
             Log(player);
+            
+            player.SetAccessLevels(account.VipLevel, account.AdminLevel);
             ClientConnect.Trigger(
                     player,
                     account.IsSameLastHwid(player.Serial) ? PlayerConnectedEvents.LoginSuccess
