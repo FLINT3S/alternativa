@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Database.Models.AccountEvents;
 using Database.Models.Bans;
+using GTANetworkAPI;
 using Logger;
 using Logger.EventModels;
 
@@ -30,6 +31,11 @@ namespace Database.Models
         }
 
         #endregion
+        
+        public static implicit operator Player (Account account) => 
+            NAPI.Pools.GetAllPlayers().FirstOrDefault(p => p.SocialClubId == account.SocialClubId);
+        
+        public static implicit operator Account (Player player) => AltContext.GetAccount(player);
 
         public override string ToString() => $"{Username}_[{SocialClubId}]";
 
@@ -144,7 +150,6 @@ namespace Database.Models
 
         public void Ban(AbstractBan ban)
         {
-            ban.AddToContext();
             switch (ban)
             {
                 case PermanentBan permanentBan:

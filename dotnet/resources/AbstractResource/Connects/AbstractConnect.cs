@@ -27,7 +27,7 @@ namespace AbstractResource.Connects
             player.TriggerEvent(fullEventName, args);
         }
 
-        protected virtual void TriggerMessage(Player player, MessageStatus status, string message, params object[] args)
+        public virtual void TriggerMessage(Player player, MessageStatus status, string message, params object[] args)
         {
             string fullEventName = $"{FromTo}:Root:ShowMessage";
             LogEvent(fullEventName);

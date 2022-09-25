@@ -4,7 +4,7 @@ using NAPIExtensions;
 
 namespace AnimationManager
 {
-    public class AnimationManager : AltAbstractResource
+    public abstract class AnimationManager : AltAbstractResource
     {
         [Command("playanim")]
         [RemoteEvent(AnimationManagerEvents.PlayAnimationFromClient)]

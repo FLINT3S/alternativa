@@ -41,7 +41,7 @@ namespace CharacterManager
         private static Character CreateCharacter(Player player, string characterDto)
         {
             var characterCreatorInfo = JsonConvert.DeserializeObject<CharacterCreatorDto>(characterDto);
-            var account = AltContext.GetAccount(player)!;
+            var account = ((Account)player)!;
             var character = new Character(account, characterCreatorInfo);
             account.AddCharacter(character);
             return character;
@@ -58,7 +58,7 @@ namespace CharacterManager
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
                 SpawnCharacter(player);
-                ClientConnect.Trigger(player, "OnCharacterSpawned", character.IsDead);
+                ClientConnect.Trigger(player, "OnCharacterSpawned", character.TimeToReborn.TotalSeconds);
             }
             catch (Exception ex)
             {
@@ -109,7 +109,7 @@ namespace CharacterManager
         public void GetOwnCharacters(Player player)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            var account = AltContext.GetAccount(player)!;
+            var account = ((Account)player)!;
             string characters = JsonConvert.SerializeObject(account.Characters, new JsonSerializerSettings
                     {
                         DefaultValueHandling = DefaultValueHandling.Ignore,

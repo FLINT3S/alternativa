@@ -1,5 +1,3 @@
-using System;
-using System.Globalization;
 using GTANetworkAPI;
 
 namespace AbstractResource.Connects
@@ -25,7 +23,7 @@ namespace AbstractResource.Connects
             player.TriggerEvent(FromTo, ModuleName, eventRawString, args);
         }
 
-        protected override void TriggerMessage(Player player, MessageStatus status, string message, params object[] args)
+        public override void TriggerMessage(Player player, MessageStatus status, string message, params object[] args)
         {
             string fullEventName = $"{FromTo}:Root:ShowMessage";
             LogEvent(fullEventName);

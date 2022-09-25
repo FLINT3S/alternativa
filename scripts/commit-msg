@@ -1,0 +1,26 @@
+#!/bin/sh
+
+commit_msg=`cat $1`
+
+protected_branch='dev'
+
+policy='[Policy] '$protected_branch' branch is restricted to push! Use hotfix: in msg to force commit or create another branch. (Prevented with commit-msg hook.)'
+
+current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
+regex="^hotfix: .*"
+
+do_exit(){
+  echo $policy
+  exit 1
+}
+
+if [ $current_branch = $protected_branch ]; then
+  if ! [[ $commit_msg =~ $regex ]]; then
+    do_exit
+  fi
+fi
+
+unset do_exit
+
+exit 0
