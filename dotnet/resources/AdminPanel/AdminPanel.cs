@@ -20,6 +20,8 @@ namespace AdminPanel
         {
             CefConnect.Trigger(player, "onOpenOverlay");
         }
+
+        #region Admin Events
         
         // Список методов: https://www.notion.so/AdminPanel-6f674297202c477087e826165f60178f
 
@@ -38,10 +40,6 @@ namespace AdminPanel
                         CefConnect.TriggerRaw(admin, AdminPanelEvents.GetOnlineCharactersFromCef + "Answered", jsonCharacters);
                     }
                 );
-        
-        
-
-        #region Admin Events
 
         [RemoteEvent(AdminPanelEvents.KillPlayerFromCef), NeedAdminRights(1)]
         public void OnKillPlayerEvent(Player admin, long? staticId = null) =>
