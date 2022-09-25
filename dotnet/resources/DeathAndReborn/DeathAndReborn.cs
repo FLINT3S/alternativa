@@ -18,16 +18,16 @@ namespace DeathAndReborn
             var player = (Player)character;
             player.Position = HospitalLocationProvider.GetNearest(player.Position);
             NAPI.Player.SpawnPlayer(player, player.Position);
+            LogPlayer((Player)character, "Reborn", $"Respawned at {player.Position}");
             ClientConnect.Trigger(player, "Reborn");
         });
 
         private static TimeSpan GetTimeToReborn(Player player)
         {
             float distance = RestrictDistance(HospitalLocationProvider.GetLeastDistance(player.Position));
-            return TimeSpan.FromSeconds(
-                (TimeSpan.FromMinutes(distance / 500) +
-                 TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4)).TotalSeconds
-            );
+            return RoundSeconds(
+                TimeSpan.FromMinutes(distance / 500) + TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4)
+                );
         }
 
         private static float RestrictDistance(float distance)
@@ -37,6 +37,8 @@ namespace DeathAndReborn
             if (distance > 2500) restrictedDistance = 2500;
             return restrictedDistance;
         }
+
+        private static TimeSpan RoundSeconds(TimeSpan timeSpan) => TimeSpan.FromSeconds(timeSpan.TotalSeconds);
 
         #region Server Events
 
@@ -58,6 +60,7 @@ namespace DeathAndReborn
             victimСharacter.OnDeath(timeToReborn);
 
             string deathReason = DeathReasonStringBuilder.GetDeathReason(reason, killerСharacter);
+            LogPlayer(victim, "Death", deathReason);
             ClientConnect.Trigger(victim, "Death", victimСharacter.SecondsToReborn, deathReason);
         }
 

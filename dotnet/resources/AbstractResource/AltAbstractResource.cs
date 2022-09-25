@@ -50,16 +50,18 @@ namespace AbstractResource
             AltLogger.Instance.LogInfo(altPlayerEvent);
         }
         
-        protected void LogEvent(MethodBase @event, string additionalInfo = "")
+        protected void LogEvent(MethodBase @event, string? additionalInfo = null)
         {
             string eventName = GetEventString(@event);
             var altEvent = new AltEvent(this, eventName, 
-                $"{eventName} fetched{(additionalInfo.Length > 0 ? $"; {additionalInfo}" : string.Empty)}");
+                $"{eventName} fetched{(additionalInfo != null ? $"; {additionalInfo}" : string.Empty)}");
             AltLogger.Instance.LogEvent(altEvent);
         }
 
         private static string GetEventString(MethodBase methodBase) =>
-            methodBase.GetCustomAttribute<RemoteEventAttribute>()?.RemoteEventString ?? methodBase.GetCustomAttribute<CommandAttribute>()?.CommandString ?? "NoProvided";
+            methodBase.GetCustomAttribute<RemoteEventAttribute>()?.RemoteEventString ??
+            methodBase.GetCustomAttribute<CommandAttribute>()?.CommandString ??
+            "NoProvided";
 
         protected void LogException(Exception exception)
         {
