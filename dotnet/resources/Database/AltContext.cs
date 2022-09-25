@@ -5,6 +5,7 @@ using Database.Models.Bans;
 using Database.Models.Economics.Banks;
 using Database.Models.Economics.Banks.Transactions;
 using Database.Models.Economics.CryptoWallets;
+using Database.Models.RealEstate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database
@@ -51,6 +52,14 @@ namespace Database
             modelBuilder.ApplyConfiguration(new CryptoWalletConfiguration());
 
             #endregion
+
+            #region Real Estate
+
+            modelBuilder.ApplyConfiguration<AbstractRealEstate>(new RealEstateConfiguration());
+            modelBuilder.ApplyConfiguration<House>(new RealEstateConfiguration());
+            modelBuilder.ApplyConfiguration<Garage>(new RealEstateConfiguration());
+
+            #endregion
         }
 
         #region Account
@@ -74,6 +83,14 @@ namespace Database
         public DbSet<CryptoWallet> CryptoWallets { get; private set; }
 
         public DbSet<CryptoTransaction> CryptoTransactions { get; private set; }
+
+        #endregion
+
+        #region Real Estate
+        
+        public DbSet<House> Houses { get; private set; }
+        
+        public DbSet<Garage> Garages { get; private set; }
 
         #endregion
     }

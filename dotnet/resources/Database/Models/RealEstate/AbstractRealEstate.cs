@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using GTANetworkAPI;
 
 namespace Database.Models.RealEstate
 {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public abstract class AbstractRealEstate : AbstractModel
     {
+        // ReSharper disable once EmptyConstructor
         protected AbstractRealEstate()
         {
         }
