@@ -55,13 +55,14 @@ namespace DeathAndReborn
         {
             // TODO: Вынести константу времени возрождения, либо сделать её динамической.
             // На клиент отправлять время до возрождения и причину
-            var victimСharacter = victim.GetCharacter()!;
+            var victimСharacter = victim.GetCharacter();
+            var killerСharacter = killer?.GetCharacter();
             if (victimСharacter.IsDead) return;
             
             var timeToReborn = GetTimeToReborn(victim);
             victimСharacter.OnDeath(timeToReborn);
             
-            string deathReason = DeathReasonStringBuilder.GetDeathReason(reason, killer);
+            string deathReason = DeathReasonStringBuilder.GetDeathReason(reason, killerСharacter);
             ClientConnect.Trigger(victim, "Death", victimСharacter.SecondsToReborn, deathReason);
         }
 

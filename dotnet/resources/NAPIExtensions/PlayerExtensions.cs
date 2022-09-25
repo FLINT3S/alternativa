@@ -53,8 +53,7 @@ namespace NAPIExtensions
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
-        public static Character? GetCharacter(this Player player) =>
-            player.HasData(PlayerConstants.Character) ? player.GetData<Character>(PlayerConstants.Character) : null;
+        public static Character GetCharacter(this Player player) => player.GetData<Character>(PlayerConstants.Character);
 
         public static void SetCharacter(this Player player, Character character) =>
             player.SetData(PlayerConstants.Character, character);
@@ -96,7 +95,7 @@ namespace NAPIExtensions
             player.ResetData(PlayerConstants.Character);
 
         public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>
-            pools.GetAllPlayers().Select(a => a.GetCharacter()).Where(c => c != null)!;
+            pools.GetAllPlayers().Select(a => a.GetCharacter());
 
         #endregion
     }

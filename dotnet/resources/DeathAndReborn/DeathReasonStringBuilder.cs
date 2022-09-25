@@ -7,10 +7,7 @@ namespace DeathAndReborn
 {
     public static class DeathReasonStringBuilder
     {
-        public static string GetDeathReason(DeathReason reason, Player? killer) => 
-            ParseDeathReason(reason, killer?.GetCharacter());
-
-        private static string ParseDeathReason(DeathReason reason, Character? killer) => reason switch
+        public static string GetDeathReason(DeathReason reason, Character? killer) => reason switch
         {
             DeathReason.ElectricFence when killer != null => $"Вы скончались в результате электротравмы, полученной из-за {killer.Fullname}",
             DeathReason.ElectricFence => "Вы скончались в результате электротравмы",
