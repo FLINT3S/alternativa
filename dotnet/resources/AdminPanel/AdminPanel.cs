@@ -23,8 +23,8 @@ namespace AdminPanel
         
         // Список методов: https://www.notion.so/AdminPanel-6f674297202c477087e826165f60178f
 
-        [RemoteEvent(AdminPanelEvents.GetOnlineCharacterFromCef), NeedAdminRights(1)]
-        public void OnGetOnlineCharacterEvent(Player admin) => 
+        [RemoteEvent(AdminPanelEvents.GetOnlineCharactersFromCef), NeedAdminRights(1)]
+        public void OnGetOnlineCharactersEvent(Player admin) => 
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                     {
                         var characters = NAPI.Pools.GetActiveCharacters()
@@ -35,7 +35,7 @@ namespace AdminPanel
                             Formatting = Formatting.Indented
                         };
                         string jsonCharacters = JsonConvert.SerializeObject(characters, settings);
-                        CefConnect.TriggerRaw(admin, AdminPanelEvents.GetOnlineCharacterFromCef + "Answered", jsonCharacters);
+                        CefConnect.TriggerRaw(admin, AdminPanelEvents.GetOnlineCharactersFromCef + "Answered", jsonCharacters);
                     }
                 );
         

@@ -2,7 +2,7 @@
 {
     public static class AdminPanelEvents
     {
-        public const string GetOnlineCharacterFromCef = "CEF:SERVER:AdminPanel:GetOnlineCharacter";
+        public const string GetOnlineCharactersFromCef = "CEF:SERVER:AdminPanel:GetOnlineCharacters";
         
         public const string KillPlayerFromCef = "CEF:SERVER:AdminPanel:KillPlayer";
         
