@@ -52,19 +52,19 @@ namespace AdminPanel
                     var character = AltContext.GetCharacter(staticId);
                     var characterData = new
                     {
-                        Fullname = character.Fullname,
-                        Age = character.Age,
+                        character.Fullname,
+                        character.Age,
                         Ip = ((Player)character).Address,
                         Login = character.Account.Username,
-                        SocialClubId = character.Account.SocialClubId,
+                        character.Account.SocialClubId,
                         InGameTime = character.InGameSeconds,
                         AccountInGameTime = character.Account.Characters.Select(c => c.InGameSeconds).Sum(),
                         LastConnectionTime = character.Account.Connections.OrderByDescending(c => c.CreatedDate).First().ToString(),
                         CurrentPosition = ((Player)character).Position.ToString(),
-                        Health = ((Player)character).Health,
-                        Armor = ((Player)character).Armor,
-                        AdminLevel = ((Player)character).GetAccessLevels().AdminLevel,
-                        VipLevel = ((Player)character).GetAccessLevels().VipLevel
+                        ((Player)character).Health,
+                        ((Player)character).Armor,
+                        ((Player)character).GetAccessLevels().AdminLevel,
+                        ((Player)character).GetAccessLevels().VipLevel
                     };
                     var settings = new JsonSerializerSettings
                     {
