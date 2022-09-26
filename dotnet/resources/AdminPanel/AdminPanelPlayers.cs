@@ -39,6 +39,41 @@ namespace AdminPanel
                     };
                     string jsonCharacters = JsonConvert.SerializeObject(characters, settings);
                     CefConnect.TriggerRaw(admin, AdminPanelEvents.GetOnlineCharactersFromCef + "Answered", jsonCharacters);
+                    LogPlayer(admin, "GetOnlineCharacters", "Request players list");
+                }
+            );
+
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.GetCharacterMainInfoFromCef)]
+        public void OnGetCharacterMainInfoEvent(Player admin, long staticId) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                {
+                    var character = AltContext.GetCharacter(staticId);
+                    var characterData = new
+                    {
+                        Fullname = character.Fullname,
+                        Age = character.Age,
+                        Ip = ((Player)character).Address,
+                        Login = character.Account.Username,
+                        SocialClubId = character.Account.SocialClubId,
+                        InGameTime = character.InGameSeconds,
+                        AccountInGameTime = character.Account.Characters.Select(c => c.InGameSeconds).Sum(),
+                        LastConnectionTime = character.Account.Connections.OrderByDescending(c => c.CreatedDate).First().ToString(),
+                        CurrentPosition = ((Player)character).Position.ToString(),
+                        Health = ((Player)character).Health,
+                        Armor = ((Player)character).Armor,
+                        AdminLevel = ((Player)character).GetAccessLevels().AdminLevel,
+                        VipLevel = ((Player)character).GetAccessLevels().VipLevel
+                    };
+                    var settings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
+                        Formatting = Formatting.Indented
+                    };
+                    string jsonCharacter = JsonConvert.SerializeObject(characterData, settings);
+                    CefConnect.TriggerRaw(admin, AdminPanelEvents.GetCharacterMainInfoFromCef + "Answered", jsonCharacter);
+                    LogPlayer(admin, "GetCharacterMainInfo", $"Request player data with static ID {staticId}");
                 }
             );
 
