@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using AbstractResource.Attributes;
@@ -30,9 +29,7 @@ namespace AdminPanel
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
                     var characters = NAPI.Pools.GetActiveCharacters()
-                        .Select(character => new
-                            { character.StaticId, character.Fullname, character.InGameTime, character.Age }
-                        );
+                        .Select(character => new { character.StaticId, character.Fullname });
                     var settings = new JsonSerializerSettings
                     {
                         ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
