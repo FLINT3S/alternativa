@@ -25,7 +25,7 @@ namespace AbstractResource
 
         protected ClientConnect ClientConnect { get; }
 
-        private static bool PlayerHasAccessToMember(Player player, MemberInfo method)
+        protected static bool PlayerHasAccessToMember(Player player, MemberInfo method)
         {
             (int playerVipLevel, int playerAdminLevel) = player.GetAccessLevels();
             int methodVipLevel = method.GetCustomAttribute<NeedVipRightsAttribute>()?.Level ?? -1;
