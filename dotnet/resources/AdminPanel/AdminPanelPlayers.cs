@@ -61,7 +61,7 @@ namespace AdminPanel
                             .OrderByDescending(c => c.CreatedDate)
                             .First()
                             .CreatedDate
-                            .ToString(":dd.MM.yyyy HH:mm:ss"),
+                            .ToString("dd.MM.yyyy HH:mm:ss"),
                         CurrentPosition = ((Player)character).Position,
                         ((Player)character).Health,
                         ((Player)character).Armor,
