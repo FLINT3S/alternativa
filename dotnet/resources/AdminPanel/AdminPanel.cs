@@ -27,9 +27,9 @@ namespace AdminPanel
             CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered",
                 JsonConvert.SerializeObject(
                     GetType().GetMethods()
-                        .Where(m => m.GetCustomAttribute<NeedAdminRightsAttribute>() != null)
-                        .Where(m => PlayerHasAccessToMember(player, m))
-                        .Select(e => e.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString)
+                        .Where(method => method.GetCustomAttribute<NeedAdminRightsAttribute>() != null)
+                        .Where(method => PlayerHasAccessToMember(player, method))
+                        .Select(method => method.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString)
                 )
             );
 
@@ -39,7 +39,7 @@ namespace AdminPanel
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
                     var characters = NAPI.Pools.GetActiveCharacters()
-                        .Select(c => new { c.StaticId, c.Fullname, c.InGameTime, c.Age });
+                        .Select(character => new { character.StaticId, character.Fullname, character.InGameTime, character.Age });
                     var settings = new JsonSerializerSettings
                     {
                         ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
