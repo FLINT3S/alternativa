@@ -23,15 +23,15 @@ namespace AdminPanel
         #region Admin Events
 
         [RemoteEvent(AdminPanelEvents.GetAvailableMethodsFromCef)]
-        public void OnGetAvailableMethodsEvent(Player player)
-        {
-            var availableEvents = GetType().GetMethods()
-                .Where(m => m.GetCustomAttribute<NeedAdminRightsAttribute>() != null)
-                .Where(m => PlayerHasAccessToMember(player, m))
-                .Select(e => e.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString);
-            string jsonMethods = JsonConvert.SerializeObject(availableEvents);
-            CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered", jsonMethods);
-        }
+        public void OnGetAvailableMethodsEvent(Player player) =>
+            CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered",
+                JsonConvert.SerializeObject(
+                    GetType().GetMethods()
+                        .Where(m => m.GetCustomAttribute<NeedAdminRightsAttribute>() != null)
+                        .Where(m => PlayerHasAccessToMember(player, m))
+                        .Select(e => e.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString)
+                )
+            );
 
         [RemoteEvent(AdminPanelEvents.GetOnlineCharactersFromCef)]
         [NeedAdminRights(1)]
