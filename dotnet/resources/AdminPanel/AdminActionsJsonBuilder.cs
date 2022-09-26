@@ -23,10 +23,10 @@ namespace AdminPanel
                         Name = GetActionTitle(method.GetRemoteEventString()),
                         Command = GetActionCommand(method.GetRemoteEventString()),
                         Description = GetActionDescription(method.GetRemoteEventString()),
-                        Params = GetParams(method).Select(param => new
+                        Params = GetParams(method).Select(param => new 
                             {
-                                param.Type,
-                                param.Name,
+                                param.Type, 
+                                param.Name, 
                                 param.Description
                             }
                         )
