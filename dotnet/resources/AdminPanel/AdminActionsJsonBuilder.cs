@@ -86,12 +86,7 @@ namespace AdminPanel
         private static IEnumerable<(string Type, string Name, string Description)> GetParams(MethodInfo method) =>
             method.GetParameters()
                 .Where(parameter => parameter.ParameterType != typeof(Player))
-                .Select(parameter => (
-                    GetParamName(parameter), 
-                    GetParamType(parameter), 
-                    GetParamDescription(parameter)
-                    )
-                );
+                .Select(parameter => (GetParamType(parameter), GetParamName(parameter), GetParamDescription(parameter)));
 
         private static string GetParamName(ParameterInfo parameter) => parameter.Name! switch
         {

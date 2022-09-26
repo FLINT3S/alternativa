@@ -20,5 +20,14 @@
         <ProjectReference Include="..\AnimationManager\AnimationManager.csproj" />
         <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="AdminPanelEvents.cs">
+        <DependentUpon>AdminPanel.cs</DependentUpon>
+      </Compile>
+      <Compile Update="AdminEventType.cs">
+        <DependentUpon>AdminEventTypeAttribute.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>    
     
