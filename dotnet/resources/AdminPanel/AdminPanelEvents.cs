@@ -38,7 +38,7 @@
 
         public const string RepairCarFromCef = "CEF:SERVER:AdminPanel:RepairCar";
 
-        public const string GetWeaponFromCef = "CEF:SERVER:AdminPanel:GetWeapon";
+        public const string GiveWeaponFromCef = "CEF:SERVER:AdminPanel:GetWeapon";
 
         public const string RemoveWeaponFromCef = "CEF:SERVER:AdminPanel:RemoveWeapon";
     }
