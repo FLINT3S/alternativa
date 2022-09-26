@@ -22,7 +22,12 @@ namespace AdminPanel
                     Name = GetActionTitle(method.GetRemoteEventString()),
                     Command = GetActionCommand(method.GetRemoteEventString()),
                     Description = GetActionDescription(method.GetRemoteEventString()),
-                    Params = GetParams(method)
+                    Params = GetParams(method).Select(param => new
+                    {
+                        Type = param.Type,
+                        Name = param.Name,
+                        Description = param.Description
+                    })
                 }
             );
             var settings = new JsonSerializerSettings
@@ -62,7 +67,10 @@ namespace AdminPanel
 
         private static string GetActionCommand(string eventName) => eventName.Split(':')[^1];
 
-        private static string GetActionDescription(string eventName) => throw new NotImplementedException();
+        private static string GetActionDescription(string eventName) => eventName switch
+        {
+            _ => string.Empty
+        };
 
         private static IEnumerable<(string Type, string Name, string Description)> GetParams(MethodInfo method) =>
             method.GetParameters()
