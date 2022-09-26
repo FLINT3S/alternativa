@@ -1,9 +1,11 @@
 ﻿namespace AdminPanel
 {
-    internal static class AdminPanelPlayersEvents
+    internal static class AdminPanelEvents
     {
         public const string GetAvailablePlayersMethodsFromCef = "CEF:SERVER:AdminPanel:GetAvailablePlayersMethods";
 
+        #region Players Events
+        
         public const string GetOnlineCharactersFromCef = "CEF:SERVER:AdminPanel:GetOnlineCharacters";
 
         public const string KillPlayerFromCef = "CEF:SERVER:AdminPanel:KillPlayer";
@@ -41,5 +43,7 @@
         public const string GiveWeaponFromCef = "CEF:SERVER:AdminPanel:GetWeapon";
 
         public const string RemoveWeaponFromCef = "CEF:SERVER:AdminPanel:RemoveWeapon";
+
+        #endregion
     }
 }

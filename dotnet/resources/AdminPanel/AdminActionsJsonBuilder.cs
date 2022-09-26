@@ -9,25 +9,29 @@ using Newtonsoft.Json.Serialization;
 
 namespace AdminPanel
 {
-    internal static class AdminPlayersActionsJsonBuilder
+    internal static class AdminActionsJsonBuilder
     {
         public static string GetAdminActions(MethodInfo[] methods, Predicate<MethodInfo> hasAccess)
         {
             var adminsActions = methods
                 .GetAvailableEvents(hasAccess)
-                .Select(method => new
-                {
-                    Name = GetActionTitle(method.GetRemoteEventString()),
-                    Command = GetActionCommand(method.GetRemoteEventString()),
-                    Description = GetActionDescription(method.GetRemoteEventString()),
-                    Params = GetParams(method).Select(param => new
+                .GroupBy(method => method.GetAdminEventType())
+                .ToDictionary(
+                    key => key.Key,
+                    value => value.Select(method => new 
                     {
-                        Type = param.Type,
-                        Name = param.Name,
-                        Description = param.Description
-                    })
-                }
-            );
+                        Name = GetActionTitle(method.GetRemoteEventString()),
+                        Command = GetActionCommand(method.GetRemoteEventString()),
+                        Description = GetActionDescription(method.GetRemoteEventString()),
+                        Params = GetParams(method)
+                            .Select(param => new
+                                {
+                                    Type = param.Type, 
+                                    Name = param.Name, 
+                                    Description = param.Description
+                                }
+                        )
+                    }));
             var settings = new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
@@ -39,32 +43,36 @@ namespace AdminPanel
         private static IEnumerable<MethodInfo> GetAvailableEvents(this MethodInfo[] methods, Predicate<MethodInfo> hasAccess) => methods
             .Where(method => method.GetCustomAttribute<RemoteEventAttribute>() != null)
             .Where(method => method.GetCustomAttribute<NeedAdminRightsAttribute>() != null)
+            .Where(method => method.GetCustomAttribute<AdminEventTypeAttribute>() != null)
             .Where(method => hasAccess(method));
 
         private static string GetRemoteEventString(this MethodInfo method) =>
             method.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString;
 
+        private static string GetAdminEventType(this MethodInfo method) =>
+            method.GetCustomAttribute<AdminEventTypeAttribute>()!.Type;
+
         private static string GetActionTitle(string eventName) => eventName switch
         {
-            AdminPanelPlayersEvents.GetOnlineCharactersFromCef => "Получить персонажей в онлайн",
-            AdminPanelPlayersEvents.KillPlayerFromCef => "Убить игрока",
-            AdminPanelPlayersEvents.ResurrectPlayerFromCef => "Воскресить игрока",
-            AdminPanelPlayersEvents.SetPlayerHealthFromCef => "Установить здоровье игрока",
-            AdminPanelPlayersEvents.SetPlayerArmorFromCef => "Установить броню игрока",
-            AdminPanelPlayersEvents.TeleportPlayerHereFromCef => "Телепортировать игрока сюда",
-            AdminPanelPlayersEvents.TeleportToPlayerFromCef => "Телепортироваться к игроку",
-            AdminPanelPlayersEvents.TeleportPlayerToPointFromCef => "Телепортировать игрока в точку",
-            AdminPanelPlayersEvents.TeleportPlayerToLocationFromCef => "Телепортировать игрока в локацию",
-            AdminPanelPlayersEvents.ChangePlayerMoneyFromCef => "Изменить деньги игрока",
-            AdminPanelPlayersEvents.TemporaryBanPlayerFromCef => "Временно забанить игрока",
-            AdminPanelPlayersEvents.PermanentBanPlayerFromCef => "Насовсем забанить игрока",
-            AdminPanelPlayersEvents.MutePlayerFromCef => "Заглушить игрока",
-            AdminPanelPlayersEvents.GetPlayerStatsFromCef => "Получить данные об игроке",
-            AdminPanelPlayersEvents.SlapPlayerFromCef => "Остановить анимации/выкинуть из транспорта игрока",
-            AdminPanelPlayersEvents.GetPunishmentsFromCef => "Получить список наказаний игрока",
-            AdminPanelPlayersEvents.RepairCarFromCef => "Починить машину игроку",
-            AdminPanelPlayersEvents.GiveWeaponFromCef => "Выдать оружие игроку",
-            AdminPanelPlayersEvents.RemoveWeaponFromCef => "Отобрать оружие у игрока",
+            AdminPanelEvents.GetOnlineCharactersFromCef => "Получить персонажей в онлайн",
+            AdminPanelEvents.KillPlayerFromCef => "Убить игрока",
+            AdminPanelEvents.ResurrectPlayerFromCef => "Воскресить игрока",
+            AdminPanelEvents.SetPlayerHealthFromCef => "Установить здоровье игрока",
+            AdminPanelEvents.SetPlayerArmorFromCef => "Установить броню игрока",
+            AdminPanelEvents.TeleportPlayerHereFromCef => "Телепортировать игрока сюда",
+            AdminPanelEvents.TeleportToPlayerFromCef => "Телепортироваться к игроку",
+            AdminPanelEvents.TeleportPlayerToPointFromCef => "Телепортировать игрока в точку",
+            AdminPanelEvents.TeleportPlayerToLocationFromCef => "Телепортировать игрока в локацию",
+            AdminPanelEvents.ChangePlayerMoneyFromCef => "Изменить деньги игрока",
+            AdminPanelEvents.TemporaryBanPlayerFromCef => "Временно забанить игрока",
+            AdminPanelEvents.PermanentBanPlayerFromCef => "Насовсем забанить игрока",
+            AdminPanelEvents.MutePlayerFromCef => "Заглушить игрока",
+            AdminPanelEvents.GetPlayerStatsFromCef => "Получить данные об игроке",
+            AdminPanelEvents.SlapPlayerFromCef => "Остановить анимации/выкинуть из транспорта игрока",
+            AdminPanelEvents.GetPunishmentsFromCef => "Получить список наказаний игрока",
+            AdminPanelEvents.RepairCarFromCef => "Починить машину игроку",
+            AdminPanelEvents.GiveWeaponFromCef => "Выдать оружие игроку",
+            AdminPanelEvents.RemoveWeaponFromCef => "Отобрать оружие у игрока",
             _ => throw new ArgumentException("Unexpected method")
         };
 

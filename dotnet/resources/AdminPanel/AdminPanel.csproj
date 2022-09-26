@@ -20,17 +20,5 @@
         <ProjectReference Include="..\AnimationManager\AnimationManager.csproj" />
         <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="AdminPanelPlayersEvents.cs">
-        <DependentUpon>AdminPanelPlayers.cs</DependentUpon>
-      </Compile>
-      <Compile Update="AdminPlayersActionsJsonBuilder.cs">
-        <DependentUpon>AdminPanelPlayers.cs</DependentUpon>
-      </Compile>
-      <Compile Update="AdminPanelPlayers.cs">
-        <DependentUpon>AdminPanel.cs</DependentUpon>
-      </Compile>
-    </ItemGroup>
 </Project>    
     
