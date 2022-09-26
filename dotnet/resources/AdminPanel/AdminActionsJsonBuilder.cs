@@ -23,13 +23,12 @@ namespace AdminPanel
                         Name = GetActionTitle(method.GetRemoteEventString()),
                         Command = GetActionCommand(method.GetRemoteEventString()),
                         Description = GetActionDescription(method.GetRemoteEventString()),
-                        Params = GetParams(method)
-                            .Select(param => new
-                                {
-                                    Type = param.Type, 
-                                    Name = param.Name, 
-                                    Description = param.Description
-                                }
+                        Params = GetParams(method).Select(param => new
+                            {
+                                Type = param.Type, 
+                                Name = param.Name, 
+                                Description = param.Description
+                            }
                         )
                     }));
             var settings = new JsonSerializerSettings
