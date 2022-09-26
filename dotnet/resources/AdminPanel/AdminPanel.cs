@@ -25,7 +25,6 @@ namespace AdminPanel
         [RemoteEvent(AdminPanelEvents.GetAvailableMethodsFromCef)]
         public void OnGetAvailableMethodsEvent(Player player)
         {
-            int adminLevel = player.GetAccessLevels().AdminLevel;
             var availableEvents = GetType().GetMethods()
                 .Where(m => m.GetCustomAttribute<NeedAdminRightsAttribute>() != null)
                 .Where(m => PlayerHasAccessToMember(player, m))
