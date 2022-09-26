@@ -20,6 +20,9 @@ namespace Database.Models
             .Select(c => c.InGameTime)
             .Aggregate((t1, t2) => t1 + t2);
 
+        [NotMapped]
+        public DateTime LastConnectionTime => Connections.OrderByDescending(c => c.CreatedDate).First().CreatedDate;
+
         #region Characters
 
         public bool CanCreateCharacter() => Characters.Count > 3;
