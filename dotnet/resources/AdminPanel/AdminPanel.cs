@@ -20,18 +20,13 @@ namespace AdminPanel
             CefConnect.Trigger(player, "onOpenOverlay");
         }
 
-        #region Admin Events
-
         [RemoteEvent(AdminPanelEvents.GetAvailableMethodsFromCef)]
         public void OnGetAvailableMethodsEvent(Player player) =>
             CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered",
-                JsonConvert.SerializeObject(
-                    GetType().GetMethods()
-                        .Where(method => method.GetCustomAttribute<NeedAdminRightsAttribute>() != null)
-                        .Where(method => PlayerHasAccessToMember(player, method))
-                        .Select(method => method.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString)
-                )
-            );
+                AdminActionJsonBuilder.GetAdminAction(
+                    GetType().GetMethods(), 
+                    method => PlayerHasAccessToMember(player, method))
+                );
 
         [RemoteEvent(AdminPanelEvents.GetOnlineCharactersFromCef)]
         [NeedAdminRights(1)]
@@ -50,8 +45,7 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.KillPlayerFromCef)]
-        [NeedAdminRights(1)]
+        [RemoteEvent(AdminPanelEvents.KillPlayerFromCef), NeedAdminRights(1)]
         public void OnKillPlayerEvent(Player admin, long? staticId = null) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -251,7 +245,5 @@ namespace AdminPanel
                 MethodBase.GetCurrentMethod()!,
                 () => throw new NotImplementedException()
             );
-
-        #endregion
     }
 }
