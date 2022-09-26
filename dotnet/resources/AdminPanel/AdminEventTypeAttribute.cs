@@ -2,6 +2,7 @@
 
 namespace AdminPanel
 {
+    [AttributeUsage(AttributeTargets.Method)]
     internal class AdminEventTypeAttribute : Attribute
     {
         public string Type { get; }
