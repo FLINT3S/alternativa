@@ -47,6 +47,8 @@ namespace Database
                 .Characters
                 .Include(c => c.Account)
                 .ThenInclude(a => a.Connections)
+                .Include(c => c.Account)
+                .ThenInclude(a => a.Characters)
                 .Include(c => c.Appearance)
                 .Include(c => c.Finances)
                 .Include(c => c.SpawnData)
