@@ -54,6 +54,7 @@ namespace AdminPanel
         private static string GetActionTitle(string eventName) => eventName switch
         {
             AdminPanelEvents.GetOnlineCharactersFromCef => "Получить персонажей в онлайн",
+            AdminPanelEvents.GetCharacterMainInfoFromCef => "Получить подробную информацию об игроке",
             AdminPanelEvents.KillPlayerFromCef => "Убить игрока",
             AdminPanelEvents.ResurrectPlayerFromCef => "Воскресить игрока",
             AdminPanelEvents.SetPlayerHealthFromCef => "Установить здоровье игрока",

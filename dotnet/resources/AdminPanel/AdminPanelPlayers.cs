@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using AbstractResource.Attributes;
@@ -59,8 +60,8 @@ namespace AdminPanel
                         character.Account.SocialClubId,
                         InGameTime = character.InGameSeconds,
                         AccountInGameTime = character.Account.Characters.Select(c => c.InGameSeconds).Sum(),
-                        LastConnectionTime = character.Account.Connections.OrderByDescending(c => c.CreatedDate).First().ToString(),
-                        CurrentPosition = ((Player)character).Position.ToString(),
+                        LastConnectionTime = character.Account.Connections.OrderByDescending(c => c.CreatedDate).First().CreatedDate.ToString(CultureInfo.InvariantCulture),
+                        CurrentPosition = ((Player)character).Position,
                         ((Player)character).Health,
                         ((Player)character).Armor,
                         ((Player)character).GetAccessLevels().AdminLevel,
