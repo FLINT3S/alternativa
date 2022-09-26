@@ -60,7 +60,11 @@ namespace AdminPanel
                         character.Account.SocialClubId,
                         InGameTime = character.InGameSeconds,
                         AccountInGameTime = character.Account.Characters.Select(c => c.InGameSeconds).Sum(),
-                        LastConnectionTime = character.Account.Connections.OrderByDescending(c => c.CreatedDate).First().CreatedDate.ToString(CultureInfo.InvariantCulture),
+                        LastConnectionTime = character.Account.Connections
+                            .OrderByDescending(c => c.CreatedDate)
+                            .First()
+                            .CreatedDate
+                            .ToString(":dd.MM.yyyy HH:mm:ss"),
                         CurrentPosition = ((Player)character).Position,
                         ((Player)character).Health,
                         ((Player)character).Armor,
