@@ -25,9 +25,9 @@ namespace AdminPanel
                         Description = GetActionDescription(method.GetRemoteEventString()),
                         Params = GetParams(method).Select(param => new
                             {
-                                Type = param.Type, 
-                                Name = param.Name, 
-                                Description = param.Description
+                                param.Type,
+                                param.Name,
+                                param.Description
                             }
                         )
                     }));
