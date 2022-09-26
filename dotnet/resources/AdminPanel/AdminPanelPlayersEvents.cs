@@ -1,8 +1,8 @@
 ﻿namespace AdminPanel
 {
-    public static class AdminPanelEvents
+    internal static class AdminPanelPlayersEvents
     {
-        public const string GetAvailableMethodsFromCef = "CEF:SERVER:AdminPanel:GetAvailableMethods";
+        public const string GetAvailablePlayersMethodsFromCef = "CEF:SERVER:AdminPanel:GetAvailablePlayersMethods";
 
         public const string GetOnlineCharactersFromCef = "CEF:SERVER:AdminPanel:GetOnlineCharacters";
 

@@ -22,9 +22,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="AdminPanelEvents.cs">
-            <DependentUpon>AdminPanel.cs</DependentUpon>
-        </Compile>
+      <Compile Update="AdminPanelPlayersEvents.cs">
+        <DependentUpon>AdminPanelPlayers.cs</DependentUpon>
+      </Compile>
+      <Compile Update="AdminPlayersActionsJsonBuilder.cs">
+        <DependentUpon>AdminPanelPlayers.cs</DependentUpon>
+      </Compile>
+      <Compile Update="AdminPanelPlayers.cs">
+        <DependentUpon>AdminPanel.cs</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>    
     
