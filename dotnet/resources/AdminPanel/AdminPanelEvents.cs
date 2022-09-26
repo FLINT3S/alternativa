@@ -2,7 +2,7 @@
 {
     internal static class AdminPanelEvents
     {
-        public const string GetAvailablePlayersMethodsFromCef = "CEF:SERVER:AdminPanel:GetAvailablePlayersMethods";
+        public const string GetAvailableMethodsFromCef = "CEF:SERVER:AdminPanel:GetAvailableMethods";
 
         #region Players Events
         

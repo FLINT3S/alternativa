@@ -13,9 +13,9 @@ namespace AdminPanel
 {
     public partial class AdminPanel
     {
-        [RemoteEvent(AdminPanelEvents.GetAvailablePlayersMethodsFromCef)]
-        public void OnGetAvailablePlayersMethodsEvent(Player player) =>
-            CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailablePlayersMethodsFromCef + "Answered",
+        [RemoteEvent(AdminPanelEvents.GetAvailableMethodsFromCef)]
+        public void OnGetAvailableMethodsEvent(Player player) =>
+            CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered",
                 AdminActionsJsonBuilder.GetAdminActions(
                     GetType().GetMethods(),
                     method => PlayerHasAccessToMember(player, method)
