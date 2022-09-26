@@ -21,6 +21,11 @@
 import {NCard, NTabPane, NTabs} from 'naive-ui'
 import AdminIndex from "@/module/admin-panel/views/AdminIndex.vue";
 import AdminPlayers from "@/module/admin-panel/views/AdminPlayers.vue";
+import {useAdminStore} from "@/store/adminPanel";
+
+const {initAdminPanel} = useAdminStore()
+
+initAdminPanel()
 </script>
 
 <style scoped>

@@ -12,23 +12,25 @@
 
           <n-menu
               :options="onlineCharactersList"
+              :render-extra="renderExtraCharacterSelect"
               key-field="staticId"
               label-field="fullname"
               @update:value="onSelectCharacter"
           />
-          <!--          <n-list clickable hoverable>-->
-          <!--            <character-cell v-for="character in onlineCharactersList" :static-id="character.staticId"-->
-          <!--                            @click="onSelectCharacter(character)">-->
-          <!--              {{ character.fullName }}-->
-          <!--            </character-cell>-->
-          <!--          </n-list>-->
         </n-scrollbar>
       </n-layout-sider>
       <n-layout>
         <n-scrollbar style="max-height: 100%">
-          <n-list>
-            <admin-action v-for="action in adminActionsStore" :action-descriptor="action"></admin-action>
+          <n-list v-if="selectedCharacter">
+            <admin-action v-for="action in availableMethods.players" :action-descriptor="action"></admin-action>
           </n-list>
+          <n-result
+              v-else
+              description="Чтобы продолжить, выбери игрока из списка слева"
+              status="info"
+              style="margin-top: 24px"
+              title="Игрок не выбран"
+          />
         </n-scrollbar>
       </n-layout>
     </n-layout>
@@ -36,22 +38,34 @@
 </template>
 
 <script lang="ts" setup>
-import {NDivider, NInput, NLayout, NLayoutSider, NList, NMenu, NScrollbar} from 'naive-ui'
+import {NDivider, NInput, NLayout, NLayoutSider, NList, NMenu, NResult, NScrollbar} from 'naive-ui'
 import {useAdminStore} from "@/store/adminPanel";
 import {storeToRefs} from "pinia";
+import {createElementVNode} from "vue";
+import {AdministrateCharacter} from "@/module/admin-panel/data/AdministrateCharacter";
 import AdminAction from "@/module/admin-panel/components/AdminAction.vue";
-import {adminActionsStore} from "@/module/admin-panel/data/AdminActions";
 
-const {altMpAdmin, onlineCharactersList, onlineCharactersListFilter, fullOnlineCharactersList} = storeToRefs(useAdminStore())
+const {
+  altMpAdmin,
+  onlineCharactersList,
+  onlineCharactersListFilter,
+  selectedCharacter,
+  availableMethods
+} = storeToRefs(useAdminStore())
 
-altMpAdmin.value.triggerServerWithAnswerPending("GetOnlineCharacters").then(([data]) => {
-  // @ts-ignore
-  fullOnlineCharactersList.value = JSON.stringify(data)
-  console.log(data)
-})
+const renderExtraCharacterSelect = (option: any) => {
+  return createElementVNode('span', {
+    style: {
+      color: 'var(--text-color-secondary)',
+      fontSize: '12px',
+      marginLeft: '8px'
+    }
+  }, `[${option.staticId}]`)
+}
 
-const onSelectCharacter = (character: any) => {
-  console.log(character)
+const onSelectCharacter = (characterStaticId: number) => {
+  selectedCharacter.value = new AdministrateCharacter(altMpAdmin.value, characterStaticId)
+  selectedCharacter.value.load()
 }
 </script>
 

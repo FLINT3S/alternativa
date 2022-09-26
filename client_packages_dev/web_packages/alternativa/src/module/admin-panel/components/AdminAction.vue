@@ -40,12 +40,12 @@
 
 <script lang="ts" setup>
 import {NButton, NIcon, NInput, NListItem, NThing, NInputNumber, NText} from 'naive-ui'
-import type {AdminActionDescriptor} from "@/module/admin-panel/data/AdminActionDescriptor";
+import type {AdminMethodDescriptor} from "@/module/admin-panel/data/AdminMethodDescriptor";
 import {ref} from "vue";
 import type {Ref} from "vue";
 
-const {actionDescriptor} = defineProps<{ actionDescriptor: AdminActionDescriptor }>()
-
+const {actionDescriptor} = defineProps<{ actionDescriptor: AdminMethodDescriptor }>()
+console.log(actionDescriptor)
 const params: Ref<Array<any>> = ref(actionDescriptor.params.map(param => ''))
 
 const onExecute = () => {
