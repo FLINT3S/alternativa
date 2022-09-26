@@ -2,13 +2,10 @@
 
 namespace AdminPanel
 {
-    public class AdminEventTypeAttribute : Attribute
+    internal class AdminEventTypeAttribute : Attribute
     {
         public string Type { get; }
 
-        public AdminEventTypeAttribute(string type)
-        {
-            Type = type;
-        }
+        public AdminEventTypeAttribute(string type) => Type = type;
     }
 }

@@ -22,7 +22,9 @@ namespace AdminPanel
                 )
             );
         
-        [RemoteEvent(AdminPanelEvents.GetOnlineCharactersFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.GetOnlineCharactersFromCef)]
         public void OnGetOnlineCharactersEvent(Player admin) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -40,7 +42,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.KillPlayerFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.KillPlayerFromCef)]
         public void OnKillPlayerEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -50,7 +54,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.ResurrectPlayerFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.ResurrectPlayerFromCef)]
         public void OnResurrectPlayerEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -60,7 +66,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.SetPlayerHealthFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.SetPlayerHealthFromCef)]
         public void OnSetPlayerHealthEvent(Player admin, long staticId, int health = 100) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -70,7 +78,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.SetPlayerArmorFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.SetPlayerArmorFromCef)]
         public void OnSetPlayerArmorEvent(Player admin, long staticId, int armor = 100) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -80,7 +90,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.TeleportPlayerHereFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.TeleportPlayerHereFromCef)]
         public void OnTeleportPlayerHereEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -90,7 +102,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.TeleportToPlayerFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.TeleportToPlayerFromCef)]
         public void OnTeleportToPlayerEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -100,7 +114,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.TeleportPlayerToPointFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.TeleportPlayerToPointFromCef)]
         public void OnTeleportPlayerToPointEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(
                 admin,
@@ -108,7 +124,9 @@ namespace AdminPanel
                 () => throw new NotImplementedException()
             );
 
-        [RemoteEvent(AdminPanelEvents.TeleportPlayerToLocationFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.TeleportPlayerToLocationFromCef)]
         public void OnTeleportPlayerToLocationEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(
                 admin,
@@ -117,7 +135,9 @@ namespace AdminPanel
             );
 
         // TODO: Метод называется change, но деньги добавляет
-        [RemoteEvent(AdminPanelEvents.ChangePlayerMoneyFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.ChangePlayerMoneyFromCef)] 
         public void OnChangePlayerMoneyEvent(Player admin, long staticId, long sum) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -127,7 +147,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.TemporaryBanPlayerFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.TemporaryBanPlayerFromCef)]
         public void OnTemporaryBanPlayerEvent(Player admin, long staticId, int reason, long seconds = 0,
             string? message = null) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
@@ -142,7 +164,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.PermanentBanPlayerFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.PermanentBanPlayerFromCef)]
         public void OnPermanentBanPlayerEvent(Player admin, long staticId, int reason, string? message = null) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -156,15 +180,19 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.MutePlayerFromCef), NeedAdminRights(1), AdminEventType("Player")]
-        public void OnMutePlayerEvent(Player admin, long staticId) =>
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.MutePlayerFromCef)]
+         public void OnMutePlayerEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(
                 admin,
                 MethodBase.GetCurrentMethod()!,
                 () => throw new NotImplementedException()
             );
 
-        [RemoteEvent(AdminPanelEvents.GetPlayerStatsFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.GetPlayerStatsFromCef)]
         public void OnGetPlayerStatsEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(
                 admin,
@@ -172,7 +200,9 @@ namespace AdminPanel
                 () => throw new NotImplementedException()
             );
 
-        [RemoteEvent(AdminPanelEvents.SlapPlayerFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.SlapPlayerFromCef)]
         public void OnSlapPlayerEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -188,7 +218,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.GetPunishmentsFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.GetPunishmentsFromCef)]
         public void OnGetPunishmentsEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(
                 admin,
@@ -196,7 +228,9 @@ namespace AdminPanel
                 () => throw new NotImplementedException()
             );
 
-        [RemoteEvent(AdminPanelEvents.RepairCarFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.RepairCarFromCef)]
         public void OnRepairCarEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -206,7 +240,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.GiveWeaponFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.GiveWeaponFromCef)]
         public void OnGetWeaponEvent(Player admin, long staticId, ulong weapon, int weaponAmmo = 5) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -215,7 +251,9 @@ namespace AdminPanel
                 }
             );
 
-        [RemoteEvent(AdminPanelEvents.RemoveWeaponFromCef), NeedAdminRights(1), AdminEventType("Player")]
+        [NeedAdminRights(1)]
+        [AdminEventType(AdminEventType.Player)]
+        [RemoteEvent(AdminPanelEvents.RemoveWeaponFromCef)]
         public void OnRemoveWeaponEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(
                 admin,
