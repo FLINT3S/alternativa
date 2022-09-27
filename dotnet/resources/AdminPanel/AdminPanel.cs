@@ -20,29 +20,30 @@ namespace AdminPanel
             CefConnect.Trigger(player, "onOpenOverlay");
         
         [RemoteEvent(AdminPanelEvents.GetAvailableMethodsFromCef)]
-        public void OnGetAvailableMethodsEvent(Player player) =>
-            CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered",
-                AdminActionsJsonBuilder.GetAdminActions(
-                    GetType().GetMethods(),
-                    method => PlayerHasAccessToMember(player, method)
-                )
+        public void OnGetAvailableMethodsEvent(Player player)
+        {
+            string actionsJson = AdminActionsJsonBuilder.GetAdminActions(
+                GetType().GetMethods(),
+                method => PlayerHasAccessToMember(player, method)
             );
-        
+            CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered", actionsJson);
+        }
+
         [NeedAdminRights(1)]
         [AdminEventType(AdminEventType.PlayerCommonMethods)]
         [RemoteEvent(AdminPanelEvents.GetOnlineCharactersFromCef)]
         public void OnGetOnlineCharactersEvent(Player admin) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
-                    var characters = NAPI.Pools.GetActiveCharacters()
+                    var simplifiedCharactersData = NAPI.Pools.GetActiveCharacters()
                         .Select(character => new { character.StaticId, character.Fullname });
                     var settings = new JsonSerializerSettings
                     {
                         ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
                         Formatting = Formatting.Indented
                     };
-                    string jsonCharacters = JsonConvert.SerializeObject(characters, settings);
-                    CefConnect.TriggerRaw(admin, AdminPanelEvents.GetOnlineCharactersFromCef + "Answered", jsonCharacters);
+                    string charactersJson = JsonConvert.SerializeObject(simplifiedCharactersData, settings);
+                    CefConnect.TriggerRaw(admin, AdminPanelEvents.GetOnlineCharactersFromCef + "Answered", charactersJson);
                     LogPlayer(admin, "GetOnlineCharacters", "Request players list");
                 }
             );
