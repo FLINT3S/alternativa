@@ -15,7 +15,7 @@ namespace AdminPanel.JsonBuilder
         {
             var adminsActions = methods
                 .GetAvailableEvents(hasAccess)
-                .GroupBy(method => method.GetAdminEventType())
+                .GroupBy(method => method.GetEventCategories())
                 .GroupBy(group => group.Key.Split(':')[0])
                 .ToDictionary(
                     group => group.Key,
@@ -23,9 +23,9 @@ namespace AdminPanel.JsonBuilder
                         category => category.Key.Split(':')[1],
                         category => category.Select(method => new 
                         {
-                            Name = GetActionTitle(method.GetRemoteEventString()),
-                            Command = GetActionCommand(method.GetRemoteEventString()),
-                            Description = GetActionDescription(method.GetRemoteEventString()),
+                            Name = GetActionName(method.GetEventString()),
+                            Command = GetActionCommand(method.GetEventString()),
+                            Description = GetActionDescription(method.GetEventString()),
                             Params = GetParams(method).Select(param => new 
                                 {
                                     param.Type, 
@@ -48,13 +48,13 @@ namespace AdminPanel.JsonBuilder
             .Where(method => method.GetCustomAttribute<AdminEventTypeAttribute>() != null)
             .Where(method => hasAccess(method));
 
-        private static string GetRemoteEventString(this MethodInfo method) =>
+        private static string GetEventString(this MethodInfo method) =>
             method.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString;
 
-        private static string GetAdminEventType(this MethodInfo method) =>
+        private static string GetEventCategories(this MethodInfo method) =>
             method.GetCustomAttribute<AdminEventTypeAttribute>()!.Type;
 
-        private static string GetActionTitle(string eventName) => eventName switch
+        private static string GetActionName(string eventName) => eventName switch
         {
             AdminPanelEvents.GetOnlineCharactersFromCef => "Получить персонажей в онлайн",
             AdminPanelEvents.GetCharacterMainInfoFromCef => "Получить подробную информацию об игроке",
@@ -91,18 +91,6 @@ namespace AdminPanel.JsonBuilder
                 .Where(parameter => parameter.ParameterType != typeof(Player))
                 .Select(parameter => (GetParamType(parameter), GetParamName(parameter), GetParamDescription(parameter)));
 
-        private static string GetParamName(ParameterInfo parameter) => parameter.Name! switch
-        {
-            "staticId" => "Статический ID игрока",
-            "reason" => "Причина",
-            "message" => "Сообщение",
-            "seconds" => "Число секунд",
-            "sum" => "Сумма",
-            "weapon" => "Оружие",
-            "weaponAmmo" => "Число снарядов",
-            _ => "Unnamed parameter"
-        };
-
         private static string GetParamType(ParameterInfo parameter) => parameter.ParameterType.Name switch
         {
             "Int16" => "number",
@@ -114,6 +102,18 @@ namespace AdminPanel.JsonBuilder
             "String" => "string",
             _ when parameter.ParameterType.IsEnum => "number",
             _ => "any"
+        };
+
+        private static string GetParamName(ParameterInfo parameter) => parameter.Name! switch
+        {
+            "staticId" => "Статический ID игрока",
+            "reason" => "Причина",
+            "message" => "Сообщение",
+            "seconds" => "Число секунд",
+            "sum" => "Сумма",
+            "weapon" => "Оружие",
+            "weaponAmmo" => "Число снарядов",
+            _ => "Unnamed parameter"
         };
 
         private static string GetParamDescription(ParameterInfo parameter) => parameter.Name! switch
