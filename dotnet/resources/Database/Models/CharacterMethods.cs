@@ -76,12 +76,6 @@ namespace Database.Models
             UpdateInContext();
         }
 
-        public void OnRespawn()
-        {
-            SpawnData.OnRespawn();
-            UpdateInContext();
-        }
-
         #endregion
     }
 }
