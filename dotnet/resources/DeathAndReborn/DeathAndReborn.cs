@@ -80,8 +80,7 @@ namespace DeathAndReborn
 
         private void DecreaseTimeToReborn()
         {
-            List<Character> deadCharacters =
-                NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
+            var deadCharacters = NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
             foreach (var deadCharacter in deadCharacters)
             {
                 deadCharacter.DecreaseTimeToReborn(TimeSpan.FromSeconds(1));
