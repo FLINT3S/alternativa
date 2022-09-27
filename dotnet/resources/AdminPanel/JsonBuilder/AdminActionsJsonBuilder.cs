@@ -16,21 +16,24 @@ namespace AdminPanel.JsonBuilder
             var adminsActions = methods
                 .GetAvailableEvents(hasAccess)
                 .GroupBy(method => method.GetAdminEventType())
+                .GroupBy(group => group.Key.Split(':')[0])
                 .ToDictionary(
-                    key => key.Key,
-                    value => value.Select(method => new 
-                    {
-                        Name = GetActionTitle(method.GetRemoteEventString()),
-                        Command = GetActionCommand(method.GetRemoteEventString()),
-                        Description = GetActionDescription(method.GetRemoteEventString()),
-                        Params = GetParams(method).Select(param => new 
-                            {
-                                param.Type, 
-                                param.Name, 
-                                param.Description
-                            }
-                        )
-                    }));
+                    group => group.Key,
+                    group => group.ToDictionary(
+                        category => category.Key.Split(':')[1],
+                        category => category.Select(method => new 
+                        {
+                            Name = GetActionTitle(method.GetRemoteEventString()),
+                            Command = GetActionCommand(method.GetRemoteEventString()),
+                            Description = GetActionDescription(method.GetRemoteEventString()),
+                            Params = GetParams(method).Select(param => new 
+                                {
+                                    param.Type, 
+                                    param.Name, 
+                                    param.Description
+                                }
+                            )
+                        })));
             var settings = new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
