@@ -33,7 +33,7 @@ namespace AdminPanel.JsonBuilder
                                     param.Description
                                 }
                             ),
-                            ReturnsValue = method.IsReturnValue()
+                            ReturnsValue = method.IsReturnsValue()
                         })));
             var settings = new JsonSerializerSettings
             {
@@ -55,8 +55,8 @@ namespace AdminPanel.JsonBuilder
         private static string GetEventCategories(this MemberInfo method) =>
             method.GetCustomAttribute<AdminPanelMethodAttribute>()!.Category;
         
-        private static bool IsReturnValue(this MemberInfo method) => 
-            method.GetCustomAttribute<AdminPanelMethodAttribute>()!.IsReturnValue;
+        private static bool IsReturnsValue(this MemberInfo method) => 
+            method.GetCustomAttribute<AdminPanelMethodAttribute>()!.IsReturnsValue;
 
         private static string GetActionName(string eventName) => eventName switch
         {

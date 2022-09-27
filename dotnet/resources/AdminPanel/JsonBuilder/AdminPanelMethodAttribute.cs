@@ -7,12 +7,12 @@ namespace AdminPanel.JsonBuilder
     {
         public string Category { get; }
 
-        public bool IsReturnValue { get; }
+        public bool IsReturnsValue { get; }
 
-        public AdminPanelMethodAttribute(string category, bool isReturnValue = false)
+        public AdminPanelMethodAttribute(string category, bool isReturnsValue = false)
         {
             Category = category;
-            IsReturnValue = isReturnValue;
+            IsReturnsValue = isReturnsValue;
         }
     }
 }
