@@ -5,11 +5,11 @@ namespace AdminPanel.JsonBuilder
     [AttributeUsage(AttributeTargets.Method)]
     internal class AdminEventTypeAttribute : Attribute
     {
-        public string Type { get; }
+        public string Category { get; }
 
-        public AdminEventTypeAttribute(string type)
+        public AdminEventTypeAttribute(string category)
         {
-            Type = type;
+            Category = category;
         }
     }
 }

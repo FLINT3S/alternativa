@@ -52,7 +52,7 @@ namespace AdminPanel.JsonBuilder
             method.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString;
 
         private static string GetEventCategories(this MethodInfo method) =>
-            method.GetCustomAttribute<AdminEventTypeAttribute>()!.Type;
+            method.GetCustomAttribute<AdminEventTypeAttribute>()!.Category;
 
         private static string GetActionName(string eventName) => eventName switch
         {
