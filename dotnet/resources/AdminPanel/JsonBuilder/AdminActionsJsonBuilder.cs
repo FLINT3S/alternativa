@@ -7,7 +7,7 @@ using GTANetworkAPI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace AdminPanel
+namespace AdminPanel.JsonBuilder
 {
     internal static class AdminActionsJsonBuilder
     {
