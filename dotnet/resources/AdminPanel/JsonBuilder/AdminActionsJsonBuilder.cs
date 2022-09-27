@@ -32,7 +32,8 @@ namespace AdminPanel.JsonBuilder
                                     param.Name, 
                                     param.Description
                                 }
-                            )
+                            ),
+                            ReturnsValue = method.IsReturnValue()
                         })));
             var settings = new JsonSerializerSettings
             {
@@ -42,17 +43,20 @@ namespace AdminPanel.JsonBuilder
             return JsonConvert.SerializeObject(adminsActions, settings);
         }
 
-        private static IEnumerable<MethodInfo> GetAvailableEvents(this MethodInfo[] methods, Predicate<MethodInfo> hasAccess) => methods
+        private static IEnumerable<MethodInfo> GetAvailableEvents(this IEnumerable<MethodInfo> methods, Predicate<MethodInfo> hasAccess) => methods
             .Where(method => method.GetCustomAttribute<RemoteEventAttribute>() != null)
             .Where(method => method.GetCustomAttribute<NeedAdminRightsAttribute>() != null)
-            .Where(method => method.GetCustomAttribute<AdminEventTypeAttribute>() != null)
+            .Where(method => method.GetCustomAttribute<AdminPanelMethodAttribute>() != null)
             .Where(method => hasAccess(method));
 
-        private static string GetEventString(this MethodInfo method) =>
+        private static string GetEventString(this MemberInfo method) =>
             method.GetCustomAttribute<RemoteEventAttribute>()!.RemoteEventString;
 
-        private static string GetEventCategories(this MethodInfo method) =>
-            method.GetCustomAttribute<AdminEventTypeAttribute>()!.Category;
+        private static string GetEventCategories(this MemberInfo method) =>
+            method.GetCustomAttribute<AdminPanelMethodAttribute>()!.Category;
+        
+        private static bool IsReturnValue(this MemberInfo method) => 
+            method.GetCustomAttribute<AdminPanelMethodAttribute>()!.IsReturnValue;
 
         private static string GetActionName(string eventName) => eventName switch
         {
@@ -86,7 +90,7 @@ namespace AdminPanel.JsonBuilder
             _ => string.Empty
         };
 
-        private static IEnumerable<(string Type, string Name, string Description)> GetParams(MethodInfo method) =>
+        private static IEnumerable<(string Type, string Name, string Description)> GetParams(MethodBase method) =>
             method.GetParameters()
                 .Where(parameter => parameter.ParameterType != typeof(Player))
                 .Select(parameter => (GetParamType(parameter), GetParamName(parameter), GetParamDescription(parameter)));
