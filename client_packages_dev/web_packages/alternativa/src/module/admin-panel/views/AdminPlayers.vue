@@ -19,11 +19,12 @@
           />
         </n-scrollbar>
       </n-layout-sider>
-      <n-layout>
+      <n-layout-content style="padding: 0 12px!important;">
         <n-scrollbar style="max-height: 100%">
-          <n-list v-if="selectedCharacter">
-            <admin-action v-for="action in availableMethods.players" :action-descriptor="action"></admin-action>
-          </n-list>
+          <character-main-info />
+          <div v-if="selectedCharacter" class="mt-15">
+            <admin-methods-list :available-methods="availablePlayersMethods"/>
+          </div>
           <n-result
               v-else
               description="Чтобы продолжить, выбери игрока из списка слева"
@@ -32,26 +33,38 @@
               title="Игрок не выбран"
           />
         </n-scrollbar>
-      </n-layout>
+      </n-layout-content>
     </n-layout>
+    <n-modal :show="eventResult !== null" closable mask-closable @update:show="() => eventResult = null">
+      <n-card style="width: 670px" title="Результат выполнения">
+        <n-code>
+          {{ eventResult }}
+        </n-code>
+      </n-card>
+    </n-modal>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {NDivider, NInput, NLayout, NLayoutSider, NList, NMenu, NResult, NScrollbar} from 'naive-ui'
+import {NDivider, NInput, NLayout, NLayoutContent, NLayoutSider, NMenu, NModal, NResult, NScrollbar, NCard, NCode} from 'naive-ui'
 import {useAdminStore} from "@/store/adminPanel";
 import {storeToRefs} from "pinia";
 import {createElementVNode} from "vue";
 import {AdministrateCharacter} from "@/module/admin-panel/data/AdministrateCharacter";
-import AdminAction from "@/module/admin-panel/components/AdminAction.vue";
+import AdminMethodsList from "@/module/admin-panel/components/AdminMethodsList.vue";
+import {useAdminPlayersStore} from "@/store/adminPanelPlayers";
+import CharacterMainInfo from "@/module/admin-panel/components/CharacterMainInfo.vue";
 
 const {
-  altMpAdmin,
   onlineCharactersList,
   onlineCharactersListFilter,
   selectedCharacter,
-  availableMethods
-} = storeToRefs(useAdminStore())
+  availablePlayersMethods,
+  eventResult
+} = storeToRefs(useAdminPlayersStore())
+
+const {altMpAdmin} = storeToRefs(useAdminStore())
+
 
 const renderExtraCharacterSelect = (option: any) => {
   return createElementVNode('span', {
@@ -66,7 +79,32 @@ const renderExtraCharacterSelect = (option: any) => {
 const onSelectCharacter = (characterStaticId: number) => {
   selectedCharacter.value = new AdministrateCharacter(altMpAdmin.value, characterStaticId)
   selectedCharacter.value.load()
+
+  // const mockChar = {
+  //   "fullname": "123 543",
+  //   "age": 12,
+  //   "ip": "127.0.0.1",
+  //   "login": "1234",
+  //   "socialClubId": 65820166,
+  //   "inGameTime": 23520,
+  //   "accountInGameTime": 23520,
+  //   "lastConnectionTime": 1664301060,
+  //   "currentPosition": {
+  //     "x": 243.49316,
+  //     "y": -1459.7046,
+  //     "z": 29.334793
+  //   },
+  //   "health": 100,
+  //   "armor": 0,
+  //   "adminLevel": 10,
+  //   "vipLevel": 0
+  // }
+  // Object.assign(selectedCharacter.value, mockChar)
 }
+
+
+const {loadOnlineCharactersList} = useAdminPlayersStore()
+loadOnlineCharactersList()
 </script>
 
 <style scoped>

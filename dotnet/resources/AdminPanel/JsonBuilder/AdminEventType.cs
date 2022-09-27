@@ -4,17 +4,17 @@
     {
         #region Player
 
-        public const string PlayerCommonMethods = "Игрок:Общие методы";
+        public const string PlayerCommonMethods = "players:Общие Методы";
 
-        public const string PlayerCondition = "Игрок:Состояние игрока";
+        public const string PlayerCondition = "players:Состояние игрока";
 
-        public const string PlayerPosition = "Игрок:Местоположение игрока";
+        public const string PlayerPosition = "players:Местоположение";
 
-        public const string PlayerFinances = "Игрок:Финансы игрока";
+        public const string PlayerFinances = "players:Финансы";
 
-        public const string PlayerControl = "Игрок:Управление";
+        public const string PlayerControl = "players:Управление";
 
-        public const string PlayerOther = "Игрок:Другое";
+        public const string PlayerOther = "players:Другое";
 
         #endregion
     }
