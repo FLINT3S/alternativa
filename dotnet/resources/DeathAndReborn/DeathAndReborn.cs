@@ -18,8 +18,8 @@ namespace DeathAndReborn
             var player = (Player)character;
             player.Position = HospitalLocationProvider.GetNearest(player.Position);
             NAPI.Player.SpawnPlayer(player, player.Position);
-            // TODO: Менять здоровье внутри CharacterSpawnData
-            LogPlayer((Player)character, "Reborn", $"Respawned at {player.Position}");
+            character.OnRespawn();
+            LogPlayer(player, "Reborn", $"Respawned at {player.Position}");
             ClientConnect.Trigger(player, "Reborn");
         });
 

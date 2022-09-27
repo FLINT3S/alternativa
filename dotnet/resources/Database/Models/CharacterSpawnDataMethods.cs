@@ -12,5 +12,7 @@ namespace Database.Models
             Position = player.Position;
             Heading = player.Heading;
         }
+
+        public void OnRespawn() => Health = 100;
     }
 }
