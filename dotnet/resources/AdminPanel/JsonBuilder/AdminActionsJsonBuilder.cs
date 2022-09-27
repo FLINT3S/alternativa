@@ -111,6 +111,8 @@ namespace AdminPanel.JsonBuilder
         private static string GetParamName(ParameterInfo parameter) => parameter.Name! switch
         {
             "staticId" => "Статический ID игрока",
+            "health" => "Здоровье",
+            "armor" => "Броня",
             "reason" => "Причина",
             "message" => "Сообщение",
             "seconds" => "Число секунд",
