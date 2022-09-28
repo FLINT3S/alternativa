@@ -12,7 +12,7 @@ namespace LocationProvider
 
         public static uint GetFreeDimension()
         {
-            for (uint i = 1; i < uint.MaxValue; i++)
+            for (uint i = 1U; i < uint.MaxValue; i++)
                 if (BusyDimensions.All(d => d != i))
                 {
                     BusyDimensions.Add(new Dimension(i));
