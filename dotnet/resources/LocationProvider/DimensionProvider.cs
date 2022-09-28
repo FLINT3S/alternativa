@@ -10,7 +10,7 @@ namespace LocationProvider
         
         private static readonly List<Dimension> BusyDimensions = new List<Dimension>();
 
-        internal static void TakeDimension(Dimension dimension) =>
+        private static void TakeDimension(Dimension dimension) =>
             BusyDimensions.Add(dimension);
 
         public static uint GetFreeDimension()
