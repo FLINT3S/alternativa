@@ -11,7 +11,6 @@ namespace LocationProvider
         {
             DimensionId = id;
             CreatedAt = DateTime.Now;
-            DimensionProvider.TakeDimension(this);
         }
 
         private uint DimensionId { get; }

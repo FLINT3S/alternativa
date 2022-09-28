@@ -17,7 +17,10 @@ namespace LocationProvider
         {
             for (uint i = 1; i < uint.MaxValue; i++)
                 if (!BusyDimensions.ContainsDimensionWithThisId(i))
-                    return new Dimension(i);
+                {
+                    TakeDimension(new Dimension(i));
+                    return i;
+                }
 
             throw new InvalidOperationException("All dimensions are busy");
         }
