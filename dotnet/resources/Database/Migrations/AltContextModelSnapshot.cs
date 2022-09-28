@@ -428,10 +428,6 @@ namespace Database.Migrations
                     b.Property<string>("Entrance")
                         .HasColumnType("text");
 
-                    b.Property<long>("EntranceDimension")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 

@@ -22,5 +22,10 @@ namespace Updater
                 Thread.Sleep((int)TimeSpan.FromMinutes(1).TotalMilliseconds);
             }
         }
+
+        private static void DimensionReleaseProcess()
+        {
+            
+        }
     }
 }
