@@ -15,7 +15,7 @@ namespace LocationProvider
 
         private uint DimensionId { get; }
 
-        public List<Player> Players => NAPI.Pools.GetAllPlayers().Where(p => p.Dimension == DimensionId).ToList();
+        public List<Player> Players => NAPI.Pools.GetAllPlayers().Where(p => p.Dimension == this).ToList();
 
         public DateTime CreatedAt { get; }
 
