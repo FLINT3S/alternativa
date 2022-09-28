@@ -18,6 +18,7 @@ namespace Database.Models.RealEstate
                     v => JsonConvert.SerializeObject(v),
                     s => JsonConvert.DeserializeObject<Vector3>(s)
                     );
+            builder.Property(ars => ars.EntranceDimension).ValueGeneratedOnAdd();
         }
 
         public void Configure(EntityTypeBuilder<House> builder)
