@@ -3,14 +3,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using AbstractResource;
 using GTANetworkAPI;
+using LocationProvider;
 using NAPIExtensions;
 
 namespace Updater
 {
     public class Updater : AltAbstractResource
     {
-        // [ServerEvent(Event.ResourceStart)]
-        // public void OnUpdaterStart() => Task.Run(CharacterUpdateProcess);
+        [ServerEvent(Event.ResourceStart)]
+        public void OnUpdaterStart()
+        {
+            Task.Run(DimensionReleaseProcess);
+        }
 
         private static void CharacterUpdateProcess()
         {
@@ -25,7 +29,11 @@ namespace Updater
 
         private static void DimensionReleaseProcess()
         {
-            
+            while (true)
+            {
+                DimensionProvider.ReleaseUnusedDimensions();
+                Thread.Sleep(TimeSpan.FromMinutes(1));
+            }
         }
     }
 }

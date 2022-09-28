@@ -15,6 +15,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
+        <ProjectReference Include="..\LocationProvider\LocationProvider.csproj" />
     </ItemGroup>
 </Project>    
     
