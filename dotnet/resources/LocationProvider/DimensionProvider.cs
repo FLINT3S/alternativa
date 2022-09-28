@@ -6,6 +6,8 @@ namespace LocationProvider
 {
     public static class DimensionProvider
     {
+        public const uint CommonDimension = 0U; 
+        
         private static readonly List<Dimension> BusyDimensions = new List<Dimension>();
 
         internal static void TakeDimension(Dimension dimension) =>
@@ -13,7 +15,7 @@ namespace LocationProvider
 
         public static uint GetFreeDimension()
         {
-            for (uint i = 0; i < uint.MaxValue; i++)
+            for (uint i = 1; i < uint.MaxValue; i++)
                 if (!BusyDimensions.ContainsDimensionWithThisId(i))
                 {
                     BusyDimensions.Add(new Dimension(i));

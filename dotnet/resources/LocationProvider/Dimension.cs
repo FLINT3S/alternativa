@@ -7,7 +7,6 @@ namespace LocationProvider
 {
     internal class Dimension
     {
-
         public Dimension(uint id)
         {
             DimensionId = id;

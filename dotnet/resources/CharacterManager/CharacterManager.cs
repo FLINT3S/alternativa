@@ -4,6 +4,7 @@ using AbstractResource;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
+using LocationProvider;
 using NAPIExtensions;
 using Newtonsoft.Json;
 
@@ -28,7 +29,7 @@ namespace CharacterManager
             player.ApplyCharacter(character);
 
             player.Heading = character.SpawnData.Heading;
-            player.Dimension = Character.CommonDimension;
+            player.Dimension = DimensionProvider.CommonDimension;
             player.Position = character.SpawnData.Position;
 
             NAPI.Player.SpawnPlayer(player, player.Position);
@@ -79,7 +80,7 @@ namespace CharacterManager
                 return;
             }
 
-            player.Dimension = (uint)account.SocialClubId;
+            player.Dimension = DimensionProvider.GetFreeDimension();
             player.Position = new Vector3(-754.459, 318.391, 175.401);
             player.Rotation = new Vector3(-1.7809, 0, -137.35375);
             AnimationManager.AnimationManager.PlayAnimation(player, "misshair_shop@barbers", "idle_a_cam", 1);
