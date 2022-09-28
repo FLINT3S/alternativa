@@ -1,30 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <Configurations>Debug;Release</Configurations>
+        <Configurations>Debug</Configurations>
         <Platforms>x64</Platforms>
         <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
         <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
-        <LangVersion>9.0</LangVersion>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
         <Reference Include="Bootstrapper">
-            <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
         </Reference>
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
-        <ProjectReference Include="..\AnimationManager\AnimationManager.csproj" />
-        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="AdminPanelEvents.cs">
-        <DependentUpon>AdminPanel.cs</DependentUpon>
-      </Compile>
     </ItemGroup>
 </Project>    
     

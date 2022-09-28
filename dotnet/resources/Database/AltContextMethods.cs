@@ -32,6 +32,9 @@ namespace Database
                 .ThenInclude(c => c.Finances)
                 .Include(a => a.Characters)
                 .ThenInclude(c => c.SpawnData)
+                .Include(a => a.Characters)
+                .ThenInclude(c => c.Account)
+                .ThenInclude(a => a.Connections)
                 .First(a => a.SocialClubId == player.SocialClubId)
                 .Characters
                 .FirstOrDefault(c => c.Id == guid);
@@ -42,6 +45,10 @@ namespace Database
             using var context = new AltContext();
             return context
                 .Characters
+                .Include(c => c.Account)
+                .ThenInclude(a => a.Connections)
+                .Include(c => c.Account)
+                .ThenInclude(a => a.Characters)
                 .Include(c => c.Appearance)
                 .Include(c => c.Finances)
                 .Include(c => c.SpawnData)

@@ -14,6 +14,8 @@ namespace Database.Models.RealEstate
         
         public Guid Id { get; protected set; }
         
+        public uint EntranceDimension { get; protected set; }
+        
         public long Cost { get; protected set; } 
         
         public Character Owner { get; protected set; }

@@ -18,7 +18,7 @@ namespace DeathAndReborn
             var player = (Player)character;
             player.Position = HospitalLocationProvider.GetNearest(player.Position);
             NAPI.Player.SpawnPlayer(player, player.Position);
-            LogPlayer((Player)character, "Reborn", $"Respawned at {player.Position}");
+            LogPlayer(player, "Reborn", $"Respawned at {player.Position}");
             ClientConnect.Trigger(player, "Reborn");
         });
 
@@ -79,8 +79,7 @@ namespace DeathAndReborn
 
         private void DecreaseTimeToReborn()
         {
-            List<Character> deadCharacters =
-                NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
+            var deadCharacters = NAPI.Pools.GetActiveCharacters().Where(character => character.IsDead).ToList();
             foreach (var deadCharacter in deadCharacters)
             {
                 deadCharacter.DecreaseTimeToReborn(TimeSpan.FromSeconds(1));

@@ -25,7 +25,7 @@ namespace AbstractResource
 
         protected ClientConnect ClientConnect { get; }
 
-        private static bool PlayerHasAccessToMember(Player player, MemberInfo method)
+        protected static bool PlayerHasAccessToMember(Player player, MemberInfo method)
         {
             (int playerVipLevel, int playerAdminLevel) = player.GetAccessLevels();
             int methodVipLevel = method.GetCustomAttribute<NeedVipRightsAttribute>()?.Level ?? -1;
@@ -76,7 +76,7 @@ namespace AbstractResource
         #region Server Events
 
         [ServerEvent(Event.ResourceStart)]
-        public void OnResourceStart()
+        public void OnAbstractResourceStart()
         {
             AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Started));
         }
@@ -87,7 +87,7 @@ namespace AbstractResource
         private static string ParseException(Exception ex) => $"{ex.GetType().FullName}: {ex.Message} at {ex.Source}. ";
 
         [ServerEvent(Event.ResourceStop)]
-        public void OnResourceShutdown()
+        public void OnAbstractResourceShutdown()
         {
             AltLogger.Instance.LogResource(new AltResourceEvent(this, ResourceEventType.Shutdown));
         }

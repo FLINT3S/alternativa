@@ -8,6 +8,8 @@ namespace Database.Models
 {
     public partial class Character
     {
+        [NotMapped] public static uint CommonDimension => 0;
+        
         [NotMapped] public string Fullname => $"{FirstName} {LastName}";
 
         [NotMapped]
