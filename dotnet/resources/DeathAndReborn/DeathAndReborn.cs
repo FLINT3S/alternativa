@@ -16,7 +16,9 @@ namespace DeathAndReborn
         private void Respawn(Character character) => NAPI.Task.Run(() =>
         {
             var player = (Player)character;
-            player.Position = HospitalLocationProvider.GetNearest(player.Position);
+            (var hospitalPosition, uint hospitalDimension) = HospitalLocationProvider.GetLocation(player.Position);
+            player.Position = hospitalPosition;
+            player.Dimension = hospitalDimension;
             NAPI.Player.SpawnPlayer(player, player.Position);
             LogPlayer(player, "Reborn", $"Respawned at {player.Position}");
             ClientConnect.Trigger(player, "Reborn");
@@ -24,7 +26,7 @@ namespace DeathAndReborn
 
         private static TimeSpan GetTimeToReborn(Player player)
         {
-            float distance = RestrictDistance(HospitalLocationProvider.GetLeastDistance(player.Position));
+            float distance = RestrictDistance(HospitalLocationProvider.GetDistance(player.Position));
             return RoundSeconds(
                 TimeSpan.FromMinutes(distance / 500) + TimeSpan.FromMinutes(1 / (player.GetAccessLevels().VipLevel + 1) * 4)
                 );
