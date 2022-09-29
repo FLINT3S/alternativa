@@ -106,6 +106,12 @@
         <Compile Update="Models\CharacterSex.cs">
           <DependentUpon>Character.cs</DependentUpon>
         </Compile>
+        <Compile Update="Models\Rooms\ColShapeConfiguration.cs">
+          <DependentUpon>ColShape.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\Rooms\ColShapeMethods.cs">
+          <DependentUpon>ColShape.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using Database.Models.RealEstate;
+using Database.Models.Rooms;
 using GTANetworkAPI;
 using Newtonsoft.Json;
 

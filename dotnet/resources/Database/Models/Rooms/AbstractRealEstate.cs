@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Database.Models.RealEstate
+namespace Database.Models.Rooms
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public abstract class AbstractRealEstate : AbstractRoom

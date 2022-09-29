@@ -5,7 +5,7 @@ using Database.Models.Bans;
 using Database.Models.Economics.Banks;
 using Database.Models.Economics.Banks.Transactions;
 using Database.Models.Economics.CryptoWallets;
-using Database.Models.RealEstate;
+using Database.Models.Rooms;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database
@@ -59,6 +59,7 @@ namespace Database
             modelBuilder.ApplyConfiguration<AbstractRealEstate>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration<House>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration<Garage>(new RealEstateConfiguration());
+            modelBuilder.ApplyConfiguration(new ColShapeConfiguration());
 
             #endregion
         }

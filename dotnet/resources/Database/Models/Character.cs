@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Database.Models.RealEstate;
+using Database.Models.Rooms;
 using Newtonsoft.Json;
 
 namespace Database.Models

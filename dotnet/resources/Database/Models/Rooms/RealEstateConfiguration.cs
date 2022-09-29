@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 
-namespace Database.Models.RealEstate
+namespace Database.Models.Rooms
 {
     internal class RealEstateConfiguration : 
         IEntityTypeConfiguration<AbstractRoom>,
@@ -15,20 +15,16 @@ namespace Database.Models.RealEstate
         public void Configure(EntityTypeBuilder<AbstractRoom> builder)
         {
             builder.HasKey(g => g.Id);
-            builder.Property(are => are.Entrance)
+            builder
+                .HasOne(are => are.Entrance)
+                .WithMany(cs => cs.Rooms);
+            builder
+                .HasOne(are => are.Exit)
+                .WithMany();
+            builder.Property(ar => ar.Interior)
                 .HasConversion(
-                    v => JsonConvert.SerializeObject(v),
-                    s => JsonConvert.DeserializeObject<Vector3>(s)
-                );
-            builder.Property(h => h.Exit)
-                .HasConversion(
-                    v => JsonConvert.SerializeObject(v),
-                    s => JsonConvert.DeserializeObject<Vector3>(s)
-                );
-            builder.Property(h => h.Interior)
-                .HasConversion(
-                    v => JsonConvert.SerializeObject(v),
-                    s => JsonConvert.DeserializeObject<Vector3>(s)
+                    vector => JsonConvert.SerializeObject(vector), 
+                    json => JsonConvert.DeserializeObject<Vector3>(json)
                 );
         }
 
