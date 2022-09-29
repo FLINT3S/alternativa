@@ -6,7 +6,7 @@ namespace LocationProvider
 {
     public static class DimensionProvider
     {
-        public const uint CommonDimension = 0U; 
+        public const uint CommonDimension = 0U;
         
         private static readonly List<Dimension> BusyDimensions = new List<Dimension>();
 

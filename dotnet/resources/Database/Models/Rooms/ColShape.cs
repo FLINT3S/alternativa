@@ -15,6 +15,8 @@ namespace Database.Models.Rooms
         
         public Guid Id { get; private set; }
         
+        public bool IsInternal { get; private set; } 
+        
         public Vector3 Center { get; private set; }
         
         public float Radius { get; private set; }

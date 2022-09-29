@@ -1,10 +1,8 @@
-using System;
 using System.Reflection;
 using AbstractResource;
 using Authorization.ChainsOfResponsibility.LoginHandlers;
 using Authorization.ChainsOfResponsibility.PlayerConnectedHandlers;
 using Authorization.ChainsOfResponsibility.RegistrationHandlers;
-using Database;
 using Database.Models;
 using GTANetworkAPI;
 using NAPIExtensions;
@@ -30,6 +28,7 @@ namespace Authorization
             loginHandlersChain = AbstractLoginHandler.GetChain(ClientConnect, CefConnect);
         }
 
+        [ServerEvent(Event.ResourceStart)]
         public void OnAuthorizationStart()
         {
             NAPI.Server.SetAutoSpawnOnConnect(false);

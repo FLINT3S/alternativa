@@ -23,6 +23,7 @@ namespace Database.Models.Bans
         {
         }
 
+        // todo сделать ссылку на аккаунт
         private ulong AccountId { get; set; }
 
         public string HWID { get; private set; }

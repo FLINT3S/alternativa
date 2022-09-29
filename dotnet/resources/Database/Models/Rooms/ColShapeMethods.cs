@@ -7,7 +7,7 @@ namespace Database.Models.Rooms
     {
         private GTANetworkAPI.ColShape instance;
         
-        public void SpawnColShape(uint dimension)
+        public void SpawnColShape(uint dimension = 0U)
         {
             NAPI.Task.WaitForMainThread();
             instance = NAPI.ColShape.CreatCircleColShape(Center.X, Center.Y, Radius, dimension);
