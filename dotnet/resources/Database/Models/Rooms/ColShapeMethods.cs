@@ -1,4 +1,5 @@
 ﻿using GTANetworkAPI;
+using ColShapeEvent = GTANetworkAPI.ColShape.ColShapeEvent;
 
 namespace Database.Models.Rooms
 {
@@ -12,9 +13,18 @@ namespace Database.Models.Rooms
             instance = NAPI.ColShape.CreatCircleColShape(Center.X, Center.Y, Radius, dimension);
         }
 
-        public void DeleteColShape()
+        public void DeleteColShape() => NAPI.Task.Run(() => NAPI.ColShape.DeleteColShape(instance));
+        
+        public event ColShapeEvent OnEntityEnterColShape
         {
-            NAPI.ColShape.DeleteColShape(instance);
+            add => instance.OnEntityEnterColShape += value;
+            remove => instance.OnEntityEnterColShape -= value;
+        }
+
+        public event ColShapeEvent OnEntityExitColShape
+        {
+            add => instance.OnEntityExitColShape += value;
+            remove => instance.OnEntityExitColShape -= value;
         }
     }
 }
