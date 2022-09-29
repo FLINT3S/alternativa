@@ -18,15 +18,15 @@ namespace Database.Models.RealEstate
                     v => JsonConvert.SerializeObject(v),
                     s => JsonConvert.DeserializeObject<Vector3>(s)
                     );
+            builder.Property(h => h.Interior)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    s => JsonConvert.DeserializeObject<Vector3>(s)
+                );
         }
 
         public void Configure(EntityTypeBuilder<House> builder)
         {
-            builder.Property(h => h.Interior)
-                .HasConversion(
-                        v => JsonConvert.SerializeObject(v),
-                        s => JsonConvert.DeserializeObject<Vector3>(s)
-                    );
         }
 
         public void Configure(EntityTypeBuilder<Garage> builder)
