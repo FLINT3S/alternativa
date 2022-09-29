@@ -55,6 +55,7 @@ namespace Database
 
             #region Real Estate
 
+            modelBuilder.ApplyConfiguration<AbstractRoom>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration<AbstractRealEstate>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration<House>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration<Garage>(new RealEstateConfiguration());

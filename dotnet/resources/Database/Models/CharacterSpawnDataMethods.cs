@@ -11,6 +11,7 @@ namespace Database.Models
 
             Position = player.Position;
             Heading = player.Heading;
+            Dimension = Owner.CurrentRoom != null ? player.Dimension : 0U;
         }
     }
 }

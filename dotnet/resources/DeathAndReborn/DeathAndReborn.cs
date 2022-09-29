@@ -16,7 +16,7 @@ namespace DeathAndReborn
         private void Respawn(Character character) => NAPI.Task.Run(() =>
         {
             var player = (Player)character;
-            (var hospitalPosition, uint hospitalDimension) = HospitalLocationProvider.GetLocation(player.Position);
+            (var hospitalPosition, uint hospitalDimension) = HospitalLocationProvider.GetLocation(player);
             player.Position = hospitalPosition;
             player.Dimension = hospitalDimension;
             NAPI.Player.SpawnPlayer(player, player.Position);

@@ -29,7 +29,9 @@ namespace CharacterManager
             player.ApplyCharacter(character);
 
             player.Heading = character.SpawnData.Heading;
-            player.Dimension = DimensionProvider.CommonDimension;
+            player.Dimension = character.SpawnData.Dimension != DimensionProvider.CommonDimension ? 
+                DimensionProvider.GetFreeDimension() : 
+                DimensionProvider.CommonDimension;
             player.Position = character.SpawnData.Position;
 
             NAPI.Player.SpawnPlayer(player, player.Position);

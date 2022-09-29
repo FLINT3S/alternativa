@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Database.Models.RealEstate;
 using GTANetworkAPI;
 using Newtonsoft.Json;
 
@@ -16,6 +17,8 @@ namespace Database.Models
             Birthday.Date > DateTime.Today.AddYears(Birthday.Year - DateTime.Today.Year) ?
                 DateTime.Today.Year - Birthday.Year - 1 :
                 DateTime.Today.Year - Birthday.Year;
+
+        [NotMapped] public AbstractRoom CurrentRoom { get; set; } = null;
         
         public void AddSumToCash(long sum)
         {

@@ -18,6 +18,8 @@ namespace Database.Models
         public int Health { get; protected set; } = 100;
         
         public Vector3 Position { get; set; }
+
+        public uint Dimension { get; set; }
         
         public float Heading { get; protected set; }
     }

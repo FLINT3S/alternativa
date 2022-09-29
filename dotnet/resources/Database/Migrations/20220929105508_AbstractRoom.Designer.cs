@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(AltContext))]
-    partial class AltContextModelSnapshot : ModelSnapshot
+    [Migration("20220929105508_AbstractRoom")]
+    partial class AbstractRoom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,9 +240,6 @@ namespace Database.Migrations
 
                     b.Property<int>("Armor")
                         .HasColumnType("integer");
-
-                    b.Property<long>("Dimension")
-                        .HasColumnType("bigint");
 
                     b.Property<float>("Heading")
                         .HasColumnType("real");

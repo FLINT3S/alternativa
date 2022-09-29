@@ -16,9 +16,9 @@ namespace LocationProvider
             HospitalPositions = JsonConvert.DeserializeObject<List<Vector3>>(file);
         }
 
-        public static (Vector3 position, uint dimension) GetLocation(Vector3 playerPosition) => 
+        public static (Vector3 position, uint dimension) GetLocation(Player player) => 
         (
-            HospitalPositions.OrderBy(hospitalPosition => hospitalPosition.DistanceTo2D(playerPosition)).First(),
+            HospitalPositions.OrderBy(hospitalPosition => hospitalPosition.DistanceTo2D(player.Position)).First(),
             DimensionProvider.CommonDimension
         );
 
