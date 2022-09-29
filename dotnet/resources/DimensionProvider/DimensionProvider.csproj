@@ -15,13 +15,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
-        <ProjectReference Include="..\DimensionProvider\DimensionProvider.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="..\..\..\places\hospitals.json">
-        <Link>hospitals.json</Link>
-      </Content>
     </ItemGroup>
 </Project>    
     

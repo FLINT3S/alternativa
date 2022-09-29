@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocationProvider", "Locatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{10F9DF48-4946-472E-9993-774C0A461CE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DimensionProvider", "DimensionProvider\DimensionProvider.csproj", "{D3A103A4-7B30-4C85-B109-15190F5CB1CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -88,6 +90,10 @@ Global
 		{10F9DF48-4946-472E-9993-774C0A461CE8}.Debug|x64.Build.0 = Debug|x64
 		{10F9DF48-4946-472E-9993-774C0A461CE8}.Release|x64.ActiveCfg = Debug|x64
 		{10F9DF48-4946-472E-9993-774C0A461CE8}.Release|x64.Build.0 = Debug|x64
+		{D3A103A4-7B30-4C85-B109-15190F5CB1CB}.Debug|x64.ActiveCfg = Debug|x64
+		{D3A103A4-7B30-4C85-B109-15190F5CB1CB}.Debug|x64.Build.0 = Debug|x64
+		{D3A103A4-7B30-4C85-B109-15190F5CB1CB}.Release|x64.ActiveCfg = Debug|x64
+		{D3A103A4-7B30-4C85-B109-15190F5CB1CB}.Release|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1310152D-B071-466A-AD3A-B1A636AD64C7} = {E6D701C0-F627-4800-8554-EEFDAAD38210}
@@ -106,6 +112,10 @@ Global
 					
 				{598965E2-0E8D-4281-BA14-267D367556EC}.Debug|x64.Build.0 = Debug|x64
 		{10F9DF48-4946-472E-9993-774C0A461CE8} = {FC570E0A-3203-4B44-AF3C-BA3EA7C0D40C}
+					
+				{A9CF5FA2-D522-45E9-A6E7-D9C790798A57}.Debug|x64.Build.0 = Debug|x64
+		{D3A103A4-7B30-4C85-B109-15190F5CB1CB} = {FC570E0A-3203-4B44-AF3C-BA3EA7C0D40C}
 	EndGlobalSection
+
 
 EndGlobal

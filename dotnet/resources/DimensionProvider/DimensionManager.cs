@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LocationProvider
+namespace DimensionProvider
 {
-    public static class DimensionProvider
+    public static class DimensionManager
     {
         public const uint CommonDimension = 0U;
         

@@ -19,7 +19,7 @@ namespace LocationProvider
         public static (Vector3 position, uint dimension) GetLocation(Player player) => 
         (
             HospitalPositions.OrderBy(hospitalPosition => hospitalPosition.DistanceTo2D(player.Position)).First(),
-            DimensionProvider.CommonDimension
+            DimensionProvider.DimensionManager.CommonDimension
         );
 
         public static float GetDistance(Vector3 playerPosition) => HospitalPositions

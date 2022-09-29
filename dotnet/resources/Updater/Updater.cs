@@ -26,7 +26,7 @@ namespace Updater
         {
             while (true)
             {
-                DimensionProvider.ReleaseUnusedDimensions();
+                DimensionProvider.DimensionManager.ReleaseUnusedDimensions();
                 Thread.Sleep(TimeSpan.FromMinutes(1));
             }
         }
