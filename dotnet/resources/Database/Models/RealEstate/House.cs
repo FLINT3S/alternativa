@@ -10,7 +10,5 @@ namespace Database.Models.RealEstate
         private House()
         {
         }
-        
-        public Vector3 Interior { get; protected set; }
     }
 }

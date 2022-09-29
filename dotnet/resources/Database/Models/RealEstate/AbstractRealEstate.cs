@@ -19,5 +19,7 @@ namespace Database.Models.RealEstate
         public Character Owner { get; protected set; }
         
         public Vector3 Entrance { get; protected set; }
+        
+        public Vector3 Interior { get; protected set; }
     }
 }
