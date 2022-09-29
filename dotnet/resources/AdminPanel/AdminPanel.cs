@@ -132,6 +132,18 @@ namespace AdminPanel
 
         [NeedAdminRights(1)]
         [AdminPanelMethod(AdminEventType.PlayerPosition)]
+        [RemoteEvent(AdminPanelEvents.ChangeDimensionFromCef)]
+        public void OnChangeDimensionEvent(Player admin, long staticId, uint dimension) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                {
+                    var player = (Player)AltContext.GetCharacter(staticId);
+                    NAPI.Task.Run(() => player.Dimension = dimension);
+                    LogPlayer(admin, "ChangeDimension", $"Change dimension to player with static ID {staticId}");
+                }
+            );
+
+        [NeedAdminRights(1)]
+        [AdminPanelMethod(AdminEventType.PlayerPosition)]
         [RemoteEvent(AdminPanelEvents.TeleportPlayerHereFromCef)]
         public void OnTeleportPlayerHereEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
@@ -139,6 +151,7 @@ namespace AdminPanel
                     var player = (Player)AltContext.GetCharacter(staticId);
                     NAPI.Task.Run(() => player.Position = admin.Position);
                     LogPlayer(admin, "TeleportPlayer", $"Teleported player with static ID {staticId} to self");
+                    OnChangeDimensionEvent(admin, staticId, admin.Dimension);
                 }
             );
 
@@ -151,6 +164,7 @@ namespace AdminPanel
                     var player = (Player)AltContext.GetCharacter(staticId);
                     NAPI.Task.Run(() => admin.Position = player.Position);
                     LogPlayer(admin, "TeleportToPlayer", $"Teleported to player with static ID {staticId}");
+                    OnChangeDimensionEvent(admin, staticId, player.Dimension);
                 }
             );
 

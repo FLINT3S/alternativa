@@ -18,6 +18,8 @@
 
         public const string SetPlayerArmorFromCef = "CEF:SERVER:AdminPanel:SetPlayerArmor";
 
+        public const string ChangeDimensionFromCef = "CEF:SERVER:AdminPanel:ChangeDimension";
+
         public const string TeleportPlayerHereFromCef = "CEF:SERVER:AdminPanel:TeleportPlayerHere";
 
         public const string TeleportToPlayerFromCef = "CEF:SERVER:AdminPanel:TeleportToPlayer";
