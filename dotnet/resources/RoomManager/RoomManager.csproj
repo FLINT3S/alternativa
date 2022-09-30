@@ -9,18 +9,18 @@
 
     <ItemGroup>
         <Reference Include="Bootstrapper">
-        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+            <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
         </Reference>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="RoomManagerEvents.cs">
-        <DependentUpon>RoomManager.cs</DependentUpon>
-      </Compile>
+        <Compile Update="RoomManagerEvents.cs">
+            <DependentUpon>RoomManager.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 </Project>    
     

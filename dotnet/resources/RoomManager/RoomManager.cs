@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using GTANetworkAPI;
 using AbstractResource;
 using Database;
 using Database.Models.Rooms;
+using GTANetworkAPI;
 using NAPIExtensions;
 using Newtonsoft.Json;
 
@@ -16,25 +16,29 @@ namespace RoomManager
         {
             var externalColShapes = RoomColShape.GetExternalColShapes();
             foreach (var colShape in externalColShapes)
-            {
-                colShape.SpawnColShape();
-                colShape.OnEntityEnterColShape += (shape, player) =>
-                {
-                    var rooms = colShape.Rooms.Select(r => new { r.Id, r.Address }).ToList();
-                    if (rooms.Count > 1)
-                    {
-                        string roomJson = JsonConvert.SerializeObject(rooms.FirstOrDefault());
-                        ClientConnect.Trigger(player, RoomManagerEvents.OnMonoRoomHouseColShapeEnterToClient, roomJson);
-                    }
-                    else
-                    {
-                        string roomsJson = JsonConvert.SerializeObject(rooms);
-                        ClientConnect.Trigger(player, RoomManagerEvents.OnPolyRoomHouseColShapeEnterToClient, roomsJson);
-                    }
-                };
-                colShape.OnEntityExitColShape += (shape, player) =>
-                    ClientConnect.Trigger(player, RoomManagerEvents.OnColShapeExitToClient);
-            }
+                SpawnColShapeAndSetListeners(colShape);
+        }
+
+        private void SpawnColShapeAndSetListeners(RoomColShape colShape)
+        {
+            colShape.SpawnColShape();
+            colShape.OnEntityEnterColShape += (_, player) => SendEnterColShapeEvent(player, colShape);
+            colShape.OnEntityExitColShape += (_, player) =>
+                ClientConnect.Trigger(player, RoomManagerEvents.OnColShapeExitToClient);
+        }
+
+        private void SendEnterColShapeEvent(Player player, RoomColShape colShape)
+        {
+            var rooms = colShape.Rooms.Select(r => new { r.Id, r.Address }).ToList();
+            string roomsJson = rooms.Count > 1 ?
+                JsonConvert.SerializeObject(rooms.FirstOrDefault()) :
+                JsonConvert.SerializeObject(rooms);
+            ClientConnect.Trigger(player,
+                rooms.Count > 1 ?
+                    RoomManagerEvents.OnPolyRoomHouseColShapeEnterToClient :
+                    RoomManagerEvents.OnMonoRoomHouseColShapeEnterToClient,
+                roomsJson
+            );
         }
 
         [RemoteEvent(RoomManagerEvents.EnterInRoomFromCef)]
@@ -48,7 +52,7 @@ namespace RoomManager
                 ClientConnect.Trigger(player, RoomManagerEvents.OnEnterFailureToCef);
                 return;
             }
-            
+
             room.OnRoomEnter(character);
         }
     }
