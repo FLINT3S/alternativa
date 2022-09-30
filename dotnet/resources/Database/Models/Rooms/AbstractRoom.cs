@@ -5,7 +5,7 @@ using GTANetworkAPI;
 namespace Database.Models.Rooms
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public abstract class AbstractRoom : AbstractModel
+    public abstract partial class AbstractRoom : AbstractModel
     {
         // ReSharper disable once EmptyConstructor
         protected AbstractRoom()
@@ -13,6 +13,8 @@ namespace Database.Models.Rooms
         }
         
         public Guid Id { get; protected set; }
+        
+        public string Address { get; protected set; }
         
         public RoomColShape Entrance { get; protected set; }
         

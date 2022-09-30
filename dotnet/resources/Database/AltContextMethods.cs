@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Database.Models;
+using Database.Models.Rooms;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,6 +54,12 @@ namespace Database
                 .Include(c => c.Finances)
                 .Include(c => c.SpawnData)
                 .FirstOrDefault(c => c.StaticId == staticId);
+        }
+
+        public static AbstractRoom GetRoom(Guid guid)
+        {
+            using var context = new AltContext();
+            return context.Rooms.Include(r => r.Exit).First(r => r.Id == guid);
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace Database.Models.Rooms
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public abstract class AbstractRealEstate : AbstractRoom
+    public abstract partial class AbstractRealEstate : AbstractRoom
     {
         // ReSharper disable once EmptyConstructor
         protected AbstractRealEstate()

@@ -16,5 +16,11 @@
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="RoomManagerEvents.cs">
+        <DependentUpon>RoomManager.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>    
     
