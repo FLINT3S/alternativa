@@ -60,6 +60,7 @@ namespace Database
             modelBuilder.ApplyConfiguration<House>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration<Garage>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration(new ColShapeConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomColShapeConfiguration());
 
             #endregion
         }
@@ -90,6 +91,12 @@ namespace Database
 
         #region Real Estate
         
+        public DbSet<ColShape> ColShapes { get; private set; }
+        
+        public DbSet<RoomColShape> RoomColShapes { get; private set; }
+        
+        public DbSet<AbstractRoom> Rooms { get; private set; }
+
         public DbSet<House> Houses { get; private set; }
         
         public DbSet<Garage> Garages { get; private set; }

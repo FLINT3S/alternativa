@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 
-namespace Database.Models.Rooms
+namespace Database.Models
 {
     public class ColShapeConfiguration : IEntityTypeConfiguration<ColShape>
     {
@@ -14,7 +14,7 @@ namespace Database.Models.Rooms
                 .HasConversion(
                     vector => JsonConvert.SerializeObject(vector), 
                     json => JsonConvert.DeserializeObject<Vector3>(json)
-                    );
+                );
         }
     }
 }

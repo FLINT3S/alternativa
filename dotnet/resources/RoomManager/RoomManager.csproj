@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Configurations>Debug</Configurations>
+        <Platforms>x64</Platforms>
+        <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+        <CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="Bootstrapper">
+        <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
+    </ItemGroup>
+</Project>    
+    

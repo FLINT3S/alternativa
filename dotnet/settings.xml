@@ -17,4 +17,4 @@
     <resource src="DeathAndReborn" />
     <resource src="AnimationManager" />
     <resource src="LocationProvider" />
-<resource src="Updater" /><resource src="DimensionProvider" /></config>
+<resource src="Updater" /><resource src="DimensionProvider" /><resource src="RoomManager" /></config>

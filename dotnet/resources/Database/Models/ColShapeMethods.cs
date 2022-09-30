@@ -1,12 +1,11 @@
 ﻿using GTANetworkAPI;
-using ColShapeEvent = GTANetworkAPI.ColShape.ColShapeEvent;
 
-namespace Database.Models.Rooms
+namespace Database.Models
 {
     public partial class ColShape
     {
         private GTANetworkAPI.ColShape instance;
-        
+
         public void SpawnColShape(uint dimension = 0U)
         {
             NAPI.Task.WaitForMainThread();
@@ -15,13 +14,13 @@ namespace Database.Models.Rooms
 
         public void DeleteColShape() => NAPI.Task.Run(() => NAPI.ColShape.DeleteColShape(instance));
         
-        public event ColShapeEvent OnEntityEnterColShape
+        public event GTANetworkAPI.ColShape.ColShapeEvent OnEntityEnterColShape
         {
             add => instance.OnEntityEnterColShape += value;
             remove => instance.OnEntityEnterColShape -= value;
         }
 
-        public event ColShapeEvent OnEntityExitColShape
+        public event GTANetworkAPI.ColShape.ColShapeEvent OnEntityExitColShape
         {
             add => instance.OnEntityExitColShape += value;
             remove => instance.OnEntityExitColShape -= value;

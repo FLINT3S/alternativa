@@ -106,10 +106,16 @@
         <Compile Update="Models\CharacterSex.cs">
           <DependentUpon>Character.cs</DependentUpon>
         </Compile>
-        <Compile Update="Models\Rooms\ColShapeConfiguration.cs">
+        <Compile Update="Models\Rooms\RoomColShapeConfiguration.cs">
           <DependentUpon>ColShape.cs</DependentUpon>
         </Compile>
-        <Compile Update="Models\Rooms\ColShapeMethods.cs">
+        <Compile Update="Models\Rooms\RoomColShapeMethods.cs">
+          <DependentUpon>ColShape.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\ColShapeMethods.cs">
+          <DependentUpon>ColShape.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\ColShapeConfiguration.cs">
           <DependentUpon>ColShape.cs</DependentUpon>
         </Compile>
     </ItemGroup>

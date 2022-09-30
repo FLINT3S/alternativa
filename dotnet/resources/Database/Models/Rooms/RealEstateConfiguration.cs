@@ -20,7 +20,8 @@ namespace Database.Models.Rooms
                 .WithMany(cs => cs.Rooms);
             builder
                 .HasOne(are => are.Exit)
-                .WithMany();
+                .WithOne(rcs => rcs.Owner)
+                .HasForeignKey<RoomColShape>(rcs => rcs.OwnerId);
             builder.Property(ar => ar.Interior)
                 .HasConversion(
                     vector => JsonConvert.SerializeObject(vector), 
