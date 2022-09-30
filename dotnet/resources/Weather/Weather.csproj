@@ -14,11 +14,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="OpenWeatherMap.Standard" Version="1.6.0"/>
+        <PackageReference Include="OpenWeatherMap.Standard" Version="1.6.0" />
     </ItemGroup>
 
     <ItemGroup>

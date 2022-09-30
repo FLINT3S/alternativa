@@ -4,15 +4,15 @@ using OpenWeatherMap.Standard.Enums;
 
 namespace Weather.WeatherProviders
 {
-    internal class OpenWeatherMapProvider : WeatherProvider
+    internal abstract class OpenWeatherMapProvider : WeatherProvider
     {
-        private readonly string country;
+        protected readonly string country;
 
-        private readonly Current current;
+        protected readonly Current current;
 
-        private readonly string zip;
+        protected readonly string zip;
 
-        public OpenWeatherMapProvider(string apiKey, string zip, string country)
+        protected OpenWeatherMapProvider(string apiKey, string zip, string country)
         {
             this.country = country;
             this.zip = zip;
@@ -26,18 +26,6 @@ namespace Weather.WeatherProviders
             return ConvertToGtaWeather(weatherId);
         }
 
-        private static GTANetworkAPI.Weather ConvertToGtaWeather(int weatherId) => weatherId switch
-        {
-            1 => GTANetworkAPI.Weather.EXTRASUNNY,
-            2 => GTANetworkAPI.Weather.CLEAR,
-            3 => GTANetworkAPI.Weather.OVERCAST,
-            4 => GTANetworkAPI.Weather.CLOUDS,
-            9 => GTANetworkAPI.Weather.RAIN,
-            10 => GTANetworkAPI.Weather.CLEARING,
-            11 => GTANetworkAPI.Weather.THUNDER,
-            13 => GTANetworkAPI.Weather.SNOW,
-            50 => GTANetworkAPI.Weather.FOGGY,
-            _ => GTANetworkAPI.Weather.NEUTRAL
-        };
+        protected abstract GTANetworkAPI.Weather ConvertToGtaWeather(int weatherId);
     }
 }

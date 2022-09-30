@@ -22,7 +22,11 @@ namespace Weather
             string apiKey = config.GetValue<string>("OpenWeatherApi");
             string country = config.GetValue<string>("OpenWeatherCountry");
             string zip = config.GetValue<string>("OpenWeatherZip");
-            weatherProvider = new OpenWeatherMapProvider(apiKey, zip, country);
+            bool isWinter = config.GetValue<bool>("IsWinter");
+            if (isWinter) 
+                weatherProvider = new WinterWeatherProvider(apiKey, zip, country);
+            else
+                weatherProvider = new NotWinterWeatherProvider(apiKey, zip, country);
         }
 
         [ServerEvent(Event.ResourceStart)]
@@ -37,19 +41,9 @@ namespace Weather
             while (true)
             {
                 var weather = weatherProvider.GetWeather();
-                if (IsWinter())
-                    SetWinterWeather(weather);
-                else
-                    SetNotWinterWeather(weather);
+                SetWeather(weather);
+                Thread.Sleep((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
             }
-        }
-
-        private static bool IsWinter() => DateTime.Now.Month < 3 || DateTime.Now.Month == 12;
-
-        private void SetWinterWeather(GTANetworkAPI.Weather weather)
-        {
-            SetWeather(weather);
-            Thread.Sleep((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
         }
 
         private void SetWeather(GTANetworkAPI.Weather weather)
@@ -65,27 +59,6 @@ namespace Weather
                     new AltResourceEvent(this, ResourceEventType.Info, $"Set weather: {weather.ToString()}")
                 );
         }
-
-        private void SetNotWinterWeather(GTANetworkAPI.Weather weather)
-        {
-            if (IsRaining(weather))
-            {
-                SetWeather(weather);
-                Thread.Sleep((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
-                SetWeather(weatherProvider.GetNotRainyWeather());
-                Thread.Sleep((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
-            }
-            else
-            {
-                SetWeather(weather);
-                Thread.Sleep((int)TimeSpan.FromMinutes(10).TotalMilliseconds);
-            }
-        }
-
-        private static bool IsRaining(GTANetworkAPI.Weather weather) =>
-            weather == GTANetworkAPI.Weather.RAIN ||
-            weather == GTANetworkAPI.Weather.CLEARING ||
-            weather == GTANetworkAPI.Weather.THUNDER;
 
         private static void TimeUpdatingProcess()
         {
