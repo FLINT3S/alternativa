@@ -24,7 +24,7 @@ namespace RoomManager
             colShape.SpawnColShape();
             colShape.OnEntityEnterColShape += (_, player) => SendEnterColShapeEvent(player, colShape);
             colShape.OnEntityExitColShape += (_, player) =>
-                ClientConnect.Trigger(player, RoomManagerEvents.OnColShapeExitToClient);
+                ClientConnect.Trigger(player, RoomManagerEvents.OnEnterColShapeHouseExitToClient);
         }
 
         private void SendEnterColShapeEvent(Player player, RoomColShape colShape)
@@ -53,7 +53,16 @@ namespace RoomManager
                 return;
             }
 
+            room.Exit.OnEntityEnterColShape += (_, client) => ClientConnect.Trigger(client, RoomManagerEvents.OnExitColShapeEnterToClient);
+            room.Exit.OnEntityExitColShape += (_, client) => ClientConnect.Trigger(client, RoomManagerEvents.OnEnterColShapeHouseExitToClient);
+
             room.OnRoomEnter(character, () => ClientConnect.Trigger(player, RoomManagerEvents.OnRoomExitToClient));
+        }
+
+        [RemoteEvent(RoomManagerEvents.ExitFromRoomFromCef)]
+        public void OnExitFromRoomEvent(Player player, string roomGuidString)
+        {
+                        
         }
     }
 }

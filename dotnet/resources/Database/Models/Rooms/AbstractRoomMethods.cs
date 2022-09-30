@@ -22,7 +22,6 @@ namespace Database.Models.Rooms
             Exit = LoadExit();
             
             Exit.SpawnColShape(currentDimension);
-            Exit.OnEntityEnterColShape += (_, client) => OnRoomExit(client, onExitAction);
         }
 
         private RoomColShape LoadEntrance()
@@ -40,9 +39,8 @@ namespace Database.Models.Rooms
                 .First(rcs => rcs.Owner == this);
         }
 
-        public void OnRoomExit(Player player, Action onExitAction)
+        public void OnRoomExit(Player player)
         {
-            onExitAction();
             player.Dimension = DimensionManager.CommonDimension;
             player.Position = Entrance.Center;
         }
