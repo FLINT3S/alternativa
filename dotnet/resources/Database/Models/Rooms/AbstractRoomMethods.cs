@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DimensionProvider;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace Database.Models.Rooms
     {
         private uint currentDimension;
 
-        public void OnRoomEnter(Character character)
+        public void OnRoomEnter(Character character, Action onExitAction)
         {
             currentDimension = DimensionManager.GetFreeDimension();
             
@@ -21,7 +22,7 @@ namespace Database.Models.Rooms
             Exit = LoadExit();
             
             Exit.SpawnColShape(currentDimension);
-            Exit.OnEntityEnterColShape += (_, client) => OnRoomExit(client);
+            Exit.OnEntityEnterColShape += (_, client) => OnRoomExit(client, onExitAction);
         }
 
         private RoomColShape LoadEntrance()
@@ -39,8 +40,9 @@ namespace Database.Models.Rooms
                 .First(rcs => rcs.Owner == this);
         }
 
-        public void OnRoomExit(Player player)
+        public void OnRoomExit(Player player, Action onExitAction)
         {
+            onExitAction();
             player.Dimension = DimensionManager.CommonDimension;
             player.Position = Entrance.Center;
         }

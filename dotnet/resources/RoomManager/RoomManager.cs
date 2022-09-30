@@ -49,11 +49,11 @@ namespace RoomManager
             var character = player.GetCharacter();
             if (!room.AvailableFor(character))
             {
-                ClientConnect.Trigger(player, RoomManagerEvents.OnEnterFailureToCef);
+                CefConnect.Trigger(player, RoomManagerEvents.OnEnterFailureToCef);
                 return;
             }
 
-            room.OnRoomEnter(character);
+            room.OnRoomEnter(character, () => ClientConnect.Trigger(player, RoomManagerEvents.OnRoomExitToClient));
         }
     }
 }

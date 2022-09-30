@@ -10,6 +10,8 @@
 
         public const string OnEnterFailureToCef = "OnEnterFailure";
 
+        public const string OnRoomExitToClient = "OnRoomExit";
+
         public const string EnterInRoomFromCef = "CEF:SERVER:RoomManager:EnterInRoom";
     }
 }
