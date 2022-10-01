@@ -4,9 +4,9 @@
     {
         #region External ColShape Events
 
-        public const string EnterInPolyRoomColShapeToClient = "EnterInPolyRoomColShape";
-
         public const string EnterInSingleRoomColShapeToClient = "EnterInSingleRoomColShape";
+
+        public const string EnterInMultiRoomColShapeToClient = "EnterInMultiRoomColShape";
 
         public const string EnterInRoomFromCef = "CEF:SERVER:RoomManager:EnterInRoom";
 

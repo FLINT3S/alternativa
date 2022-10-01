@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AbstractResource;
 using Database;
+using Database.Models;
 using Database.Models.Rooms;
 using GTANetworkAPI;
 using NAPIExtensions;
@@ -30,35 +32,45 @@ namespace RoomManager
 
         private void SendEnterColShapeEvent(Player player, RoomColShape colShape)
         {
-            var rooms = colShape.Rooms.Select(r => new { r.Id, r.Address }).ToList();
-            string roomsJson = rooms.Count > 1 ?
-                JsonConvert.SerializeObject(rooms.FirstOrDefault()) :
-                JsonConvert.SerializeObject(rooms);
-            ClientConnect.Trigger(player,
-                rooms.Count > 1 ?
-                    RoomManagerEvents.EnterInPolyRoomColShapeToClient :
-                    RoomManagerEvents.EnterInSingleRoomColShapeToClient,
-                roomsJson
-            );
+            var rooms = colShape.Rooms;
+            if (rooms.Count > 1)
+                SendMultiRoomColShapeEnterEvent(player, rooms);
+            else
+                SendSingleRoomColShapeEnterEvent(player, rooms.FirstOrDefault());
+        }
+
+        private void SendSingleRoomColShapeEnterEvent(Player player, AbstractRoom room)
+        {
+            string roomJson = JsonConvert.SerializeObject(new { room.Id, room.Address });
+            ClientConnect.Trigger(player, RoomManagerEvents.EnterInSingleRoomColShapeToClient, roomJson);
+        }
+
+        private void SendMultiRoomColShapeEnterEvent(Player player, IEnumerable<AbstractRoom> rooms)
+        {
+            var simplifiedRooms = rooms.Select(r => new { r.Id, r.Address }).ToList();
+            string roomsJson = JsonConvert.SerializeObject(simplifiedRooms);
+            ClientConnect.Trigger(player, RoomManagerEvents.EnterInMultiRoomColShapeToClient, roomsJson);
         }
 
         [RemoteEvent(RoomManagerEvents.EnterInRoomFromCef)]
-        public void OnSelectRoom(Player player, string roomGuidString)
+        public void OnSelectRoomEvent(Player player, string roomGuidString)
         {
             var roomGuid = Guid.Parse(roomGuidString);
             var room = AltContext.GetRoom(roomGuid);
             var character = player.GetCharacter();
             if (!room.AvailableFor(character))
-            {
                 CefConnect.Trigger(player, RoomManagerEvents.EnterInRoomFailureToClient);
-                return;
-            }
+            else
+                OnSuccessEnter(room, character);
+        }
 
-            room.OnRoomEnter(character);
+        private void OnSuccessEnter(AbstractRoom room, Character character)
+        {
             room.Exit.OnEntityEnterColShape += (_, client) => 
                 ClientConnect.Trigger(client, RoomManagerEvents.EnterInInternalRoomColShapeToClient);
             room.Exit.OnEntityExitColShape += (_, client) => 
                 ClientConnect.Trigger(client, RoomManagerEvents.ExitFromInternalRoomColShapeToClient);
+            room.OnRoomEnter(character);
         }
 
         [RemoteEvent(RoomManagerEvents.ExitFromRoomFromCef)]
