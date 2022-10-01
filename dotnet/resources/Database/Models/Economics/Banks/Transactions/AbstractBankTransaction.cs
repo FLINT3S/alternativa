@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Models.Economics.Banks.Transactions
 {
@@ -15,6 +16,8 @@ namespace Database.Models.Economics.Banks.Transactions
             Sum = sum;
             From = from;
         }
+        
+        public Guid Id { get; protected set; }
 
         public BankAccount From { get; protected set; }
     }

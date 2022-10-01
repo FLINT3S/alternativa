@@ -196,7 +196,7 @@ namespace AdminPanel
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
                     var character = AltContext.GetCharacter(staticId);
-                    character.AddSumToCash(sum);
+                    character.AddSumToCash(admin.GetCharacter(), sum);
                     LogPlayer(admin, "ChangePlayersMoney", $"Change money of player with static ID {staticId}");
                 }
             );

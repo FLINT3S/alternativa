@@ -4,6 +4,7 @@ using Database.Models.AccountEvents;
 using Database.Models.Bans;
 using Database.Models.Economics.Banks;
 using Database.Models.Economics.Banks.Transactions;
+using Database.Models.Economics.Cash;
 using Database.Models.Economics.CryptoWallets;
 using Database.Models.Rooms;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,7 @@ namespace Database
 
             modelBuilder.ApplyConfiguration(new BankConfiguration());
             modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
+            modelBuilder.ApplyConfiguration(new CashTransactionConfiguration());
             modelBuilder.ApplyConfiguration<AbstractBankTransaction>(new TransactionConfiguration());
             modelBuilder.ApplyConfiguration<BetweenCharactersTransaction>(new TransactionConfiguration());
             modelBuilder.ApplyConfiguration<DutyTransaction>(new TransactionConfiguration());
@@ -78,6 +80,8 @@ namespace Database
         #endregion
 
         #region Economics
+
+        public DbSet<CashTransaction> CashTransactions { get; private set; }
 
         public DbSet<BankAccount> BankAccounts { get; private set; }
 

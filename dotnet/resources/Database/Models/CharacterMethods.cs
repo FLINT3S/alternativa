@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Database.Models.Economics.Cash;
 using Database.Models.Rooms;
 using GTANetworkAPI;
 using Newtonsoft.Json;
@@ -19,9 +20,14 @@ namespace Database.Models
 
         [NotMapped] public AbstractRoom CurrentRoom { get; set; } = null;
         
-        public void AddSumToCash(long sum)
+        public void AddSumToCash(Character sender, long sum)
         {
             Finances.Cash += sum;
+            using (var context = new AltContext())
+            {
+                context.CashTransactions.Add(new CashTransaction(sum, sender, this));
+                context.SaveChanges();
+            }
             UpdateInContext();
         }
 

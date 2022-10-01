@@ -125,6 +125,9 @@
         <Compile Update="Models\Rooms\AbstractRealEstateMethods.cs">
           <DependentUpon>AbstractRealEstate.cs</DependentUpon>
         </Compile>
+        <Compile Update="Models\Economics\Cash\CashTransactionConfiguration.cs">
+          <DependentUpon>CashTransaction.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
