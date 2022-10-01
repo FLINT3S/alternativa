@@ -23,7 +23,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         {
             var ban = ((Account)player)!.GetLongestBan();
             Log(player);
-            ClientConnect.Trigger(
+            ClientConnect.TriggerEvent(
                     player,
                     PlayerConnectedEvents.TemporaryBanned,
                     ban.Reason,

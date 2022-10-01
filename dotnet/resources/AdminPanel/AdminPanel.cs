@@ -17,14 +17,14 @@ namespace AdminPanel
     {
         [Command("testbr")]
         public void CMDOnTestBR(Player player) =>
-            CefConnect.Trigger(player, "onOpenOverlay");
+            CefConnect.TriggerEvent(player, "onOpenOverlay");
         
         [RemoteEvent(AdminPanelEvents.GetAvailableMethodsFromCef)]
         public void OnGetAvailableMethodsEvent(Player player)
         {
             string actionsJson = AdminActionsJsonBuilder.GetAdminActions(
                 GetType().GetMethods(),
-                method => PlayerHasAccessToMember(player, method)
+                method => PlayerHasAccessToClassMember(player, method)
             );
             CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered", actionsJson);
         }

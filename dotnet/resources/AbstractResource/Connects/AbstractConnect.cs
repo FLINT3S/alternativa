@@ -20,7 +20,7 @@ namespace AbstractResource.Connects
 
         protected abstract string Receiver { get; }
 
-        public virtual void Trigger(Player player, string eventName, params object?[] args)
+        public virtual void TriggerEvent(Player player, string eventName, params object?[] args)
         {
             string fullEventName = $"{FromTo}:{ModuleName}:{eventName}";
             LogEvent(fullEventName);

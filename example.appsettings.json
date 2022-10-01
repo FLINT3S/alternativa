@@ -5,5 +5,6 @@
   "OpenWeatherApi": "",
   "OpenWeatherCountry": "",
   "OpenWeatherZip": "",
+  "IsWinter": false,
   "ApplyMigrationWithStartup": false
 }

@@ -4,7 +4,7 @@ namespace Database.Models
 {
     public partial class CharacterSpawnData
     {
-        public void OnDisconnect(Player player)
+        public void Save(Player player)
         {
             Armor = player.Armor;
             Health = player.Health;

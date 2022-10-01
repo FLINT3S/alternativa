@@ -9,7 +9,7 @@ namespace Database
 {
     public partial class AltContext
     {
-        public static bool HasAccount(Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
+        public static bool IsRegisteredPlayer(Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
         
         public static Account GetAccount(Player player)
         {

@@ -25,7 +25,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         {
             account!.UpdateHwid(player.Serial);
             player.SetAccessLevels(account.VipLevel, account.AdminLevel);
-            ClientConnect.Trigger(player, LoginEvents.LoginSuccess, "Success!");
+            ClientConnect.TriggerEvent(player, LoginEvents.LoginSuccess, "Success!");
             Log(player);
         }
     }

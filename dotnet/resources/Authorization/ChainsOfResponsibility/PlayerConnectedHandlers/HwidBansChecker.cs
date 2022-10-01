@@ -21,7 +21,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         {
             var hwidBan = player.GetBanByHwid()!;
             Log(player);
-            ClientConnect.Trigger(player, PlayerConnectedEvents.PermanentlyBanned, hwidBan.Reason, hwidBan.Description);
+            ClientConnect.TriggerEvent(player, PlayerConnectedEvents.PermanentlyBanned, hwidBan.Reason, hwidBan.Description);
         }
     }
 }

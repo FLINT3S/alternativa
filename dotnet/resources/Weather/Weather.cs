@@ -30,11 +30,8 @@ namespace Weather
         }
 
         [ServerEvent(Event.ResourceStart)]
-        public void OnWeatherStart()
-        {
+        public void OnWeatherStart() =>
             Task.Run(WeatherUpdatingProcess);
-            Task.Run(TimeUpdatingProcess);
-        }
 
         private void WeatherUpdatingProcess()
         {
@@ -58,21 +55,6 @@ namespace Weather
             AltLogger.Instance.LogResource(
                     new AltResourceEvent(this, ResourceEventType.Info, $"Set weather: {weather.ToString()}")
                 );
-        }
-
-        private static void TimeUpdatingProcess()
-        {
-            while (true)
-            {
-                void SetCurrentTime() => NAPI.World.SetTime(
-                        DateTime.Now.Hour,
-                        DateTime.Now.Minute,
-                        DateTime.Now.Second
-                    );
-
-                NAPI.Task.Run(SetCurrentTime);
-                Thread.Sleep(60_000);
-            }
         }
     }
 }

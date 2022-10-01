@@ -18,18 +18,29 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
         protected override string EventDescription => "";
 
-        protected override bool CanHandle(Player player) => !AltContext.HasAccount(player);
+        protected override bool CanHandle(Player player) => !AltContext.IsRegisteredPlayer(player);
 
         protected override void _Handle(Player player)
         {
             var playerEvent = new AltPlayerEvent(
-                    "_newPlayers",
                     this,
                     "Connection",
-                    player.GetPlayerConnectedDataString()
+                    GetConnectionDescription(player)
                 );
             AltLogger.Instance.LogInfo(playerEvent);
-            ClientConnect.Trigger(player, PlayerConnectedEvents.FirstConnection);
+            ClientConnect.TriggerEvent(player, PlayerConnectedEvents.FirstConnection);
+        }
+
+        private static string GetConnectionDescription(Player player)
+        {
+            string response = "New player connected:\n";
+            response += $"Name: {player.Name}\n";
+            response += $"SocialClubId: {player.SocialClubId}\n";
+            response += $"IP: {player.Address}";
+            response += $"HWID: {player.Serial}\n";
+            response += $"SocialClubName: {player.SocialClubName}\n";
+            response += "===========================================================";
+            return response;
         }
     }
 }

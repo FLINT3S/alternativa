@@ -62,7 +62,7 @@ namespace CharacterManager
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
                 SpawnCharacter(player);
-                ClientConnect.Trigger(player, "OnCharacterSpawned", (int)character.TimeToReborn.TotalSeconds);
+                ClientConnect.TriggerEvent(player, "OnCharacterSpawned", (int)character.TimeToReborn.TotalSeconds);
             }
             catch (Exception ex)
             {
@@ -97,7 +97,7 @@ namespace CharacterManager
             NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey(GetEntityModel(gender)));
             AnimationManager.AnimationManager.PlayAnimation(player, "misshair_shop@barbers", "idle_a_cam", 1);
             CefConnect.TriggerRaw(player, CharacterManagerEvents.ChangeGenderFromCef + "Answered");
-            ClientConnect.Trigger(player, "GenderChanged", gender);
+            ClientConnect.TriggerEvent(player, "GenderChanged", gender);
         }
 
         [RemoteEvent(CharacterManagerEvents.CharacterCreatedSubmitFromClient)]
@@ -108,7 +108,7 @@ namespace CharacterManager
             player.SetCharacter(character);
             character.SpawnData.Position = new Vector3(-1041.3, -2744.6, 21.36);
             SpawnCharacter(player);
-            ClientConnect.Trigger(player, "CharacterCreated");
+            ClientConnect.TriggerEvent(player, "CharacterCreated");
         }
 
         [RemoteEvent(CharacterManagerEvents.GetOwnCharacters)]

@@ -71,7 +71,7 @@ namespace Authorization
         public void IsSocialClubIdExist(Player player)
         {
             LogEvent(MethodBase.GetCurrentMethod()!);
-            CefConnect.Trigger(
+            CefConnect.TriggerEvent(
                     player,
                     AuthorizationEvents.IsSocialClubIdTakenToCef,
                     Account.IsSocialClubIdTaken(player.SocialClubId)

@@ -13,20 +13,6 @@ namespace NAPIExtensions
 {
     public static class PlayerExtensions
     {
-        public static string GetPlayerConnectedDataString(this Player player)
-        {
-            string response = "New player connected:\n";
-            response += $"Name: {player.Name}\n";
-            response += $"SocialClubId: {player.SocialClubId}\n";
-            response += $"IP: {player.Address}";
-            response += $"HWID: {player.Serial}\n";
-            response += $"SocialClubName: {player.SocialClubName}\n";
-            response += "===========================================================";
-            return response;
-        }
-
-        public static string GetString(this Player player) => $"{player.SocialClubName}_[{player.SocialClubId}]";
-
         public static PermanentBan? GetBanByHwid(this Player player)
         {
             using var context = new AltContext();

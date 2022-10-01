@@ -23,7 +23,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         protected override void _Handle(Player player, string login, string password, string email)
         {
             Log(player);
-            CefConnect.Trigger(
+            CefConnect.TriggerEvent(
                     player,
                     RegistrationEvents.RegisterFailure,
                     "User with this login already exist"

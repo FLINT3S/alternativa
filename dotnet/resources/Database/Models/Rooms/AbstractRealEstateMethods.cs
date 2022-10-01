@@ -2,6 +2,6 @@
 {
     public partial class AbstractRealEstate
     {
-        public override bool AvailableFor(Character player) => Owner == player;
+        public override bool AvailableFor(Character character) => Owner == character;
     }
 }

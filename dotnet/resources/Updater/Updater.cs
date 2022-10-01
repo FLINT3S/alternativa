@@ -17,21 +17,29 @@ namespace Updater
         [ServerEvent(Event.ResourceStart)]
         public void OnUpdaterStart()
         {
-            Task.Run(DimensionReleaseProcess);
+            Task.Run(TimeUpdatingProcess);
             Task.Run(CommonTimeCounter);
             Task.Run(EconomicsCounter);
+            Task.Run(DimensionReleaseProcess);
         }
 
-        private static void DimensionReleaseProcess()
+        #region Time Updating
+        
+        private static void TimeUpdatingProcess()
         {
             while (true)
             {
-                DimensionProvider.DimensionManager.ReleaseUnusedDimensions();
-                Thread.Sleep(TimeSpan.FromMinutes(1));
+                NAPI.Task.Run(SetCurrentTime);
+                Thread.Sleep(60_000);
             }
         }
+
+        private static void SetCurrentTime() =>
+            NAPI.World.SetTime(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+
+        #endregion
         
-        #region Common In Game Time Updater
+        #region In Game Time Updating
 
         private static void CommonTimeCounter()
         {
@@ -51,7 +59,7 @@ namespace Updater
 
         #endregion
 
-        #region Bank Accounts Updater
+        #region Bank Accounts Updating
 
         private static void EconomicsCounter()
         {
@@ -67,6 +75,19 @@ namespace Updater
             IEnumerable<BankAccount> accounts = Bank.GetAccounts();
             foreach (var account in accounts)
                 account.Recalculate();
+        }
+
+        #endregion
+
+        #region Dimension Releasing
+        
+        private static void DimensionReleaseProcess()
+        {
+            while (true)
+            {
+                DimensionProvider.DimensionManager.ReleaseUnusedDimensions();
+                Thread.Sleep(TimeSpan.FromMinutes(1));
+            }
         }
 
         #endregion
