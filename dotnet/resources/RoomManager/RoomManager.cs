@@ -22,9 +22,10 @@ namespace RoomManager
         private void SpawnColShapeAndSetListeners(RoomColShape colShape)
         {
             colShape.SpawnColShape();
-            colShape.OnEntityEnterColShape += (_, player) => SendEnterColShapeEvent(player, colShape);
+            colShape.OnEntityEnterColShape += (_, player) => 
+                SendEnterColShapeEvent(player, colShape);
             colShape.OnEntityExitColShape += (_, player) =>
-                ClientConnect.Trigger(player, RoomManagerEvents.OnEnterColShapeHouseExitToClient);
+                ClientConnect.Trigger(player, RoomManagerEvents.ExitFromExternalRoomColShapeToClient);
         }
 
         private void SendEnterColShapeEvent(Player player, RoomColShape colShape)
@@ -35,8 +36,8 @@ namespace RoomManager
                 JsonConvert.SerializeObject(rooms);
             ClientConnect.Trigger(player,
                 rooms.Count > 1 ?
-                    RoomManagerEvents.OnPolyRoomHouseColShapeEnterToClient :
-                    RoomManagerEvents.OnMonoRoomHouseColShapeEnterToClient,
+                    RoomManagerEvents.EnterInPolyRoomColShapeToClient :
+                    RoomManagerEvents.EnterInSingleRoomColShapeToClient,
                 roomsJson
             );
         }
@@ -49,20 +50,23 @@ namespace RoomManager
             var character = player.GetCharacter();
             if (!room.AvailableFor(character))
             {
-                CefConnect.Trigger(player, RoomManagerEvents.OnEnterFailureToCef);
+                CefConnect.Trigger(player, RoomManagerEvents.EnterInRoomFailureToClient);
                 return;
             }
 
-            room.Exit.OnEntityEnterColShape += (_, client) => ClientConnect.Trigger(client, RoomManagerEvents.OnExitColShapeEnterToClient);
-            room.Exit.OnEntityExitColShape += (_, client) => ClientConnect.Trigger(client, RoomManagerEvents.OnEnterColShapeHouseExitToClient);
-
-            room.OnRoomEnter(character, () => ClientConnect.Trigger(player, RoomManagerEvents.OnRoomExitToClient));
+            room.OnRoomEnter(character);
+            room.Exit.OnEntityEnterColShape += (_, client) => 
+                ClientConnect.Trigger(client, RoomManagerEvents.EnterInInternalRoomColShapeToClient);
+            room.Exit.OnEntityExitColShape += (_, client) => 
+                ClientConnect.Trigger(client, RoomManagerEvents.ExitFromInternalRoomColShapeToClient);
         }
 
         [RemoteEvent(RoomManagerEvents.ExitFromRoomFromCef)]
         public void OnExitFromRoomEvent(Player player, string roomGuidString)
         {
-                        
+            var roomGuid = Guid.Parse(roomGuidString);
+            var room = AltContext.GetRoom(roomGuid);
+            room.OnRoomExit(player);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Database.Models.Rooms
     {
         private uint currentDimension;
 
-        public void OnRoomEnter(Character character, Action onExitAction)
+        public void OnRoomEnter(Character character)
         {
             currentDimension = DimensionManager.GetFreeDimension();
             
