@@ -33,12 +33,12 @@ using AbstractResource;
 
 namespace %s
 {
-    public class Main : AltAbstractResource
+    public class %s : AltAbstractResource
     {
 
     }
 }
-""" % resource_name)
+""" % (resource_name, resource_name))
 
     with open(f"{CURRENT_RESOURCE_PATH}/{resource_name}.csproj", "w+") as f:
         f.write(r"""<Project Sdk="Microsoft.NET.Sdk">
@@ -84,12 +84,15 @@ EndProject""".format(
 
         new_project_build = """    
     {{{config_uuid}}}.Debug|x64.Build.0 = Debug|x64
+    {{{config_uuid}}}.Debug|x64.ActiveCfg = Debug|x64
+    {{{config_uuid}}}.Release|x64.Build.0 = Debug|x64
+    {{{config_uuid}}}.Release|x64.ActiveCfg = Debug|x64
 EndGlobalSection
 """.format(config_uuid=config_uuid)
 
         solution_text = r.read()
         solution_text = _rreplace(solution_text, "EndProject", new_project_config, 1)
-        solution_text = _rreplace(solution_text, "EndGlobalSection", new_project_build, 1)
+        solution_text = _rreplace(solution_text, "EndGlobalSection", new_project_build, 2)
 
         with open(f"{RESOURCES_PATH}/resources.sln", "w") as f:
             f.write(solution_text)
