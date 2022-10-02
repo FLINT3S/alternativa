@@ -23,11 +23,7 @@ namespace Database.Models
         public void AddSumToCash(Character sender, long sum)
         {
             Finances.Cash += sum;
-            using (var context = new AltContext())
-            {
-                context.CashTransactions.Add(new CashTransaction(sum, sender, this));
-                context.SaveChanges();
-            }
+            AltContext.Add(new CashTransaction(sum, sender, this));
             UpdateInContext();
         }
 
