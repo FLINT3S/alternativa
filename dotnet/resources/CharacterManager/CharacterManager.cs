@@ -4,6 +4,7 @@ using AbstractResource;
 using Database;
 using Database.Models;
 using GTANetworkAPI;
+using DimensionProvider;
 using NAPIExtensions;
 using Newtonsoft.Json;
 
@@ -28,7 +29,9 @@ namespace CharacterManager
             player.ApplyCharacter(character);
 
             player.Heading = character.SpawnData.Heading;
-            player.Dimension = Character.CommonDimension;
+            player.Dimension = character.SpawnData.Dimension != DimensionManager.CommonDimension ? 
+                DimensionManager.GetFreeDimension() : 
+                DimensionManager.CommonDimension;
             player.Position = character.SpawnData.Position;
 
             NAPI.Player.SpawnPlayer(player, player.Position);
@@ -59,7 +62,7 @@ namespace CharacterManager
                 var character = AltContext.GetCharacter(player, Guid.Parse(rawGuid));
                 player.SetCharacter(character);
                 SpawnCharacter(player);
-                ClientConnect.Trigger(player, "OnCharacterSpawned", (int)character.TimeToReborn.TotalSeconds);
+                ClientConnect.TriggerEvent(player, "OnCharacterSpawned", (int)character.TimeToReborn.TotalSeconds);
             }
             catch (Exception ex)
             {
@@ -79,7 +82,7 @@ namespace CharacterManager
                 return;
             }
 
-            player.Dimension = (uint)account.SocialClubId;
+            player.Dimension = DimensionManager.GetFreeDimension();
             player.Position = new Vector3(-754.459, 318.391, 175.401);
             player.Rotation = new Vector3(-1.7809, 0, -137.35375);
             AnimationManager.AnimationManager.PlayAnimation(player, "misshair_shop@barbers", "idle_a_cam", 1);
@@ -94,7 +97,7 @@ namespace CharacterManager
             NAPI.Entity.SetEntityModel(player.Handle, NAPI.Util.GetHashKey(GetEntityModel(gender)));
             AnimationManager.AnimationManager.PlayAnimation(player, "misshair_shop@barbers", "idle_a_cam", 1);
             CefConnect.TriggerRaw(player, CharacterManagerEvents.ChangeGenderFromCef + "Answered");
-            ClientConnect.Trigger(player, "GenderChanged", gender);
+            ClientConnect.TriggerEvent(player, "GenderChanged", gender);
         }
 
         [RemoteEvent(CharacterManagerEvents.CharacterCreatedSubmitFromClient)]
@@ -105,7 +108,7 @@ namespace CharacterManager
             player.SetCharacter(character);
             character.SpawnData.Position = new Vector3(-1041.3, -2744.6, 21.36);
             SpawnCharacter(player);
-            ClientConnect.Trigger(player, "CharacterCreated");
+            ClientConnect.TriggerEvent(player, "CharacterCreated");
         }
 
         [RemoteEvent(CharacterManagerEvents.GetOwnCharacters)]

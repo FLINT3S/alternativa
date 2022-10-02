@@ -7,7 +7,7 @@ namespace Weather.WeatherProviders
         public virtual GTANetworkAPI.Weather GetWeather() =>
             GTANetworkAPI.Weather.EXTRASUNNY;
 
-        public virtual GTANetworkAPI.Weather GetNotRainyWeather()
+        protected static GTANetworkAPI.Weather GetNotRainyWeather()
         {
             GTANetworkAPI.Weather[] weathersId =
             {

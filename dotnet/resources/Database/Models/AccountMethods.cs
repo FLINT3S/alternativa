@@ -82,6 +82,14 @@ namespace Database.Models
             return context.Accounts.Select(a => a.Email).Any(e => e == email);
         }
 
+        public void UpdateHwid(string newHwid)
+        {
+            LastHwid = newHwid;
+            UpdateInContext();
+        }
+
+        public bool IsSameLastHwid(string hwid) => LastHwid == hwid;
+
         #endregion
 
         #region Passwords
@@ -123,18 +131,6 @@ namespace Database.Models
             for (int i = 0; i < 128; i++)
                 response += chars[RandomNumberGenerator.GetInt32(chars.Length)];
             return response;
-        }
-
-        #endregion
-
-        #region HWID
-
-        public bool IsSameLastHwid(string hwid) => LastHwid == hwid;
-
-        public void UpdateHwid(string newHwid)
-        {
-            LastHwid = newHwid;
-            UpdateInContext();
         }
 
         #endregion

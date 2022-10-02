@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Database.Migrations
 {
     [DbContext(typeof(AltContext))]
-    [Migration("20220928133802_RealEstateDimention")]
-    partial class RealEstateDimention
+    [Migration("20221002083624_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -241,6 +241,9 @@ namespace Database.Migrations
                     b.Property<int>("Armor")
                         .HasColumnType("integer");
 
+                    b.Property<long>("Dimension")
+                        .HasColumnType("bigint");
+
                     b.Property<float>("Heading")
                         .HasColumnType("real");
 
@@ -259,6 +262,35 @@ namespace Database.Migrations
                         .IsUnique();
 
                     b.ToTable("CharacterSpawnData");
+                });
+
+            modelBuilder.Entity("Database.Models.ColShape", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Center")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("Radius")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ColShapes");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ColShape");
                 });
 
             modelBuilder.Entity("Database.Models.Economics.Banks.Bank", b =>
@@ -355,6 +387,36 @@ namespace Database.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("AbstractBankTransaction");
                 });
 
+            modelBuilder.Entity("Database.Models.Economics.Cash.CashTransaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("FromId")
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("Sum")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid?>("ToId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromId");
+
+                    b.HasIndex("ToId");
+
+                    b.ToTable("CashTransactions");
+                });
+
             modelBuilder.Entity("Database.Models.Economics.CryptoWallets.CryptoTransaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -411,14 +473,14 @@ namespace Database.Migrations
                     b.ToTable("CryptoWallets");
                 });
 
-            modelBuilder.Entity("Database.Models.RealEstate.AbstractRealEstate", b =>
+            modelBuilder.Entity("Database.Models.Rooms.AbstractRoom", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<long>("Cost")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -427,22 +489,22 @@ namespace Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Entrance")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("EntranceId")
+                        .HasColumnType("uuid");
 
-                    b.Property<long>("EntranceDimension")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                    b.Property<string>("Interior")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbstractRealEstate");
+                    b.HasIndex("EntranceId");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("AbstractRealEstate");
+                    b.ToTable("Rooms");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("AbstractRoom");
                 });
 
             modelBuilder.Entity("Database.Models.AccountEvents.ConnectionEvent", b =>
@@ -488,6 +550,22 @@ namespace Database.Migrations
                     b.HasDiscriminator().HasValue("TemporaryBan");
                 });
 
+            modelBuilder.Entity("Database.Models.Rooms.RoomColShape", b =>
+                {
+                    b.HasBaseType("Database.Models.ColShape");
+
+                    b.Property<bool>("IsInternal")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("OwnerId")
+                        .IsUnique();
+
+                    b.HasDiscriminator().HasValue("RoomColShape");
+                });
+
             modelBuilder.Entity("Database.Models.Economics.Banks.Transactions.BetweenCharactersTransaction", b =>
                 {
                     b.HasBaseType("Database.Models.Economics.Banks.Transactions.AbstractBankTransaction");
@@ -514,27 +592,33 @@ namespace Database.Migrations
                     b.HasDiscriminator().HasValue("PurchaseTransaction");
                 });
 
-            modelBuilder.Entity("Database.Models.RealEstate.Garage", b =>
+            modelBuilder.Entity("Database.Models.Rooms.AbstractRealEstate", b =>
                 {
-                    b.HasBaseType("Database.Models.RealEstate.AbstractRealEstate");
+                    b.HasBaseType("Database.Models.Rooms.AbstractRoom");
 
-                    b.Property<Guid?>("OwnerId")
+                    b.Property<long>("Cost")
+                        .HasColumnType("bigint");
+
+                    b.HasDiscriminator().HasValue("AbstractRealEstate");
+                });
+
+            modelBuilder.Entity("Database.Models.Rooms.Garage", b =>
+                {
+                    b.HasBaseType("Database.Models.Rooms.AbstractRealEstate");
+
+                    b.Property<Guid?>("OwnerId1")
                         .HasColumnType("uuid");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("OwnerId1");
 
                     b.HasDiscriminator().HasValue("Garage");
                 });
 
-            modelBuilder.Entity("Database.Models.RealEstate.House", b =>
+            modelBuilder.Entity("Database.Models.Rooms.House", b =>
                 {
-                    b.HasBaseType("Database.Models.RealEstate.AbstractRealEstate");
-
-                    b.Property<string>("Interior")
-                        .HasColumnType("text");
+                    b.HasBaseType("Database.Models.Rooms.AbstractRealEstate");
 
                     b.Property<Guid?>("OwnerId")
-                        .HasColumnName("House_OwnerId")
                         .HasColumnType("uuid");
 
                     b.HasIndex("OwnerId");
@@ -610,6 +694,17 @@ namespace Database.Migrations
                         .HasForeignKey("FromId");
                 });
 
+            modelBuilder.Entity("Database.Models.Economics.Cash.CashTransaction", b =>
+                {
+                    b.HasOne("Database.Models.Character", "From")
+                        .WithMany()
+                        .HasForeignKey("FromId");
+
+                    b.HasOne("Database.Models.Character", "To")
+                        .WithMany()
+                        .HasForeignKey("ToId");
+                });
+
             modelBuilder.Entity("Database.Models.Economics.CryptoWallets.CryptoTransaction", b =>
                 {
                     b.HasOne("Database.Models.Economics.CryptoWallets.CryptoWallet", "From")
@@ -626,6 +721,13 @@ namespace Database.Migrations
                     b.HasOne("Database.Models.CharacterFinances", null)
                         .WithMany("CryptoWallets")
                         .HasForeignKey("CharacterFinancesId");
+                });
+
+            modelBuilder.Entity("Database.Models.Rooms.AbstractRoom", b =>
+                {
+                    b.HasOne("Database.Models.Rooms.RoomColShape", "Entrance")
+                        .WithMany("Rooms")
+                        .HasForeignKey("EntranceId");
                 });
 
             modelBuilder.Entity("Database.Models.AccountEvents.ConnectionEvent", b =>
@@ -653,6 +755,15 @@ namespace Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Database.Models.Rooms.RoomColShape", b =>
+                {
+                    b.HasOne("Database.Models.Rooms.AbstractRoom", "Owner")
+                        .WithOne("Exit")
+                        .HasForeignKey("Database.Models.Rooms.RoomColShape", "OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Database.Models.Economics.Banks.Transactions.BetweenCharactersTransaction", b =>
                 {
                     b.HasOne("Database.Models.Economics.Banks.BankAccount", "To")
@@ -660,14 +771,14 @@ namespace Database.Migrations
                         .HasForeignKey("ToId");
                 });
 
-            modelBuilder.Entity("Database.Models.RealEstate.Garage", b =>
+            modelBuilder.Entity("Database.Models.Rooms.Garage", b =>
                 {
                     b.HasOne("Database.Models.Character", "Owner")
                         .WithMany("Garages")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId1");
                 });
 
-            modelBuilder.Entity("Database.Models.RealEstate.House", b =>
+            modelBuilder.Entity("Database.Models.Rooms.House", b =>
                 {
                     b.HasOne("Database.Models.Character", "Owner")
                         .WithMany("Houses")

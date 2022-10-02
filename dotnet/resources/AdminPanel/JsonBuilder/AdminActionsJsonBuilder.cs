@@ -26,7 +26,7 @@ namespace AdminPanel.JsonBuilder
                             Name = GetActionName(method.GetEventString()),
                             Command = GetActionCommand(method.GetEventString()),
                             Description = GetActionDescription(method.GetEventString()),
-                            Params = GetParams(method).Select(param => new 
+                            Params = method.ConvertParams().Select(param => new 
                                 {
                                     param.Type, 
                                     param.Name, 
@@ -66,6 +66,7 @@ namespace AdminPanel.JsonBuilder
             AdminPanelEvents.ResurrectPlayerFromCef => "Воскресить игрока",
             AdminPanelEvents.SetPlayerHealthFromCef => "Установить здоровье игрока",
             AdminPanelEvents.SetPlayerArmorFromCef => "Установить броню игрока",
+            AdminPanelEvents.ChangeDimensionFromCef => "Изменить измерение",
             AdminPanelEvents.TeleportPlayerHereFromCef => "Телепортировать игрока сюда",
             AdminPanelEvents.TeleportToPlayerFromCef => "Телепортироваться к игроку",
             AdminPanelEvents.TeleportPlayerToPointFromCef => "Телепортировать игрока в точку",
@@ -90,12 +91,12 @@ namespace AdminPanel.JsonBuilder
             _ => string.Empty
         };
 
-        private static IEnumerable<(string Type, string Name, string Description)> GetParams(MethodBase method) =>
+        private static IEnumerable<(string Type, string Name, string Description)> ConvertParams(this MethodBase method) =>
             method.GetParameters()
                 .Where(parameter => parameter.ParameterType != typeof(Player))
-                .Select(parameter => (GetParamType(parameter), GetParamName(parameter), GetParamDescription(parameter)));
+                .Select(parameter => (ConvertParamType(parameter), ConvertParamName(parameter), GetParamDescription(parameter)));
 
-        private static string GetParamType(ParameterInfo parameter) => parameter.ParameterType.Name switch
+        private static string ConvertParamType(ParameterInfo parameter) => parameter.ParameterType.Name switch
         {
             "Int16" => "number",
             "Int32" => "number",
@@ -108,11 +109,12 @@ namespace AdminPanel.JsonBuilder
             _ => "any"
         };
 
-        private static string GetParamName(ParameterInfo parameter) => parameter.Name! switch
+        private static string ConvertParamName(ParameterInfo parameter) => parameter.Name! switch
         {
             "staticId" => "Статический ID игрока",
             "health" => "Здоровье",
             "armor" => "Броня",
+            "dimension" => "Измерение",
             "reason" => "Причина",
             "message" => "Сообщение",
             "seconds" => "Число секунд",

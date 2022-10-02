@@ -14,17 +14,23 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
+        <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="OpenWeatherMap.Standard" Version="1.6.0"/>
+        <PackageReference Include="OpenWeatherMap.Standard" Version="1.6.0" />
     </ItemGroup>
 
     <ItemGroup>
         <Compile Update="WeatherEvents.cs">
             <DependentUpon>Weather.cs</DependentUpon>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\runtime\appsettings.json">
+        <Link>appsettings.json</Link>
+      </Content>
     </ItemGroup>
 </Project>    
     

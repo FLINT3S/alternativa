@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using GTANetworkAPI;
 
-namespace Database.Models.RealEstate
+namespace Database.Models.Rooms
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class House : AbstractRealEstate
@@ -10,7 +9,5 @@ namespace Database.Models.RealEstate
         private House()
         {
         }
-        
-        public Vector3 Interior { get; protected set; }
     }
 }

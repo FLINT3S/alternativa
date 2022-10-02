@@ -17,14 +17,14 @@ namespace AdminPanel
     {
         [Command("testbr")]
         public void CMDOnTestBR(Player player) =>
-            CefConnect.Trigger(player, "onOpenOverlay");
+            CefConnect.TriggerEvent(player, "onOpenOverlay");
         
         [RemoteEvent(AdminPanelEvents.GetAvailableMethodsFromCef)]
         public void OnGetAvailableMethodsEvent(Player player)
         {
             string actionsJson = AdminActionsJsonBuilder.GetAdminActions(
                 GetType().GetMethods(),
-                method => PlayerHasAccessToMember(player, method)
+                method => PlayerHasAccessToClassMember(player, method)
             );
             CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered", actionsJson);
         }
@@ -132,6 +132,18 @@ namespace AdminPanel
 
         [NeedAdminRights(1)]
         [AdminPanelMethod(AdminEventType.PlayerPosition)]
+        [RemoteEvent(AdminPanelEvents.ChangeDimensionFromCef)]
+        public void OnChangeDimensionEvent(Player admin, long staticId, uint dimension) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                {
+                    var player = (Player)AltContext.GetCharacter(staticId);
+                    NAPI.Task.Run(() => player.Dimension = dimension);
+                    LogPlayer(admin, "ChangeDimension", $"Change dimension to player with static ID {staticId}");
+                }
+            );
+
+        [NeedAdminRights(1)]
+        [AdminPanelMethod(AdminEventType.PlayerPosition)]
         [RemoteEvent(AdminPanelEvents.TeleportPlayerHereFromCef)]
         public void OnTeleportPlayerHereEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
@@ -139,6 +151,7 @@ namespace AdminPanel
                     var player = (Player)AltContext.GetCharacter(staticId);
                     NAPI.Task.Run(() => player.Position = admin.Position);
                     LogPlayer(admin, "TeleportPlayer", $"Teleported player with static ID {staticId} to self");
+                    OnChangeDimensionEvent(admin, staticId, admin.Dimension);
                 }
             );
 
@@ -151,6 +164,7 @@ namespace AdminPanel
                     var player = (Player)AltContext.GetCharacter(staticId);
                     NAPI.Task.Run(() => admin.Position = player.Position);
                     LogPlayer(admin, "TeleportToPlayer", $"Teleported to player with static ID {staticId}");
+                    OnChangeDimensionEvent(admin, staticId, player.Dimension);
                 }
             );
 
@@ -182,7 +196,7 @@ namespace AdminPanel
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
                     var character = AltContext.GetCharacter(staticId);
-                    character.AddSumToCash(sum);
+                    character.AddSumToCash(admin.GetCharacter(), sum);
                     LogPlayer(admin, "ChangePlayersMoney", $"Change money of player with static ID {staticId}");
                 }
             );

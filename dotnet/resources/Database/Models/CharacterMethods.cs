@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
+using Database.Models.Economics.Cash;
+using Database.Models.Rooms;
 using GTANetworkAPI;
 using Newtonsoft.Json;
 
@@ -8,8 +9,6 @@ namespace Database.Models
 {
     public partial class Character
     {
-        [NotMapped] public static uint CommonDimension => 0;
-        
         [NotMapped] public string Fullname => $"{FirstName} {LastName}";
 
         [NotMapped]
@@ -18,10 +17,13 @@ namespace Database.Models
             Birthday.Date > DateTime.Today.AddYears(Birthday.Year - DateTime.Today.Year) ?
                 DateTime.Today.Year - Birthday.Year - 1 :
                 DateTime.Today.Year - Birthday.Year;
+
+        [NotMapped] public AbstractRoom CurrentRoom { get; set; } = null;
         
-        public void AddSumToCash(long sum)
+        public void AddSumToCash(Character sender, long sum)
         {
             Finances.Cash += sum;
+            AltContext.Add(new CashTransaction(sum, sender, this));
             UpdateInContext();
         }
 
@@ -68,7 +70,7 @@ namespace Database.Models
         public void OnDisconnect(Player player)
         {
             Account.OnDisconnect();
-            SpawnData.OnDisconnect(player);
+            SpawnData.Save(player);
             UpdateInContext();
         }
 

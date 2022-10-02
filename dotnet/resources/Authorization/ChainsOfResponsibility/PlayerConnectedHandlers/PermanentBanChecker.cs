@@ -23,7 +23,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
         {
             Log(player);
             var ban = ((Account)player)!.PermanentBan!;
-            ClientConnect.Trigger(player, PlayerConnectedEvents.PermanentlyBanned, ban.Reason, ban.Description);
+            ClientConnect.TriggerEvent(player, PlayerConnectedEvents.PermanentlyBanned, ban.Reason, ban.Description);
         }
     }
 }

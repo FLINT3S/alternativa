@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Database.Models;
+using Database.Models.Economics.Cash;
+using Database.Models.Rooms;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +10,9 @@ namespace Database
 {
     public partial class AltContext
     {
-        public static bool HasAccount(Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
+        #region Accounts
+        
+        public static bool IsRegisteredPlayer(Player player) => Account.IsSocialClubIdTaken(player.SocialClubId);
         
         public static Account GetAccount(Player player)
         {
@@ -20,6 +24,21 @@ namespace Database
                 .Include(account => account.PermanentBan)
                 .FirstOrDefault(a => a.SocialClubId == player.SocialClubId);
         }
+
+        #endregion
+
+        #region Economics
+
+        internal static void Add(CashTransaction transaction)
+        {
+            using var context = new AltContext();
+            context.CashTransactions.Add(transaction);
+            context.SaveChanges();
+        }
+
+        #endregion
+
+        #region Characters
 
         public static Character GetCharacter(Player player, Guid guid)
         {
@@ -54,5 +73,17 @@ namespace Database
                 .Include(c => c.SpawnData)
                 .FirstOrDefault(c => c.StaticId == staticId);
         }
+
+        #endregion
+
+        #region Rooms
+        
+        public static AbstractRoom GetRoom(Guid guid)
+        {
+            using var context = new AltContext();
+            return context.Rooms.Include(r => r.Exit).First(r => r.Id == guid);
+        }
+        
+        #endregion
     }
 }

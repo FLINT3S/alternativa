@@ -15,8 +15,12 @@
 
     <ItemGroup>
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj"/>
-        <ProjectReference Include="..\LocalContext\LocalContext.csproj"/>
-        <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="RoomManagerEvents.cs">
+            <DependentUpon>RoomManager.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 </Project>    
     

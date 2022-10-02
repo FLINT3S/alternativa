@@ -17,6 +17,7 @@
         <ProjectReference Include="..\AbstractResource\AbstractResource.csproj" />
         <ProjectReference Include="..\AnimationManager\AnimationManager.csproj" />
         <ProjectReference Include="..\LocalContext\LocalContext.csproj" />
+        <ProjectReference Include="..\LocationProvider\LocationProvider.csproj" />
         <ProjectReference Include="..\NAPIExtensions\NAPIExtensions.csproj" />
     </ItemGroup>
 

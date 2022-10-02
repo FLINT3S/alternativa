@@ -22,7 +22,7 @@ namespace Authorization.ChainsOfResponsibility.LoginHandlers
         protected override void _Handle(Player player, Account? account, string login, string password)
         {
             Log(player);
-            CefConnect.Trigger(player, LoginEvents.LoginFailure, "Account not found");
+            CefConnect.TriggerEvent(player, LoginEvents.LoginFailure, "Account not found");
         }
     }
 }

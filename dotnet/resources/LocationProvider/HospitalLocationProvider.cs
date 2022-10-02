@@ -16,11 +16,12 @@ namespace LocationProvider
             HospitalPositions = JsonConvert.DeserializeObject<List<Vector3>>(file);
         }
 
-        public static Vector3 GetNearest(Vector3 playerPosition) => HospitalPositions
-            .OrderBy(hospitalPosition => hospitalPosition.DistanceTo2D(playerPosition))
-            .First();
+        public static Vector3 GetLocation(Player player) => 
+            HospitalPositions
+                .OrderBy(hospitalPosition => hospitalPosition.DistanceTo2D(player.Position))
+                .First();
 
-        public static float GetLeastDistance(Vector3 playerPosition) => HospitalPositions
+        public static float GetDistance(Vector3 playerPosition) => HospitalPositions
             .Min(hospitalPosition => hospitalPosition.DistanceTo2D(playerPosition));
     }
 }

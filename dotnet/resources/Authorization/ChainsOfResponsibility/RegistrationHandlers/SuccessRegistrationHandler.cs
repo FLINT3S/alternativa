@@ -26,7 +26,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
             account.AddToContext();
             account.UpdateHwid(player.Serial);
             Log(player);
-            ClientConnect.Trigger(player, RegistrationEvents.RegisterSuccess, "Success!");
+            ClientConnect.TriggerEvent(player, RegistrationEvents.RegisterSuccess, "Success!");
         }
     }
 }

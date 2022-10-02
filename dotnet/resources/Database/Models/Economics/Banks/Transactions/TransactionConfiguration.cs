@@ -12,6 +12,7 @@ namespace Database.Models.Economics.Banks.Transactions
         public void Configure(EntityTypeBuilder<AbstractBankTransaction> builder)
         {
             builder.HasDiscriminator();
+            builder.HasKey(t => t.Id);
         }
 
         public void Configure(EntityTypeBuilder<BetweenCharactersTransaction> builder)
