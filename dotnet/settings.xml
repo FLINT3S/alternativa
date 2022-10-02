@@ -10,11 +10,13 @@
     <resource src="Authorization" />
     <resource src="NAPIExtensions" />
     <resource src="CharacterManager" />
-    <resource src="TypeConverters" />
     <resource src="TimeCounter" />
     <resource src="LocalContext" />
     <resource src="Weather" />
     <resource src="DeathAndReborn" />
     <resource src="AnimationManager" />
     <resource src="LocationProvider" />
-<resource src="Updater" /><resource src="DimensionProvider" /><resource src="RoomManager" /></config>
+    <resource src="Updater" />
+    <resource src="DimensionProvider" />
+    <resource src="RoomManager" />
+</config>

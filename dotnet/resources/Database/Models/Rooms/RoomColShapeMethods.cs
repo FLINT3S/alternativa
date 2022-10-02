@@ -11,7 +11,8 @@ namespace Database.Models.Rooms
             using var context = new AltContext();
             return context.RoomColShapes
                 .Include(rcs => rcs.Rooms)
-                .Where(rcs => !rcs.IsInternal);
+                .Where(rcs => !rcs.IsInternal)
+                .ToList();
         }
     }
 }
