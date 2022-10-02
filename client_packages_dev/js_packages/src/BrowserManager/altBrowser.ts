@@ -2,6 +2,7 @@ import {browserManager} from "./browserManager";
 import {logger} from "../utils/logger";
 import {altError} from "../ErrorCaptures/errorCaptures";
 import Timer = NodeJS.Timer;
+import {VirtualKey} from "../utils/virtualKeys";
 
 
 type AltBrowserOptions = {
@@ -60,6 +61,10 @@ export class AltBrowser {
 
   set url(value: string) {
     this.instance.url = value
+  }
+
+  reload(ignoreCache: boolean = false) {
+    this.instance.reload(ignoreCache)
   }
 
   set overlayBackdrop(show: boolean) {
@@ -185,6 +190,10 @@ export class AltBrowser {
 
 export const altBrowser = new AltBrowser("http://package/web_packages/index.html", "alt")
 altBrowser.show()
+
+mp.keys.bind(VirtualKey.VK_F9, true, () => {
+  altBrowser.reload(true)
+})
 
 export class ModuleBrowser {
   public moduleName: string;

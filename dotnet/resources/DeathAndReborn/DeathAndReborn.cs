@@ -101,9 +101,13 @@ namespace DeathAndReborn
 
         private static void SpawnPlayer(Player player)
         {
-            player.Position = HospitalLocationProvider.GetLocation(player);
-            player.Dimension = DimensionManager.CommonDimension;
-            NAPI.Player.SpawnPlayer(player, player.Position);
+            
+            NAPI.Task.Run(() =>
+            {
+                player.Position = HospitalLocationProvider.GetLocation(player);
+                player.Dimension = DimensionManager.CommonDimension;
+                NAPI.Player.SpawnPlayer(player, player.Position);
+            });
         }
 
         #endregion

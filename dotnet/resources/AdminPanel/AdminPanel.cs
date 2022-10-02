@@ -18,7 +18,7 @@ namespace AdminPanel
         [Command("testbr")]
         public void CMDOnTestBR(Player player) =>
             CefConnect.TriggerEvent(player, "onOpenOverlay");
-        
+
         [RemoteEvent(AdminPanelEvents.GetAvailableMethodsFromCef)]
         public void OnGetAvailableMethodsEvent(Player player)
         {
@@ -39,11 +39,13 @@ namespace AdminPanel
                         .Select(character => new { character.StaticId, character.Fullname });
                     var settings = new JsonSerializerSettings
                     {
-                        ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
+                        ContractResolver = new DefaultContractResolver
+                            { NamingStrategy = new CamelCaseNamingStrategy() },
                         Formatting = Formatting.Indented
                     };
                     string charactersJson = JsonConvert.SerializeObject(simplifiedCharactersData, settings);
-                    CefConnect.TriggerRaw(admin, AdminPanelEvents.GetOnlineCharactersFromCef + "Answered", charactersJson);
+                    CefConnect.TriggerRaw(admin, AdminPanelEvents.GetOnlineCharactersFromCef + "Answered",
+                        charactersJson);
                     LogPlayer(admin, "GetOnlineCharacters", "Request players list");
                 }
             );
@@ -64,7 +66,8 @@ namespace AdminPanel
                         character.Account.SocialClubId,
                         InGameTime = character.InGameSeconds,
                         AccountInGameTime = character.Account.Characters.Select(c => c.InGameSeconds).Sum(),
-                        LastConnectionTime = new DateTimeOffset(character.Account.LastConnectionTime).ToUnixTimeSeconds(),
+                        LastConnectionTime =
+                            new DateTimeOffset(character.Account.LastConnectionTime).ToUnixTimeSeconds(),
                         CurrentPosition = ((Player)character).Position,
                         ((Player)character).Health,
                         ((Player)character).Armor,
@@ -73,11 +76,13 @@ namespace AdminPanel
                     };
                     var settings = new JsonSerializerSettings
                     {
-                        ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
+                        ContractResolver = new DefaultContractResolver
+                            { NamingStrategy = new CamelCaseNamingStrategy() },
                         Formatting = Formatting.Indented
                     };
                     string jsonCharacter = JsonConvert.SerializeObject(characterData, settings);
-                    CefConnect.TriggerRaw(admin, AdminPanelEvents.GetCharacterMainInfoFromCef + "Answered", jsonCharacter);
+                    CefConnect.TriggerRaw(admin, AdminPanelEvents.GetCharacterMainInfoFromCef + "Answered",
+                        jsonCharacter);
                     LogPlayer(admin, "GetCharacterMainInfo", $"Request player data with static ID {staticId}");
                 }
             );
@@ -188,10 +193,9 @@ namespace AdminPanel
                 () => throw new NotImplementedException()
             );
 
-        // TODO: Метод называется change, но деньги добавляет
-        [NeedAdminRights(1)]
+        [NeedAdminRights(2)]
         [AdminPanelMethod(AdminEventType.PlayerFinances)]
-        [RemoteEvent(AdminPanelEvents.ChangePlayerMoneyFromCef)] 
+        [RemoteEvent(AdminPanelEvents.ChangePlayerMoneyFromCef)]
         public void OnChangePlayerMoneyEvent(Player admin, long staticId, long sum) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
@@ -237,7 +241,7 @@ namespace AdminPanel
         [NeedAdminRights(1)]
         [AdminPanelMethod(AdminEventType.PlayerControl)]
         [RemoteEvent(AdminPanelEvents.MutePlayerFromCef)]
-         public void OnMutePlayerEvent(Player admin, long staticId) =>
+        public void OnMutePlayerEvent(Player admin, long staticId) =>
             CheckPermissionsAndExecute(
                 admin,
                 MethodBase.GetCurrentMethod()!,
@@ -314,6 +318,5 @@ namespace AdminPanel
                 MethodBase.GetCurrentMethod()!,
                 () => throw new NotImplementedException()
             );
-
     }
 }

@@ -69,6 +69,7 @@ namespace Database.Models
 
         public void OnDisconnect(Player player)
         {
+            UpdateFromContext();
             Account.OnDisconnect();
             SpawnData.Save(player);
             UpdateInContext();

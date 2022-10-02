@@ -186,6 +186,7 @@ namespace Database.Models
 
         public void OnDisconnect()
         {
+            UpdateFromContext();
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
             UpdateInContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", "Account disconnected."));

@@ -14,13 +14,14 @@ namespace TestResource
         [ServerEvent(Event.ResourceStart)]
         public void OnInternalResourceStart()
         {
-            Console.WriteLine("TestResource started");
+            Console.WriteLine("Applying migrations...");
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
             bool needApplyMigration = config.GetValue<bool>("ApplyMigrationWithStartup");
             if (needApplyMigration)
                 AltContext.ApplyMigration();
+            Console.WriteLine("Migrations applied!");
         }
         
         [Command("spawncar"), NeedAdminRights(2)]
