@@ -2,30 +2,14 @@
 {
     internal static class RoomManagerEvents
     {
-        public const string InteractOnColShapeFromClient = "InteractOnColShapeFromClient";
+        public const string InteractOnColShapeFromClient = "CLIENT:SERVER:RoomManager:InteractOnColShape";
         
-        #region External ColShape Events
+        #region ColShape Events
 
-        public const string EnterInSingleRoomColShapeToClient = "EnterInSingleRoomColShape";
+        public const string OpenHouseInterfaceToClient = "OpenHouseInterface";
 
-        public const string EnterInMultiRoomColShapeToClient = "EnterInMultiRoomColShape";
-
-        public const string EnterInRoomFromCef = "CEF:SERVER:RoomManager:EnterInRoom";
-
-        public const string EnterInRoomFailureToClient = "EnterInRoomFailure";
-
-        public const string ExitFromExternalRoomColShapeToClient = "ExitFromExternalRoomColShape";
-
-        #endregion
-
-        #region Internal ColShape Events
-
-        public const string EnterInInternalRoomColShapeToClient = "EnterInInternalRoomColShape";
+        public const string OpenApartmentHouseInterfaceToClient = "OpenApartmentHouseInterface";
         
-        public const string ExitFromRoomFromCef = "CEF:SERVER:RoomManager:ExitFromRoom";
-
-        public const string ExitFromInternalRoomColShapeToClient = "ExitFromInternalRoomColShape";
-
         #endregion
     }
 }

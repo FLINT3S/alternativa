@@ -74,15 +74,5 @@ namespace Database
         }
 
         #endregion
-
-        #region Rooms
-        
-        /*public static AbstractRoom GetRoom(Guid guid)
-        {
-            using var context = new AltContext();
-            return context.Rooms.Include(r => r.Exit).First(r => r.Id == guid);
-        }*/
-        
-        #endregion
     }
 }

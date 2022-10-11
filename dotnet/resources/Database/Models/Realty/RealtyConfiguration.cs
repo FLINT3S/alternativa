@@ -45,7 +45,7 @@ namespace Database.Models.Realty
         {
             builder.HasKey(entrance => entrance.Id);
             builder
-                .Property(entrance => entrance.Entrance)
+                .Property(entrance => entrance.Position)
                 .HasConversion(
                     v => JsonConvert.SerializeObject(v),
                     s => JsonConvert.DeserializeObject<Vector3>(s)
