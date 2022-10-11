@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using AbstractResource;
 using Database;
@@ -26,6 +27,18 @@ namespace RoomManager
                 1f, 
                 DimensionManager.CommonDimension
             );
+            NAPI.Marker.CreateMarker(
+                1, 
+                entrance.Position, 
+                new Vector3(), 
+                new Vector3(), 
+                1, 
+                255, 
+                0, 
+                0, 
+                false, 
+                DimensionManager.CommonDimension
+            );
             colshape.SetInteraction((player, shape) =>
             {
                 bool isHouse = entrance.Realties.Count == 1;
@@ -36,11 +49,13 @@ namespace RoomManager
                         entrance.Realties.First().Id.ToString()
                     );
                 else
+                {
                     ClientConnect.TriggerEvent(
                         player, 
                         RoomManagerEvents.OpenApartmentHouseInterfaceToClient, 
                         entrance.Id.ToString()
                     );
+                }
             });
         }
         

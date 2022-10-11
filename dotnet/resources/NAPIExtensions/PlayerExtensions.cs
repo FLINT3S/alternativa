@@ -111,7 +111,7 @@ namespace NAPIExtensions
 
         public static ColShape? GetPlayerColShape(this Player player)
         {
-            if (player.HasData(PlayerConstants.PlayerColshape)) return player.GetData<ColShape>("playerColShape");
+            if (player.HasData(PlayerConstants.PlayerColshape)) return player.GetData<ColShape>(PlayerConstants.PlayerColshape);
             return null;
         }
 
