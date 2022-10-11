@@ -94,20 +94,16 @@ namespace DeathAndReborn
         private void Respawn(Character character) => NAPI.Task.Run(() =>
         {
             var player = (Player)character;
-            SpawnPlayer(player);
+            NAPI.Task.Run(() => SpawnPlayer(player));
             LogPlayer(player, "Reborn", $"Respawned at {player.Position}");
             ClientConnect.TriggerEvent(player, "Reborn");
         });
 
         private static void SpawnPlayer(Player player)
         {
-            
-            NAPI.Task.Run(() =>
-            {
-                player.Position = HospitalLocationProvider.GetLocation(player);
-                player.Dimension = DimensionManager.CommonDimension;
-                NAPI.Player.SpawnPlayer(player, player.Position);
-            });
+            player.Position = HospitalLocationProvider.GetLocation(player);
+            player.Dimension = DimensionManager.CommonDimension;
+            NAPI.Player.SpawnPlayer(player, player.Position);
         }
 
         #endregion
