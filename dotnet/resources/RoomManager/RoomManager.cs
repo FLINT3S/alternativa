@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using AbstractResource;
 using Database;
@@ -20,7 +19,7 @@ namespace RoomManager
                 SpawnEntrance(entrance);
         }
 
-        public void SpawnEntrance(RealtyEntrance entrance)
+        private void SpawnEntrance(RealtyEntrance entrance)
         {
             var colshape = NAPI.ColShape.CreatCircleColShape(
                 entrance.Position.X, 
