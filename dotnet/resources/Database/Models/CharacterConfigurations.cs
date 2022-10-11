@@ -23,12 +23,12 @@ namespace Database.Models
                 .WithOne(a => a.Owner)
                 .HasForeignKey<CharacterSpawnData>(a => a.OwnerId);
             
-            builder
+            /*builder
                 .HasMany(c => c.Houses)
                 .WithOne(h => h.Owner);
             builder
                 .HasMany(c => c.Garages)
-                .WithOne(h => h.Owner);
+                .WithOne(h => h.Owner);*/
         }
     }
 }

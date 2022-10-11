@@ -107,23 +107,11 @@
         <Compile Update="Models\CharacterSex.cs">
           <DependentUpon>Character.cs</DependentUpon>
         </Compile>
-        <Compile Update="Models\Rooms\RoomColShapeConfiguration.cs">
-          <DependentUpon>RoomColShape.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Models\Rooms\RoomColShapeMethods.cs">
-          <DependentUpon>RoomColShape.cs</DependentUpon>
-        </Compile>
         <Compile Update="Models\ColShapeMethods.cs">
           <DependentUpon>ColShape.cs</DependentUpon>
         </Compile>
         <Compile Update="Models\ColShapeConfiguration.cs">
           <DependentUpon>ColShape.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Models\Rooms\AbstractRoomMethods.cs">
-          <DependentUpon>AbstractRoom.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Models\Rooms\AbstractRealEstateMethods.cs">
-          <DependentUpon>AbstractRealEstate.cs</DependentUpon>
         </Compile>
         <Compile Update="Models\Economics\Cash\CashTransactionConfiguration.cs">
           <DependentUpon>CashTransaction.cs</DependentUpon>

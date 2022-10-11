@@ -6,7 +6,6 @@ using Database.Models.Economics.Banks;
 using Database.Models.Economics.Banks.Transactions;
 using Database.Models.Economics.Cash;
 using Database.Models.Economics.CryptoWallets;
-using Database.Models.Rooms;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database
@@ -57,12 +56,12 @@ namespace Database
 
             #region Real Estate
 
-            modelBuilder.ApplyConfiguration<AbstractRoom>(new RealEstateConfiguration());
+            /*modelBuilder.ApplyConfiguration<AbstractRoom>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration<AbstractRealEstate>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration<House>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration<Garage>(new RealEstateConfiguration());
             modelBuilder.ApplyConfiguration(new ColShapeConfiguration());
-            modelBuilder.ApplyConfiguration(new RoomColShapeConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomColShapeConfiguration());*/
 
             #endregion
         }
@@ -97,13 +96,13 @@ namespace Database
         
         public DbSet<ColShape> ColShapes { get; private set; }
         
-        public DbSet<RoomColShape> RoomColShapes { get; private set; }
+        /*public DbSet<RoomColShape> RoomColShapes { get; private set; }
         
         public DbSet<AbstractRoom> Rooms { get; private set; }
 
         public DbSet<House> Houses { get; private set; }
         
-        public DbSet<Garage> Garages { get; private set; }
+        public DbSet<Garage> Garages { get; private set; }*/
 
         #endregion
     }

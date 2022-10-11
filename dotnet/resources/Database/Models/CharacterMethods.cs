@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Database.Models.Economics.Cash;
-using Database.Models.Rooms;
+// using Database.Models.Rooms;
 using GTANetworkAPI;
 using Newtonsoft.Json;
 
@@ -18,7 +18,7 @@ namespace Database.Models
                 DateTime.Today.Year - Birthday.Year - 1 :
                 DateTime.Today.Year - Birthday.Year;
 
-        [NotMapped] public AbstractRoom CurrentRoom { get; set; } = null;
+        // [NotMapped] public AbstractRoom CurrentRoom { get; set; } = null;
         
         public void AddSumToCash(Character sender, long sum)
         {
