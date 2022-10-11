@@ -4,6 +4,7 @@ using Database;
 using Database.Models.Realty;
 using DimensionProvider;
 using GTANetworkAPI;
+using Microsoft.EntityFrameworkCore;
 using NAPIExtensions;
 
 namespace RoomManager
@@ -14,7 +15,7 @@ namespace RoomManager
         public void OnResourceStart()
         {
             using var context = new AltContext();
-            foreach (var entrance in context.Entrances)
+            foreach (var entrance in context.Entrances.Include(entrance => entrance.Realties))
                 SpawnEntrance(entrance);
         }
 
