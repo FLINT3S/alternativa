@@ -96,6 +96,7 @@ COPY ./appsettings.json ./dotnet/runtime/appsettings.json
 COPY ./appsettings.json ./dotnet/resources/Secrets/appsettings.json
 COPY ./dotnet/settings.xml ./dotnet/settings.xml
 COPY ./conf.json ./conf.json
+COPY ./places ./places
 # endregion
 
 RUN cd ./dotnet/resources && dotnet clean && dotnet build
