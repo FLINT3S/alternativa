@@ -53,12 +53,14 @@ namespace Database.Models
 
         public void DecreaseTimeToReborn(TimeSpan time)
         {
+            UpdateFromContext();
             TimeToReborn -= time;
             UpdateInContext();
         }
 
         public void Resurrect()
         {
+            UpdateFromContext();
             TimeToReborn = TimeSpan.FromSeconds(1);
             UpdateInContext();
         }
@@ -69,6 +71,7 @@ namespace Database.Models
 
         public void OnDisconnect(Player player)
         {
+            UpdateFromContext();
             Account.OnDisconnect();
             SpawnData.Save(player);
             UpdateInContext();

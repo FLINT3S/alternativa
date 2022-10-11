@@ -39,7 +39,9 @@ namespace AbstractResource
             if (PlayerHasAccessToClassMember(player, @event))
                 methodBody();
             else
-                CefConnect.TriggerMessage(player, MessageStatus.Error, "You're hasn't access to this method");
+                CefConnect.TriggerMessage(player, MessageStatus.Error,
+                    $"Для выполнения метода '{@event.Name}' требуются права администратора " +
+                    $"{@event.GetCustomAttribute<NeedAdminRightsAttribute>()?.Level} уровня");
         }
 
         #region Logs

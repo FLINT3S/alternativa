@@ -24,7 +24,7 @@ namespace CharacterManager
             var character = player.GetCharacter();
 
             // Чтобы персонаж при спавне не проваливался под землю
-            character.SpawnData.Position.Z += 0.3f;
+            character.SpawnData.Position.Z += 0.5f;
 
             player.ApplyCharacter(character);
 

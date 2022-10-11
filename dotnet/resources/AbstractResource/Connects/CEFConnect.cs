@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GTANetworkAPI;
 
 namespace AbstractResource.Connects
@@ -23,11 +24,12 @@ namespace AbstractResource.Connects
             player.TriggerEvent(FromTo, ModuleName, eventRawString, args);
         }
 
-        public override void TriggerMessage(Player player, MessageStatus status, string message, params object[] args)
+        public void TriggerMessage(Player player, MessageStatus status, string message)
         {
             string fullEventName = $"{FromTo}:Root:ShowMessage";
             LogEvent(fullEventName);
-            player.TriggerEvent(FromTo, ModuleName, fullEventName, args);
+            var paramsList = new List<object> { message, (int)status };
+            player.TriggerEvent(FromTo, ModuleName, fullEventName, paramsList);
         }
     }
 }

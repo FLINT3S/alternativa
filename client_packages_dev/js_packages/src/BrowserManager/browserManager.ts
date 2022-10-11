@@ -6,7 +6,7 @@ mp.events.add("browserDomReady", (browser) => {
   if (abr) {
     abr.loaded = true
     mp.events.call("AltBrowserLoaded_" + abr.name)
-    logger.log("AltBrowserLoaded_" + browserManager.getByUrl(browser.url).name)
+    logger.log("AltBrowserLoaded_" + browserManager.getByUrl(browser.url).name + " url: " + browser.url)
   }
 })
 
