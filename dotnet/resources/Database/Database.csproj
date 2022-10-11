@@ -116,6 +116,12 @@
         <Compile Update="Models\Economics\Cash\CashTransactionConfiguration.cs">
           <DependentUpon>CashTransaction.cs</DependentUpon>
         </Compile>
+        <Compile Update="Models\Realty\RealtyPriceSegment.cs">
+          <DependentUpon>RealtyPrototype.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Models\Realty\RealtyType.cs">
+          <DependentUpon>RealtyPrototype.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 </Project>    
     

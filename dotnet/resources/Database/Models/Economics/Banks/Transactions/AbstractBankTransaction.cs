@@ -16,8 +16,6 @@ namespace Database.Models.Economics.Banks.Transactions
             Sum = sum;
             From = from;
         }
-        
-        public Guid Id { get; protected set; }
 
         public BankAccount From { get; protected set; }
     }

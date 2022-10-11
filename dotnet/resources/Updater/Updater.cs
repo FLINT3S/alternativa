@@ -7,7 +7,6 @@ using AbstractResource;
 using Database.Models;
 using Database.Models.Economics.Banks;
 using GTANetworkAPI;
-using LocationProvider;
 using NAPIExtensions;
 
 namespace Updater
@@ -85,7 +84,7 @@ namespace Updater
         {
             while (true)
             {
-                DimensionProvider.DimensionManager.ReleaseUnusedDimensions();
+                NAPI.Task.Run(DimensionProvider.DimensionManager.ReleaseUnusedDimensions);
                 Thread.Sleep(TimeSpan.FromMinutes(1));
             }
         }
