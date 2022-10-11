@@ -159,8 +159,8 @@ export class AltBrowser {
     this.instance.execute(code)
   }
 
-  execEvent(event: string, ...data: Array<string | number | boolean>) {
-    this.instance.execute(`window.altMP.call("${event}", ${JSON.stringify(data)})`)
+  execEvent(eventString: string, ...data: Array<string | number | boolean>) {
+    this.instance.execute(`window.altMP.call("${eventString}", ${JSON.stringify(data)})`)
   }
 
   execClient(moduleName: string, eventName: string, ...data: Array<string | number | boolean>) {

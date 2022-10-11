@@ -53,12 +53,14 @@ namespace Database.Models
 
         public void DecreaseTimeToReborn(TimeSpan time)
         {
+            UpdateFromContext();
             TimeToReborn -= time;
             UpdateInContext();
         }
 
         public void Resurrect()
         {
+            UpdateFromContext();
             TimeToReborn = TimeSpan.FromSeconds(1);
             UpdateInContext();
         }
