@@ -94,7 +94,7 @@ namespace DeathAndReborn
         private void Respawn(Character character) => NAPI.Task.Run(() =>
         {
             var player = (Player)character;
-            SpawnPlayer(player);
+            NAPI.Task.Run(() => SpawnPlayer(player));
             LogPlayer(player, "Reborn", $"Respawned at {player.Position}");
             ClientConnect.TriggerEvent(player, "Reborn");
         });

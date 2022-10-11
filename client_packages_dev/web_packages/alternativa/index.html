@@ -9,8 +9,17 @@
 </head>
 <body>
 <div id="app"></div>
+
+<div style="position: absolute; bottom: 20px; rigth: 20px; color: white">
+  <div id="debugInfo_fps"></div>
+  <div id="debugInfo_position"></div>
+  <div id="debugInfo_heading"></div>
+  <div id="debugInfo_velocity"></div>
+</div>
+
 <script src="/src/main.ts" type="module"></script>
 <script src="/eruda.js"></script>
+<script src="/debugHUD.js"></script>
 <script>
     eruda.init();
 </script>

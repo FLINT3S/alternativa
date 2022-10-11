@@ -3,6 +3,7 @@ import {FPS} from "./FpsCalculator";
 import {browserManager} from "../BrowserManager/browserManager";
 import {AltBrowser} from "../BrowserManager/altBrowser";
 import {VirtualKey} from "../utils/virtualKeys";
+import {logger} from "../utils/logger";
 
 const debugHudInfo = new InfoHudData();
 const rootBrowser: AltBrowser = browserManager.getBrowser("alt")
@@ -13,16 +14,17 @@ let updateInterval;
 
 const initDebugHud = () => {
   updateInterval = setInterval(() => {
-    rootBrowser.executeCode(`window.setGameInfo(${JSON.stringify(debugHudInfo)})`);
+    rootBrowser.executeCode(`window.setDataRender(${JSON.stringify(debugHudInfo)})`);
 
     debugHudInfo.fps = FPS.get();
     debugHudInfo.position = mp.players.local.position;
     debugHudInfo.heading = mp.players.local.getHeading();
 
     if (mp.players.local.vehicle) {
-      debugHudInfo.velocityVec = mp.players.local.vehicle.getVelocity();
+      const velocityVector = mp.players.local.vehicle.getVelocity();
+      debugHudInfo.velocity = Math.sqrt(velocityVector.x * velocityVector.x + velocityVector.y * velocityVector.y + velocityVector.z * velocityVector.z);
     } else {
-      debugHudInfo.velocityVec = new mp.Vector3(0, 0, 0);
+      debugHudInfo.velocity = 0
     }
   }, UPDATE_INTERVAL);
 }

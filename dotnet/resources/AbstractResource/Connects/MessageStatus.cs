@@ -6,6 +6,8 @@
 
         Warning,
 
-        Success
+        Success,
+        
+        Info
     }
 }

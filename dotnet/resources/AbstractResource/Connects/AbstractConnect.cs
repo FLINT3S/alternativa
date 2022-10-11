@@ -27,13 +27,6 @@ namespace AbstractResource.Connects
             player.TriggerEvent(fullEventName, args);
         }
 
-        public virtual void TriggerMessage(Player player, MessageStatus status, string message, params object[] args)
-        {
-            string fullEventName = $"{FromTo}:Root:ShowMessage";
-            LogEvent(fullEventName);
-            player.TriggerEvent(fullEventName, status.ToString(), message, args);
-        }
-
         protected void LogEvent(string eventName)
         {
             var altEvent = new AltEvent(Module, eventName, $"{eventName} was send");

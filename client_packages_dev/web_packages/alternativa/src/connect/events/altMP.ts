@@ -152,7 +152,9 @@ export class altMP extends ModuleDependent {
     new AltEvent(es, AltEventType.RECEIVED, data)
 
     const eventListeners = window.altListeners.get(eventString)
-    if (!eventListeners || eventListeners.size === 0) altLog.warning(`No listeners for event ${eventString}`)
+    if (!eventListeners || eventListeners.size === 0) {
+      altLog.warning(`No listeners for event ${eventString}`)
+    }
     else {
       // @ts-ignore
       eventListeners.forEach(listener => listener(...data))

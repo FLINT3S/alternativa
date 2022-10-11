@@ -3,12 +3,14 @@
     <n-global-style/>
     <n-message-provider>
       <router-view v-slot="{ Component }">
-        <alt-overlay :is-overlay-open="isOverlayShown" :overlay-backdrop="isOverlayBackdropVisible" :overlay-backdrop-transition="overlayBackdropTransition">
+        <alt-overlay :is-overlay-open="isOverlayShown" :overlay-backdrop="isOverlayBackdropVisible"
+                     :overlay-backdrop-transition="overlayBackdropTransition">
           <transition mode="out-in" name="fade">
             <component :is="Component"/>
           </transition>
         </alt-overlay>
       </router-view>
+      <root/>
     </n-message-provider>
 
     <debug-drawer/>
@@ -18,7 +20,7 @@
 
 
 <script lang="ts" setup>
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import {useRouter} from "vue-router";
 import {storeToRefs} from "pinia";
 
@@ -29,8 +31,10 @@ import themeOverrides from './assets/theme/naive-ui-theme-overrides.json'
 import {useRootStore} from "@/store"
 
 import AltOverlay from "@/components/AltOverlay.vue"
-import useRootOverlay from "@/data/useRootOverlay"
 import DebugDrawer from "@/DebugDrawer.vue";
+import Root from "@/module/root/Root.vue";
+
+import useRootOverlay from "@/data/useRootOverlay"
 import {useDeathAndRebornStore} from "@/store/deathAndReborn";
 
 const {theme, altMpRoot} = storeToRefs(useRootStore())

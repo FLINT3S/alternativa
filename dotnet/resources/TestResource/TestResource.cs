@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using AbstractResource;
 using AbstractResource.Attributes;
+using AbstractResource.Connects;
 using Database;
 using GTANetworkAPI;
 using Microsoft.Extensions.Configuration;
@@ -14,13 +15,14 @@ namespace TestResource
         [ServerEvent(Event.ResourceStart)]
         public void OnInternalResourceStart()
         {
-            Console.WriteLine("TestResource started");
+            Console.WriteLine("Applying migrations...");
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
             bool needApplyMigration = config.GetValue<bool>("ApplyMigrationWithStartup");
             if (needApplyMigration)
                 AltContext.ApplyMigration();
+            Console.WriteLine("Migrations applied!");
         }
         
         [Command("spawncar"), NeedAdminRights(2)]
@@ -45,6 +47,12 @@ namespace TestResource
         public void CMDOnMyPosition(Player player) =>
             CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () => 
                 NAPI.Chat.SendChatMessageToPlayer(player, $"Position: {player.Position}, Rotation: {player.Rotation}"));
+
+        [Command("showmsg")]
+        public void CMDOnShowMsg(Player player, string msg)
+        {
+            CefConnect.TriggerMessage(player, MessageStatus.Error, msg);
+        }
         
         [RemoteProc("CEF:SERVER:TestResource:Test")]
         public string RemoteProcTest(Player player, string test)
