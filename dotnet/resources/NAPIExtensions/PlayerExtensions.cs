@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Database;
 using Database.Models;
 using Database.Models.Bans;
 using GTANetworkAPI;
 using GTANetworkMethods;
+using ColShape = GTANetworkAPI.ColShape;
 using Player = GTANetworkAPI.Player;
 
 namespace NAPIExtensions
@@ -18,12 +18,12 @@ namespace NAPIExtensions
             using var context = new AltContext();
             return context.Bans.OfType<PermanentBan>().FirstOrDefault(b => b.HWID == player.Serial);
         }
-        
-        public static (int VipLevel, int AdminLevel) GetAccessLevels(this Player player) => 
+
+        public static (int VipLevel, int AdminLevel) GetAccessLevels(this Player player) =>
         (
-            player.GetOwnSharedData<int>(PlayerConstants.VipLevel), 
+            player.GetOwnSharedData<int>(PlayerConstants.VipLevel),
             player.GetOwnSharedData<int>(PlayerConstants.AdminLevel)
-            );
+        );
 
         public static void SetAccessLevels(this Player player, int vipLevel, int adminLevel)
         {
@@ -32,14 +32,15 @@ namespace NAPIExtensions
         }
 
         #region Character
-        
+
         /// <summary>
         ///     Аккаунт получается из Data и существует только в рантайме
         ///     Для получения аккаунта из базы данных нужно использовать <see cref="AltContext.GetAccount(Player)" />
         /// </summary>
         /// <param name="player">Объект игрока</param>
         /// <returns>Account из <b>player.Data</b></returns>
-        public static Character GetCharacter(this Player player) => player.GetData<Character>(PlayerConstants.Character);
+        public static Character GetCharacter(this Player player) =>
+            player.GetData<Character>(PlayerConstants.Character);
 
         public static void SetCharacter(this Player player, Character character) =>
             player.SetData(PlayerConstants.Character, character);
@@ -53,8 +54,9 @@ namespace NAPIExtensions
         private static void ApplyCharacterAppearance(this Player player, Character? character)
         {
             #region SetHeadBlend
+
             Console.WriteLine(character!.Appearance?.ToJsonString());
-            
+
             var headBlend = new HeadBlend
             {
                 ShapeFirst = character.Appearance!.MotherId,
@@ -69,11 +71,14 @@ namespace NAPIExtensions
             };
 
             NAPI.Player.SetPlayerHeadBlend(player, headBlend);
+
             #endregion
-            
+
             #region SetFaceFeatures
+
             for (int i = 0; i < character.Appearance.FaceFeatures.Count; i++)
                 NAPI.Player.SetPlayerFaceFeature(player, i, character.Appearance.FaceFeatures[i]);
+
             #endregion
         }
 
@@ -82,6 +87,33 @@ namespace NAPIExtensions
 
         public static IEnumerable<Character> GetActiveCharacters(this Pools pools) =>
             pools.GetAllPlayers().Where(a => a.HasData(PlayerConstants.Character)).Select(a => a.GetCharacter());
+
+        #endregion
+
+        #region Colshape
+
+        /*
+         * Колшейпы используются для обработки входа/выхода игрока в зону, хранить их нужно для получения
+         * экшенов или прочей даты, использующейся в коллбэках
+         */
+
+        public static void SetPlayerColShape(this Player player, ColShape? shape)
+        {
+            if (shape == null)
+            {
+                player.ResetData(PlayerConstants.PlayerColshape);
+            }
+            else
+            {
+                player.SetData<ColShape>(PlayerConstants.PlayerColshape, shape);
+            }
+        }
+
+        public static ColShape? GetPlayerColShape(this Player player)
+        {
+            if (player.HasData(PlayerConstants.PlayerColshape)) return player.GetData<ColShape>("playerColShape");
+            return null;
+        }
 
         #endregion
     }

@@ -1,19 +1,30 @@
-/*using System;
-using System.Collections.Generic;
-using System.Linq;
 using AbstractResource;
-using Database;
-using Database.Models;
-using Database.Models.Rooms;
 using GTANetworkAPI;
 using NAPIExtensions;
-using Newtonsoft.Json;
 
 namespace RoomManager
 {
     public class RoomManager : AltAbstractResource
     {
-        [ServerEvent(Event.ResourceStart)]
+        [ServerEvent(Event.PlayerEnterColshape)]
+        public void OnPlayerEnterColshape(ColShape colshape, Player player)
+        {
+            player.SetPlayerColShape(colshape);
+        }
+        
+        [ServerEvent(Event.PlayerExitColshape)]
+        public void OnPlayerExitColshape(ColShape colShape, Player player)
+        {
+            player.SetPlayerColShape(null);
+        }
+        
+        [RemoteEvent(RoomManagerEvents.InteractOnColShapeFromClient)]
+        public void OnInteractOnColShape(Player player)
+        {
+            player.GetPlayerColShape()?.Interaction(player);
+        }
+
+        /*[ServerEvent(Event.ResourceStart)]
         public void OnRoomManagerStart()
         {
             var externalColShapes = RoomColShape.GetExternalColShapes();
@@ -79,6 +90,6 @@ namespace RoomManager
             var roomGuid = Guid.Parse(roomGuidString);
             var room = AltContext.GetRoom(roomGuid);
             room.OnRoomExit(player.GetCharacter());
-        }
+        }*/
     }
-}*/
+}

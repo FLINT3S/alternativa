@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using AbstractResource;
 using Authorization.ChainsOfResponsibility.LoginHandlers;
@@ -49,6 +50,7 @@ namespace Authorization
         [RemoteEvent(AuthorizationEvents.PlayerReadyFromClient)]
         private void OnPlayerConnectedAndReady(Player player)
         {
+            Console.WriteLine(player.Dimension);
             LogEvent(MethodBase.GetCurrentMethod()!);
             connectHandlersChain.Handle(player);
         }

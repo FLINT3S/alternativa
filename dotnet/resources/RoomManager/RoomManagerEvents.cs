@@ -2,6 +2,8 @@
 {
     internal static class RoomManagerEvents
     {
+        public const string InteractOnColShapeFromClient = "InteractOnColShapeFromClient";
+        
         #region External ColShape Events
 
         public const string EnterInSingleRoomColShapeToClient = "EnterInSingleRoomColShape";
