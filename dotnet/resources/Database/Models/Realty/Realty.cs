@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Database.Models.Realty
 {
@@ -16,7 +15,5 @@ namespace Database.Models.Realty
         public RealtyEntrance Entrance { get; protected set; }
 
         public Character Owner { get; protected set; }
-        
-        [NotMapped] public GTANetworkMethods.ColShape Exit { get; protected set; }
     }
 }
