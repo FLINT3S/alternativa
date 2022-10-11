@@ -107,12 +107,6 @@
         <Compile Update="Models\CharacterSex.cs">
           <DependentUpon>Character.cs</DependentUpon>
         </Compile>
-        <Compile Update="Models\ColShapeMethods.cs">
-          <DependentUpon>ColShape.cs</DependentUpon>
-        </Compile>
-        <Compile Update="Models\ColShapeConfiguration.cs">
-          <DependentUpon>ColShape.cs</DependentUpon>
-        </Compile>
         <Compile Update="Models\Economics\Cash\CashTransactionConfiguration.cs">
           <DependentUpon>CashTransaction.cs</DependentUpon>
         </Compile>

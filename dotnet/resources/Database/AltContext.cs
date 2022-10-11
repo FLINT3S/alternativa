@@ -91,9 +91,7 @@ namespace Database
 
         #endregion
 
-        #region Real Estate
-        
-        public DbSet<ColShape> ColShapes { get; private set; }
+        #region Realty
         
         public DbSet<RealtyEntrance> Entrances { get; private set; }
 
