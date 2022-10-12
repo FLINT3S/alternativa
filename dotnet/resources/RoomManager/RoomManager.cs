@@ -27,36 +27,27 @@ namespace RoomManager
                 1f, 
                 DimensionManager.CommonDimension
             );
-            NAPI.Marker.CreateMarker(
-                1, 
-                entrance.Position, 
-                new Vector3(), 
-                new Vector3(), 
-                1, 
-                255, 
-                0, 
-                0, 
-                false, 
-                DimensionManager.CommonDimension
-            );
-            colshape.SetInteraction((player, shape) =>
-            {
-                bool isHouse = entrance.Realties.Count == 1;
-                if (isHouse)
-                    ClientConnect.TriggerEvent(
-                        player, 
-                        RoomManagerEvents.OpenHouseInterfaceToClient, 
-                        entrance.Realties.First().Id.ToString()
-                    );
-                else
-                {
-                    ClientConnect.TriggerEvent(
-                        player, 
-                        RoomManagerEvents.OpenApartmentHouseInterfaceToClient, 
-                        entrance.Id.ToString()
-                    );
-                }
-            });
+            colshape.SetEntrance(entrance);
+            NAPI.Marker.CreateRedMarker(entrance.Position, DimensionManager.CommonDimension);
+            colshape.SetInteraction(ColShapeInteraction);
+        }
+
+        private void ColShapeInteraction(Player player, ColShape shape)
+        {
+            var entrance = shape.GetEntrance()!;
+            bool isHouse = entrance.Realties.Count == 1;
+            if (isHouse)
+                ClientConnect.TriggerEvent(
+                    player, 
+                    RoomManagerEvents.OpenHouseInterfaceToClient, 
+                    entrance.Realties.First().Id.ToString()
+                );
+            else
+                ClientConnect.TriggerEvent(
+                    player,
+                    RoomManagerEvents.OpenApartmentHouseInterfaceToClient,
+                    entrance.Id.ToString()
+                );
         }
         
         [ServerEvent(Event.PlayerEnterColshape)]

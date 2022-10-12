@@ -18,6 +18,9 @@
         <Compile Update="PlayerConstants.cs">
             <DependentUpon>PlayerExtensions.cs</DependentUpon>
         </Compile>
+        <Compile Update="ColShapeConstants.cs">
+          <DependentUpon>ColShapeExtensions.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
