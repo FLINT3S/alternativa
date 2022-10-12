@@ -106,7 +106,7 @@ namespace AdminPanel
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
                     var character = AltContext.GetCharacter(staticId);
-                    character.Resurrect();
+                    character.ResetTimeToReborn();
                     LogPlayer(admin, "ResurrectPlayer", $"Resurrect player with static ID {staticId}");
                 }
             );
@@ -200,7 +200,7 @@ namespace AdminPanel
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
                     var character = AltContext.GetCharacter(staticId);
-                    character.AddSumToCash(admin.GetCharacter(), sum);
+                    character.AddAmountToCash(admin.GetCharacter(), sum);
                     LogPlayer(admin, "ChangePlayersMoney", $"Change money of player with static ID {staticId}");
                 }
             );

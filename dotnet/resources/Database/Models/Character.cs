@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Database.Models.Rooms;
 using Newtonsoft.Json;
 
 namespace Database.Models
@@ -57,9 +56,7 @@ namespace Database.Models
 
         public CharacterFinances Finances { get; private set; }
 
-        public List<House> Houses { get; } = new List<House>();
-
-        public List<Garage> Garages { get; } = new List<Garage>();
+        public List<Realty.Realty> Realties { get; } = new List<Realty.Realty>();
 
         #endregion
     }

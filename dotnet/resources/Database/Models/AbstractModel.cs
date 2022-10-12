@@ -17,14 +17,14 @@ namespace Database.Models
             context.SaveChanges();
         }
 
-        protected void UpdateInContext()
+        protected void UpdateThisInContext()
         {
             using var context = new AltContext();
             context.Update(this);
             context.SaveChanges();
         }
 
-        public void UpdateFromContext()
+        public void UpdateThisFromContext()
         {
             using var context = new AltContext();
             context.Attach(this);

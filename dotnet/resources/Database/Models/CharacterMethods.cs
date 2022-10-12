@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Database.Models.Economics.Cash;
-using Database.Models.Rooms;
 using GTANetworkAPI;
 using Newtonsoft.Json;
 
@@ -18,13 +17,11 @@ namespace Database.Models
                 DateTime.Today.Year - Birthday.Year - 1 :
                 DateTime.Today.Year - Birthday.Year;
 
-        [NotMapped] public AbstractRoom CurrentRoom { get; set; } = null;
-        
-        public void AddSumToCash(Character sender, long sum)
+        public void AddAmountToCash(Character sender, long sum)
         {
             Finances.Cash += sum;
             AltContext.Add(new CashTransaction(sum, sender, this));
-            UpdateInContext();
+            UpdateThisInContext();
         }
 
         public static explicit operator Player (Character character) => character.Account;
@@ -40,7 +37,7 @@ namespace Database.Models
         public void IncreaseInGameTime(TimeSpan time)
         {
             InGameTime += time;
-            UpdateInContext();
+            UpdateThisInContext();
         }
 
         #endregion
@@ -53,16 +50,16 @@ namespace Database.Models
 
         public void DecreaseTimeToReborn(TimeSpan time)
         {
-            UpdateFromContext();
+            UpdateThisFromContext();
             TimeToReborn -= time;
-            UpdateInContext();
+            UpdateThisInContext();
         }
 
-        public void Resurrect()
+        public void ResetTimeToReborn()
         {
-            UpdateFromContext();
+            UpdateThisFromContext();
             TimeToReborn = TimeSpan.FromSeconds(1);
-            UpdateInContext();
+            UpdateThisInContext();
         }
         
         #endregion
@@ -71,16 +68,16 @@ namespace Database.Models
 
         public void OnDisconnect(Player player)
         {
-            UpdateFromContext();
-            Account.OnDisconnect();
+            UpdateThisFromContext();
+            Account.SaveDisconnect();
             SpawnData.Save(player);
-            UpdateInContext();
+            UpdateThisInContext();
         }
 
         public void OnDeath(TimeSpan timeToReborn)
         {
             TimeToReborn += timeToReborn;
-            UpdateInContext();
+            UpdateThisInContext();
         }
 
         #endregion

@@ -11,5 +11,7 @@
         public const string AdminLevel = "adminLevel";
         
         public const string VipLevel = "vipLevel";
+        
+        public const string PlayerColshape = "playerColshape";
     }
 }

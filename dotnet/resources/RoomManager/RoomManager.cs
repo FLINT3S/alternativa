@@ -1,84 +1,71 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using AbstractResource;
 using Database;
-using Database.Models;
-using Database.Models.Rooms;
+using Database.Models.Realty;
+using DimensionProvider;
 using GTANetworkAPI;
+using Microsoft.EntityFrameworkCore;
 using NAPIExtensions;
-using Newtonsoft.Json;
 
 namespace RoomManager
 {
     public class RoomManager : AltAbstractResource
     {
         [ServerEvent(Event.ResourceStart)]
-        public void OnRoomManagerStart()
+        public void OnResourceStart()
         {
-            var externalColShapes = RoomColShape.GetExternalColShapes();
-            foreach (var colShape in externalColShapes)
-                SpawnColShapeAndSetListeners(colShape);
+            using var context = new AltContext();
+            foreach (var entrance in context.Entrances.Include(entrance => entrance.Realties))
+                SpawnEntrance(entrance);
         }
 
-        private void SpawnColShapeAndSetListeners(RoomColShape colShape)
+        private void SpawnEntrance(RealtyEntrance entrance)
         {
-            colShape.SpawnColShape();
-            colShape.OnEntityEnterColShape += (_, player) => 
-                SendEnterColShapeEvent(player, colShape);
-            colShape.OnEntityExitColShape += (_, player) =>
-                ClientConnect.TriggerEvent(player, RoomManagerEvents.ExitFromExternalRoomColShapeToClient);
+            var colshape = NAPI.ColShape.CreatCircleColShape(
+                entrance.Position.X, 
+                entrance.Position.Y, 
+                1f, 
+                DimensionManager.CommonDimension
+            );
+            colshape.SetEntrance(entrance);
+            NAPI.Marker.CreateRedMarker(entrance.Position, DimensionManager.CommonDimension);
+            colshape.SetInteraction(ColShapeInteraction);
         }
 
-        private void SendEnterColShapeEvent(Player player, RoomColShape colShape)
+        private void ColShapeInteraction(Player player, ColShape shape)
         {
-            var rooms = colShape.Rooms;
-            if (rooms.Count > 1)
-                SendMultiRoomColShapeEnterEvent(player, rooms);
+            var entrance = shape.GetEntrance()!;
+            bool isHouse = entrance.Realties.Count == 1;
+            if (isHouse)
+                ClientConnect.TriggerEvent(
+                    player, 
+                    RoomManagerEvents.OpenHouseInterfaceToClient, 
+                    entrance.Realties.First().Id.ToString()
+                );
             else
-                SendSingleRoomColShapeEnterEvent(player, rooms.FirstOrDefault());
+                ClientConnect.TriggerEvent(
+                    player,
+                    RoomManagerEvents.OpenApartmentHouseInterfaceToClient,
+                    entrance.Id.ToString()
+                );
         }
-
-        private void SendSingleRoomColShapeEnterEvent(Player player, AbstractRoom room)
+        
+        [ServerEvent(Event.PlayerEnterColshape)]
+        public void OnPlayerEnterColshape(ColShape colshape, Player player)
         {
-            string roomJson = JsonConvert.SerializeObject(new { room.Id, room.Address });
-            ClientConnect.TriggerEvent(player, RoomManagerEvents.EnterInSingleRoomColShapeToClient, roomJson);
+            player.SetPlayerColShape(colshape);
         }
-
-        private void SendMultiRoomColShapeEnterEvent(Player player, IEnumerable<AbstractRoom> rooms)
+        
+        [ServerEvent(Event.PlayerExitColshape)]
+        public void OnPlayerExitColshape(ColShape colshape, Player player)
         {
-            var simplifiedRooms = rooms.Select(r => new { r.Id, r.Address }).ToList();
-            string roomsJson = JsonConvert.SerializeObject(simplifiedRooms);
-            ClientConnect.TriggerEvent(player, RoomManagerEvents.EnterInMultiRoomColShapeToClient, roomsJson);
+            player.SetPlayerColShape(null);
         }
-
-        [RemoteEvent(RoomManagerEvents.EnterInRoomFromCef)]
-        public void OnSelectRoom(Player player, string roomGuidString)
+        
+        [RemoteEvent(RoomManagerEvents.InteractOnColShapeFromClient)]
+        public void OnInteractOnColShape(Player player)
         {
-            var roomGuid = Guid.Parse(roomGuidString);
-            var room = AltContext.GetRoom(roomGuid);
-            var character = player.GetCharacter();
-            if (!room.AvailableFor(character))
-                CefConnect.TriggerEvent(player, RoomManagerEvents.EnterInRoomFailureToClient);
-            else
-                OnSuccessEnter(room, character);
-        }
-
-        private void OnSuccessEnter(AbstractRoom room, Character character)
-        {
-            room.Exit.OnEntityEnterColShape += (_, client) => 
-                ClientConnect.TriggerEvent(client, RoomManagerEvents.EnterInInternalRoomColShapeToClient);
-            room.Exit.OnEntityExitColShape += (_, client) => 
-                ClientConnect.TriggerEvent(client, RoomManagerEvents.ExitFromInternalRoomColShapeToClient);
-            room.OnRoomEnter(character);
-        }
-
-        [RemoteEvent(RoomManagerEvents.ExitFromRoomFromCef)]
-        public void OnExitFromRoom(Player player, string roomGuidString)
-        {
-            var roomGuid = Guid.Parse(roomGuidString);
-            var room = AltContext.GetRoom(roomGuid);
-            room.OnRoomExit(player.GetCharacter());
+            player.GetPlayerColShape()?.Interaction(player);
         }
     }
 }

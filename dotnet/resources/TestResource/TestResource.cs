@@ -40,7 +40,7 @@ namespace TestResource
             CheckPermissionsAndExecute(player, MethodBase.GetCurrentMethod()!, () =>
             {
                 var character = player.GetCharacter()!;
-                character.Resurrect();
+                character.ResetTimeToReborn();
             });
 
         [Command("myposition"), NeedAdminRights(1)]

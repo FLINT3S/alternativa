@@ -2,7 +2,6 @@
 using System.Linq;
 using Database.Models;
 using Database.Models.Economics.Cash;
-using Database.Models.Rooms;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 
@@ -74,16 +73,6 @@ namespace Database
                 .FirstOrDefault(c => c.StaticId == staticId);
         }
 
-        #endregion
-
-        #region Rooms
-        
-        public static AbstractRoom GetRoom(Guid guid)
-        {
-            using var context = new AltContext();
-            return context.Rooms.Include(r => r.Exit).First(r => r.Id == guid);
-        }
-        
         #endregion
     }
 }
