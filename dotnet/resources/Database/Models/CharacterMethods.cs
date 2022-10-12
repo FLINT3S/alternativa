@@ -21,7 +21,7 @@ namespace Database.Models
         {
             Finances.Cash += sum;
             AltContext.Add(new CashTransaction(sum, sender, this));
-            PushInContext();
+            PushToContext();
         }
 
         public static explicit operator Player (Character character) => character.Account;
@@ -37,7 +37,7 @@ namespace Database.Models
         public void IncreaseInGameTime(TimeSpan time)
         {
             InGameTime += time;
-            PushInContext();
+            PushToContext();
         }
 
         #endregion
@@ -52,14 +52,14 @@ namespace Database.Models
         {
             PullFromContext();
             TimeToReborn -= time;
-            PushInContext();
+            PushToContext();
         }
 
         public void ResetTimeToReborn()
         {
             PullFromContext();
             TimeToReborn = TimeSpan.FromSeconds(1);
-            PushInContext();
+            PushToContext();
         }
         
         #endregion
@@ -71,13 +71,13 @@ namespace Database.Models
             PullFromContext();
             Account.SaveDisconnect();
             SpawnData.Save(player);
-            PushInContext();
+            PushToContext();
         }
 
         public void OnDeath(TimeSpan timeToReborn)
         {
             TimeToReborn += timeToReborn;
-            PushInContext();
+            PushToContext();
         }
 
         #endregion

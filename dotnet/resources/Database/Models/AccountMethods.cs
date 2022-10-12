@@ -30,7 +30,7 @@ namespace Database.Models
         public void AddCharacter(Character character)
         {
             Characters.Add(character);
-            PushInContext();
+            PushToContext();
         }
 
         #endregion
@@ -56,7 +56,7 @@ namespace Database.Models
                 throw new InvalidOperationException("This username already taken");
             Username = newUsername != Username ?
                 newUsername : throw new InvalidOperationException("Usernames are same!");
-            PushInContext();
+            PushToContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "UsernameUpdate", "Username changed"));
         }
 
@@ -71,7 +71,7 @@ namespace Database.Models
             if (IsEmailTaken(newEmail))
                 throw new InvalidOperationException("This email already taken");
             Email = newEmail != Email ? newEmail : throw new InvalidOperationException("Emails are same!");
-            PushInContext();
+            PushToContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "EmailUpdate", "Email changed"));
         }
 
@@ -85,7 +85,7 @@ namespace Database.Models
         public void UpdateHwid(string newHwid)
         {
             LastHwid = newHwid;
-            PushInContext();
+            PushToContext();
         }
 
         public bool IsSameLastHwid(string hwid) => LastHwid == hwid;
@@ -103,7 +103,7 @@ namespace Database.Models
                 throw new InvalidOperationException("Usernames are same!");
 
             SetNewPasswordData(newPassword);
-            PushInContext();
+            PushToContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "PasswordUpdate", "Password changed"));
         }
 
@@ -165,7 +165,7 @@ namespace Database.Models
                     throw new ArgumentOutOfRangeException(nameof(ban));
             }
 
-            PushInContext();
+            PushToContext();
         }
 
         #endregion
@@ -178,9 +178,9 @@ namespace Database.Models
             this.hwid = hwid;
 
             var ce = new ConnectionEvent(ConnectionEventType.Connected, ip, hwid, "Account connected.");
-            ce.PushInContext();
+            ce.PushToContext();
             Connections.Add(ce);
-            PushInContext();
+            PushToContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Connect", $"Account connected. HWID: {hwid}, IP: {ip}"));
         }
 
@@ -188,7 +188,7 @@ namespace Database.Models
         {
             PullFromContext();
             Connections.Add(new ConnectionEvent(ConnectionEventType.Disconnected, ip, hwid, "Account disconnected"));
-            PushInContext();
+            PushToContext();
             AltLogger.Instance.LogInfo(new AltAccountEvent(this, "Disconnect", "Account disconnected."));
         }
 
