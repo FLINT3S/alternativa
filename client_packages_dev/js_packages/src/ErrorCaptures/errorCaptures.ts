@@ -21,7 +21,6 @@ export class altError {
     }
 
     mp.events.callRemote('CLIENT:SERVER:Root:Warning', msg)
-    logger.log(message, 'WARNING')
   }
 }
 

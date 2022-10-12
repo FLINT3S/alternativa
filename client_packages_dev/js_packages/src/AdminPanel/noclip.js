@@ -62,7 +62,6 @@ function stopNoClip() {
     mp.game.graphics.notify('NoClip ~r~disabled');
     if (noClipCamera) {
         localPlayer.position = noClipCamera.getCoord();
-        logger.log(JSON.stringify(noClipCamera.getRot(2)))
         localPlayer.setHeading(noClipCamera.getRot(2).z);
         noClipCamera.destroy(true);
         noClipCamera = null;
