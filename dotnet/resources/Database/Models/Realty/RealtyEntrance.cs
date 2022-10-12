@@ -4,7 +4,7 @@ using GTANetworkAPI;
 
 namespace Database.Models.Realty
 {
-    public class RealtyEntrance
+    public class RealtyEntrance : AbstractModel
     {
         protected RealtyEntrance() {}
         

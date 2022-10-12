@@ -2,7 +2,7 @@
 
 namespace Database.Models.Realty
 {
-    public class RealtyPrototype
+    public class RealtyPrototype : AbstractModel
     {
         protected RealtyPrototype() {}
         
