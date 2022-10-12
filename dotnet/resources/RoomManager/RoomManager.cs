@@ -21,12 +21,7 @@ namespace RoomManager
 
         private void SpawnEntrance(RealtyEntrance entrance)
         {
-            var colshape = NAPI.ColShape.CreatCircleColShape(
-                entrance.Position.X, 
-                entrance.Position.Y, 
-                1f, 
-                DimensionManager.CommonDimension
-            );
+            var colshape = NAPI.ColShape.CreateCircleColShape(entrance.Position, DimensionManager.CommonDimension);
             colshape.SetEntrance(entrance);
             NAPI.Marker.CreateRedMarker(entrance.Position, DimensionManager.CommonDimension);
             colshape.SetInteraction(ColShapeInteraction);

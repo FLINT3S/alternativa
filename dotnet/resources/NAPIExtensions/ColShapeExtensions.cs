@@ -6,6 +6,9 @@ namespace NAPIExtensions
 {
     public static class ColShapeExtensions
     {
+        public static ColShape CreateCircleColShape(this GTANetworkMethods.ColShape colShape, Vector3 position, uint dimension) =>
+            colShape.CreatCircleColShape(position.X, position.Y, 1f, dimension);
+
         public static void SetInteraction(this ColShape shape, Action<Player, ColShape> action) =>
             shape.SetData(ColShapeConstants.Interaction, action);
 
