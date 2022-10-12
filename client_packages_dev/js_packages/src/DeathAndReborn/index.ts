@@ -4,7 +4,6 @@ import {logger} from "../utils/logger";
 let DRBrowser = new ModuleBrowser("DeathAndReborn", "/death-and-reborn")
 
 mp.events.add("SERVER:CLIENT:DeathAndReborn:Death", (secondsToReborn: number, deathReason: string) => {
-  logger.log(["SERVER:CLIENT:DeathAndReborn:Death", `secondsToReborn: ${secondsToReborn}`, `deathReason: ${deathReason}`])
   mp.game.gameplay.setFadeOutAfterDeath(false);
 
   DRBrowser.setAsActive()

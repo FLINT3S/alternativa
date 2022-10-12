@@ -123,7 +123,7 @@ export class AltBrowser {
     })
   }
 
-  closeOverlay(hideCursor: boolean = true): Promise<boolean> {
+  closeOverlay(hideCursor: boolean = true): Promise<void> {
     if (!this.settings.canCloseOverlay) {
       altError.captureWarning("Attempt to close overlay, but it's disabled")
       return
@@ -137,7 +137,7 @@ export class AltBrowser {
           mp.gui.cursor.visible = false
         }
 
-        resolve(true)
+        resolve()
       }, this.options.overlayCloseTimeout)
     })
   }

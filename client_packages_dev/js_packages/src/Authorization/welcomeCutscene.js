@@ -33,7 +33,6 @@ mp.events.add("doneCutscene", () => {
     setTimeout(() => {
         mp.game.cam.doScreenFadeIn(500);
     }, 1000)
-    logger.log("Cutscene ended");
 })
 
 
