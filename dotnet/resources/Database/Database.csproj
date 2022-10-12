@@ -116,6 +116,9 @@
         <Compile Update="Models\Realty\RealtyType.cs">
           <DependentUpon>RealtyPrototype.cs</DependentUpon>
         </Compile>
+        <Compile Update="Migrations\20221002083624_Initial.Designer.cs">
+          <DependentUpon>20221002083624_Initial.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 </Project>    
     

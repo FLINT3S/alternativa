@@ -3,7 +3,6 @@ import {FPS} from "./FpsCalculator";
 import {browserManager} from "../BrowserManager/browserManager";
 import {AltBrowser} from "../BrowserManager/altBrowser";
 import {VirtualKey} from "../utils/virtualKeys";
-import {logger} from "../utils/logger";
 
 const debugHudInfo = new InfoHudData();
 const rootBrowser: AltBrowser = browserManager.getBrowser("alt")
@@ -33,10 +32,8 @@ mp.keys.bind(VirtualKey.VK_OEM_6, true, () => {
   if (showDebugHud) {
     showDebugHud = false
     clearInterval(updateInterval);
-    rootBrowser.execEvent("CLIENT:CEF:DebugHud:setDebugHudVisibility", false);
   } else {
     showDebugHud = true
     initDebugHud();
-    rootBrowser.execEvent("CLIENT:CEF:DebugHud:setDebugHudVisibility", true);
   }
 })

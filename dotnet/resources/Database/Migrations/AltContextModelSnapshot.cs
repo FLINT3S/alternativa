@@ -474,6 +474,9 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<Guid?>("EntranceId")
                         .HasColumnType("uuid");
 
@@ -482,6 +485,9 @@ namespace Database.Migrations
 
                     b.Property<Guid?>("PrototypeId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -500,8 +506,14 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Entrance")
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Position")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -513,6 +525,9 @@ namespace Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<long>("GovernmentPrice")
                         .HasColumnType("bigint");
@@ -528,6 +543,9 @@ namespace Database.Migrations
 
                     b.Property<byte>("Type")
                         .HasColumnType("smallint");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -709,7 +727,7 @@ namespace Database.Migrations
                         .HasForeignKey("EntranceId");
 
                     b.HasOne("Database.Models.Character", "Owner")
-                        .WithMany()
+                        .WithMany("Realties")
                         .HasForeignKey("OwnerId");
 
                     b.HasOne("Database.Models.Realty.RealtyPrototype", "Prototype")
