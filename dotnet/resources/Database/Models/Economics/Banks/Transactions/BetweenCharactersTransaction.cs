@@ -11,7 +11,7 @@ namespace Database.Models.Economics.Banks.Transactions
         {
         }
 
-        public BetweenCharactersTransaction(double sum, BankAccount from, BankAccount to) : base(sum, from)
+        public BetweenCharactersTransaction(double amount, BankAccount from, BankAccount to) : base(amount, from)
         {
             To = to;
         }

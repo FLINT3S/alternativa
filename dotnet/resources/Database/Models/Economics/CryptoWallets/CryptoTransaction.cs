@@ -10,9 +10,9 @@ namespace Database.Models.Economics.CryptoWallets
         {
         }
 
-        public CryptoTransaction(double sum, CryptoWallet from, CryptoWallet to)
+        public CryptoTransaction(double amount, CryptoWallet from, CryptoWallet to)
         {
-            Sum = sum;
+            Amount = amount;
             From = from;
             To = to;
         }

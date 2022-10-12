@@ -8,8 +8,7 @@ namespace Database.Models
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
-            builder.HasKey(a => a.SocialClubId);
-
+            builder.HasKey(account => account.Id);
             builder.Property("PasswordHash");
             builder.Property("PasswordSalt");
             builder.Property("Email");

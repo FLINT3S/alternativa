@@ -11,7 +11,7 @@ namespace Database.Models.Economics.CryptoWallets
         {
         }
 
-        public CryptoWallet(double startSum) => Sum = startSum;
+        public CryptoWallet(double startAmount) => Amount = startAmount;
 
         public List<CryptoTransaction> Transactions { get; } = new List<CryptoTransaction>();
     }

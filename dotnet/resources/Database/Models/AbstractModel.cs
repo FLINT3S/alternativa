@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Database.Models
 {
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
     public abstract class AbstractModel
     {
+        [JsonProperty("guid")] public Guid Id { get; }
+        
         public DateTime CreatedDate { get; internal set; } = DateTime.Now;
 
         public DateTime UpdatedDate { get; internal set; } = DateTime.Now;

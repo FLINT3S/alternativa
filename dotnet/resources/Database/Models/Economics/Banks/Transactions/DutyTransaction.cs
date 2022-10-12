@@ -6,7 +6,7 @@
         {
         }
 
-        public DutyTransaction(double sum, BankAccount from) : base(sum, from)
+        public DutyTransaction(double amount, BankAccount from) : base(amount, from)
         {
         }
     }

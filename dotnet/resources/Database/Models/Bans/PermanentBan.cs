@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Database.Models.Bans
 {
@@ -14,7 +15,7 @@ namespace Database.Models.Bans
             string description = null) :
             base(givenBy, givenTo, reason, description)
         {
-            AccountId = givenTo.SocialClubId;
+            AccountId = givenTo.Id;
             HWID = hwid;
         }
 
@@ -23,7 +24,7 @@ namespace Database.Models.Bans
         {
         }
 
-        private ulong AccountId { get; set; }
+        private Guid AccountId { get; set; }
 
         public string HWID { get; private set; }
     }

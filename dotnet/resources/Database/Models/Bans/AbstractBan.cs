@@ -20,8 +20,6 @@ namespace Database.Models.Bans
             Description = description;
         }
 
-        public Guid Id { get; private set; }
-
         public BanReason Reason { get; private set; }
 
         public string Description { get; private set; }

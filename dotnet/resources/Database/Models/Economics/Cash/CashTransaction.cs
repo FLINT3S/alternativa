@@ -19,8 +19,6 @@ namespace Database.Models.Economics.Cash
             To = to;
         }
 
-        public Guid Id { get; private set; }
-
         public double Sum { get; private set; }
 
         public Character From { get; private set; }

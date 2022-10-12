@@ -13,9 +13,10 @@ namespace Database.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    SocialClubId = table.Column<decimal>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: false),
+                    SocialClubId = table.Column<decimal>(nullable: false),
                     Username = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<string>(nullable: true),
                     PasswordSalt = table.Column<string>(nullable: true),
@@ -26,15 +27,14 @@ namespace Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accounts", x => x.SocialClubId);
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Bank",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: false),
                     Money = table.Column<double>(nullable: false)
@@ -45,11 +45,40 @@ namespace Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Entrances",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    Position = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Entrances", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Interior",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    IplName = table.Column<string>(nullable: true),
+                    Entrance = table.Column<string>(nullable: true),
+                    Exit = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Interior", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AccountEvents",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: false),
                     DateTime = table.Column<DateTime>(nullable: false),
@@ -58,16 +87,16 @@ namespace Database.Migrations
                     Description = table.Column<string>(nullable: true),
                     Discriminator = table.Column<string>(nullable: false),
                     Type = table.Column<int>(nullable: true),
-                    AccountSocialClubId = table.Column<decimal>(nullable: true)
+                    AccountId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AccountEvents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AccountEvents_Accounts_AccountSocialClubId",
-                        column: x => x.AccountSocialClubId,
+                        name: "FK_AccountEvents_Accounts_AccountId",
+                        column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "SocialClubId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -80,32 +109,32 @@ namespace Database.Migrations
                     UpdatedDate = table.Column<DateTime>(nullable: false),
                     Reason = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    GivenBySocialClubId = table.Column<decimal>(nullable: true),
+                    GivenById = table.Column<Guid>(nullable: true),
                     Discriminator = table.Column<string>(nullable: false),
-                    AccountId = table.Column<decimal>(nullable: true),
+                    AccountId = table.Column<Guid>(nullable: true),
                     HWID = table.Column<string>(nullable: true),
-                    GivenToSocialClubId = table.Column<decimal>(nullable: true)
+                    GivenToId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bans_Accounts_GivenBySocialClubId",
-                        column: x => x.GivenBySocialClubId,
+                        name: "FK_Bans_Accounts_GivenById",
+                        column: x => x.GivenById,
                         principalTable: "Accounts",
-                        principalColumn: "SocialClubId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Bans_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "SocialClubId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bans_Accounts_GivenToSocialClubId",
-                        column: x => x.GivenToSocialClubId,
+                        name: "FK_Bans_Accounts_GivenToId",
+                        column: x => x.GivenToId,
                         principalTable: "Accounts",
-                        principalColumn: "SocialClubId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -119,7 +148,7 @@ namespace Database.Migrations
                     TimeToReborn = table.Column<TimeSpan>(nullable: false),
                     StaticId = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AccountSocialClubId = table.Column<decimal>(nullable: true),
+                    AccountId = table.Column<Guid>(nullable: true),
                     InGameTime = table.Column<TimeSpan>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
@@ -130,11 +159,35 @@ namespace Database.Migrations
                 {
                     table.PrimaryKey("PK_Characters", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Characters_Accounts_AccountSocialClubId",
-                        column: x => x.AccountSocialClubId,
+                        name: "FK_Characters_Accounts_AccountId",
+                        column: x => x.AccountId,
                         principalTable: "Accounts",
-                        principalColumn: "SocialClubId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RealtyPrototype",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    InteriorId = table.Column<Guid>(nullable: true),
+                    Type = table.Column<byte>(nullable: false),
+                    PriceSegment = table.Column<byte>(nullable: false),
+                    GovernmentPrice = table.Column<long>(nullable: false),
+                    ParkingPlaces = table.Column<byte>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RealtyPrototype", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RealtyPrototype_Interior_InteriorId",
+                        column: x => x.InteriorId,
+                        principalTable: "Interior",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,19 +265,52 @@ namespace Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Realty",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
+                    PrototypeId = table.Column<Guid>(nullable: true),
+                    EntranceId = table.Column<Guid>(nullable: true),
+                    OwnerId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Realty", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Realty_Entrances_EntranceId",
+                        column: x => x.EntranceId,
+                        principalTable: "Entrances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Realty_Characters_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Realty_RealtyPrototype_PrototypeId",
+                        column: x => x.PrototypeId,
+                        principalTable: "RealtyPrototype",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BankAccounts",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: false),
-                    Sum = table.Column<double>(nullable: false),
+                    Amount = table.Column<double>(nullable: false),
                     Rate = table.Column<double>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     OwnerFinancesId = table.Column<Guid>(nullable: true),
-                    BankId1 = table.Column<long>(nullable: true),
-                    BankId = table.Column<long>(nullable: true)
+                    BankId1 = table.Column<Guid>(nullable: true),
+                    BankId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -250,10 +336,10 @@ namespace Database.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: false),
-                    Sum = table.Column<double>(nullable: false),
-                    FromId = table.Column<long>(nullable: true),
+                    Amount = table.Column<double>(nullable: false),
+                    FromId = table.Column<Guid>(nullable: true),
                     Discriminator = table.Column<string>(nullable: false),
-                    ToId = table.Column<long>(nullable: true)
+                    ToId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -279,7 +365,7 @@ namespace Database.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     OwnerId = table.Column<Guid>(nullable: false),
                     Cash = table.Column<long>(nullable: false),
-                    MainBankAccountId = table.Column<long>(nullable: true)
+                    MainBankAccountId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -302,11 +388,10 @@ namespace Database.Migrations
                 name: "CryptoWallets",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: false),
-                    Sum = table.Column<double>(nullable: false),
+                    Amount = table.Column<double>(nullable: false),
                     CharacterFinancesId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -327,9 +412,9 @@ namespace Database.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: false),
-                    Sum = table.Column<double>(nullable: false),
-                    FromId = table.Column<long>(nullable: true),
-                    ToId = table.Column<long>(nullable: true)
+                    Amount = table.Column<double>(nullable: false),
+                    FromId = table.Column<Guid>(nullable: true),
+                    ToId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -348,66 +433,10 @@ namespace Database.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Rooms",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    UpdatedDate = table.Column<DateTime>(nullable: false),
-                    Address = table.Column<string>(nullable: true),
-                    EntranceId = table.Column<Guid>(nullable: true),
-                    Interior = table.Column<string>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false),
-                    Cost = table.Column<long>(nullable: true),
-                    OwnerId1 = table.Column<Guid>(nullable: true),
-                    OwnerId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rooms", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Rooms_Characters_OwnerId1",
-                        column: x => x.OwnerId1,
-                        principalTable: "Characters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Rooms_Characters_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Characters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ColShapes",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    UpdatedDate = table.Column<DateTime>(nullable: false),
-                    Center = table.Column<string>(nullable: true),
-                    Radius = table.Column<float>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    IsInternal = table.Column<bool>(nullable: true),
-                    OwnerId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ColShapes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ColShapes_Rooms_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_AccountEvents_AccountSocialClubId",
+                name: "IX_AccountEvents_AccountId",
                 table: "AccountEvents",
-                column: "AccountSocialClubId");
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BankAccounts_BankId",
@@ -435,9 +464,9 @@ namespace Database.Migrations
                 column: "ToId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bans_GivenBySocialClubId",
+                name: "IX_Bans_GivenById",
                 table: "Bans",
-                column: "GivenBySocialClubId");
+                column: "GivenById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bans_AccountId",
@@ -446,9 +475,9 @@ namespace Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bans_GivenToSocialClubId",
+                name: "IX_Bans_GivenToId",
                 table: "Bans",
-                column: "GivenToSocialClubId");
+                column: "GivenToId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CashTransactions_FromId",
@@ -478,19 +507,13 @@ namespace Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Characters_AccountSocialClubId",
+                name: "IX_Characters_AccountId",
                 table: "Characters",
-                column: "AccountSocialClubId");
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharacterSpawnData_OwnerId",
                 table: "CharacterSpawnData",
-                column: "OwnerId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ColShapes_OwnerId",
-                table: "ColShapes",
                 column: "OwnerId",
                 unique: true);
 
@@ -510,19 +533,24 @@ namespace Database.Migrations
                 column: "CharacterFinancesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_EntranceId",
-                table: "Rooms",
+                name: "IX_Realty_EntranceId",
+                table: "Realty",
                 column: "EntranceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_OwnerId1",
-                table: "Rooms",
-                column: "OwnerId1");
+                name: "IX_Realty_OwnerId",
+                table: "Realty",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_OwnerId",
-                table: "Rooms",
-                column: "OwnerId");
+                name: "IX_Realty_PrototypeId",
+                table: "Realty",
+                column: "PrototypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RealtyPrototype_InteriorId",
+                table: "RealtyPrototype",
+                column: "InteriorId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BankAccounts_CharacterFinances_OwnerFinancesId",
@@ -531,20 +559,12 @@ namespace Database.Migrations
                 principalTable: "CharacterFinances",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Rooms_ColShapes_EntranceId",
-                table: "Rooms",
-                column: "EntranceId",
-                principalTable: "ColShapes",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Characters_Accounts_AccountSocialClubId",
+                name: "FK_Characters_Accounts_AccountId",
                 table: "Characters");
 
             migrationBuilder.DropForeignKey(
@@ -558,18 +578,6 @@ namespace Database.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_BankAccounts_CharacterFinances_OwnerFinancesId",
                 table: "BankAccounts");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Rooms_Characters_OwnerId1",
-                table: "Rooms");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Rooms_Characters_OwnerId",
-                table: "Rooms");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ColShapes_Rooms_OwnerId",
-                table: "ColShapes");
 
             migrationBuilder.DropTable(
                 name: "AccountEvents");
@@ -593,7 +601,19 @@ namespace Database.Migrations
                 name: "CryptoTransactions");
 
             migrationBuilder.DropTable(
+                name: "Realty");
+
+            migrationBuilder.DropTable(
                 name: "CryptoWallets");
+
+            migrationBuilder.DropTable(
+                name: "Entrances");
+
+            migrationBuilder.DropTable(
+                name: "RealtyPrototype");
+
+            migrationBuilder.DropTable(
+                name: "Interior");
 
             migrationBuilder.DropTable(
                 name: "Accounts");
@@ -609,12 +629,6 @@ namespace Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Characters");
-
-            migrationBuilder.DropTable(
-                name: "Rooms");
-
-            migrationBuilder.DropTable(
-                name: "ColShapes");
         }
     }
 }

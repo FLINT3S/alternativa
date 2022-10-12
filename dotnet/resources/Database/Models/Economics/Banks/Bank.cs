@@ -11,8 +11,6 @@ namespace Database.Models.Economics.Banks
         {
         }
 
-        public long Id { get; protected set; }
-
         public double Money { get; protected set; }
 
         public List<BankAccount> Accounts { get; } = new List<BankAccount>();

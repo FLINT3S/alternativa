@@ -20,8 +20,6 @@ namespace Database.Models.AccountEvents
             DateTime = DateTime.Now;
         }
 
-        public long Id { get; private set; }
-
         public DateTime DateTime { get; private set; }
 
         public string Ip { get; private set; }

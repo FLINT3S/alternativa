@@ -11,9 +11,9 @@ namespace Database.Models.Economics.Banks.Transactions
         {
         }
 
-        protected AbstractBankTransaction(double sum, BankAccount from)
+        protected AbstractBankTransaction(double amount, BankAccount from)
         {
-            Sum = sum;
+            Amount = amount;
             From = from;
         }
 

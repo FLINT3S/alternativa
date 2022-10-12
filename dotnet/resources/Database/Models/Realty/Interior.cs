@@ -9,8 +9,6 @@ namespace Database.Models.Realty
         {
         }
         
-        public Guid Id { get; protected set; }
-        
         public string IplName { get; protected set; }
         
         public Vector3 Entrance { get; protected set; }

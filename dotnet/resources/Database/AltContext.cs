@@ -46,6 +46,7 @@ namespace Database
             modelBuilder.ApplyConfiguration(new BankConfiguration());
             modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
             modelBuilder.ApplyConfiguration(new CashTransactionConfiguration());
+            modelBuilder.ApplyConfiguration(new CryptoTransactionConfiguration());
             modelBuilder.ApplyConfiguration<AbstractBankTransaction>(new TransactionConfiguration());
             modelBuilder.ApplyConfiguration<BetweenCharactersTransaction>(new TransactionConfiguration());
             modelBuilder.ApplyConfiguration<DutyTransaction>(new TransactionConfiguration());

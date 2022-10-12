@@ -32,8 +32,6 @@ namespace Database.Models
 
         #region Main Data
 
-        [JsonProperty("guid")] public Guid Id { get; }
-
         [JsonProperty("staticId")] public long StaticId { get; }
 
         [JsonIgnore] public Account Account { get; }

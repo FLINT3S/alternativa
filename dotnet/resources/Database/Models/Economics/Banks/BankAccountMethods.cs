@@ -9,8 +9,8 @@ namespace Database.Models.Economics.Banks
         
         public void Recalculate()
         {
-            Sum += Sum * Rate / 100;
-            Transactions.Add(new DutyTransaction(Sum * Rate, this));
+            Amount += Amount * Rate / 100;
+            Transactions.Add(new DutyTransaction(Amount * Rate, this));
             PushToContext();
         }
     }

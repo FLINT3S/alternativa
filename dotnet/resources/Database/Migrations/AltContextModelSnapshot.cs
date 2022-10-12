@@ -22,9 +22,9 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.Account", b =>
                 {
-                    b.Property<decimal>("SocialClubId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("numeric(20,0)");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("AdminLevel")
                         .HasColumnType("integer");
@@ -44,6 +44,9 @@ namespace Database.Migrations
                     b.Property<string>("PasswordSalt")
                         .HasColumnType("text");
 
+                    b.Property<decimal>("SocialClubId")
+                        .HasColumnType("numeric(20,0)");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -53,17 +56,16 @@ namespace Database.Migrations
                     b.Property<int>("VipLevel")
                         .HasColumnType("integer");
 
-                    b.HasKey("SocialClubId");
+                    b.HasKey("Id");
 
                     b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("Database.Models.AccountEvents.AccountEvent", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -110,8 +112,8 @@ namespace Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<decimal?>("GivenBySocialClubId")
-                        .HasColumnType("numeric(20,0)");
+                    b.Property<Guid?>("GivenById")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Reason")
                         .HasColumnType("integer");
@@ -121,7 +123,7 @@ namespace Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GivenBySocialClubId");
+                    b.HasIndex("GivenById");
 
                     b.ToTable("Bans");
 
@@ -134,8 +136,8 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<decimal?>("AccountSocialClubId")
-                        .HasColumnType("numeric(20,0)");
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("timestamp without time zone");
@@ -168,7 +170,7 @@ namespace Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountSocialClubId");
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Characters");
                 });
@@ -214,8 +216,8 @@ namespace Database.Migrations
                     b.Property<long>("Cash")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("MainBankAccountId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("MainBankAccountId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");
@@ -264,10 +266,9 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.Economics.Banks.Bank", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -285,16 +286,18 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.Economics.Banks.BankAccount", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("uuid");
 
-                    b.Property<long?>("BankId")
-                        .HasColumnType("bigint");
+                    b.Property<double>("Amount")
+                        .HasColumnType("double precision");
 
-                    b.Property<long?>("BankId1")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("BankId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("BankId1")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -303,9 +306,6 @@ namespace Database.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<double>("Rate")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("Sum")
                         .HasColumnType("double precision");
 
                     b.Property<int>("Type")
@@ -331,6 +331,9 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<double>("Amount")
+                        .HasColumnType("double precision");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -338,11 +341,8 @@ namespace Database.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("FromId")
-                        .HasColumnType("bigint");
-
-                    b.Property<double>("Sum")
-                        .HasColumnType("double precision");
+                    b.Property<Guid?>("FromId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -392,17 +392,17 @@ namespace Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<double>("Amount")
+                        .HasColumnType("double precision");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<long?>("FromId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("FromId")
+                        .HasColumnType("uuid");
 
-                    b.Property<double>("Sum")
-                        .HasColumnType("double precision");
-
-                    b.Property<long?>("ToId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("ToId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -418,19 +418,18 @@ namespace Database.Migrations
 
             modelBuilder.Entity("Database.Models.Economics.CryptoWallets.CryptoWallet", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("double precision");
 
                     b.Property<Guid?>("CharacterFinancesId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<double>("Sum")
-                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -558,13 +557,13 @@ namespace Database.Migrations
                 {
                     b.HasBaseType("Database.Models.AccountEvents.AccountEvent");
 
-                    b.Property<decimal?>("AccountSocialClubId")
-                        .HasColumnType("numeric(20,0)");
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
-                    b.HasIndex("AccountSocialClubId");
+                    b.HasIndex("AccountId");
 
                     b.HasDiscriminator().HasValue("ConnectionEvent");
                 });
@@ -573,8 +572,8 @@ namespace Database.Migrations
                 {
                     b.HasBaseType("Database.Models.Bans.AbstractBan");
 
-                    b.Property<decimal>("AccountId")
-                        .HasColumnType("numeric(20,0)");
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("HWID")
                         .HasColumnType("text");
@@ -589,10 +588,10 @@ namespace Database.Migrations
                 {
                     b.HasBaseType("Database.Models.Bans.AbstractBan");
 
-                    b.Property<decimal?>("GivenToSocialClubId")
-                        .HasColumnType("numeric(20,0)");
+                    b.Property<Guid?>("GivenToId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("GivenToSocialClubId");
+                    b.HasIndex("GivenToId");
 
                     b.HasDiscriminator().HasValue("TemporaryBan");
                 });
@@ -601,8 +600,8 @@ namespace Database.Migrations
                 {
                     b.HasBaseType("Database.Models.Economics.Banks.Transactions.AbstractBankTransaction");
 
-                    b.Property<long?>("ToId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("ToId")
+                        .HasColumnType("uuid");
 
                     b.HasIndex("ToId");
 
@@ -627,14 +626,14 @@ namespace Database.Migrations
                 {
                     b.HasOne("Database.Models.Account", "GivenBy")
                         .WithMany()
-                        .HasForeignKey("GivenBySocialClubId");
+                        .HasForeignKey("GivenById");
                 });
 
             modelBuilder.Entity("Database.Models.Character", b =>
                 {
                     b.HasOne("Database.Models.Account", "Account")
                         .WithMany("Characters")
-                        .HasForeignKey("AccountSocialClubId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -746,7 +745,7 @@ namespace Database.Migrations
                 {
                     b.HasOne("Database.Models.Account", null)
                         .WithMany("Connections")
-                        .HasForeignKey("AccountSocialClubId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -763,7 +762,7 @@ namespace Database.Migrations
                 {
                     b.HasOne("Database.Models.Account", "GivenTo")
                         .WithMany("TemporaryBans")
-                        .HasForeignKey("GivenToSocialClubId")
+                        .HasForeignKey("GivenToId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

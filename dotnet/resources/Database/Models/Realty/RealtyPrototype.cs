@@ -6,8 +6,6 @@ namespace Database.Models.Realty
     {
         protected RealtyPrototype() {}
         
-        public Guid Id { get; protected set; }
-        
         public Interior Interior { get; protected set; }
         
         public RealtyType Type { get; protected set; }

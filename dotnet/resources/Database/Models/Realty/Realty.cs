@@ -8,8 +8,6 @@ namespace Database.Models.Realty
         {
         }
         
-        public Guid Id { get; protected set; }
-        
         public RealtyPrototype Prototype { get; protected set; }
         
         public RealtyEntrance Entrance { get; protected set; }
