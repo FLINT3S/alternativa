@@ -20,6 +20,7 @@ namespace Authorization.ChainsOfResponsibility.PlayerConnectedHandlers
 
         protected override void _Handle(Player player)
         {
+            player.Transparency = 0;
             var account = (Account)player;
             account.OnConnect(player.Address, player.Serial);
             Log(player);
