@@ -54,12 +54,10 @@ namespace NAPIExtensions
         private static void ApplyCharacterAppearance(this Player player, Character? character)
         {
             #region SetHeadBlend
-
-            Console.WriteLine(character!.Appearance?.ToJsonString());
-
+            
             var headBlend = new HeadBlend
             {
-                ShapeFirst = character.Appearance!.MotherId,
+                ShapeFirst = character!.Appearance!.MotherId,
                 ShapeSecond = character.Appearance.FatherId,
                 ShapeThird = 0,
                 SkinFirst = character.Appearance.MotherId,
