@@ -100,20 +100,15 @@ namespace NAPIExtensions
         public static void SetPlayerColShape(this Player player, ColShape? shape)
         {
             if (shape == null)
-            {
                 player.ResetData(PlayerConstants.PlayerColshape);
-            }
             else
-            {
-                player.SetData<ColShape>(PlayerConstants.PlayerColshape, shape);
-            }
+                player.SetData(PlayerConstants.PlayerColshape, shape);
         }
 
-        public static ColShape? GetPlayerColShape(this Player player)
-        {
-            if (player.HasData(PlayerConstants.PlayerColshape)) return player.GetData<ColShape>(PlayerConstants.PlayerColshape);
-            return null;
-        }
+        public static ColShape? GetPlayerColShape(this Player player) =>
+            player.HasData(PlayerConstants.PlayerColshape) ?
+                player.GetData<ColShape>(PlayerConstants.PlayerColshape) :
+                null;
 
         #endregion
     }
