@@ -10,21 +10,14 @@ namespace Database.Models
 
         public DateTime UpdatedDate { get; internal set; } = DateTime.Now;
 
-        public void AddToContext()
-        {
-            using var context = new AltContext();
-            context.Add(this);
-            context.SaveChanges();
-        }
-
-        protected void UpdateThisInContext()
+        public void PushInContext()
         {
             using var context = new AltContext();
             context.Update(this);
             context.SaveChanges();
         }
 
-        public void UpdateThisFromContext()
+        public void PullFromContext()
         {
             using var context = new AltContext();
             context.Attach(this);

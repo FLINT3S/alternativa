@@ -11,7 +11,7 @@ namespace Database.Models.Economics.Banks
         {
             Sum += Sum * Rate / 100;
             Transactions.Add(new DutyTransaction(Sum * Rate, this));
-            UpdateThisInContext();
+            PushInContext();
         }
     }
 }

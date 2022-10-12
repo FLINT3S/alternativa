@@ -23,7 +23,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
         protected override void _Handle(Player player, string login, string password, string email)
         {
             var account = new Account(player.SocialClubId, login, password, email);
-            account.AddToContext();
+            account.PushInContext();
             account.UpdateHwid(player.Serial);
             Log(player);
             ClientConnect.TriggerEvent(player, RegistrationEvents.RegisterSuccess, "Success!");
