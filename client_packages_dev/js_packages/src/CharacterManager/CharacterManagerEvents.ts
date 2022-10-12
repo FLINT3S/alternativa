@@ -3,6 +3,8 @@ export enum CharacterManagerEvents {
   UPDATE_PARENTS_FROM_CEF = "CEF:CLIENT:CharacterManager:UpdateParents",
   CHANGE_GENDER_FROM_CEF = "CEF:CLIENT:CharacterManager:ChangeGender",
   UPDATE_FACE_FEATURES_FROM_CEF = "CEF:CLIENT:CharacterManager:UpdateFaceFeatures",
+  
+  // [WARN] Исполнить клиентский код из CEF при создании персонажа
   EXECUTE_CHARACTER_CREATION = "CEF:CLIENT:CharacterManager:ExecuteCharacterCreation",
   CHARACTER_CREATED_SUBMIT_FROM_CEF = "CEF:CLIENT:CharacterManager:CharacterCreatedSubmit",
 

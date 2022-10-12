@@ -2,8 +2,6 @@ import {ModuleBrowser} from "../BrowserManager/altBrowser";
 import {AuthorizationEvents} from "../Authorization/AuthorizationEvents";
 import {CharacterManagerEvents} from "./CharacterManagerEvents";
 import {loginCam} from "../Authorization/authorization";
-import {VirtualKey} from "../utils/virtualKeys";
-import {logger} from "../utils/logger";
 import {
   removeRotateCamera,
   rotateCameraSafeZone,
@@ -14,10 +12,10 @@ import {
 import {CharacterData} from "./data/CharacterData";
 import {IsCameraInAir} from "../Authorization/spawnCamera.js";
 import {animationManager} from "../Managers/animationManager";
+import {localPlayer} from "../Managers/localPlayerManager";
 
 const characterManagerBrowser = new ModuleBrowser("CharacterManager", "/character-manager/select-character")
 let characterCreationCamera: CameraMp = mp.cameras.new('default', new mp.Vector3(-752.297, 316.276, 176), new mp.Vector3(0, 0, 0), 45);
-const localPlayer = mp.players.local;
 const characterData = new CharacterData();
 
 mp.events.add(AuthorizationEvents.GO_TO_CHARACTER_MANAGER, () => {
@@ -150,9 +148,4 @@ mp.events.add(CharacterManagerEvents.EXECUTE_CHARACTER_CREATION, (localPlayerExe
   if (localPlayer[localPlayerExecData.method]) {
     localPlayer[localPlayerExecData.method](...localPlayerExecData.value)
   }
-})
-
-mp.keys.bind(VirtualKey.VK_F4, true, () => {
-  logger.log(JSON.stringify(localPlayer.position))
-  logger.log(JSON.stringify(characterCreationCamera.getCoord()))
 })
