@@ -1,4 +1,5 @@
-﻿using GTANetworkAPI;
+﻿using System;
+using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
@@ -26,6 +27,8 @@ namespace Database.Models.Realty
                     v => JsonConvert.SerializeObject(v),
                     s => JsonConvert.DeserializeObject<Vector3>(s)
                 );
+
+            builder.HasData(Data.Realty.Interiors);
         }
 
         public void Configure(EntityTypeBuilder<RealtyPrototype> builder)

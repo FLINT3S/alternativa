@@ -8,6 +8,14 @@ namespace Database.Models.Realty
         protected Interior()
         {
         }
+
+        public Interior(Guid guid, string iplName, Vector3 entrance, Vector3 exit)
+        {
+            Id = guid;
+            IplName = iplName;
+            Entrance = entrance;
+            Exit = exit;
+        }
         
         public string IplName { get; protected set; }
         
