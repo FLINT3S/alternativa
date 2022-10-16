@@ -7,7 +7,14 @@ namespace Database.Models.Realty
         protected Realty()
         {
         }
-        
+
+        public Realty(RealtyPrototype prototype, RealtyEntrance entrance, Character owner)
+        {
+            Prototype = prototype;
+            Entrance = entrance;
+            Owner = owner;
+        }
+
         public RealtyPrototype Prototype { get; protected set; }
         
         public RealtyEntrance Entrance { get; protected set; }

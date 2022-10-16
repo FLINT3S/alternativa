@@ -1,6 +1,8 @@
 ﻿import {localPlayer} from "../Managers/localPlayerManager";
 import {RoomManagerEvents} from "./RoomManagerEvents";
+import {ModuleBrowser} from "../BrowserManager/altBrowser";
 
+const RMBrowser = new ModuleBrowser("RoomManager", "/room-manager")
 
 const loadByIPL = (ipl: string) => {
   mp.game.streaming.requestIpl(ipl)
@@ -27,3 +29,10 @@ mp.events.add(RoomManagerEvents.UNLOAD_INTERIOR, unloadInterior)
 
 mp.events.add(RoomManagerEvents.LOAD_INTERIOR_FROM_CEF, loadInterior)
 mp.events.add(RoomManagerEvents.UNLOAD_INTERIOR_FROM_CEF, unloadInterior)
+
+
+const onOpenHouseInterface = () => {
+  RMBrowser.browser.execClient("Root", "ShowMessage", "Типа заходим в дом")
+}
+
+mp.events.add(RoomManagerEvents.OPEN_HOUSE_INTERFACE, onOpenHouseInterface)

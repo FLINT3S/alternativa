@@ -81,7 +81,7 @@ namespace AdminPanel.JsonBuilder
             AdminPanelEvents.RepairCarFromCef => "Починить машину игроку",
             AdminPanelEvents.GiveWeaponFromCef => "Выдать оружие игроку",
             AdminPanelEvents.RemoveWeaponFromCef => "Отобрать оружие у игрока",
-            _ => throw new ArgumentException("Unexpected method")
+            _ => "Unexpected method"
         };
 
         private static string GetActionCommand(string eventName) => eventName.Split(':')[^1];

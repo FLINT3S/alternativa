@@ -63,7 +63,6 @@ export class altMP extends ModuleDependent {
    * Отправляет событие серверу и ожидает ответа
    * */
   triggerServerWithAnswerPending(eventName: string, ...data: Array<number | string>): Promise<Array<number | string | boolean>> {
-    // TODO: Типизировать коллбэки и промисы
     return new Promise((resolve, reject) => {
       const answerEs = new EventString("CEF", "SERVER", this.moduleName, `${eventName}Answered`)
       const rejectTimeout = setTimeout(() => {

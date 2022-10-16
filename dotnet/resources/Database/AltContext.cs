@@ -95,6 +95,7 @@ namespace Database
         #region Realty
         
         public DbSet<RealtyEntrance> Entrances { get; private set; }
+        public DbSet<RealtyPrototype> RealityPrototypes { get; private set; }
 
         #endregion
     }

@@ -10,8 +10,8 @@
       <n-tab-pane name="env" tab="Окружение">
         Hey Jude
       </n-tab-pane>
-      <n-tab-pane name="other" tab="Другое">
-        Другое
+      <n-tab-pane name="other" tab="Недвижимость">
+        <AdminRealty/>
       </n-tab-pane>
     </n-tabs>
   </n-card>
@@ -21,6 +21,8 @@
 import {NCard, NTabPane, NTabs} from 'naive-ui'
 import AdminIndex from "@/module/admin-panel/views/AdminIndex.vue";
 import AdminPlayers from "@/module/admin-panel/views/AdminPlayers.vue";
+import AdminRealty from "@/module/admin-panel/views/AdminRealty.vue";
+
 import {useAdminStore} from "@/store/adminPanel";
 
 const {initAdminPanel} = useAdminStore()

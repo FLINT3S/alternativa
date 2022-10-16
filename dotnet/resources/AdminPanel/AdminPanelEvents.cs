@@ -49,5 +49,12 @@
         public const string RemoveWeaponFromCef = "CEF:SERVER:AdminPanel:RemoveWeapon";
 
         #endregion
+        
+        #region Realty Events
+        public const string GetHousePrototypes = "CEF:SERVER:AdminPanel:GetHousePrototypes";
+        
+        public const string CreateSingleHouse = "CEF:SERVER:AdminPanel:CreateSingleHouse";
+
+        #endregion
     }
 }
