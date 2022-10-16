@@ -70,7 +70,7 @@ namespace RoomManager
             house.OnPlayerEntrance(player);
         }
 
-        private static void CreateExit(Realty realty)
+        private void CreateExit(Realty realty)
         {
             var exit = NAPI.ColShape.CreateCircleColShape(realty.Prototype.Interior.Exit, DimensionManager.GetFreeDimension());
             exit.SetRealty(realty);
@@ -79,10 +79,17 @@ namespace RoomManager
             realty.SetExit(exit);
         }
 
-        private static void ExitColShapeInteraction(Player player, ColShape shape)
+        private void ExitColShapeInteraction(Player player, ColShape shape)
         {
             var realty = shape.GetRealty()!;
             realty.OnPlayerExit(player);
+            if (realty.IsEmpty)
+                ClientConnect.TriggerEvent(
+                    player, 
+                    RoomManagerEvents.UnloadInteriorToClient, 
+                    realty.Prototype.Interior.IplName, 
+                    realty.Prototype.Interior.Entrance
+                );
         }
     }
 }
