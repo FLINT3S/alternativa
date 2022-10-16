@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
+using Object = System.Object;
 
 namespace Database.Models.Realty
 {
@@ -35,6 +37,8 @@ namespace Database.Models.Realty
         {
             builder.HasKey(prototype => prototype.Id);
             builder.HasOne(prototype => prototype.Interior);
+
+            builder.HasData(Data.Realty.RealtyPrototypes);
         }
 
         public void Configure(EntityTypeBuilder<Realty> builder)

@@ -9,6 +9,11 @@ namespace Database.Models.Realty
         protected RealtyEntrance() {}
         
         public Vector3 Position { get; protected set; }
+        
+        /*
+         * Тип входа (дома). Используется для разграниения создания обычных и многоквартирных домов
+         */
+        public RealtyEntranceType Type { get; protected set; }
 
         public List<Realty> Realties { get; } = new List<Realty>();
     }
