@@ -7,6 +7,7 @@ using DimensionProvider;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 using NAPIExtensions;
+using Newtonsoft.Json;
 
 namespace RoomManager
 {
@@ -62,8 +63,9 @@ namespace RoomManager
         public void OnEnterToHouse(Player player, string houseId)
         {
             var house = AltContext.GetRealty(Guid.Parse(houseId));
-            // TODO: Загрузка IPL [SERVER:CLIENT:RoomManager:LoadInterior]
-            house?.OnPlayerEntrance(player);
+            string interiorPosition = JsonConvert.SerializeObject(house.Prototype.Interior.Entrance);
+            CefConnect.TriggerEvent(player, RoomManagerEvents.LoadInteriorToClient, house.Prototype.Interior.IplName, interiorPosition);
+            house.OnPlayerEntrance(player);
         }
     }
 }
