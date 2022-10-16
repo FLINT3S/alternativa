@@ -12,7 +12,11 @@ const unloadByIPL = (ipl: string) => {
   mp.game.streaming.removeIpl(ipl)
 }
 
-const loadInterior = (ipl: string = "", coordinates: Vector3MpLike = localPlayer.position) => {
+const loadInterior = (ipl: string = "", coordinates: Vector3MpLike | string = localPlayer.position) => {
+  if (typeof coordinates === "string") {
+    coordinates = JSON.parse(coordinates) as Vector3MpLike
+  }
+
   const interior = mp.game.interior.getInteriorAtCoords(coordinates.x, coordinates.y, coordinates.z)
   loadByIPL(ipl)
   mp.game.interior.refreshInterior(interior)
