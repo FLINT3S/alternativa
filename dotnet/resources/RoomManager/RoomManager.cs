@@ -62,6 +62,7 @@ namespace RoomManager
         public void OnEnterToHouse(Player player, string houseId)
         {
             var house = AltContext.GetRealty(Guid.Parse(houseId));
+            // TODO: Загрузка IPL [SERVER:CLIENT:RoomManager:LoadInterior]
             house?.OnPlayerEntrance(player);
         }
     }

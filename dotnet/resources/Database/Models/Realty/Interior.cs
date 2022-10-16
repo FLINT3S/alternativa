@@ -20,6 +20,15 @@ namespace Database.Models.Realty
             Exit = exit;
             IsWindowed = isWindowed;
         }
+
+        internal Interior(Guid guid, string iplName, string name, Vector3 entrance, Vector3 exit,
+            DateTime createdUpdatedTime, bool isWindowed = true) :
+            this(guid, iplName, name, entrance, exit, isWindowed)
+        {
+            CreatedDate = createdUpdatedTime;
+            UpdatedDate = createdUpdatedTime;
+        }
+        
         
         /*
          * Название модели интерьера

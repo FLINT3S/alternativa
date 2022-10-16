@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Database.Models.Realty;
 using GTANetworkAPI;
-using Object = System.Object;
 
 namespace Database.Data
 {
@@ -15,7 +14,8 @@ namespace Database.Data
                 "TrevorsTrailerTidy",
                 "Автодом Тревора",
                 new Vector3(1973.35, 3816.34, 33.43),
-                new Vector3(1973.35, 3816.34, 33.43)
+                new Vector3(1973.35, 3816.34, 33.43),
+                new DateTime(2022, 10, 16)
             ),
             new Interior(
                 new Guid("00000000-0000-0000-0000-000000000002"),
@@ -23,6 +23,7 @@ namespace Database.Data
                 "Low End Apartment",
                 new Vector3(266.3, -1007.4, -101),
                 new Vector3(266.3, -1007.4, -101),
+                new DateTime(2022, 10, 16),
                 false
             ),
             new Interior(
@@ -31,6 +32,7 @@ namespace Database.Data
                 "Medium End Apartment	",
                 new Vector3(347.26, -999.29, -99.2),
                 new Vector3(347.26, -999.29, -99.2),
+                new DateTime(2022, 10, 16),
                 false
             ),
         };
