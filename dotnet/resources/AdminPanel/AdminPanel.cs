@@ -368,9 +368,9 @@ namespace AdminPanel
                     var entrance = new RealtyEntrance(createSingleHouseData.Position, RealtyEntranceType.Single);
                     var house = new Realty(realtyPrototype, entrance, null);
                     house.PushToContext();
+                    NAPI.Exported.RoomManager.SpawnEntrance(entrance);
                 }
             );
-        
         
         #endregion
     }

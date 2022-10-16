@@ -121,7 +121,7 @@ const useCurrentPosition = () => {
   requestPlayerPositionAsync().then((position: any) => {
     creteHouseInfo.value.position.x = position.x
     creteHouseInfo.value.position.y = position.y
-    creteHouseInfo.value.position.z = position.z
+    creteHouseInfo.value.position.z = position.z - 1
   })
 }
 

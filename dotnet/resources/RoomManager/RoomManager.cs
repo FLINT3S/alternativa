@@ -21,7 +21,7 @@ namespace RoomManager
                 SpawnEntrance(entrance);
         }
 
-        private void SpawnEntrance(RealtyEntrance entrance)
+        public void SpawnEntrance(RealtyEntrance entrance)
         {
             var colshape = NAPI.ColShape.CreateCircleColShape(entrance.Position, DimensionManager.CommonDimension);
             colshape.SetEntrance(entrance);
@@ -87,7 +87,7 @@ namespace RoomManager
                 ClientConnect.TriggerEvent(
                     player, 
                     RoomManagerEvents.UnloadInteriorToClient, 
-                    realty.Prototype.Interior.IplName, 
+                    realty.Prototype.Interior.IplName,
                     realty.Prototype.Interior.Entrance
                 );
         }

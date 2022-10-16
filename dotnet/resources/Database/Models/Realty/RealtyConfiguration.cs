@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using GTANetworkAPI;
+﻿using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
-using Object = System.Object;
 
 namespace Database.Models.Realty
 {
@@ -45,7 +42,7 @@ namespace Database.Models.Realty
         {
             builder.HasKey(realty => realty.Id);
             builder.HasOne(realty => realty.Prototype);
-            builder.HasOne(realty => realty.Entrance).WithMany(entrance => entrance.Realties);
+            builder.HasOne(realty => realty.Entrance).WithMany(entrance => entrance.Realties).OnDelete(DeleteBehavior.Cascade);
         }
 
         public void Configure(EntityTypeBuilder<RealtyEntrance> builder)
