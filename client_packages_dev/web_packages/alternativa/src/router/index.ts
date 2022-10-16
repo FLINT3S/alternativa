@@ -15,6 +15,10 @@ import AdminIndex from '../module/admin-panel/views/AdminIndex.vue';
 
 import DeathAndReborn from '../module/death-and-reborn/DeathAndReborn.vue';
 
+import RoomManager from '../module/room-manager/RoomManager.vue';
+import RoomManagerHouseInterface from '../module/room-manager/views/RoomManagerHouseInterface.vue';
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -74,6 +78,17 @@ const router = createRouter({
       path: '/death-and-reborn',
       component: DeathAndReborn,
       name: 'DeathAndReborn'
+    },
+    {
+      path: '/room-manager',
+      component: RoomManager,
+      name: 'RoomManager',
+      children: [
+        {
+          path: 'house-interface/:houseId',
+          component: RoomManagerHouseInterface
+        }
+      ]
     }
   ]
 })

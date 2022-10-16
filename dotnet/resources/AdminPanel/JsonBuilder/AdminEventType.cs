@@ -17,5 +17,11 @@
         public const string PlayerOther = "players:Другое";
 
         #endregion
+
+        #region Realty
+
+        public const string RealtyHouseMethods = "realty:Дома";
+
+        #endregion
     }
 }

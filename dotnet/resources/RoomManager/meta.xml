@@ -1,5 +1,6 @@
 <meta>
     <info name="RoomManager" type="script" version="0.0.1"/>
     <script src="bin/x64/Debug/netcoreapp3.1/RoomManager.dll"/>
+    <export class="RoomManager" function="SpawnEntrance" />
 </meta>
     

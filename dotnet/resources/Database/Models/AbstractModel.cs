@@ -7,7 +7,7 @@ namespace Database.Models
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
     public abstract class AbstractModel
     {
-        [JsonProperty("guid")] public Guid Id { get; }
+        [JsonProperty("guid")] public Guid Id { get; internal set; }
         
         public DateTime CreatedDate { get; internal set; } = DateTime.Now;
 

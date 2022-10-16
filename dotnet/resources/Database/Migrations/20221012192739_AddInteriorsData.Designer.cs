@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Database.Migrations
 {
     [DbContext(typeof(AltContext))]
-    partial class AltContextModelSnapshot : ModelSnapshot
+    [Migration("20221012192739_AddInteriorsData")]
+    partial class AddInteriorsData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -459,12 +461,6 @@ namespace Database.Migrations
                     b.Property<string>("IplName")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsWindowed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -476,35 +472,20 @@ namespace Database.Migrations
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                            CreatedDate = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2022, 10, 12, 22, 27, 38, 15, DateTimeKind.Local).AddTicks(7731),
                             Entrance = "{\"x\":1973.35,\"y\":3816.34,\"z\":33.43}",
                             Exit = "{\"x\":1973.35,\"y\":3816.34,\"z\":33.43}",
                             IplName = "TrevorsTrailerTidy",
-                            IsWindowed = true,
-                            Name = "Автодом Тревора",
-                            UpdatedDate = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2022, 10, 12, 22, 27, 38, 17, DateTimeKind.Local).AddTicks(901)
                         },
                         new
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000002"),
-                            CreatedDate = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2022, 10, 12, 22, 27, 38, 17, DateTimeKind.Local).AddTicks(3095),
                             Entrance = "{\"x\":266.3,\"y\":-1007.4,\"z\":-101.0}",
                             Exit = "{\"x\":266.3,\"y\":-1007.4,\"z\":-101.0}",
                             IplName = "",
-                            IsWindowed = false,
-                            Name = "Low End Apartment",
-                            UpdatedDate = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = new Guid("00000000-0000-0000-0000-000000000003"),
-                            CreatedDate = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Entrance = "{\"x\":347.26,\"y\":-999.29,\"z\":-99.2}",
-                            Exit = "{\"x\":347.26,\"y\":-999.29,\"z\":-99.2}",
-                            IplName = "",
-                            IsWindowed = false,
-                            Name = "Medium End Apartment	",
-                            UpdatedDate = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            UpdatedDate = new DateTime(2022, 10, 12, 22, 27, 38, 17, DateTimeKind.Local).AddTicks(3107)
                         });
                 });
 
@@ -552,9 +533,6 @@ namespace Database.Migrations
                     b.Property<string>("Position")
                         .HasColumnType("text");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -578,9 +556,6 @@ namespace Database.Migrations
                     b.Property<Guid?>("InteriorId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
                     b.Property<byte>("ParkingPlaces")
                         .HasColumnType("smallint");
 
@@ -597,21 +572,7 @@ namespace Database.Migrations
 
                     b.HasIndex("InteriorId");
 
-                    b.ToTable("RealtyPrototypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("00000000-0000-0000-0001-000000000001"),
-                            CreatedDate = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GovernmentPrice = 100000000L,
-                            InteriorId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Name = "Дом эконом-класса",
-                            ParkingPlaces = (byte)2,
-                            PriceSegment = (byte)1,
-                            Type = (byte)0,
-                            UpdatedDate = new DateTime(2022, 10, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
+                    b.ToTable("RealtyPrototype");
                 });
 
             modelBuilder.Entity("Database.Models.AccountEvents.ConnectionEvent", b =>

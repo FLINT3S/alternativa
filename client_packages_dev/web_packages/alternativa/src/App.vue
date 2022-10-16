@@ -36,10 +36,11 @@ import Root from "@/module/root/Root.vue";
 
 import useRootOverlay from "@/data/useRootOverlay"
 import {useDeathAndRebornStore} from "@/store/deathAndReborn";
+import {usePlayerStore} from "@/store/playerStore";
 
 const {theme, altMpRoot} = storeToRefs(useRootStore())
 const {registerDeathListeners} = useDeathAndRebornStore()
-
+const {registerPlayerListeners} = usePlayerStore()
 
 const router = useRouter()
 altMpRoot.value.on("GoTo", (location) => {
@@ -47,6 +48,7 @@ altMpRoot.value.on("GoTo", (location) => {
 });
 
 registerDeathListeners()
+registerPlayerListeners()
 
 const locale = ref<NLocale>(ruRU)
 const {isOverlayShown, isOverlayBackdropVisible, overlayBackdropTransition} = useRootOverlay()

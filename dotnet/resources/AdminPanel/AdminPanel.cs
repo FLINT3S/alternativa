@@ -3,9 +3,11 @@ using System.Linq;
 using System.Reflection;
 using AbstractResource;
 using AbstractResource.Attributes;
+using AdminPanel.Dto;
 using AdminPanel.JsonBuilder;
 using Database;
 using Database.Models.Bans;
+using Database.Models.Realty;
 using GTANetworkAPI;
 using NAPIExtensions;
 using Newtonsoft.Json;
@@ -28,6 +30,8 @@ namespace AdminPanel
             );
             CefConnect.TriggerRaw(player, AdminPanelEvents.GetAvailableMethodsFromCef + "Answered", actionsJson);
         }
+
+        #region Player
 
         [NeedAdminRights(1)]
         [AdminPanelMethod(AdminEventType.PlayerCommonMethods, true)]
@@ -318,5 +322,56 @@ namespace AdminPanel
                 MethodBase.GetCurrentMethod()!,
                 () => throw new NotImplementedException()
             );
+
+        #endregion
+
+        #region Realty
+        
+        [NeedAdminRights(1)]
+        [AdminPanelMethod(AdminEventType.RealtyHouseMethods, true)]
+        [RemoteEvent(AdminPanelEvents.GetHousePrototypes)]
+        public void OnGetHousePrototypesEvent(Player admin) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                {
+                    var realtyPrototypes = AltContext
+                        .GetRealtyPrototypes()
+                        .Select(rp => new
+                            {
+                                Guid = rp.Id,
+                                rp.Name,
+                                rp.GovernmentPrice,
+                                PriceSegment = rp.PriceSegment.ToString(),
+                                rp.ParkingPlaces,
+                            }
+                        )
+                        .ToList();
+                    
+                    var settings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
+                        Formatting = Formatting.None
+                    };
+                    string realtyPrototypesJson = JsonConvert.SerializeObject(realtyPrototypes, settings);
+                    
+                    CefConnect.TriggerRaw(admin, AdminPanelEvents.GetHousePrototypes + "Answered", realtyPrototypesJson);
+                }
+            );
+        
+        [NeedAdminRights(1)]
+        [AdminPanelMethod(AdminEventType.RealtyHouseMethods, true)]
+        [RemoteEvent(AdminPanelEvents.CreateSingleHouse)]
+        public void OnCreateSingleHouseEvent(Player admin, string createSingleHouseDto) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                {
+                    var createSingleHouseData = JsonConvert.DeserializeObject<CreateSingleHouseDto>(createSingleHouseDto);
+                    var realtyPrototype = AltContext.GetRealtyPrototype(Guid.Parse(createSingleHouseData.PrototypeGuid));
+                    var entrance = new RealtyEntrance(createSingleHouseData.Position, RealtyEntranceType.Single);
+                    var house = new Realty(realtyPrototype, entrance, null);
+                    house.PushToContext();
+                    NAPI.Exported.RoomManager.SpawnEntrance(entrance);
+                }
+            );
+        
+        #endregion
     }
 }

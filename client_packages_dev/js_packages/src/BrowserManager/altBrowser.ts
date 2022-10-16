@@ -100,7 +100,7 @@ export class AltBrowser {
     this.active = false
   }
 
-  openOverlay(showCursor: boolean = true): Promise<boolean> {
+  openOverlay(showCursor: boolean = true): Promise<void> {
     if (!this.settings.openOverlay) {
       altError.captureWarning("Attempt to open overlay, but it's disabled")
       return
@@ -118,7 +118,7 @@ export class AltBrowser {
       }
 
       this.overlayTimeout = setTimeout(() => {
-        resolve(true)
+        resolve()
       }, this.options.overlayCloseTimeout)
     })
   }

@@ -43,10 +43,21 @@ namespace Authorization
             player.RemoveCharacter();
         }
 
+        /*
+         * Ивент нужен для установки прозрачности игроку при подключении (чтобы он не отображался в момент загрузки)
+         */
+        [ServerEvent(Event.PlayerConnected)]
+        public void OnPlayerConnectedToServer(Player player)
+        {
+            player.Transparency = 0;
+        }
+        
         #region RemoteEvents
-
-        // Здесь ивент от клиента (а не PlayerConnected), о том, что он готов к логину
-        // (посылается после загрузки основных браузеров)
+        
+        /*
+         * Здесь ивент от клиента (а не PlayerConnected), о том, что он готов к логину
+         * (посылается после загрузки основных браузеров)
+         */
         [RemoteEvent(AuthorizationEvents.PlayerReadyFromClient)]
         private void OnPlayerConnectedAndReady(Player player)
         {

@@ -26,19 +26,23 @@ namespace Database.Models.Realty
                     v => JsonConvert.SerializeObject(v),
                     s => JsonConvert.DeserializeObject<Vector3>(s)
                 );
+
+            builder.HasData(Data.Realty.Interiors);
         }
 
         public void Configure(EntityTypeBuilder<RealtyPrototype> builder)
         {
             builder.HasKey(prototype => prototype.Id);
             builder.HasOne(prototype => prototype.Interior);
+
+            builder.HasData(Data.Realty.RealtyPrototypes);
         }
 
         public void Configure(EntityTypeBuilder<Realty> builder)
         {
             builder.HasKey(realty => realty.Id);
             builder.HasOne(realty => realty.Prototype);
-            builder.HasOne(realty => realty.Entrance).WithMany(entrance => entrance.Realties);
+            builder.HasOne(realty => realty.Entrance).WithMany(entrance => entrance.Realties).OnDelete(DeleteBehavior.Cascade);
         }
 
         public void Configure(EntityTypeBuilder<RealtyEntrance> builder)
