@@ -82,6 +82,7 @@ namespace Database
             using var context = new AltContext();
             return context.Realty
                 .Include(r => r.Prototype.Interior)
+                .Include(r => r.Entrance)
                 .FirstOrDefault(r => r.Id == guid);
         }
 

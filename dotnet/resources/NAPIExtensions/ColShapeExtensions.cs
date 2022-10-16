@@ -25,5 +25,13 @@ namespace NAPIExtensions
 
         public static void SetEntrance(this ColShape shape, RealtyEntrance entrance) =>
             shape.SetData(ColShapeConstants.Entrance, entrance);
+
+        public static Realty? GetRealty(this ColShape shape) =>
+            shape.HasData(ColShapeConstants.Realty) ?
+                shape.GetData<Realty>(ColShapeConstants.Realty) :
+                null;
+
+        public static void SetRealty(this ColShape shape, Realty entrance) =>
+            shape.SetData(ColShapeConstants.Realty, entrance);
     }
 }

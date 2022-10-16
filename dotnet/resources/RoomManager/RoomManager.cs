@@ -26,10 +26,10 @@ namespace RoomManager
             var colshape = NAPI.ColShape.CreateCircleColShape(entrance.Position, DimensionManager.CommonDimension);
             colshape.SetEntrance(entrance);
             NAPI.Marker.CreateRedMarker(entrance.Position, DimensionManager.CommonDimension);
-            colshape.SetInteraction(ColShapeInteraction);
+            colshape.SetInteraction(EntranceColShapeInteraction);
         }
 
-        private void ColShapeInteraction(Player player, ColShape shape)
+        private void EntranceColShapeInteraction(Player player, ColShape shape)
         {
             var entrance = shape.GetEntrance()!;
             bool isHouse = entrance.Realties.Count == 1;
@@ -64,8 +64,25 @@ namespace RoomManager
         {
             var house = AltContext.GetRealty(Guid.Parse(houseId));
             string interiorPosition = JsonConvert.SerializeObject(house.Prototype.Interior.Entrance);
-            CefConnect.TriggerEvent(player, RoomManagerEvents.LoadInteriorToClient, house.Prototype.Interior.IplName, interiorPosition);
+            ClientConnect.TriggerEvent(player, RoomManagerEvents.LoadInteriorToClient, house.Prototype.Interior.IplName, interiorPosition);
+            if (house.IsEmpty)
+                CreateExit(house);
             house.OnPlayerEntrance(player);
+        }
+
+        private static void CreateExit(Realty realty)
+        {
+            var exit = NAPI.ColShape.CreateCircleColShape(realty.Prototype.Interior.Exit, DimensionManager.GetFreeDimension());
+            exit.SetRealty(realty);
+            NAPI.Marker.CreateRedMarker(realty.Prototype.Interior.Exit, exit.Dimension);
+            exit.SetInteraction(ExitColShapeInteraction);
+            realty.SetExit(exit);
+        }
+
+        private static void ExitColShapeInteraction(Player player, ColShape shape)
+        {
+            var realty = shape.GetRealty()!;
+            realty.OnPlayerExit(player);
         }
     }
 }
