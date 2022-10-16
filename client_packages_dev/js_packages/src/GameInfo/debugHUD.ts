@@ -20,7 +20,7 @@ const initDebugHud = () => {
     debugHudInfo.position = localPlayer.position;
     debugHudInfo.heading = localPlayer.getHeading();
 
-    if (localPlayer.inVehicle) {
+    if (localPlayer.vehicle) {
       debugHudInfo.velocity = localPlayer.vehicle.getSpeed() * 3.6;
     } else {
       debugHudInfo.velocity = 0
