@@ -6,6 +6,7 @@ namespace Database.Models.Realty
 {
     public class Interior : AbstractModel
     {
+        // todo вынески комментарии в документацию
         protected Interior()
         {
         }

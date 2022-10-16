@@ -1,6 +1,7 @@
 ﻿using AbstractResource.Connects;
 using Database.Models;
 using GTANetworkAPI;
+using NAPIExtensions;
 
 namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
 {
@@ -25,6 +26,7 @@ namespace Authorization.ChainsOfResponsibility.RegistrationHandlers
             var account = new Account(player.SocialClubId, login, password, email);
             account.PushToContext();
             account.UpdateHwid(player.Serial);
+            player.SetAccessLevels(account.VipLevel, account.AdminLevel);
             Log(player);
             ClientConnect.TriggerEvent(player, RegistrationEvents.RegisterSuccess, "Success!");
         }

@@ -8,7 +8,7 @@ namespace Database.Data
 {
     public static class Realty
     {
-        public static List<Interior> Interiors = new List<Interior>()
+        public static readonly List<Interior> Interiors = new List<Interior>()
         {
             new Interior(
                 new Guid("00000000-0000-0000-0000-000000000001"),
@@ -35,8 +35,8 @@ namespace Database.Data
             ),
         };
 
-        // Для вставки объектов с отношениями нужно определять свойство InterorId вместо Interior
-        public static List<object> RealtyPrototypes = new List<object>()
+        // Для вставки объектов с отношениями нужно определять свойство InteriorId вместо Interior
+        public static readonly List<object> RealtyPrototypes = new List<object>()
         {
             new {
                 Id = new Guid("00000000-0000-0000-0001-000000000001"),

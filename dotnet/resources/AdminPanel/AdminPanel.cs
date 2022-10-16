@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using AbstractResource;
 using AbstractResource.Attributes;
-using AdminPanel.dto;
+using AdminPanel.Dto;
 using AdminPanel.JsonBuilder;
 using Database;
 using Database.Models.Bans;

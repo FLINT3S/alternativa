@@ -7,7 +7,6 @@ using DimensionProvider;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 using NAPIExtensions;
-using Realty = Database.Data.Realty;
 
 namespace RoomManager
 {
@@ -48,34 +47,22 @@ namespace RoomManager
         }
         
         [ServerEvent(Event.PlayerEnterColshape)]
-        public void OnPlayerEnterColshape(ColShape colshape, Player player)
-        {
+        public void OnPlayerEnterColshape(ColShape colshape, Player player) =>
             player.SetPlayerColShape(colshape);
-        }
-        
+
         [ServerEvent(Event.PlayerExitColshape)]
-        public void OnPlayerExitColshape(ColShape colshape, Player player)
-        {
+        public void OnPlayerExitColshape(ColShape colshape, Player player) =>
             player.SetPlayerColShape(null);
-        }
-        
+
         [RemoteEvent(RoomManagerEvents.InteractOnColShapeFromClient)]
-        public void OnInteractOnColShape(Player player)
-        {
+        public void OnInteractOnColShape(Player player) =>
             player.GetPlayerColShape()?.Interaction(player);
-        }
-        
+
         [RemoteEvent(RoomManagerEvents.EnterToHouseFromCef)]
         public void OnEnterToHouse(Player player, string houseId)
         {
-            using var db = new AltContext();
-
-            var house = db.Realty
-                .Include(r => r.Prototype.Interior)
-                .FirstOrDefault(r => r.Id == Guid.Parse(houseId));
-            if (house == null) return;
-
-            player.Position = house.Prototype.Interior.Entrance;
+            var house = AltContext.GetRealty(Guid.Parse(houseId));
+            house?.OnPlayerEntrance(player);
         }
     }
 }
