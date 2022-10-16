@@ -1,9 +1,12 @@
-﻿using System;
+﻿using DimensionProvider;
+using GTANetworkAPI;
 
 namespace Database.Models.Realty
 {
     public class Realty : AbstractModel
     {
+        private uint? dimension = null;
+        
         protected Realty()
         {
         }
@@ -20,5 +23,13 @@ namespace Database.Models.Realty
         public RealtyEntrance Entrance { get; protected set; }
 
         public Character Owner { get; protected set; }
+
+        public void OnPlayerEntrance(Player player)
+        {
+            dimension ??= DimensionManager.GetFreeDimension();
+            
+            player.Position = Prototype.Interior.Entrance;
+            player.Dimension = dimension.Value;
+        }
     }
 }

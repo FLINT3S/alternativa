@@ -2,6 +2,7 @@
 using System.Linq;
 using Database.Models;
 using Database.Models.Economics.Cash;
+using Database.Models.Realty;
 using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 
@@ -74,5 +75,13 @@ namespace Database
         }
 
         #endregion
+
+        public static Realty GetRealty(Guid guid)
+        {
+            using var context = new AltContext();
+            return context.Realty
+                .Include(r => r.Prototype.Interior)
+                .FirstOrDefault(r => r.Id == guid);
+        }
     }
 }
