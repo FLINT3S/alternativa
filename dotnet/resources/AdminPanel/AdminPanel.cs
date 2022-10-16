@@ -333,22 +333,25 @@ namespace AdminPanel
         public void OnGetHousePrototypesEvent(Player admin) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
-                    using var db = new AltContext();
-                    var realtyPrototypes = db.RealtyPrototypes.ToList().Select(rp => new
-                    {
-                        Guid = rp.Id,
-                        Name = rp.Name,
-                        GovernmentPrice = rp.GovernmentPrice,
-                        PriceSegment = rp.PriceSegment.ToString(),
-                        ParkingPlaces = rp.ParkingPlaces,
-                    });
+                    var realtyPrototypes = AltContext
+                        .GetRealtyPrototypes()
+                        .Select(rp => new
+                            {
+                                Guid = rp.Id,
+                                rp.Name,
+                                rp.GovernmentPrice,
+                                PriceSegment = rp.PriceSegment.ToString(),
+                                rp.ParkingPlaces,
+                            }
+                        )
+                        .ToList();
                     
                     var settings = new JsonSerializerSettings
                     {
                         ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
                         Formatting = Formatting.None
                     };
-                    var realtyPrototypesJson = JsonConvert.SerializeObject(realtyPrototypes, settings);
+                    string realtyPrototypesJson = JsonConvert.SerializeObject(realtyPrototypes, settings);
                     
                     CefConnect.TriggerRaw(admin, AdminPanelEvents.GetHousePrototypes + "Answered", realtyPrototypesJson);
                 }
@@ -360,14 +363,10 @@ namespace AdminPanel
         public void OnCreateSingleHouseEvent(Player admin, string createSingleHouseDto) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
-                    using var db = new AltContext();
                     var createSingleHouseData = JsonConvert.DeserializeObject<CreateSingleHouseDto>(createSingleHouseDto);
-
-                    var realtyPrototype = db.RealtyPrototypes.FirstOrDefault(rp =>
-                        rp.Id == Guid.Parse(createSingleHouseData.PrototypeGuid));
+                    var realtyPrototype = AltContext.GetRealtyPrototype(Guid.Parse(createSingleHouseData.PrototypeGuid));
                     var entrance = new RealtyEntrance(createSingleHouseData.Position, RealtyEntranceType.Single);
                     var house = new Realty(realtyPrototype, entrance, null);
-                    
                     house.PushToContext();
                 }
             );

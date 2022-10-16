@@ -5,7 +5,7 @@ namespace Database.Models.Realty
 {
     public class Realty : AbstractModel
     {
-        private uint? dimension = null;
+        private uint? dimension;
         
         protected Realty()
         {
