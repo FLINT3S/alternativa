@@ -334,7 +334,7 @@ namespace AdminPanel
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
                     using var db = new AltContext();
-                    var realtyPrototypes = db.RealityPrototypes.ToList().Select(rp => new
+                    var realtyPrototypes = db.RealtyPrototypes.ToList().Select(rp => new
                     {
                         Guid = rp.Id,
                         Name = rp.Name,
@@ -363,9 +363,9 @@ namespace AdminPanel
                     using var db = new AltContext();
                     var createSingleHouseData = JsonConvert.DeserializeObject<CreateSingleHouseDto>(createSingleHouseDto);
 
-                    var realtyPrototype = db.RealityPrototypes.FirstOrDefault(rp =>
+                    var realtyPrototype = db.RealtyPrototypes.FirstOrDefault(rp =>
                         rp.Id == Guid.Parse(createSingleHouseData.PrototypeGuid));
-                    var entrance = new RealtyEntrance(createSingleHouseData.Position);
+                    var entrance = new RealtyEntrance(createSingleHouseData.Position, RealtyEntranceType.Single);
                     var house = new Realty(realtyPrototype, entrance, null);
                     
                     house.PushToContext();

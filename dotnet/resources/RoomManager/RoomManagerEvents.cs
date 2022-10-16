@@ -11,5 +11,7 @@
         public const string OpenApartmentHouseInterfaceToClient = "OpenApartmentHouseInterface";
         
         #endregion
+        
+        public const string EnterToHouseFromCef = "CEF:SERVER:RoomManager:EnterToHouse";
     }
 }

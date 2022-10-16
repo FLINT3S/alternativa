@@ -8,9 +8,10 @@ namespace Database.Models.Realty
     {
         protected RealtyEntrance() {}
         
-        public RealtyEntrance(Vector3 position)
+        public RealtyEntrance(Vector3 position, RealtyEntranceType type)
         {
             Position = position;
+            Type = type;
         }
         
         public Vector3 Position { get; protected set; }

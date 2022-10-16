@@ -31,8 +31,9 @@ mp.events.add(RoomManagerEvents.LOAD_INTERIOR_FROM_CEF, loadInterior)
 mp.events.add(RoomManagerEvents.UNLOAD_INTERIOR_FROM_CEF, unloadInterior)
 
 
-const onOpenHouseInterface = () => {
-  RMBrowser.browser.execClient("Root", "ShowMessage", "Типа заходим в дом")
+const onOpenHouseInterface = (houseId) => {
+  RMBrowser.browser.goTo("/room-manager/house-interface/" + houseId);
+  RMBrowser.browser.openOverlay();
 }
 
 mp.events.add(RoomManagerEvents.OPEN_HOUSE_INTERFACE, onOpenHouseInterface)
