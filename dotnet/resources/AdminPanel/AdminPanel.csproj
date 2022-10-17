@@ -26,5 +26,9 @@
         <DependentUpon>AdminPanel.cs</DependentUpon>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Dto" />
+    </ItemGroup>
 </Project>    
     

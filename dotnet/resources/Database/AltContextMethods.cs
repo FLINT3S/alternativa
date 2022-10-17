@@ -86,6 +86,14 @@ namespace Database
                 .FirstOrDefault(r => r.Id == guid);
         }
 
+        public static RealtyEntrance GetRealtyEntrance(Guid guid)
+        {
+            using var context = new AltContext();
+            return context.Entrances
+                .Include(e => e.Realties)
+                .Single(entrance => entrance.Id == guid);
+        }
+
         public static IEnumerable<RealtyEntrance> GetRealtyEntrances()
         {
             using var context = new AltContext();

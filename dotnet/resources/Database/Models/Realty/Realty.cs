@@ -18,11 +18,16 @@ namespace Database.Models.Realty
         {
         }
 
-        public Realty(RealtyPrototype prototype, RealtyEntrance entrance, Character owner)
+        public Realty(RealtyPrototype prototype, RealtyEntrance entrance, Character owner) : this(prototype, entrance)
+        {
+            Owner = owner;
+        }
+
+        public Realty(RealtyPrototype prototype, RealtyEntrance entrance)
         {
             Prototype = prototype;
             Entrance = entrance;
-            Owner = owner;
+            Owner = null;
         }
 
         public RealtyPrototype Prototype { get; protected set; }
