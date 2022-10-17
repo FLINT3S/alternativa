@@ -17,10 +17,6 @@ namespace AdminPanel
 {
     public class AdminPanel : AltAbstractResource
     {
-        [Command("testbr")]
-        public void CMDOnTestBR(Player player) =>
-            CefConnect.TriggerEvent(player, "onOpenOverlay");
-
         [RemoteEvent(AdminPanelEvents.GetAvailableMethodsFromCef)]
         public void OnGetAvailableMethodsEvent(Player player)
         {
@@ -326,6 +322,49 @@ namespace AdminPanel
         #endregion
 
         #region Realty
+
+        [NeedAdminRights(1)]
+        [AdminPanelMethod(AdminEventType.RealtyHouseMethods, true)]
+        [RemoteEvent(AdminPanelEvents.GetSingleEntrances)]
+        public void OnGetSingleHouseEntrances(Player admin, int distance = -1) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => SendEntrancesData(admin, RealtyEntranceType.Single, distance)
+            );
+
+        [NeedAdminRights(1)]
+        [AdminPanelMethod(AdminEventType.RealtyHouseMethods, true)]
+        [RemoteEvent(AdminPanelEvents.GetMultipleEntrances)]
+        public void OnGetMultipleHouseEntrances(Player admin, int distance = -1) =>
+            CheckPermissionsAndExecute(
+                admin, 
+                MethodBase.GetCurrentMethod()!, 
+                () => SendEntrancesData(admin, RealtyEntranceType.Multiple, distance)
+            );
+
+        private void SendEntrancesData(Player player, RealtyEntranceType type, int distance)
+        {
+            var entrances = AltContext.GetRealtyEntrances().Where(entrance => entrance.Type == type);
+            if (distance > 0)
+                entrances = entrances.Where(entrance => entrance.Position.DistanceTo2D(player.Position) < distance);
+            var entrancesIds = entrances.Select(entrance => entrance.Id).ToList();
+                    
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
+                Formatting = Formatting.None
+            };
+            string entrancesJson = JsonConvert.SerializeObject(entrancesIds, settings);
+                    
+            CefConnect.TriggerRaw(
+                player, 
+                type == RealtyEntranceType.Single ?
+                    AdminPanelEvents.GetSingleEntrances + "Answered" :
+                    AdminPanelEvents.CreateMultipleEntrance + "Answered", 
+                entrancesJson
+            );
+        }
         
         [NeedAdminRights(1)]
         [AdminPanelMethod(AdminEventType.RealtyHouseMethods, true)]
@@ -374,14 +413,24 @@ namespace AdminPanel
 
         [NeedAdminRights(1)]
         [AdminPanelMethod(AdminEventType.RealtyHouseMethods)]
-        [RemoteEvent(AdminPanelEvents.CreateMultiHouse)]
-        public void OnCreateMultiHouseEvent(Player admin, string positionJson) =>
+        [RemoteEvent(AdminPanelEvents.CreateMultipleEntrance)]
+        public void OnCreateMultipleEntranceEvent(Player admin, string positionJson) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
                 {
                     var position = JsonConvert.DeserializeObject<Vector3>(positionJson);
                     var entrance = new RealtyEntrance(position, RealtyEntranceType.Multiple);
                     entrance.PushToContext();
                     NAPI.Exported.RoomManager.SpawnEntrance(entrance);
+                }
+            );
+
+        [NeedAdminRights(1)]
+        [AdminPanelMethod(AdminEventType.RealtyHouseMethods)]
+        [RemoteEvent(AdminPanelEvents.CreateRealty)]
+        public void OnCreateRealty(Player admin, string entranceId, string prototypeId) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                {
+                    
                 }
             );
 
