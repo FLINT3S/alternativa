@@ -24,7 +24,7 @@ module.exports = {
             }
         ]
     },
-    entry: "./src/index.ts",
+    entry: "./src/adminPanel.ts",
     optimization: {
         minimize: false,
         splitChunks: {

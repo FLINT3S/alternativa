@@ -13,6 +13,9 @@ export const useRootStore = defineStore('root', () => {
   const isOverlayBackdropVisible = ref(true)
   const overlayBackdropTransition = ref(true)
 
+  const isHUDShown = ref(true)
+  const HUDTransition = ref(true)
+
   function changeTheme(newTheme: GlobalTheme | null | undefined = undefined) {
     if (newTheme === undefined) {
       theme.value = theme.value === null ? darkTheme : null
@@ -37,6 +40,8 @@ export const useRootStore = defineStore('root', () => {
     overlayBackdropTransition,
     toggleOverlay,
     setOverlay,
-    changeTheme
+    changeTheme,
+    isHUDShown,
+    HUDTransition
   }
 })
