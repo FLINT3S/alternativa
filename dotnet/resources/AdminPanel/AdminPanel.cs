@@ -358,7 +358,7 @@ namespace AdminPanel
             );
         
         [NeedAdminRights(1)]
-        [AdminPanelMethod(AdminEventType.RealtyHouseMethods, true)]
+        [AdminPanelMethod(AdminEventType.RealtyHouseMethods)]
         [RemoteEvent(AdminPanelEvents.CreateSingleHouse)]
         public void OnCreateSingleHouseEvent(Player admin, string createSingleHouseDto) =>
             CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
@@ -371,7 +371,21 @@ namespace AdminPanel
                     NAPI.Exported.RoomManager.SpawnEntrance(entrance);
                 }
             );
-        
+
+        [NeedAdminRights(1)]
+        [AdminPanelMethod(AdminEventType.RealtyHouseMethods)]
+        [RemoteEvent(AdminPanelEvents.CreateMultiHouse)]
+        public void OnCreateMultiHouseEvent(Player admin, string positionJson) =>
+            CheckPermissionsAndExecute(admin, MethodBase.GetCurrentMethod()!, () =>
+                {
+                    var position = JsonConvert.DeserializeObject<Vector3>(positionJson);
+                    var entrance = new RealtyEntrance(position, RealtyEntranceType.Multiple);
+                    entrance.PushToContext();
+                    NAPI.Exported.RoomManager.SpawnEntrance(entrance);
+                }
+            );
+
         #endregion
+
     }
 }
