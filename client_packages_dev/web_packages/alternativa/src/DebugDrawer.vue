@@ -1,17 +1,40 @@
 <template>
   <n-button type="primary" secondary style="z-index: 2" @click="drawerActive = !drawerActive">debug</n-button>
 
-  <span class="ml-10">{{buildMode}}</span>
+  <span class="ml-10">{{ buildMode }}</span>
 
-  <n-drawer v-model:show="drawerActive" height="350" placement="top">
-    <n-drawer-content title="Debug">
+  <n-drawer v-model:show="drawerActive" height="490" placement="top" :style="'opacity:' + debugDrawerOpacity + '%'">
+    <n-drawer-content title="AltDebug" closable>
       <n-form
           label-placement="left"
       >
         <n-space vertical>
-          <n-text :type="isOverlayShown ? 'success' : 'error'">
-            Оверлей {{ isOverlayShown ? 'отображается' : 'скрыт' }}
-          </n-text>
+          <n-space class="mb-10">
+            <n-form-item label="Оверлей" :show-feedback="false">
+              <n-switch v-model:value="isOverlayShown"/>
+            </n-form-item>
+            <n-divider vertical style="height: 100%;"/>
+            <n-form-item label="Бэкдроп" :show-feedback="false">
+              <n-switch v-model:value="isOverlayBackdropVisible"/>
+            </n-form-item>
+            <n-divider vertical style="height: 100%;"/>
+            <n-form-item label="Транзишн бэкдропа" :show-feedback="false">
+              <n-switch v-model:value="overlayBackdropTransition"/>
+            </n-form-item>
+            <n-divider vertical style="height: 100%;"/>
+            <n-form-item label="HUD" :show-feedback="false">
+              <n-switch v-model:value="isHUDShown"/>
+            </n-form-item>
+            <n-divider vertical style="height: 100%;"/>
+            <n-form-item label="Транзишн HUD" :show-feedback="false">
+              <n-switch v-model:value="HUDTransition"/>
+            </n-form-item>
+            <n-divider vertical style="height: 100%;"/>
+            <n-form-item label="Непразрачность дебага" :show-feedback="false">
+              <n-slider :max="100" :min="15" v-model:value="debugDrawerOpacity" style="width: 100px" :step="1"/>
+            </n-form-item>
+          </n-space>
+
           <n-form-item
               label="Роутер"
           >
@@ -31,6 +54,7 @@
               <n-input
                   v-model:value="clientCodeExecute"
                   placeholder="Код"
+                  rows="10"
                   type="textarea"
               ></n-input>
               <n-button style="height: auto" type="primary" @click="executeClientCode">
@@ -76,26 +100,20 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  NButton,
-  NCascader,
-  NDrawer,
-  NDrawerContent,
-  NForm,
-  NFormItem,
-  NInput,
-  NInputGroup,
-  NRadio,
-  NRadioGroup,
-  NSpace,
-  NText
-} from 'naive-ui'
+import {NCascader, NDrawer, NDrawerContent, NInputGroup, NRadio, NRadioGroup, NSlider, NButton} from 'naive-ui'
 import {computed, ref} from "vue";
 import {useRouter} from "vue-router";
 import {storeToRefs} from "pinia";
 import {useRootStore} from "@/store";
 
-const {isOverlayShown, altMpRoot} = storeToRefs(useRootStore())
+const {
+  isOverlayShown,
+  altMpRoot,
+  isOverlayBackdropVisible,
+  overlayBackdropTransition,
+  isHUDShown,
+  HUDTransition
+} = storeToRefs(useRootStore())
 const drawerActive = ref(false)
 const router = useRouter()
 const clientCodeExecute = ref("")
@@ -148,4 +166,5 @@ const onRouteChange = (value: string, option: any) => {
   router.push(value)
 }
 
+const debugDrawerOpacity = ref(100);
 </script>

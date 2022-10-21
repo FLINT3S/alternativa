@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Castle.Core.Internal;
+using System.Linq;
 using DimensionProvider;
 using GTANetworkAPI;
 
@@ -31,7 +31,7 @@ namespace Database.Models.Realty
 
         public Character Owner { get; protected set; }
 
-        [NotMapped] public bool IsEmpty => visitors.IsNullOrEmpty();
+        [NotMapped] public bool IsEmpty => visitors?.Any() ?? false;
 
         public void SetExit(ColShape shape)
         {

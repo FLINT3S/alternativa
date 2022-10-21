@@ -6,6 +6,7 @@ import {logger} from "../utils/logger";
 import {browserManager} from "../BrowserManager/browserManager";
 import {showCursor} from "../Managers/cursorManager";
 import {localPlayer} from "../Managers/localPlayerManager";
+import {keyboardMapping} from "../Managers/keyboardManager";
 
 export let loginCam
 let authorizationBrowser = new ModuleBrowser("Authorization", "/login/loader")
@@ -50,7 +51,7 @@ mp.events.add(AuthorizationEvents.NEED_LOGIN_FROM_SERVER, () => {
   showCursor()
 })
 
-mp.keys.bind(VirtualKey.VK_F5, true, () => {
+mp.keys.bind(keyboardMapping.ToggleOverlay, true, () => {
   authorizationBrowser.browser.toggleOverlay()
 })
 

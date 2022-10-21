@@ -12,8 +12,7 @@ export const usePlayerStore = defineStore('player', () => {
 
   function registerPlayerListeners() {
     altMpRoot.value.on("SendPlayerMainInfo", (playerMainInfo) => {
-      player.value.socialClubId = playerMainInfo.socialClubId
-      player.value.socialClubName = playerMainInfo.socialClubName
+      player.value.updateFromJson(JSON.parse(playerMainInfo))
     })
 
     altMpRoot.value.on("SendCurrentPosition", (position) => {
@@ -45,6 +44,7 @@ export const usePlayerStore = defineStore('player', () => {
     player,
     registerPlayerListeners,
     requestPlayerPosition,
-    requestPlayerPositionAsync
+    requestPlayerPositionAsync,
+    requestPlayerMainInfo
   }
 })
