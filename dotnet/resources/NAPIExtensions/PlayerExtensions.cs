@@ -6,6 +6,7 @@ using Database.Models;
 using Database.Models.Bans;
 using GTANetworkAPI;
 using GTANetworkMethods;
+using Microsoft.EntityFrameworkCore;
 using ColShape = GTANetworkAPI.ColShape;
 using Player = GTANetworkAPI.Player;
 
@@ -49,6 +50,7 @@ namespace NAPIExtensions
         {
             player.Name = character.Fullname;
             player.ApplyCharacterAppearance(character);
+            player.ApplyCharacterFinances(character);
         }
 
         private static void ApplyCharacterAppearance(this Player player, Character? character)
@@ -78,6 +80,11 @@ namespace NAPIExtensions
                 NAPI.Player.SetPlayerFaceFeature(player, i, character.Appearance.FaceFeatures[i]);
 
             #endregion
+        }
+
+        private static void ApplyCharacterFinances(this Player player, Character character)
+        {
+            player.SetOwnSharedData(CharacterConstants.CharacterMoneyCash, character!.Finances.Cash);
         }
 
         public static void RemoveCharacter(this Player player) =>

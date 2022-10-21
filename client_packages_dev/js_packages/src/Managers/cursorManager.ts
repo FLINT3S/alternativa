@@ -1,6 +1,7 @@
 import {VirtualKey} from "../utils/virtualKeys";
+import {keyboardMapping} from "./keyboardManager";
 
-mp.keys.bind(VirtualKey.VK_OEM_3, true, () => {
+mp.keys.bind(keyboardMapping.ToggleCursor, true, () => {
   mp.gui.cursor.visible = !mp.gui.cursor.visible
 })
 

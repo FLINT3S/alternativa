@@ -1,12 +1,10 @@
 <template>
-  <transition name="fade" v-if="overlayBackdropTransition">
-    <transition name="fade" v-if="overlayBackdrop">
-      <div class="overlay-backdrop" v-if="isOverlayOpen">
-      </div>
-    </transition>
+  <transition :name="overlayBackdropTransition ? 'fade' : ''">
+    <div class="overlay-backdrop" v-if="overlayBackdrop && isOverlayOpen">
+    </div>
   </transition>
   <transition name="slide-down">
-    <main class="overlay-main" :style="contentClass" v-if="isOverlayOpen">
+    <main class="overlay-main" :class="!isOverlayOpen && 'pointer-none'" :style="contentClass" v-if="isOverlayOpen">
       <slot></slot>
     </main>
   </transition>
@@ -74,5 +72,9 @@ export default defineComponent({
   z-index: 1;
   transition-delay: .1s;
   display: flex;
+}
+
+.overlay-main.pointer-none *{
+  pointer-events: none;
 }
 </style>

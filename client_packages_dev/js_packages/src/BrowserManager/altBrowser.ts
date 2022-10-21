@@ -142,7 +142,7 @@ export class AltBrowser {
     })
   }
 
-  toggleOverlay() {
+  toggleOverlay(): Promise<void> {
     if (this.isOverlayOpen) {
       return this.closeOverlay()
     } else {

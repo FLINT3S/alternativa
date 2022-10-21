@@ -21,8 +21,9 @@ namespace Database.Models
 
         public void AddAmountToCash(Character sender, long sum)
         {
+            PullFromContext();
             Finances.Cash += sum;
-            AltContext.Add(new CashTransaction(sum, sender, this));
+            // AltContext.Add(new CashTransaction(sum, sender, this));
             PushToContext();
         }
 
@@ -38,6 +39,7 @@ namespace Database.Models
 
         public void IncreaseInGameTime(TimeSpan time)
         {
+            PullFromContext();
             InGameTime += time;
             PushToContext();
         }

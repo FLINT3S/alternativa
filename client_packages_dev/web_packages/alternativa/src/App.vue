@@ -11,6 +11,8 @@
         </alt-overlay>
       </router-view>
       <root/>
+
+      <HUD/>
     </n-message-provider>
 
     <debug-drawer/>
@@ -33,6 +35,7 @@ import {useRootStore} from "@/store"
 import AltOverlay from "@/components/AltOverlay.vue"
 import DebugDrawer from "@/DebugDrawer.vue";
 import Root from "@/module/root/Root.vue";
+import HUD from "@/module/root/HUD.vue";
 
 import useRootOverlay from "@/data/useRootOverlay"
 import {useDeathAndRebornStore} from "@/store/deathAndReborn";
@@ -52,6 +55,8 @@ registerPlayerListeners()
 
 const locale = ref<NLocale>(ruRU)
 const {isOverlayShown, isOverlayBackdropVisible, overlayBackdropTransition} = useRootOverlay()
+
+if (import.meta.env.MODE === "development") {
+  document.documentElement.setAttribute("data-dev", "true")
+}
 </script>
-
-

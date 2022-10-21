@@ -29,6 +29,7 @@ namespace Database.Models
 
         public void AddCharacter(Character character)
         {
+            PullFromContext();
             Characters.Add(character);
             PushToContext();
         }
