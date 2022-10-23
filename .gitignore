@@ -28,3 +28,4 @@ dotnet/**/appsettings.json
 dotnet/**/appsettings.*.json
 linux_release
 docker
+**/.fleet/
