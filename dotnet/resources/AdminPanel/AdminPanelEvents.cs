@@ -51,9 +51,18 @@
         #endregion
         
         #region Realty Events
+        
+        public const string GetSingleEntrances = "CEF:SERVER:AdminPanel:GetSingleEntrances";
+        
+        public const string GetMultipleEntrances = "CEF:SERVER:AdminPanel:GetMultipleEntrances";
+        
         public const string GetHousePrototypes = "CEF:SERVER:AdminPanel:GetHousePrototypes";
         
         public const string CreateSingleHouse = "CEF:SERVER:AdminPanel:CreateSingleHouse";
+        
+        public const string CreateMultipleEntrance = "CEF:SERVER:AdminPanel:CreateMultipleEntrance";
+        
+        public const string CreateRealty = "CEF:SERVER:AdminPanel:CreateRealty";
 
         #endregion
     }

@@ -13,6 +13,8 @@
         #endregion
         
         public const string EnterToHouseFromCef = "CEF:SERVER:RoomManager:EnterToHouse";
+        
+        public const string GetHouseDataFromCef = "CEF:SERVER:RoomManager:GetHouseData";
 
         public const string LoadInteriorToClient = "LoadInterior";
 

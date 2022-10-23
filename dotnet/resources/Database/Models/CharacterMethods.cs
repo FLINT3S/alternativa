@@ -16,6 +16,8 @@ namespace Database.Models
             Birthday.Date > DateTime.Today.AddYears(Birthday.Year - DateTime.Today.Year) ?
                 DateTime.Today.Year - Birthday.Year - 1 :
                 DateTime.Today.Year - Birthday.Year;
+        
+        [NotMapped] public Realty.Realty CurrentRoom { get; internal set; }
 
         public void AddAmountToCash(Character sender, long sum)
         {

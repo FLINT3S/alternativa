@@ -8,11 +8,18 @@ using GTANetworkAPI;
 using Microsoft.EntityFrameworkCore;
 using NAPIExtensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace RoomManager
 {
     public class RoomManager : AltAbstractResource
     {
+        private JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
+            Formatting = Formatting.Indented
+        };
+        
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
@@ -21,6 +28,7 @@ namespace RoomManager
                 SpawnEntrance(entrance);
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public void SpawnEntrance(RealtyEntrance entrance)
         {
             var colshape = NAPI.ColShape.CreateCircleColShape(entrance.Position, DimensionManager.CommonDimension);
@@ -58,6 +66,25 @@ namespace RoomManager
         [RemoteEvent(RoomManagerEvents.InteractOnColShapeFromClient)]
         public void OnInteractOnColShape(Player player) =>
             player.GetPlayerColShape()?.Interaction(player);
+
+        [RemoteEvent(RoomManagerEvents.GetHouseDataFromCef)]
+        public void OnGetHouseData(Player player, string houseId)
+        {
+            var house = AltContext.GetRealty(Guid.Parse(houseId));
+            if (house.Entrance.Type == RealtyEntranceType.Multiple) return;
+            
+            var houseData = new
+            {
+                OwnerId = player.GetAccessLevels().AdminLevel > 0 ? house.Owner?.StaticId ?? 0 : -1,
+                Owner = house.Owner?.Fullname ?? "",
+                house.Prototype.Name,
+                house.Prototype.GovernmentPrice,
+                house.Prototype.ParkingPlaces,
+                PriceSegment = house.Prototype.PriceSegment.ToString()
+            };
+            string houseDataJson = JsonConvert.SerializeObject(houseData, settings);
+            CefConnect.TriggerRaw(player, RoomManagerEvents.GetHouseDataFromCef + "Answered", houseDataJson);
+        }
 
         [RemoteEvent(RoomManagerEvents.EnterToHouseFromCef)]
         public void OnEnterToHouse(Player player, string houseId)

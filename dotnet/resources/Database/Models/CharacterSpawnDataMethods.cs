@@ -9,9 +9,9 @@ namespace Database.Models
             Armor = player.Armor;
             Health = player.Health;
 
-            Position = player.Position;
+            Position = Owner.CurrentRoom == null ? player.Position : Owner.CurrentRoom.Entrance.Position;
             Heading = player.Heading;
-            Dimension = 0U; // Owner.CurrentRoom != null ? player.Dimension : 0U;
+            Dimension = 0U;
         }
     }
 }
